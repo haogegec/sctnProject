@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_guide_viewpager"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24.0dp"
+        android:orientation="horizontal" >
+
+        <TextView 
+            android:layout_width="20dp"
+            android:layout_height="5dp"
+            android:background="#ffffff"
+            android:text="引导页"
+            />
+        <TextView 
+            android:layout_width="20dp"
+            android:layout_height="5dp"
+            android:layout_marginLeft="2dp"
+            android:background="#ffffff"
+            />
+        <TextView 
+            android:layout_width="20dp"
+            android:layout_height="5dp"
+            android:layout_marginLeft="2dp"
+            android:background="#ffffff"
+            />
+        <TextView 
+            android:layout_width="20dp"
+            android:layout_height="5dp"
+            android:layout_marginLeft="2dp"
+            android:background="#ffffff"
+            />
+        <!-- <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:clickable="true"
+            android:padding="15.0dip"
+            android:src="@drawable/star_level_red" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:clickable="true"
+            android:padding="15.0dip"
+            android:src="@drawable/star_level_red" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:clickable="true"
+            android:padding="15.0dip"
+            android:src="@drawable/star_level_red" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:clickable="true"
+            android:padding="15.0dip"
+            android:src="@drawable/star_level_red" /> -->
+    </LinearLayout>
+
+</RelativeLayout>
