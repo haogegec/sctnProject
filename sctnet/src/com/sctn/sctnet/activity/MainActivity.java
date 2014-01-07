@@ -1,4 +1,8 @@
-package com.sctn.sctnet;
+package com.sctn.sctnet.activity;
+
+import com.sctn.sctnet.R;
+import com.sctn.sctnet.R.layout;
+import com.sctn.sctnet.R.menu;
 
 import android.os.Bundle;
 import android.app.Activity;
