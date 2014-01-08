@@ -10,8 +10,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+/**
+ * 欢迎页
+ * @author wanghaoc
+ *
+ */
 public class WelcomeActivity extends Activity {
-
+	
 	private boolean isFirstIn = true;
 	private SharedPreferences sharePreferences;
 
@@ -22,11 +27,15 @@ public class WelcomeActivity extends Activity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.welcome_activity);
-		loadGuideInfo();
-		Start();
+		isFirstLode();
+		init();
 	}
-
-	public void Start() {
+	
+	/**
+	 * 初始化页面
+	 * @author wanghaoc
+	 */
+	public void init() {
 		new Thread() {
 			public void run() {
 				try {
@@ -44,16 +53,28 @@ public class WelcomeActivity extends Activity {
 		}.start();
 	}
 
+	/**
+	 * 跳转到主页
+	 * @author wanghaoc
+	 */
 	private void goHome() {
 		isFirstIn = false;
 		startActivity(new Intent(WelcomeActivity.this,GuideActivity.class));
 	}
 
+	/**
+	 * 引导页
+	 * @author wanghaoc
+	 */
 	private void goGuide() {
 		startActivity(new Intent(WelcomeActivity.this,HomeActivity.class));
 	}
-
-	private void loadGuideInfo(){
+	
+	/**
+	 *判断是否是第一次登陆系统
+	 * @author wanghaoc
+	 */
+	private void isFirstLode(){
 		sharePreferences=PreferenceManager.getDefaultSharedPreferences(this);
 		isFirstIn = sharePreferences.getBoolean("isFirstRun", true);
 	}
