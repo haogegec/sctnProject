@@ -15,5 +15,4 @@ public class GuideActivity extends Activity {
         setContentView(R.layout.guide_activity);
 		
 	}
-
 }
