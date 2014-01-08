@@ -11,6 +11,7 @@ public class GuideActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//你好你好你好
+		//我好我好
         setContentView(R.layout.guide_activity);
 		
 	}
