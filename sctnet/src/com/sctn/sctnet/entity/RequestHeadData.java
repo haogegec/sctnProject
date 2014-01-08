@@ -16,7 +16,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
-import android.widget.Toast;
 
 /**
  * 请求数据的公共信息头
@@ -28,7 +27,6 @@ public class RequestHeadData {
 	public static JSONObject getRequestHeadData() throws JSONException {
 		
 		JSONObject requestJSONObject = new JSONObject();
-		
 		JSONObject mobileHeadJSONObject = new JSONObject();
 		
 		JSONObject equipmentJSONObject = new JSONObject();		
@@ -109,7 +107,6 @@ public class RequestHeadData {
 	    otherJSONObject.put("country", country);
 	    otherJSONObject.put("lan", lan);
 	    mobileHeadJSONObject.put("other", otherJSONObject);
-	    
 	    requestJSONObject.put("mobileHead", mobileHeadJSONObject);
 	    
 		return requestJSONObject;
