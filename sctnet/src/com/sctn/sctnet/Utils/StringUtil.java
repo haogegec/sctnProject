@@ -15,7 +15,7 @@ import java.util.zip.GZIPInputStream;
 
 import org.apache.http.protocol.HTTP;
 
-import com.sctn.sctnet.cache.sctnAplication;
+import com.sctn.sctnet.cache.SctnAplication;
 import com.sctn.sctnet.component.MultiMemberGZIPInputStream;
 
 
@@ -330,7 +330,7 @@ public class StringUtil {
 			 	res=out.toString("UTF-8");   
 		}catch(IOException e){
 			Looper.prepare();
-			Toast.makeText(sctnAplication.getInstance().getApplicationContext(), "解压过程中出现异常！" ,Toast.LENGTH_SHORT).show();
+			Toast.makeText(SctnAplication.getInstance().getApplicationContext(), "解压过程中出现异常！" ,Toast.LENGTH_SHORT).show();
 			Looper.loop();
 
 		}
@@ -352,7 +352,7 @@ public class StringUtil {
 		 res=out.toByteArray();
 		}catch(IOException e){
 			Looper.prepare();
-			Toast.makeText(sctnAplication.getInstance().getApplicationContext(), "解压过程中出现异常！" ,Toast.LENGTH_SHORT).show();
+			Toast.makeText(SctnAplication.getInstance().getApplicationContext(), "解压过程中出现异常！" ,Toast.LENGTH_SHORT).show();
 			Looper.loop();
 		}
 		return  res;

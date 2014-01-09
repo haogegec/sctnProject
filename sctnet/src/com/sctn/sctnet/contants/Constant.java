@@ -1,9 +1,14 @@
 package com.sctn.sctnet.contants;
 
+/**
+ * 常量值
+ * @author xueweiwei
+ *
+ */
 public class Constant {
 
-	public static String category = "";//美容：cosmetic、美发：barber
-	public static String ServerQrcodeImageURL="http://www.weeqii.com/booking/main!getQrcodeImg";
-	public static String ServerURL="http://www.weeqii.com/booking/";//公司测试环境地址  阿里云
-	public static String ServerImageURL="http://www.weeqii.com/booking/main!getImage";//公司测试环境地址
+	public static String ServerURL="http://www.weeqii.com/booking/";//测试环境
+	public static String ServerImageURL="http://www.weeqii.com/booking/main!getImage";//图片地址
+	
+	public static String packageName = "com.sctn.sctnet";//工程的包名
 }

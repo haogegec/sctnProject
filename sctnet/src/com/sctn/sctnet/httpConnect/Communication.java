@@ -30,7 +30,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.sctn.sctnet.Utils.StringUtil;
-import com.sctn.sctnet.cache.sctnAplication;
+import com.sctn.sctnet.cache.SctnAplication;
 import com.sctn.sctnet.contants.Constant;
 import com.sctn.sctnet.entity.RequestHeadData;
 import com.sctn.sctnet.entity.ReturnHeadData;
@@ -153,7 +153,7 @@ public class Communication {
 			if(parameter!=null&&!"".equals(parameter)){
 			requestHeadData.put("mobileBody", new JSONObject(parameter));}
 		} catch (JSONException e) {
-			Toast.makeText(sctnAplication.getInstance().getApplicationContext(),
+			Toast.makeText(SctnAplication.getInstance().getApplicationContext(),
 					"获得请求信息出错！", Toast.LENGTH_SHORT).show();
 			return;
 		}
@@ -173,7 +173,7 @@ public class Communication {
 	private void beautyThread() {
 
 		try {
-			activity = Class.forName("com.cattsoft.booking.activity."+className);
+			activity = Class.forName(Constant.packageName+".activity."+className);
 			superClass = activity.getSuperclass(); 
 			 Class[] argsClass = new Class[1];
 			 argsClass[0] = boolean.class;
@@ -263,7 +263,7 @@ public class Communication {
 			switch (msg.what) {
 			case -1: {// 处理异常信息
 
-				Toast.makeText(sctnAplication.getInstance().getApplicationContext(),
+				Toast.makeText(SctnAplication.getInstance().getApplicationContext(),
 						"网络连接异常，请检查网络设置！", Toast.LENGTH_SHORT).show();
 
 				break;
@@ -292,14 +292,14 @@ public class Communication {
 			}
 			case 2: {// 未获得服务器响应结果
 
-				Toast.makeText(sctnAplication.getInstance().getApplicationContext(),
+				Toast.makeText(SctnAplication.getInstance().getApplicationContext(),
 						"未获得服务器响应结果!", Toast.LENGTH_SHORT).show();
 				break;
 			}
 			case 3: {// 服务端结果错误
 				
 				String errorMsg = m.getData().getString("errorMsg");
-				Toast.makeText(sctnAplication.getInstance().getApplicationContext(),
+				Toast.makeText(SctnAplication.getInstance().getApplicationContext(),
 						errorMsg, Toast.LENGTH_SHORT).show();
 				break;
 			}

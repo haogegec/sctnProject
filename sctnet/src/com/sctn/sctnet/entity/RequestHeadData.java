@@ -6,7 +6,7 @@ import java.util.TimeZone;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.sctn.sctnet.cache.sctnAplication;
+import com.sctn.sctnet.cache.SctnAplication;
 import com.sctn.sctnet.contants.Constant;
 
 import android.content.Context;
@@ -30,7 +30,7 @@ public class RequestHeadData {
 		JSONObject mobileHeadJSONObject = new JSONObject();
 		
 		JSONObject equipmentJSONObject = new JSONObject();		
-		TelephonyManager tm = (TelephonyManager)sctnAplication.getInstance().getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
+		TelephonyManager tm = (TelephonyManager)SctnAplication.getInstance().getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
 		String deviceId = tm.getDeviceId();//手机的唯一标识  
 		String name = android.os.Build.MODEL;//手机型号
 		String version = android.os.Build.VERSION.RELEASE;//手机版本号
@@ -38,7 +38,7 @@ public class RequestHeadData {
 		String osName = "Android";//操作系统名称
 		
 		if(deviceId==null||"".equals(deviceId)) {//手机唯一标识取不到，随机生成一串数字，并存放到本地文件中
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(sctnAplication
+			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(SctnAplication
 					.getInstance().getApplicationContext());
 			deviceId = sharedPreferences.getString("deviceId", "");
 			if("".equals(deviceId)) {
@@ -55,7 +55,7 @@ public class RequestHeadData {
 		
 		
 		JSONObject clientJSONObject = new JSONObject();		
-		ConnectivityManager connManager = (ConnectivityManager) sctnAplication
+		ConnectivityManager connManager = (ConnectivityManager) SctnAplication
 				.getInstance().getApplicationContext()
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo networkinfo = connManager.getActiveNetworkInfo();
@@ -66,12 +66,12 @@ public class RequestHeadData {
 		int versionCode = 0;//app版本号
 		String versionName = "";//app版本名称
 		try {
-			versionCode = sctnAplication.getInstance().getApplicationContext()
+			versionCode = SctnAplication.getInstance().getApplicationContext()
 					.getPackageManager()
-					.getPackageInfo("com.cattsoft.booking", 0).versionCode;
-			versionName = sctnAplication.getInstance().getApplicationContext()
+					.getPackageInfo(Constant.packageName, 0).versionCode;
+			versionName = SctnAplication.getInstance().getApplicationContext()
 					.getPackageManager()
-					.getPackageInfo("com.cattsoft.booking", 0).versionName;
+					.getPackageInfo(Constant.packageName, 0).versionName;
 		} catch (NameNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -83,10 +83,10 @@ public class RequestHeadData {
 	    mobileHeadJSONObject.put("client", clientJSONObject);
 
 	    JSONObject personalJSONObject = new JSONObject();	    
-	    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(sctnAplication.getInstance().getApplicationContext());
+	    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(SctnAplication.getInstance().getApplicationContext());
 	    personalJSONObject.put("userId", sharedPreferences.getString("userId", ""));
 	    personalJSONObject.put("custId", sharedPreferences.getString("custId", ""));
-	    personalJSONObject.put("category", Constant.category);
+	//    personalJSONObject.put("category", Constant.category);
 	    personalJSONObject.put("area", sharedPreferences.getString("area", ""));
 	    personalJSONObject.put("areaId", sharedPreferences.getString("areaId", ""));
 	    personalJSONObject.put("authId", sharedPreferences.getString("authId", ""));

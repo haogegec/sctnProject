@@ -3,7 +3,7 @@ package com.sctn.sctnet.entity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.sctn.sctnet.cache.sctnAplication;
+import com.sctn.sctnet.cache.SctnAplication;
 
 
 import android.content.SharedPreferences;
@@ -66,7 +66,7 @@ public class ReturnHeadData {
 			returnHeadData.authId="123";
 
 			
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(sctnAplication
+			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(SctnAplication
 					.getInstance().getApplicationContext());
 			Editor edit = sharedPreferences.edit();
 			if(sharedPreferences.getString("userId", "")==null||"".equals(sharedPreferences.getString("userId", ""))) {
