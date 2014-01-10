@@ -1,7 +1,5 @@
 package com.sctn.sctnet.activity;
 
-
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -22,6 +20,7 @@ import com.sctn.sctnet.R;
 import com.sctn.sctnet.cache.SctnAplication;
 
 public abstract class BasicActivity extends Activity {
+
 	private String progressText;// 进度条显示文字，null则取默认值
 	private ImageButton titleLeftButton;// 标题栏左边按钮，默认图标为返回，背景为透明
 	private TextView titleTextView;// 标题栏居中标题
@@ -30,9 +29,9 @@ public abstract class BasicActivity extends Activity {
 	public boolean isCancel = false;// 判断是按了返回键
 	public String exceptionDesc = null;
 	public SctnAplication sctnApp;
-	protected static  Bitmap iconDefault;
-	protected static  Bitmap staffDefaultImg;
-	
+	protected static Bitmap iconDefault;
+	protected static Bitmap staffDefaultImg;
+
 	public ImageButton getTitleLeftButton() {
 		return titleLeftButton;
 	}
@@ -41,12 +40,9 @@ public abstract class BasicActivity extends Activity {
 		return titleTextView;
 	}
 
-	
-
 	public ImageView getTitleRightButton() {
 		return titleRightButton;
 	}
-
 
 	/**
 	 * 设置标题栏
@@ -77,7 +73,8 @@ public abstract class BasicActivity extends Activity {
 	 * 
 	 * 
 	 */
-	public void setTitleBar(String titleText, int leftButtonVisibility, int rightButtonVisibility) {
+	public void setTitleBar(String titleText, int leftButtonVisibility,
+			int rightButtonVisibility) {
 		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title);// 设置标题栏布局文件为title_model
 		titleLeftButton = (ImageButton) findViewById(R.id.titlebar_img_btn_left);
 		titleTextView = (TextView) findViewById(R.id.titlebar_text);
@@ -111,7 +108,6 @@ public abstract class BasicActivity extends Activity {
 	public void setTitleRightButtonVisibility(int visibility) {
 		titleRightButton.setVisibility(visibility);
 	}
-
 
 	/**
 	 * 设置左侧按钮图标
@@ -172,7 +168,8 @@ public abstract class BasicActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		// this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		sctnApp = (SctnAplication) getApplication();
-		iconDefault = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+		iconDefault = BitmapFactory.decodeResource(getResources(),
+				R.drawable.ic_launcher);
 
 	}
 
@@ -196,7 +193,6 @@ public abstract class BasicActivity extends Activity {
 	public void onResume() {
 		super.onResume();
 		// beautyApp=(BeautyApp) getApplication();
-		//
 		// ActivityManager activityManager = (ActivityManager)
 		// getSystemService(ACTIVITY_SERVICE);
 		// ComponentName componentName =
@@ -231,7 +227,8 @@ public abstract class BasicActivity extends Activity {
 			}
 		});
 
-		builder.setNegativeButton("取消", new android.content.DialogInterface.OnClickListener() {
+		builder.setNegativeButton("取消",
+				new android.content.DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
 			}
@@ -244,7 +241,8 @@ public abstract class BasicActivity extends Activity {
 		mProgressDialog = new Dialog(this, R.style.process_dialog);// 创建自定义进度条
 		mProgressDialog.setContentView(R.layout.progress_dialog);// 自定义进度条的内容
 		mProgressDialog.setCancelable(true);
-		mProgressDialog.setOnCancelListener(new android.content.DialogInterface.OnCancelListener() {
+		mProgressDialog
+		.setOnCancelListener(new android.content.DialogInterface.OnCancelListener() {
 			public void onCancel(DialogInterface dialog) {
 				isCancel = true;
 				if (finishActivity)
@@ -253,7 +251,8 @@ public abstract class BasicActivity extends Activity {
 		});
 
 		if (progressText != null) {
-			((TextView) mProgressDialog.findViewById(R.id.progress_text)).setText(progressText);
+			((TextView) mProgressDialog.findViewById(R.id.progress_text))
+			.setText(progressText);
 		}
 		mProgressDialog.show();// 显示进度条
 
@@ -314,6 +313,7 @@ public abstract class BasicActivity extends Activity {
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
 		return dm.widthPixels;// 获取屏幕宽度
 	}
+
 	/***
 	 * 获取手机屏幕高度
 	 * */
@@ -322,6 +322,5 @@ public abstract class BasicActivity extends Activity {
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
 		return dm.heightPixels;// 获取屏幕高度
 	}
-	
 
 }
