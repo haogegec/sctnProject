@@ -1,15 +1,159 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background"
      >
+       <LinearLayout 
+             android:id="@+id/home_activity"
+             android:layout_width="fill_parent"  
+             android:layout_height="fill_parent"  
+             android:orientation="vertical"
+         >
+        
+         <RelativeLayout
+             android:id="@+id/home_activity_search"
+             android:layout_width="wrap_content"  
+             android:layout_height="wrap_content"  
+             android:layout_margin="20dip"
+              >
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="登陆" />
+           <EditText 
+             android:id="@drawable/search_bg"
+             android:layout_width="fill_parent"
+	         android:layout_height="wrap_content" 
+             android:background="@drawable/search_bg"
+             android:hint="@string/homeactivityhint"
+             android:gravity="center_vertical"
+              android:paddingLeft="35dip"
+              android:singleLine="true"
+               />  
+               
+              <ImageView 
+	        android:id="@+id/search_bar"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content" 
+	        android:layout_marginLeft="10dip"
+	        android:layout_centerVertical="true"
+	        android:layout_alignLeft="@+id/search_bg"  
+	        android:background="@drawable/search_bar"
+        /> 
+         </RelativeLayout>
+
+         
+         <LinearLayout 
+             android:id="@+id/home_activity_onerow"
+             android:layout_width="fill_parent"  
+             android:layout_height="wrap_content"
+             android:layout_gravity="center_horizontal"  
+             android:orientation="horizontal"
+             android:layout_marginTop="15dip"
+             android:layout_marginLeft="15dip"
+             android:layout_marginRight="15dip" 
+             >
+             
+         <ImageView 
+	        android:id="@+id/person_centre"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"   
+	        android:background="@drawable/person_centre_bg"
+	        android:layout_weight="1"
+        /> 
+             
+        <ImageView 
+	        android:id="@+id/job_search"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"   
+	        android:background="@drawable/job_search_bg"
+	        android:layout_weight="1"
+	        
+        /> 
+        
+        <ImageView 
+	        android:id="@+id/work_direction"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"   
+	        android:background="@drawable/work_direction_bg"
+	        android:layout_weight="1"
+	        
+        /> 
+         </LinearLayout>
+         
+             <LinearLayout 
+             android:id="@+id/home_activity_tworow"
+             android:layout_width="fill_parent"  
+             android:layout_height="wrap_content"
+             android:layout_gravity="center_horizontal"  
+             android:orientation="horizontal"
+             android:layout_marginTop="15dip"
+             android:layout_marginLeft="15dip"
+             android:layout_marginRight="15dip" 
+             
+             >
+             
+         <ImageView 
+	        android:id="@+id/person_centre"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"   
+	        android:background="@drawable/salary_survey"
+	        android:layout_weight="1"
+        /> 
+             
+        <ImageView 
+	        android:id="@+id/job_search"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"   
+	        android:background="@drawable/document_query"
+	        android:layout_weight="1"
+        /> 
+        
+        <ImageView 
+	        android:id="@+id/work_direction"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"   
+	        android:background="@drawable/rem_meeting"
+	        android:layout_weight="1"
+        /> 
+             
+         </LinearLayout>
+         
+         
+      <LinearLayout 
+             android:id="@+id/home_activity_threerow"
+             android:layout_width="fill_parent"  
+             android:layout_height="wrap_content"
+             android:layout_gravity="center_horizontal"  
+             android:orientation="horizontal"
+             android:layout_marginTop="15dip"
+             android:layout_marginLeft="15dip"
+             android:layout_marginRight="15dip"                          
+             >
+             
+         <ImageView 
+	        android:id="@+id/person_centre"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"   
+	        android:background="@drawable/infomation_query"
+	        android:layout_weight="1"
+        /> 
+             
+        <ImageView 
+	        android:id="@+id/job_search"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"   
+	        android:background="@drawable/resume_manage"
+	        android:layout_weight="1"
+        /> 
+        
+        <ImageView 
+	        android:id="@+id/work_direction"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"   
+	        android:layout_weight="1"
+	        android:background="@drawable/function_more"
+        /> 
+             
+         </LinearLayout>
+    </LinearLayout>
     
 </RelativeLayout>
