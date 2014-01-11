@@ -13,6 +13,8 @@
 <!--     主页 -->
     <string name="homeActivityTitle">四川人才网</string>
     <string name="homeactivityhint">请输入关键字</string>
+     <string name="jobsearchTitle">职位搜索</string> 
+    
 <!-- 个人中心 -->
     <string name="personalActivityTitle">个人中心</string>
     <string name="userName">用户名：</string>
