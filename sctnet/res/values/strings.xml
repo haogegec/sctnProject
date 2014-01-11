@@ -13,4 +13,9 @@
 <!--     主页 -->
     <string name="homeActivityTitle">四川人才网</string>
     <string name="homeactivityhint">请输入关键字</string>
+<!-- 个人中心 -->
+    <string name="personalActivityTitle">个人中心</string>
+    <string name="userName">用户名：</string>
+    <string name="postAppRecord">职位申请记录</string>
+    <string name="postCollRecord">职位收藏记录</string>
 </resources>

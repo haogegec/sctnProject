@@ -76,6 +76,10 @@
              <activity  
                  android:name=".activity.GuideActivity" 
                  android:screenOrientation="portrait"></activity>
+             <activity  
+                 android:name=".activity.PersonalCenterActivity" 
+                 android:screenOrientation="portrait"></activity>
+             
              
     </application>
 
