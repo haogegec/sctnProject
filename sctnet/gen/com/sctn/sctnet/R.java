@@ -129,10 +129,11 @@ public final class R {
         public static final int guide_three_activity=0x7f030003;
         public static final int guide_two_activity=0x7f030004;
         public static final int home_activity=0x7f030005;
-        public static final int personal_center_activity=0x7f030006;
-        public static final int progress_dialog=0x7f030007;
-        public static final int title=0x7f030008;
-        public static final int welcome_activity=0x7f030009;
+        public static final int job_search_activity=0x7f030006;
+        public static final int personal_center_activity=0x7f030007;
+        public static final int progress_dialog=0x7f030008;
+        public static final int title=0x7f030009;
+        public static final int welcome_activity=0x7f03000a;
     }
     public static final class menu {
         public static final int activity_main=0x7f080000;
@@ -144,21 +145,22 @@ public final class R {
          */
         public static final int homeActivityTitle=0x7f060007;
         public static final int homeactivityhint=0x7f060008;
+        public static final int jobsearchTitle=0x7f060009;
         /**      deloge 
          */
         public static final int loading=0x7f060006;
         public static final int menu_settings=0x7f060002;
         /**  个人中心 
          */
-        public static final int personalActivityTitle=0x7f060009;
-        public static final int postAppRecord=0x7f06000b;
-        public static final int postCollRecord=0x7f06000c;
+        public static final int personalActivityTitle=0x7f06000a;
+        public static final int postAppRecord=0x7f06000c;
+        public static final int postCollRecord=0x7f06000d;
         public static final int title_activity_main=0x7f060003;
         /** title 
          */
         public static final int titlebar_img_btn_left_desc=0x7f060004;
         public static final int titlebar_img_btn_right_desc=0x7f060005;
-        public static final int userName=0x7f06000a;
+        public static final int userName=0x7f06000b;
     }
     public static final class style {
         public static final int AppTheme=0x7f070000;
