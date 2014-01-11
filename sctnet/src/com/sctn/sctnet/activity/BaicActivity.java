@@ -18,7 +18,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class BaicActivity  extends Activity{
+public  abstract class BaicActivity  extends Activity{
 	
 	public SctnAplication sctnApp;
 	private SharedPreferences sharedPreferences;
@@ -223,4 +223,14 @@ public class BaicActivity  extends Activity{
 			super.onRestart();
 		}
 	}
+
+	/**
+	 * 初始化组件。用于在Activity装载时初始化相关组件和变量，以减少oncreate方法的庞大和冗余。
+	 */
+	protected abstract void initAllView();
+	
+	/**
+	 * 初始化组件。用于在Activity装载时注册事件，以减少oncreate方法的庞大和冗余。
+	 */
+	protected abstract void reigesterAllEvent();
 }
