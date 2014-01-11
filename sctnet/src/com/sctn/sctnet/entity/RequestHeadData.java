@@ -84,18 +84,8 @@ public class RequestHeadData {
 
 	    JSONObject personalJSONObject = new JSONObject();	    
 	    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(SctnAplication.getInstance().getApplicationContext());
-	    personalJSONObject.put("userId", sharedPreferences.getString("userId", ""));
-	    personalJSONObject.put("custId", sharedPreferences.getString("custId", ""));
-	//    personalJSONObject.put("category", Constant.category);
-	    personalJSONObject.put("area", sharedPreferences.getString("area", ""));
-	    personalJSONObject.put("areaId", sharedPreferences.getString("areaId", ""));
-	    personalJSONObject.put("authId", sharedPreferences.getString("authId", ""));
-	    personalJSONObject.put("latitude", sharedPreferences.getString("latitude", ""));
-	    personalJSONObject.put("longitude", sharedPreferences.getString("longitude", ""));
-	    personalJSONObject.put("staffId", sharedPreferences.getString("staffId", ""));
-	    personalJSONObject.put("shopId", sharedPreferences.getString("shopId", ""));
-	    personalJSONObject.put("branchId", sharedPreferences.getString("branchId", ""));
-	    
+	    personalJSONObject.put("userName", sharedPreferences.getString("userId", ""));   
+	    personalJSONObject.put("userType", Constant.jobSeekerType);//用户类型	    
 	    mobileHeadJSONObject.put("personal", personalJSONObject);
 	    
 	    JSONObject otherJSONObject = new JSONObject();	    

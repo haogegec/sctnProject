@@ -11,4 +11,5 @@ public class Constant {
 	public static String ServerImageURL="http://www.weeqii.com/booking/main!getImage";//图片地址
 	
 	public static String packageName = "com.sctn.sctnet";//工程的包名
+	public static String jobSeekerType = "1";//求职者类型
 }
