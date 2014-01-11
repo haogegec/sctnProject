@@ -40,21 +40,22 @@ public final class R {
         public static final int login_btn_bg=0x7f02000f;
         public static final int login_btn_normal=0x7f020010;
         public static final int login_btn_press=0x7f020011;
-        public static final int person_centre_bg=0x7f020012;
-        public static final int rem_meeting=0x7f020013;
-        public static final int resume_manage=0x7f020014;
-        public static final int salary_survey=0x7f020015;
-        public static final int search_bar=0x7f020016;
-        public static final int search_bg=0x7f020017;
-        public static final int titlebar_bg=0x7f020018;
-        public static final int titlebar_img_btn_back_normal=0x7f020019;
-        public static final int titlebar_img_btn_back_pressed=0x7f02001a;
-        public static final int titlebar_img_btn_left_bg=0x7f02001b;
-        public static final int titlebar_img_btn_reload_normal=0x7f02001c;
-        public static final int titlebar_img_btn_reload_pressed=0x7f02001d;
-        public static final int titlebar_img_btn_right_bg=0x7f02001e;
-        public static final int welcome=0x7f02001f;
-        public static final int work_direction_bg=0x7f020020;
+        public static final int logo=0x7f020012;
+        public static final int person_centre_bg=0x7f020013;
+        public static final int rem_meeting=0x7f020014;
+        public static final int resume_manage=0x7f020015;
+        public static final int salary_survey=0x7f020016;
+        public static final int search_bar=0x7f020017;
+        public static final int search_bg=0x7f020018;
+        public static final int titlebar_bg=0x7f020019;
+        public static final int titlebar_img_btn_back_normal=0x7f02001a;
+        public static final int titlebar_img_btn_back_pressed=0x7f02001b;
+        public static final int titlebar_img_btn_left_bg=0x7f02001c;
+        public static final int titlebar_img_btn_reload_normal=0x7f02001d;
+        public static final int titlebar_img_btn_reload_pressed=0x7f02001e;
+        public static final int titlebar_img_btn_right_bg=0x7f02001f;
+        public static final int welcome=0x7f020020;
+        public static final int work_direction_bg=0x7f020021;
     }
     public static final class id {
         public static final int btn_guide_start=0x7f090002;

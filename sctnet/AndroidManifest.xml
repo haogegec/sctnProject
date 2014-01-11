@@ -53,7 +53,7 @@
     
     <application
         android:name=".cache.SctnAplication"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:theme="@style/title"
         android:persistent="true"

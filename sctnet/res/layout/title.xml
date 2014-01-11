@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="5.0dip"
+        android:layout_marginLeft="15.0dip"
         android:background="@color/transparent"
         android:contentDescription="@string/titlebar_img_btn_left_desc"
         android:src="@drawable/titlebar_img_btn_left_bg" />
@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="5.0dip"
+        android:layout_marginRight="15.0dip"
         android:background="#00000000"
         android:contentDescription="@string/titlebar_img_btn_right_desc"
         android:src="@drawable/titlebar_img_btn_right_bg" />
