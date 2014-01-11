@@ -51,17 +51,16 @@
              android:layout_marginLeft="15dip"
              android:layout_marginRight="15dip" 
              >
-             
-         <ImageView 
-	        android:id="@+id/person_centre"
+          <ImageView 
+	        android:id="@+id/resume_manage_img"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"   
-	        android:background="@drawable/person_centre_bg"
+	        android:background="@drawable/resume_manage"
 	        android:layout_weight="1"
-        /> 
-             
+        />
+                     
         <ImageView 
-	        android:id="@+id/job_search"
+	        android:id="@+id/job_search_img"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"   
 	        android:background="@drawable/job_search_bg"
@@ -70,7 +69,7 @@
         /> 
         
         <ImageView 
-	        android:id="@+id/work_direction"
+	        android:id="@+id/work_direction_img"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"   
 	        android:background="@drawable/work_direction_bg"
@@ -92,23 +91,23 @@
              >
              
          <ImageView 
-	        android:id="@+id/person_centre"
+	        android:id="@+id/salary_survey_img"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"   
 	        android:background="@drawable/salary_survey"
 	        android:layout_weight="1"
         /> 
-             
-        <ImageView 
-	        android:id="@+id/job_search"
+         <ImageView 
+	        android:id="@+id/person_centre_img"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"   
-	        android:background="@drawable/document_query"
+	        android:background="@drawable/person_centre_bg"
 	        android:layout_weight="1"
-        /> 
+        />     
+        
         
         <ImageView 
-	        android:id="@+id/work_direction"
+	        android:id="@+id/rem_meeting_img"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"   
 	        android:background="@drawable/rem_meeting"
@@ -130,7 +129,7 @@
              >
              
          <ImageView 
-	        android:id="@+id/person_centre"
+	        android:id="@+id/infomation_query_img"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"   
 	        android:background="@drawable/infomation_query"
@@ -138,15 +137,15 @@
         /> 
              
         <ImageView 
-	        android:id="@+id/job_search"
+	        android:id="@+id/document_query_img"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"   
-	        android:background="@drawable/resume_manage"
+	        android:background="@drawable/document_query"
 	        android:layout_weight="1"
         /> 
         
         <ImageView 
-	        android:id="@+id/work_direction"
+	        android:id="@+id/function_more_img"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"   
 	        android:layout_weight="1"

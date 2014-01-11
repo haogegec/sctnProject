@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
  <resources>
-     <color name="transparent">#000000</color><!-- 透明色  -->
+     <color name="transparent">#00000000</color><!-- 透明色  -->
      <color name="homePageBg">#111111</color><!-- 灰色  -->
      
  </resources>

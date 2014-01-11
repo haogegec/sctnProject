@@ -123,7 +123,9 @@ public class BaicActivity  extends Activity{
 	public void setTitleLeftButtonImg(int leftButtonImg) {
 		titleLeftButton.setImageResource(leftButtonImg);
 	}
-	
+	public void setTitleRightButtonImg(int rightButtonImg){
+		titleRightButton.setImageResource(rightButtonImg);
+	}
 	/**
 	 * 左侧按钮点击事件监听 默认返回主界面
 	 */

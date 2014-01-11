@@ -14,7 +14,8 @@ public class HomeActivity extends BaicActivity {
 		this.requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);// 设置标题栏为用户自定义标题栏
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home_activity);
-		setTitleBar(getString(R.string.homeActivityTitle), View.VISIBLE, View.VISIBLE);
+		setTitleBar(getString(R.string.homeActivityTitle), View.GONE, View.VISIBLE);
+		super.setTitleRightButtonImg(R.drawable.login_btn_bg);
 		
 		
 		
