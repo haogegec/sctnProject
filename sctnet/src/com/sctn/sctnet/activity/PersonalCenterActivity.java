@@ -76,4 +76,12 @@ public class PersonalCenterActivity extends BaicActivity{
 		itemView5.setValue("共1条");
 		itemView5.setDetailImageViewResource(R.drawable.detail);
 	}
+	@Override
+	protected void initAllView() {
+		
+	}
+	@Override
+	protected void reigesterAllEvent() {
+		
+	}
 }
