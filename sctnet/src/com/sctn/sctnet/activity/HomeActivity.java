@@ -24,7 +24,6 @@ public class HomeActivity extends BaicActivity {
 	private ImageView personalCenterImg;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		this.requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);// 设置标题栏为用户自定义标题栏
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home_activity);
 		setTitleBar(getString(R.string.homeActivityTitle), View.GONE, View.VISIBLE);
@@ -67,7 +66,9 @@ public class HomeActivity extends BaicActivity {
 				//搜索页面
 				@Override
 				public void onClick(View v) {
-					
+					Intent intent = new Intent(HomeActivity.this,
+							WorkSearchActivity.class);
+					startActivity(intent);
 				}
 			});
 	 
