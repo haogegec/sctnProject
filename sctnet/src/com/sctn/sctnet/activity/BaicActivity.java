@@ -34,6 +34,7 @@ public  abstract class BaicActivity  extends Activity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);// 设置标题栏为用户自定义标题栏
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		sctnApp = SctnAplication.getInstance();
 	}
