@@ -19,7 +19,7 @@
               >
 
            <EditText 
-             android:id="@drawable/search_bg"
+             android:id="@+id/search_edit_bg"
              android:layout_width="fill_parent"
 	         android:layout_height="wrap_content" 
              android:background="@drawable/search_bg"
@@ -35,7 +35,7 @@
 	        android:layout_height="wrap_content" 
 	        android:layout_marginLeft="10dip"
 	        android:layout_centerVertical="true"
-	        android:layout_alignLeft="@+id/search_bg"  
+	        android:layout_alignLeft="@+id/search_edit_bg"  
 	        android:background="@drawable/search_bar"
         /> 
          </RelativeLayout>
