@@ -5,4 +5,97 @@
     android:background="@drawable/background"
      >
     
+           <RelativeLayout
+             android:id="@+id/home_activity_search"
+             android:layout_width="wrap_content"  
+             android:layout_height="wrap_content"  
+             android:layout_margin="20dip"
+              >
+
+           <EditText 
+             android:id="@+id/search_edit_bg"
+             android:layout_width="fill_parent"
+	         android:layout_height="wrap_content" 
+             android:background="@drawable/search_bg"
+             android:hint="@string/homeactivityhint"
+             android:gravity="center_vertical"
+              android:paddingLeft="35dip"
+              android:singleLine="true"
+               />  
+               
+              <ImageView 
+	        android:id="@+id/search_bar"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content" 
+	        android:layout_marginLeft="10dip"
+	        android:layout_centerVertical="true"
+	        android:layout_alignLeft="@+id/search_edit_bg"  
+	        android:background="@drawable/search_bar"
+        /> 
+         </RelativeLayout>
+    
+         <RelativeLayout
+        android:id="@+id/search_title_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/home_activity_search"
+         >
+
+        <LinearLayout
+            android:id="@+id/search_title_label"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/detail_title_bg" >
+
+            <TextView
+                android:id="@+id/search_layout_title1"
+                android:layout_width="wrap_content"
+                android:layout_height="45dip"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:text="职位名"
+                android:textColor="#ca202b"
+                android:textSize="16.0dip" />
+
+            <TextView
+                android:id="@+id/search_layout_title2"
+                android:layout_width="wrap_content"
+                android:layout_height="45dip"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                   android:layout_weight="1"
+                android:text="公司名"
+                android:textColor="#000000"
+                android:textSize="16.0dip" />
+
+            <TextView
+                android:id="@+id/search_layout_title3"
+                android:layout_width="wrap_content"
+                android:layout_height="45dip"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:text="全文"
+                android:textColor="#000000"
+                android:textSize="16.0dip" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/cursor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/search_title_label"
+            android:scaleType="matrix" />
+    </RelativeLayout>
+           
+        <ListView 
+          android:id="@+id/search_history_listview"	
+          android:layout_width="fill_parent"  
+          android:layout_height="wrap_content"
+          android:cacheColorHint="#00000000"
+          android:layout_below="@+id/search_title_layout"
+       /> 
+    
 </RelativeLayout>
