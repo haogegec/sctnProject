@@ -1,17 +1,17 @@
 package com.sctn.sctnet.activity;
 
 
-import com.sctn.sctnet.R;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
+import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.sctn.sctnet.R;
+
 public class HomeActivity extends BaicActivity {
-	private ImageView    searchBar;
+	private EditText    search_edit;
 	private ImageView	 resume_manage_click;
 	private ImageView	 job_search_click;
 	private ImageView	 work_direction_click;
@@ -38,7 +38,6 @@ public class HomeActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
 				Intent intent = new Intent(HomeActivity.this,PersonalCenterActivity.class);
 				startActivity(intent);
 			}
@@ -49,7 +48,8 @@ public class HomeActivity extends BaicActivity {
 	@Override
 	protected void initAllView() {
 	    
-		 searchBar = (ImageView) findViewById(R.id.search_bar);
+		 search_edit = (EditText) findViewById(R.id.search_edit_bg);
+//		        search_edit.addTextChangedListener(watcher);
 				 resume_manage_click = (ImageView) findViewById(R.id.resume_manage_img);
 		    	 job_search_click = (ImageView) findViewById(R.id.job_search_img);
 				 work_direction_click = (ImageView) findViewById(R.id.work_direction_img);
@@ -62,17 +62,28 @@ public class HomeActivity extends BaicActivity {
 	}
 	@Override
 	protected void reigesterAllEvent() {
-		 searchBar.setOnClickListener(new OnClickListener() {
-				//搜索页面
-				@Override
-				public void onClick(View v) {
-					Intent intent = new Intent(HomeActivity.this,
-							WorkSearchActivity.class);
-					startActivity(intent);
-				}
-			});
-	 
+	    
+//		search_edit.setOnFocusChangeListener(new OnFocusChangeListener(){
+//	        public void onFocusChange(View v, boolean hasFocus) {
+//				Intent intent = new Intent(HomeActivity.this,
+//						WorkSearchActivity.class);
+//				startActivity(intent);
+//	        	
+//	        }
+//	});
+		
+		search_edit.setOnClickListener(new OnClickListener() {
 	
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(HomeActivity.this,
+						WorkSearchActivity.class);
+				startActivity(intent);
+			}
+		});
+		 
+		 
+		
 	resume_manage_click.setOnClickListener(new OnClickListener() {
 		//简历管理
 		@Override
@@ -98,9 +109,6 @@ public class HomeActivity extends BaicActivity {
 			//办事指南
 			@Override
 			public void onClick(View v) {
-//				Intent intent = new Intent(HomeActivity.this,
-//						JobSearchActivity.class);
-//				startActivity(intent);
 			}
 		});
 		 
@@ -108,9 +116,6 @@ public class HomeActivity extends BaicActivity {
 			//薪资调查
 			@Override
 			public void onClick(View v) {
-//				Intent intent = new Intent(HomeActivity.this,
-//						JobSearchActivity.class);
-//				startActivity(intent);
 			}
 		});
 	
@@ -118,9 +123,6 @@ public class HomeActivity extends BaicActivity {
 		//招聘会现场
 		@Override
 		public void onClick(View v) {
-//			Intent intent = new Intent(HomeActivity.this,
-//					JobSearchActivity.class);
-//			startActivity(intent);
 		}
 	});
 		 
@@ -128,9 +130,6 @@ public class HomeActivity extends BaicActivity {
 			//信息咨询
 			@Override
 			public void onClick(View v) {
-//				Intent intent = new Intent(HomeActivity.this,
-//						JobSearchActivity.class);
-//				startActivity(intent);
 			}
 		});
 		 
@@ -138,9 +137,6 @@ public class HomeActivity extends BaicActivity {
 			//档案查询
 			@Override
 			public void onClick(View v) {
-//				Intent intent = new Intent(HomeActivity.this,
-//						JobSearchActivity.class);
-//				startActivity(intent);
 			}
 		});
 		 
@@ -148,9 +144,6 @@ public class HomeActivity extends BaicActivity {
 			//更多
 			@Override
 			public void onClick(View v) {
-//				Intent intent = new Intent(HomeActivity.this,
-//						JobSearchActivity.class);
-//				startActivity(intent);
 			}
 		});
 		 
@@ -158,12 +151,44 @@ public class HomeActivity extends BaicActivity {
 			//个人中心
 			@Override
 			public void onClick(View v) {
-//				Intent intent = new Intent(HomeActivity.this,
-//						JobSearchActivity.class);
-//				startActivity(intent);
 			}
 		});
 		
 	}
+	
+//	private TextWatcher watcher = new TextWatcher(){
+//
+//		@Override
+//		public void afterTextChanged(Editable s) {
+//			System.out.println("-------------------1");
+//
+//			Intent intent = new Intent(HomeActivity.this,
+//					WorkSearchActivity.class);
+//			startActivity(intent);
+//		}
+//
+//		@Override
+//		public void beforeTextChanged(CharSequence s, int start, int count,
+//				int after) {
+//			System.out.println("-------------------2");
+//
+//			Intent intent = new Intent(HomeActivity.this,
+//					WorkSearchActivity.class);
+//			startActivity(intent);
+//		}
+//
+//		@Override
+//		public void onTextChanged(CharSequence s, int start, int before,
+//				int count) {
+//			Log.d("TAG","[TextWatcher][onTextChanged]"+s);
+//			System.out.println("-------------------3");
+//			Intent intent = new Intent(HomeActivity.this,
+//					WorkSearchActivity.class);
+//			startActivity(intent);
+//		}
+//    	
+//    };
+    
+
 
 }
