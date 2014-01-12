@@ -83,7 +83,13 @@
              <activity
                  android:name=".activity.JobSearchActivity"
                   android:screenOrientation="portrait">
-                 ></activity>
+                 </activity>
+                 
+                 <activity
+                 android:name=".activity.WorkSearchActivity"
+                  android:screenOrientation="portrait">
+                 </activity>
+                 
     </application>
 
 </manifest>
