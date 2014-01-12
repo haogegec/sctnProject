@@ -33,7 +33,7 @@ public class WorkSearchActivity extends Activity {
 		setContentView(R.layout.worksearch_activity);
 		initAllView();
 		reigesterAllEvent();
-	}
+	}	
 	
 	 
    protected void initAllView() {
