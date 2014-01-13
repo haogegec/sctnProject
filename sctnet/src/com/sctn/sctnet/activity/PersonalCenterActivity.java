@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.view.ItemView;
@@ -19,7 +18,6 @@ public class PersonalCenterActivity extends BaicActivity{
 	private ItemView itemView1,itemView2,itemView3,itemView4,itemView5;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-//		this.requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);// 设置标题栏为用户自定义标题栏
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.personal_center_activity);
 		setTitleBar(getString(R.string.personalActivityTitle), View.VISIBLE, View.VISIBLE);
