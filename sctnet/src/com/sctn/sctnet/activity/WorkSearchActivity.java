@@ -18,6 +18,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+/**
+ * @author wanghaoc
+ * 首页关键字职位搜索
+ *
+ */
 public class WorkSearchActivity extends Activity {
 
 	private int perSpacing ;
