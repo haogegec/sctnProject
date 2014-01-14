@@ -5,4 +5,5 @@
      <color name="white">#FFFFFF</color><!-- 白色 -->
      <color name="blue">#0b98e0</color><!-- 蓝色 -->
      <color name="black">#000000</color>
+     <color name="background">#f4f4f4</color><!-- 背景色 灰色 -->
  </resources>
