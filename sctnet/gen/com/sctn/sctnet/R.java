@@ -11,6 +11,7 @@ public final class R {
     public static final class attr {
     }
     public static final class color {
+        public static final int background=0x7f040005;
         /**  蓝色 
          */
         public static final int black=0x7f040004;
@@ -31,56 +32,82 @@ public final class R {
         public static final int padding_small=0x7f050000;
     }
     public static final class drawable {
-        public static final int background=0x7f020000;
-        public static final int btn_guide_start=0x7f020001;
-        public static final int create_resume_btn=0x7f020002;
+        public static final int btn_guide_start=0x7f020000;
+        public static final int create_resume_btn=0x7f020001;
+        public static final int default_photo_bg=0x7f020002;
         public static final int delete=0x7f020003;
         public static final int detail=0x7f020004;
         public static final int detail_title_bg=0x7f020005;
         public static final int document_query=0x7f020006;
         public static final int function_more=0x7f020007;
-        public static final int guide_four=0x7f020008;
-        public static final int guide_one=0x7f020009;
-        public static final int guide_three=0x7f02000a;
-        public static final int guide_two=0x7f02000b;
-        public static final int home_btn_bg=0x7f02000c;
-        public static final int home_btn_normal=0x7f02000d;
-        public static final int home_btn_pressed=0x7f02000e;
-        public static final int ic_action_search=0x7f02000f;
-        public static final int ic_launcher=0x7f020010;
-        public static final int infomation_query=0x7f020011;
-        public static final int job_search_bg=0x7f020012;
-        public static final int loading=0x7f020013;
-        public static final int loading_progress=0x7f020014;
-        public static final int log_off_bg=0x7f020015;
-        public static final int log_off_btn_normal=0x7f020016;
-        public static final int log_off_btn_pressed=0x7f020017;
-        public static final int login_btn_bg=0x7f020018;
-        public static final int login_btn_normal=0x7f020019;
-        public static final int login_btn_press=0x7f02001a;
-        public static final int logo=0x7f02001b;
-        public static final int person_centre_bg=0x7f02001c;
-        public static final int rem_meeting=0x7f02001d;
-        public static final int resume_manage=0x7f02001e;
-        public static final int salary_survey=0x7f02001f;
-        public static final int search_bar=0x7f020020;
-        public static final int search_bg=0x7f020021;
-        public static final int setting_na_bg_mid_pressed=0x7f020022;
-        public static final int titlebar_bg=0x7f020023;
-        public static final int titlebar_img_btn_back_normal=0x7f020024;
-        public static final int titlebar_img_btn_back_pressed=0x7f020025;
-        public static final int titlebar_img_btn_left_bg=0x7f020026;
-        public static final int titlebar_img_btn_reload_normal=0x7f020027;
-        public static final int titlebar_img_btn_reload_pressed=0x7f020028;
-        public static final int titlebar_img_btn_right_bg=0x7f020029;
-        public static final int welcome=0x7f02002a;
-        public static final int work_direction_bg=0x7f02002b;
+        public static final int gridview_work_order_handle_toolbar=0x7f020008;
+        public static final int guide_four=0x7f020009;
+        public static final int guide_one=0x7f02000a;
+        public static final int guide_three=0x7f02000b;
+        public static final int guide_two=0x7f02000c;
+        public static final int home_btn_bg=0x7f02000d;
+        public static final int home_btn_normal=0x7f02000e;
+        public static final int home_btn_pressed=0x7f02000f;
+        public static final int ic_action_search=0x7f020010;
+        public static final int ic_launcher=0x7f020011;
+        public static final int infomation_query=0x7f020012;
+        public static final int job_search_bg=0x7f020013;
+        public static final int loading=0x7f020014;
+        public static final int loading_progress=0x7f020015;
+        public static final int log_off_bg=0x7f020016;
+        public static final int log_off_btn_normal=0x7f020017;
+        public static final int log_off_btn_pressed=0x7f020018;
+        public static final int login_btn_bg=0x7f020019;
+        public static final int login_btn_normal=0x7f02001a;
+        public static final int login_btn_press=0x7f02001b;
+        public static final int logo=0x7f02001c;
+        public static final int person_centre_bg=0x7f02001d;
+        public static final int rem_meeting=0x7f02001e;
+        public static final int resume_delete_bg=0x7f02001f;
+        public static final int resume_delete_normal=0x7f020020;
+        public static final int resume_delete_pressed=0x7f020021;
+        public static final int resume_is_open_normal=0x7f020022;
+        public static final int resume_is_open_pressed=0x7f020023;
+        public static final int resume_is_public_bg=0x7f020024;
+        public static final int resume_is_secret_bg=0x7f020025;
+        public static final int resume_is_secret_normal=0x7f020026;
+        public static final int resume_is_secret_pressed=0x7f020027;
+        public static final int resume_manage=0x7f020028;
+        public static final int resume_modify_bg=0x7f020029;
+        public static final int resume_modify_normal=0x7f02002a;
+        public static final int resume_modify_pressed=0x7f02002b;
+        public static final int resume_preview_bg=0x7f02002c;
+        public static final int resume_preview_normal=0x7f02002d;
+        public static final int resume_preview_pressed=0x7f02002e;
+        public static final int resume_update_bg=0x7f02002f;
+        public static final int resume_update_normal=0x7f020030;
+        public static final int resume_update_pressed=0x7f020031;
+        public static final int salary_survey=0x7f020032;
+        public static final int search_bar=0x7f020033;
+        public static final int search_bg=0x7f020034;
+        public static final int setting_na_bg_mid_pressed=0x7f020035;
+        public static final int titlebar_bg=0x7f020036;
+        public static final int titlebar_img_btn_back_normal=0x7f020037;
+        public static final int titlebar_img_btn_back_pressed=0x7f020038;
+        public static final int titlebar_img_btn_left_bg=0x7f020039;
+        public static final int titlebar_img_btn_reload_normal=0x7f02003a;
+        public static final int titlebar_img_btn_reload_pressed=0x7f02003b;
+        public static final int titlebar_img_btn_right_bg=0x7f02003c;
+        public static final int welcome=0x7f02003d;
+        public static final int wo_handle_toolbar_item_bg=0x7f02003e;
+        public static final int wo_handle_toolbar_press_bg=0x7f02003f;
+        public static final int wo_toolbar_action_pressed=0x7f020040;
+        public static final int wo_toolbar_busi_normal=0x7f020041;
+        public static final int wo_toolbar_fetch_pressed=0x7f020042;
+        public static final int work_direction_bg=0x7f020043;
     }
     public static final class id {
-        public static final int ScrollView=0x7f09001b;
+        public static final int GridView_work_order_handle_toolbar=0x7f09003f;
+        public static final int ScrollView=0x7f09001a;
         public static final int btn_guide_start=0x7f090002;
-        public static final int cursor=0x7f090034;
+        public static final int cursor=0x7f09004a;
         public static final int document_query_img=0x7f090011;
+        public static final int editResumeText=0x7f090035;
         public static final int empty_view=0x7f090029;
         public static final int function_more_img=0x7f090012;
         public static final int home_activity=0x7f090003;
@@ -90,15 +117,16 @@ public final class R {
         public static final int home_activity_tworow=0x7f09000b;
         public static final int infomation_query_img=0x7f090010;
         public static final int itemview1=0x7f090014;
-        public static final int itemview2=0x7f090016;
-        public static final int itemview3=0x7f090017;
-        public static final int itemview4=0x7f090018;
+        public static final int itemview2=0x7f090015;
+        public static final int itemview3=0x7f090016;
+        public static final int itemview4=0x7f090017;
         public static final int itemview5=0x7f090028;
         public static final int job_search_img=0x7f090009;
         public static final int ll=0x7f090001;
-        public static final int menu_settings=0x7f090036;
+        public static final int menu_settings=0x7f09004c;
+        public static final int myPhoto=0x7f09002b;
         public static final int person_center_img=0x7f09000d;
-        public static final int positionInfo=0x7f090015;
+        public static final int positionInfo=0x7f09001f;
         public static final int postAppCount=0x7f090022;
         public static final int postAppImage=0x7f090021;
         public static final int postAppRecord=0x7f090023;
@@ -108,28 +136,47 @@ public final class R {
         public static final int postCollRecord=0x7f090027;
         public static final int postCollection =0x7f090024;
         public static final int progress_text=0x7f09002a;
-        public static final int relativeLayout=0x7f09001c;
+        public static final int relativeLayout=0x7f09001b;
+        public static final int relativeLayout1=0x7f090034;
         public static final int rem_meeting_img=0x7f09000e;
+        public static final int resumeDeleteImg=0x7f090039;
+        public static final int resumeDeleteText=0x7f090038;
+        public static final int resumeFefreshText=0x7f09003b;
+        public static final int resumeFinishStatus=0x7f09002f;
+        public static final int resumeFinishStatusValue=0x7f090030;
+        public static final int resumeIsPublicImg=0x7f09003c;
+        public static final int resumeIsPublicText=0x7f09003d;
+        public static final int resumeModifyImg=0x7f090036;
+        public static final int resumeModifyText=0x7f090037;
+        public static final int resumeName=0x7f09002c;
+        public static final int resumePreview=0x7f090033;
+        public static final int resumePublic=0x7f090031;
+        public static final int resumePublicValue=0x7f090032;
+        public static final int resumeRefreshImg=0x7f09003a;
+        public static final int resumeUpdate=0x7f09002d;
+        public static final int resumeUpdateValue=0x7f09002e;
         public static final int resume_manage_img=0x7f090008;
         public static final int salary_survey_img=0x7f09000c;
         public static final int search_bar=0x7f090006;
-        public static final int search_btn=0x7f090019;
+        public static final int search_btn=0x7f090018;
         public static final int search_edit_bg=0x7f090005;
-        public static final int search_history_listview=0x7f090035;
-        public static final int search_history_listview1=0x7f09001a;
+        public static final int search_history_listview=0x7f09004b;
+        public static final int search_history_listview1=0x7f090019;
         public static final int search_item_layout=0x7f090013;
-        public static final int search_layout_title1=0x7f090031;
-        public static final int search_layout_title2=0x7f090032;
-        public static final int search_layout_title3=0x7f090033;
-        public static final int search_title_label=0x7f090030;
-        public static final int search_title_layout=0x7f09002f;
-        public static final int titlebar_img_btn_left=0x7f09002b;
-        public static final int titlebar_img_btn_right=0x7f09002e;
-        public static final int titlebar_text=0x7f09002d;
-        public static final int titlebar_title=0x7f09002c;
-        public static final int userInfo=0x7f09001d;
-        public static final int userNameLabel=0x7f09001e;
-        public static final int userNameValue=0x7f09001f;
+        public static final int search_layout_title1=0x7f090047;
+        public static final int search_layout_title2=0x7f090048;
+        public static final int search_layout_title3=0x7f090049;
+        public static final int search_result_listview=0x7f09003e;
+        public static final int search_title_label=0x7f090046;
+        public static final int search_title_layout=0x7f090045;
+        public static final int titlebar_img_btn_left=0x7f090041;
+        public static final int titlebar_img_btn_right=0x7f090044;
+        public static final int titlebar_text=0x7f090043;
+        public static final int titlebar_title=0x7f090042;
+        public static final int toolbar_item_image=0x7f090040;
+        public static final int userInfo=0x7f09001c;
+        public static final int userNameLabel=0x7f09001d;
+        public static final int userNameValue=0x7f09001e;
         public static final int vp_guide_viewpager=0x7f090000;
         public static final int work_direction_img=0x7f09000a;
     }
@@ -143,36 +190,50 @@ public final class R {
         public static final int job_search_activity=0x7f030006;
         public static final int personal_center_activity=0x7f030007;
         public static final int progress_dialog=0x7f030008;
-        public static final int title=0x7f030009;
-        public static final int welcome_activity=0x7f03000a;
-        public static final int worksearch_activity=0x7f03000b;
+        public static final int resume_manager_activity=0x7f030009;
+        public static final int search_result_activity=0x7f03000a;
+        public static final int search_result_handle_toolbar_item=0x7f03000b;
+        public static final int title=0x7f03000c;
+        public static final int welcome_activity=0x7f03000d;
+        public static final int worksearch_activity=0x7f03000e;
     }
     public static final class menu {
         public static final int activity_main=0x7f080000;
     }
     public static final class string {
         public static final int app_name=0x7f060000;
+        public static final int delete=0x7f060013;
+        public static final int editResume=0x7f060011;
+        public static final int finishStatus=0x7f060010;
         public static final int hello_world=0x7f060001;
         /**      主页 
          */
         public static final int homeActivityTitle=0x7f060007;
         public static final int homeactivityhint=0x7f060008;
+        public static final int is_public=0x7f060016;
+        public static final int jobsearchResult=0x7f06000a;
         public static final int jobsearchTitle=0x7f060009;
         /**      deloge 
          */
         public static final int loading=0x7f060006;
         public static final int menu_settings=0x7f060002;
+        public static final int modify=0x7f060012;
         /**  个人中心 
          */
-        public static final int personalActivityTitle=0x7f06000a;
-        public static final int postAppRecord=0x7f06000c;
-        public static final int postCollRecord=0x7f06000d;
+        public static final int personalActivityTitle=0x7f06000b;
+        public static final int postAppRecord=0x7f06000d;
+        public static final int postCollRecord=0x7f06000e;
+        public static final int refresh=0x7f060014;
+        public static final int set_public=0x7f060015;
         public static final int title_activity_main=0x7f060003;
         /** title 
          */
         public static final int titlebar_img_btn_left_desc=0x7f060004;
         public static final int titlebar_img_btn_right_desc=0x7f060005;
-        public static final int userName=0x7f06000b;
+        /**  简历管理 
+         */
+        public static final int updateDate=0x7f06000f;
+        public static final int userName=0x7f06000c;
     }
     public static final class style {
         public static final int AppTheme=0x7f070000;
