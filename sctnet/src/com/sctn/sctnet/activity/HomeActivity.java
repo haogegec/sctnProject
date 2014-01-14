@@ -49,7 +49,6 @@ public class HomeActivity extends BaicActivity {
 	protected void initAllView() {
 	    
 		 search_edit = (EditText) findViewById(R.id.search_edit_bg);
-//		        search_edit.addTextChangedListener(watcher);
 				 resume_manage_click = (ImageView) findViewById(R.id.resume_manage_img);
 		    	 job_search_click = (ImageView) findViewById(R.id.job_search_img);
 				 work_direction_click = (ImageView) findViewById(R.id.work_direction_img);
@@ -155,40 +154,7 @@ public class HomeActivity extends BaicActivity {
 		});
 		
 	}
-	
-//	private TextWatcher watcher = new TextWatcher(){
-//
-//		@Override
-//		public void afterTextChanged(Editable s) {
-//			System.out.println("-------------------1");
-//
-//			Intent intent = new Intent(HomeActivity.this,
-//					WorkSearchActivity.class);
-//			startActivity(intent);
-//		}
-//
-//		@Override
-//		public void beforeTextChanged(CharSequence s, int start, int count,
-//				int after) {
-//			System.out.println("-------------------2");
-//
-//			Intent intent = new Intent(HomeActivity.this,
-//					WorkSearchActivity.class);
-//			startActivity(intent);
-//		}
-//
-//		@Override
-//		public void onTextChanged(CharSequence s, int start, int before,
-//				int count) {
-//			Log.d("TAG","[TextWatcher][onTextChanged]"+s);
-//			System.out.println("-------------------3");
-//			Intent intent = new Intent(HomeActivity.this,
-//					WorkSearchActivity.class);
-//			startActivity(intent);
-//		}
-//    	
-//    };
-    
+
 
 
 }
