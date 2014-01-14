@@ -33,7 +33,6 @@ public class HomeActivity extends BaicActivity {
 		reigesterAllEvent();
 		
 		personalCenterImg = (ImageView) findViewById(R.id.person_center_img);
-		
 		personalCenterImg.setOnClickListener(new ImageView.OnClickListener(){
 
 			@Override
@@ -61,15 +60,6 @@ public class HomeActivity extends BaicActivity {
 	}
 	@Override
 	protected void reigesterAllEvent() {
-	    
-//		search_edit.setOnFocusChangeListener(new OnFocusChangeListener(){
-//	        public void onFocusChange(View v, boolean hasFocus) {
-//				Intent intent = new Intent(HomeActivity.this,
-//						WorkSearchActivity.class);
-//				startActivity(intent);
-//	        	
-//	        }
-//	});
 		
 		search_edit.setOnClickListener(new OnClickListener() {
 	
@@ -81,8 +71,6 @@ public class HomeActivity extends BaicActivity {
 			}
 		});
 		 
-		 
-		
 	resume_manage_click.setOnClickListener(new OnClickListener() {
 		//简历管理
 		@Override
@@ -92,7 +80,6 @@ public class HomeActivity extends BaicActivity {
 			startActivity(intent);
 		}
 	});
-	 
 	 
 	job_search_click.setOnClickListener(new OnClickListener() {
 			//职位搜索
@@ -154,7 +141,5 @@ public class HomeActivity extends BaicActivity {
 		});
 		
 	}
-
-
 
 }
