@@ -2,21 +2,28 @@ package com.sctn.sctnet.activity;
 
 import java.util.ArrayList;
 
-import com.sctn.sctnet.R;
-
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.View.OnKeyListener;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.sctn.sctnet.R;
 
 /**
  * @author wanghaoc
@@ -30,7 +37,7 @@ public class WorkSearchActivity extends Activity {
 	private ImageView cursor;// 动画图片
 	private int currIndex = 0;// 当前页卡编号
 	private Animation animation = null;
-	
+	private EditText search_edit;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -46,10 +53,33 @@ public class WorkSearchActivity extends Activity {
 		getScreenWidth();
 		initPageTitles();
 		initImageView();
+		//初始化Edit编辑框
+		 search_edit = (EditText) findViewById(R.id.search_edit_bg);
 	}
 
 	protected void reigesterAllEvent() {
 		setPageTitleOnClickListener();
+       //search_edit.addTextChangedListener(watcher);
+		search_edit.setOnKeyListener(new OnKeyListener() {
+	   //输入完后按键盘上的搜索键【回车键改为了搜索键】
+        public boolean onKey(View v, int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_ENTER){//修改回车键功能
+        // 先隐藏键盘
+        ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)) .hideSoftInputFromWindow(
+         WorkSearchActivity.this
+        .getCurrentFocus()
+        .getWindowToken(),
+        InputMethodManager.HIDE_NOT_ALWAYS);
+
+        //跳转页面 
+    	Intent intent = new Intent(WorkSearchActivity.this,
+			HomeActivity.class);
+	    startActivity(intent);
+        }
+        return false;
+        }
+        
+        });
 	}
 
 	/**
@@ -240,4 +270,27 @@ public class WorkSearchActivity extends Activity {
 		}
 	}
 	
+//	private TextWatcher watcher = new TextWatcher(){
+//	    
+//		@Override
+//		public void afterTextChanged(Editable s) {
+////			System.out.println("-------------------3");
+////			Intent intent = new Intent(WorkSearchActivity.this,
+////					WorkSearchActivity.class);
+////			startActivity(intent);
+//		}
+//
+//		@Override
+//		public void beforeTextChanged(CharSequence s, int start, int count,
+//				int after) {
+//
+//		}
+//
+//		@Override
+//		public void onTextChanged(CharSequence s, int start, int before,
+//				int count) {
+//
+//		}
+//    	
+//    };
 }
