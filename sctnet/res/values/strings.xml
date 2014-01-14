@@ -20,4 +20,13 @@
     <string name="userName">用户名：</string>
     <string name="postAppRecord">职位申请记录</string>
     <string name="postCollRecord">职位收藏记录</string>
+<!-- 简历管理 -->
+    <string name="updateDate">更新于</string>
+    <string name="finishStatus">完成度</string>
+    <string name="editResume">编辑简历</string>
+    <string name="modify">修改</string>
+    <string name="delete">删除</string>
+    <string name="refresh">刷新</string>
+    <string name="set_public">公开</string>
+    <string name="is_public">是否公开</string>
 </resources>
