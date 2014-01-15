@@ -93,6 +93,7 @@
                  android:name=".activity.ResumeManageActivity"
                   android:screenOrientation="portrait">
                  </activity>
+                   <activity android:name=".activity.SearchResultActivity" android:screenOrientation="portrait" /> 
                  
     </application>
 
