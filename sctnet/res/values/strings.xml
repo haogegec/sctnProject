@@ -29,4 +29,10 @@
     <string name="refresh">刷新</string>
     <string name="set_public">公开</string>
     <string name="is_public">是否公开</string>
+    <string name="resumeManageActivityTitle">简历管理</string>
+    <string name="resumeName">简历名称</string>
+    <string name="resumeRequired">必填项</string>
+    <string name="resumeNote1">(完成一下项即可申请职位)</string>
+    <string name="resumeOptional">选填项</string>
+    <string name="resumeNote2">(补充一下内容，更全面的展示自己)</string>
 </resources>
