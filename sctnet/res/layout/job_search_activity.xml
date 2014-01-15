@@ -19,8 +19,9 @@
              android:background="@drawable/search_bg"
              android:hint="@string/homeactivityhint"
              android:gravity="center_vertical"
-              android:paddingLeft="35dip"
-              android:singleLine="true"
+             android:paddingLeft="35dip"
+             android:singleLine="true"
+             android:focusable="false"
                />  
                
               <ImageView 
