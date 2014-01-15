@@ -59,7 +59,6 @@ public class WorkSearchActivity extends Activity {
 
 	protected void reigesterAllEvent() {
 		setPageTitleOnClickListener();
-       //search_edit.addTextChangedListener(watcher);
 		search_edit.setOnKeyListener(new OnKeyListener() {
 	   //输入完后按键盘上的搜索键【回车键改为了搜索键】
         public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -73,7 +72,7 @@ public class WorkSearchActivity extends Activity {
 
         //跳转页面 
     	Intent intent = new Intent(WorkSearchActivity.this,
-			HomeActivity.class);
+    			SearchResultActivity.class);
 	    startActivity(intent);
         }
         return false;
@@ -269,28 +268,4 @@ public class WorkSearchActivity extends Activity {
 			animation = new TranslateAnimation(0, one, 0, 0);
 		}
 	}
-	
-//	private TextWatcher watcher = new TextWatcher(){
-//	    
-//		@Override
-//		public void afterTextChanged(Editable s) {
-////			System.out.println("-------------------3");
-////			Intent intent = new Intent(WorkSearchActivity.this,
-////					WorkSearchActivity.class);
-////			startActivity(intent);
-//		}
-//
-//		@Override
-//		public void beforeTextChanged(CharSequence s, int start, int count,
-//				int after) {
-//
-//		}
-//
-//		@Override
-//		public void onTextChanged(CharSequence s, int start, int before,
-//				int count) {
-//
-//		}
-//    	
-//    };
 }
