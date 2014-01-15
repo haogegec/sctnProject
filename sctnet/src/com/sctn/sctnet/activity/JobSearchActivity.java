@@ -5,8 +5,12 @@ import com.sctn.sctnet.view.ItemView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnKeyListener;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 /**
  * @author wanghaoc
@@ -19,7 +23,8 @@ public class JobSearchActivity extends BaicActivity {
 	private ItemView searchitemView2;
 	private ItemView searchitemView3;
 	private ItemView searchitemView4;
-	
+	private EditText search_edit;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -34,6 +39,8 @@ public class JobSearchActivity extends BaicActivity {
 	@Override
 	protected void initAllView() {
 		
+		 search_edit = (EditText) findViewById(R.id.search_edit_bg);
+
 		searchitemView1 = (ItemView) findViewById(R.id.itemview1);
 		searchitemView1.setBackground(R.drawable.setting_na_bg_mid_pressed);
 		searchitemView1.setIconImageViewResource(R.drawable.home_btn_normal);
@@ -65,10 +72,21 @@ public class JobSearchActivity extends BaicActivity {
 		searchitemView4.setValue("所有日期");
 		searchitemView4.setDetailImageViewResource(R.drawable.detail);
 		searchitemView4.setIconImageVisibility(View.GONE);
+		
 	}
 
 	@Override
 	protected void reigesterAllEvent() {
+		
+		search_edit.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(JobSearchActivity.this,
+						WorkSearchActivity.class);
+				startActivity(intent);
+			}
+		});
 		
 		searchitemView1.getRelativeLayout().setOnClickListener(new OnClickListener(){
 
@@ -95,7 +113,6 @@ public class JobSearchActivity extends BaicActivity {
 					Intent intent = new Intent(JobSearchActivity.this,GuideActivity.class);
 					startActivity(intent);				
 				}
-				
 			});
 
 			searchitemView4.getRelativeLayout().setOnClickListener(new OnClickListener(){
