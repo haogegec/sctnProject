@@ -72,7 +72,7 @@ public class ItemView extends LinearLayout{
 	    labelText.setSingleLine(true);
 		
 	    MarginLayoutParams mp2 = new MarginLayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT);  //item的宽高
-	    mp2.setMargins(0, 18, 37, 5);//分别是margin_top那四个属性
+	    mp2.setMargins(0, 18, 40, 5);//分别是margin_top那四个属性
 	    RelativeLayout.LayoutParams lp2 = new RelativeLayout.LayoutParams(mp2);
 	    lp2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 	    detailImageView.setLayoutParams(lp2);
