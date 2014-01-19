@@ -1,28 +1,24 @@
 package com.sctn.sctnet.Utils;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
-import org.apache.http.protocol.HTTP;
-
-import com.sctn.sctnet.cache.SctnAplication;
-import com.sctn.sctnet.component.MultiMemberGZIPInputStream;
-
-
-import android.os.Looper;
-import android.widget.Toast;
-
- 
 public class StringUtil {
 
 	/**
@@ -291,12 +287,93 @@ public class StringUtil {
         }
         return str;
     }
-		
-	public static String checkNull(String str,String defaultSting) {
-		if (null == str)
-			return defaultSting;
+	
+	
+	public static boolean isExcetionInfo(String str) {
+		if(isBlank(str))return false;
+		Document doc=Jsoup.parseBodyFragment(str);
+		Element  text=doc.getElementById("errinfospan");
+		if(str.startsWith("<!DOCTYPE html")||str.startsWith("<!DOCTYPE HTML") || text!=null ) {
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * 创建异常页面源码字符串，用于MOS Native替代抛出的异常页面
+	 * @param errMsg
+	 * @return
+	 */
+	public static String getAppException4MOS(String errMsg) {
+		String str="<!DOCTYPE html><html><head></head><body><span id=\"errinfospan\">"+errMsg+" </span></body></html>";
 		return str;
 	}
+	
+	/**
+	 * 获取服务器端返回的错误信息描述。当服务器端出现Exception时，客户端得到的结果是一个html 错误界面源码，该方法通过解析html，获得错误描述信息
+	 * @param result
+	 * @return
+	 */
+	public static String getExceptionDesc(String result) {
+		Document doc=Jsoup.parseBodyFragment(result);
+		Element  ele= doc.getElementById("errinfospan");
+		String text="";
+        if( ele!=null) {
+        	text=ele.text();
+        }else {
+        	text="服务器端出现异常！";
+        }
+        return text;
+	}
+	
+	/**
+	 * 获取http://search.anccnet.com返回的条码查询结果。解析Html获得相应字段
+	 * 查询url为http://search.anccnet.com/searchResult.aspx?keyword=对应的EAN码
+	 * @param result
+	 * @return
+	 */
+	public static Map<String,String> getEanResult(String result) {
+		Map<String,String> resultMap=new HashMap<String,String>();
+		Document doc=Jsoup.parseBodyFragment(result);
+	   
+		String txtTccode=doc.getElementById("txt_tccode").text();
+		String firmName=doc.getElementById("firm_name").text();
+		String firmNameEn=doc.getElementById("firm_name_en").text();
+		String registerAddress=doc.getElementById("register_address").text();
+		String registerAddressEn=doc.getElementById("register_address_en").text();
+		String registerPostalcode=doc.getElementById("register_postalcode").text();
+		resultMap.put("txtTccode", txtTccode);
+		resultMap.put("firmName", firmName);
+		resultMap.put("firmNameEn", firmNameEn);
+		resultMap.put("registerAddress", registerAddress);
+		resultMap.put("registerAddressEn", registerAddressEn);
+		resultMap.put("registerPostalcode", registerPostalcode);
+		if(resultMap==null||resultMap.isEmpty()) {
+			return null;
+		}
+		return resultMap;
+	}
+
+	public static  List<Map<String, String>> getScanEanResult(String result) {
+		Map<String,String> resultMap=new HashMap<String,String>();
+		Document doc=Jsoup.parseBodyFragment(result);
+	             
+	   Element element =doc.getElementsByClass("p-info").first();
+	   Elements titleElements = element.getElementsByTag("dt");
+	   Elements contentElements = element.getElementsByTag("dd");
+	   List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+	   for (int i=0;i<titleElements.size();i++){
+		   Map<String, String>  map = new HashMap<String, String>();
+		   map.put("title", titleElements.get(i).getElementsByTag("dt").text());
+		   map.put("content", contentElements.get(i).getElementsByTag("dd").text());
+		   list.add(map);
+	   }
+
+	   
+		return list;
+	}
+	
+	
 	public static void main(String[] args)  {
 		//String str = "kkjlj l.class";
 		String str = "where instr($GET_PHONE_GROUP_TYPE,'[31]')>0 and nvl(replace($GET_PHONE_GROUP_SPEC_STR,'[31]',''),'N')<>'N' and $GET_PHONE_GROUP_TYPE=1";
@@ -314,47 +391,25 @@ public class StringUtil {
 		System.out.println(StringUtil.catchStr(str,"\\$\\w*\\b").get(1)); 
 		System.out.println(StringUtil.catchStr(str,"\\$\\w*\\b").get(2)); 
 	}
-	
-    public static String unCompress(byte[] bytCompressed) {
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		ByteArrayInputStream in = new ByteArrayInputStream(bytCompressed); 
-		String res="";
-		try{ 
-			GZIPInputStream gunzip = new MultiMemberGZIPInputStream(in);
-			//GZIPInputStream gunzip = new GZIPInputStream(in);  
-			byte[] buffer = new byte[256];
-			int n; 
-			while ((n = gunzip.read(buffer)) >= 0) {
-				out.write(buffer, 0, n); 
-			}
-			 	res=out.toString("UTF-8");   
-		}catch(IOException e){
-			Looper.prepare();
-			Toast.makeText(SctnAplication.getInstance().getApplicationContext(), "解压过程中出现异常！" ,Toast.LENGTH_SHORT).show();
-			Looper.loop();
 
-		}
-		return  res;
-	}
-    
- public static byte[] unCompresstoBytes(byte[] bytCompressed) {
+	public static String unCompress(byte[] bytCompressed) throws SysException {
 		
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		ByteArrayInputStream in = new ByteArrayInputStream(bytCompressed);
-		byte[] res = null;
+		String res="";
 		try{
 			GZIPInputStream gunzip = new GZIPInputStream(in);
 			byte[] buffer = new byte[256];
 			int n;
 			while ((n = gunzip.read(buffer)) >= 0) {
 				out.write(buffer, 0, n);
-			} 
-		 res=out.toByteArray();
+			}
+		 res=out.toString("GBK");
+//			res=out.toString();
 		}catch(IOException e){
-			Looper.prepare();
-			Toast.makeText(SctnAplication.getInstance().getApplicationContext(), "解压过程中出现异常！" ,Toast.LENGTH_SHORT).show();
-			Looper.loop();
+			throw new SysException("", "解压过程中出现异常！ ", e);
 		}
+		
 		return  res;
 	}
 }
