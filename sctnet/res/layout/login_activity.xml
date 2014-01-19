@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/loginRoot"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/background"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/login_useless_layout"
+        android:layout_width="0px"
+        android:layout_height="0px"
+        android:focusable="true"
+        android:focusableInTouchMode="true" >
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/login_relative_layout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15.0dip"
+        android:layout_marginRight="15.0dip"
+        android:layout_marginTop="30.0dip"
+        android:paddingTop="21.0dip" >
+
+        <EditText
+            android:id="@+id/login_edit_username"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="5.0dip"
+            android:layout_marginLeft="5.0dip"
+            android:layout_marginRight="5.0dip"
+            android:layout_marginTop="10.0dip"
+            android:background="@drawable/common_edit"
+            android:hint="@string/username_hint"
+            android:maxLength="20"
+            android:paddingLeft="80.0dip"
+            android:saveEnabled="true"
+            android:singleLine="true" />
+
+        <TextView
+            android:id="@+id/login_tv_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/login_edit_username"
+            android:layout_alignLeft="@+id/login_edit_username"
+            android:layout_alignTop="@+id/login_edit_username"
+            android:layout_marginRight="15.0dip"
+            android:gravity="center_vertical"
+            android:paddingLeft="15.0dip"
+            android:paddingRight="15.0dip"
+            android:text="@string/username_label"
+            android:textColor="#FF000000"
+            android:textSize="20.0dip" />
+
+        <EditText
+            android:id="@+id/login_edit_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/login_edit_username"
+            android:layout_alignRight="@+id/login_edit_username"
+            android:layout_below="@+id/login_edit_username"
+            android:layout_marginRight="1.0dip"
+            android:layout_marginTop="15.0dip"
+            android:background="@drawable/common_edit"
+            android:hint="@string/password_hint"
+            android:inputType="textPassword"
+            android:maxLength="16"
+            android:paddingLeft="80.0dip"
+            android:saveEnabled="true" />
+
+        <TextView
+            android:id="@+id/login_tv_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/login_edit_password"
+            android:layout_alignRight="@+id/login_tv_username"
+            android:layout_alignTop="@+id/login_edit_password"
+            android:gravity="center_vertical"
+            android:paddingLeft="15.0dip"
+            android:paddingRight="15.0dip"
+            android:text="@string/password_label"
+            android:textColor="#FF000000"
+            android:textSize="20.0dip" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/login_relative_layout2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15.0dip"
+        android:layout_marginRight="15.0dip"
+        android:layout_marginTop="10.0dip"
+        android:paddingBottom="10.0dip" >
+
+        <CheckBox
+            android:id="@+id/login_remember_password"
+            style="@style/checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dip"
+            android:paddingLeft="20dip"
+            android:text="@string/remember_password" />
+
+        <CheckBox
+            android:id="@+id/login_auto_login"
+            style="@style/checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dip"
+            android:paddingLeft="20dip"
+            android:text="@string/auto_login" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/login_btn_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10.0dip"
+        android:background="@drawable/login_btnclick"
+        android:textColor="#FFFFFFFF"
+        android:textSize="16dip" />
+    
+    <TextView 
+        android:layout_marginTop="40dip"
+        android:id="@+id/register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/blue"
+        android:text="立即注册"
+        android:layout_gravity="right"
+        android:layout_marginRight="20dip"
+        />
+
+</LinearLayout>
