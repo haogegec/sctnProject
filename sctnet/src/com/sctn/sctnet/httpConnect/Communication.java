@@ -30,6 +30,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.sctn.sctnet.Utils.StringUtil;
+import com.sctn.sctnet.Utils.SysException;
 import com.sctn.sctnet.cache.SctnAplication;
 import com.sctn.sctnet.contants.Constant;
 import com.sctn.sctnet.entity.RequestHeadData;
@@ -125,7 +126,12 @@ public class Communication {
 			// 获取响应的结果信息
 			byte[] resultByteType = EntityUtils.toByteArray(respEntity);
 //			 解压返回的字符串
-			result = StringUtil.unCompress(resultByteType); 
+			try {
+				result = StringUtil.unCompress(resultByteType);
+			} catch (SysException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
 		   return result;
 	}
 
@@ -218,7 +224,12 @@ public class Communication {
 					// 获取响应的结果信息
 					byte[] resultByteType = EntityUtils.toByteArray(respEntity);
 //					 解压返回的字符串
-					result = StringUtil.unCompress(resultByteType);
+					try {
+						result = StringUtil.unCompress(resultByteType);
+					} catch (SysException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					
 					if (result == null || "".equals(result)) {
 						m.what = 2;
