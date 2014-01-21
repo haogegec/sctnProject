@@ -85,7 +85,7 @@ public class HomeActivity extends BaicActivity {
 		@Override
 		public void onClick(View v) {
 			Intent intent = new Intent(HomeActivity.this,
-					JobSearchActivity.class);
+					ResumeManageActivity.class);
 			startActivity(intent);
 		}
 	});

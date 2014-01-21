@@ -14,12 +14,12 @@ import com.sctn.sctnet.view.ItemView;
  */
 public class ResumeEditActivity extends BaicActivity{
 
-	private ItemView itemView1,itemView2,itemView3,itemView4,itemView5;
+	private ItemView itemView1,itemView2,itemView3,itemView4,itemView5,itemView6;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.personal_center_activity);
-		setTitleBar(getString(R.string.personalActivityTitle), View.VISIBLE, View.VISIBLE);
+		setContentView(R.layout.resume_edit_activity);
+		setTitleBar(getString(R.string.resumeEditActivityTitle), View.VISIBLE, View.VISIBLE);
 		super.setTitleRightButtonImg(R.drawable.log_off_bg);
 		initAllView();
 		
@@ -31,10 +31,11 @@ public class ResumeEditActivity extends BaicActivity{
 		itemView1 = (ItemView) findViewById(R.id.itemview1);
 		itemView2 = (ItemView) findViewById(R.id.itemview2);
 		itemView3 = (ItemView) findViewById(R.id.itemview3);
-		itemView4 = (ItemView) findViewById(R.id.itemview4);
-		itemView5 = (ItemView) findViewById(R.id.itemview5);
+		itemView4 = (ItemView) findViewById(R.id.itemview11);
+		itemView5 = (ItemView) findViewById(R.id.itemview12);
+		itemView6 = (ItemView) findViewById(R.id.itemview13);
 		
-		itemView1.setBackground(R.drawable.item_down_bg);
+		itemView1.setBackground(R.drawable.item_mid);
 		itemView1.setIconImageViewResource(R.drawable.home_btn_normal);
 		itemView1.setLabel("谁看过我的简历");
 		itemView1.setValue("共1条");

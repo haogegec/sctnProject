@@ -25,10 +25,10 @@
     <string name="updateDate">更新于</string>
     <string name="finishStatus">完成度</string>
     <string name="editResume">编辑简历</string>
-    <string name="modify">修改</string>
-    <string name="delete">删除</string>
-    <string name="refresh">刷新</string>
-    <string name="set_public">公开</string>
+    <string name="modify"><u>修改</u></string>
+    <string name="delete"><u>删除</u></string>
+    <string name="refresh"><u>刷新</u></string>
+    <string name="set_public"><u>公开</u></string>
     <string name="is_public">是否公开</string>
     <string name="resumeManageActivityTitle">简历管理</string>
     <string name="resumeName">简历名称</string>
@@ -36,6 +36,8 @@
     <string name="resumeNote1">(完成一下项即可申请职位)</string>
     <string name="resumeOptional">选填项</string>
     <string name="resumeNote2">(补充一下内容，更全面的展示自己)</string>
+
+    <string name="resumeEditActivityTitle">简历修改</string>
 <!--     登陆 -->
 <string name="loginActivityTitle">登录</string>
   <string name="username_hint">请输入账号</string>
@@ -46,5 +48,5 @@
     <string name="auto_login">自动登录</string>
     <string name="login_logo_description">掌上调度logo</string>
     <string name="login">登 录</string>
-    <string name="copyright">Copyright © 2012 Cattsoft.All Rights Reserved</string>
+    <string name="copyright">Copyright © 2014 HelloWorld.All Rights Reserved</string>
 </resources>

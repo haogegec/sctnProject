@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" 
+    android:background="@drawable/item_up_bg">
+
+    <ImageView
+        android:id="@+id/iconImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="25.0dip"
+        android:background="#00000000"
+        android:contentDescription="@null"
+        android:src="@drawable/icon_img" />
+
+        <TextView
+            android:id="@+id/labelText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="掌上运维掌上运维"
+            android:textSize="16dp"
+            android:textColor="@color/blue"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/iconImageView"
+             />
+
+        <ImageView
+            android:id="@+id/detailImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="25dp"
+            android:layout_alignParentRight="true" 
+            android:src="@drawable/detail"/>
+        <TextView
+            android:id="@+id/valueText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="共1条"
+            android:layout_centerVertical="true"
+            android:textColor="@color/black"
+            android:layout_toLeftOf="@+id/detailImageView"
+             />
+
+    
+</RelativeLayout>
