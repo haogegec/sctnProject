@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string-array name="groups">
+        <item>个人信息</item>
+        <item>求职意向</item>
+    </string-array>
+    
+    <string-array name="personal_info_label">
+        <item>出生日期</item>
+        <item>参加工作时间</item>
+        <item>婚姻状况</item>
+        <item>证件类型</item>
+        <item>证件号码</item>
+        <item>户口所在地</item>
+    </string-array>
+    
+    <string-array name="personal_info_value">
+        <item>1991&#8211;01</item>
+        <item>2012&#8211;07</item>
+        <item>未婚</item>
+        <item>身份证</item>
+        <item>410788199009180909</item>
+        <item>河南</item>
+    </string-array>
+    
+    <string-array name="job_intention_label">
+        <item>工作性质</item>
+        <item>期望薪资</item>
+    </string-array>
+    <string-array name="job_intention_value">
+        <item>全职</item>
+        <item>10000/月</item>
+    </string-array>
+</resources>

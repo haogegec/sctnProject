@@ -55,7 +55,7 @@
 	        android:id="@+id/resume_manage_img"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"   
-	        android:background="@drawable/resume_manage"
+	        android:background="@drawable/resume_manage_bg"
 	        android:layout_weight="1"
         />
                      
@@ -94,7 +94,7 @@
 	        android:id="@+id/salary_survey_img"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"   
-	        android:background="@drawable/salary_survey"
+	        android:background="@drawable/salary_survey_bg"
 	        android:layout_weight="1"
         /> 
          <ImageView 
@@ -110,7 +110,7 @@
 	        android:id="@+id/rem_meeting_img"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"   
-	        android:background="@drawable/rem_meeting"
+	        android:background="@drawable/rem_meeting_bg"
 	        android:layout_weight="1"
         /> 
              
@@ -132,7 +132,7 @@
 	        android:id="@+id/infomation_query_img"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"   
-	        android:background="@drawable/infomation_query"
+	        android:background="@drawable/information_query_bg"
 	        android:layout_weight="1"
         /> 
              
@@ -140,7 +140,7 @@
 	        android:id="@+id/document_query_img"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"   
-	        android:background="@drawable/document_query"
+	        android:background="@drawable/document_query_bg"
 	        android:layout_weight="1"
         /> 
         
@@ -149,7 +149,7 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"   
 	        android:layout_weight="1"
-	        android:background="@drawable/function_more"
+	        android:background="@drawable/function_more_bg"
         /> 
              
          </LinearLayout>

@@ -106,6 +106,14 @@
             android:name=".activity.ResumeEditActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".activity.PersonalInfoActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.ResumePreviewActivity"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>

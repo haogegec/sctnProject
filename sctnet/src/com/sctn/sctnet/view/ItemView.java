@@ -46,9 +46,10 @@ public class ItemView extends LinearLayout{
 		detailImageView = new ImageView(context);
 		
 		 MarginLayoutParams mp = new MarginLayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT);  //item的宽高
-	     mp.setMargins(35, 15, 5, 0);//分别是margin_top那四个属性
+	     mp.setMargins(35, 0, 0, 0);//分别是margin_top那四个属性
 	     RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(mp);
 	     lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+	     lp.addRule(RelativeLayout.CENTER_VERTICAL);
 	     iconImageView.setLayoutParams(lp);
 	     iconImageView.setId(iconImageId);
 		
@@ -61,9 +62,10 @@ public class ItemView extends LinearLayout{
 		
 		labelText.setText(label);
 		MarginLayoutParams mp1 = new MarginLayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT);  //item的宽高
-	    mp1.setMargins(0, 15, 0, 0);//分别是margin_top那四个属性
+	    mp1.setMargins(0, 0, 0, 0);//分别是margin_top那四个属性
 	    RelativeLayout.LayoutParams lp1 = new RelativeLayout.LayoutParams(mp1);
 	    lp1.addRule(RelativeLayout.RIGHT_OF,iconImageId);
+	    lp1.addRule(RelativeLayout.CENTER_VERTICAL);
 	    labelText.setMaxEms(20);
 	    labelText.setLayoutParams(lp1);
 	    labelText.setText(label);
@@ -72,9 +74,10 @@ public class ItemView extends LinearLayout{
 	    labelText.setSingleLine(true);
 		
 	    MarginLayoutParams mp2 = new MarginLayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT);  //item的宽高
-	    mp2.setMargins(0, 18, 40, 5);//分别是margin_top那四个属性
+	    mp2.setMargins(0, 0, 40, 0);//分别是margin_top那四个属性
 	    RelativeLayout.LayoutParams lp2 = new RelativeLayout.LayoutParams(mp2);
 	    lp2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+	    lp2.addRule(RelativeLayout.CENTER_VERTICAL);
 	    detailImageView.setLayoutParams(lp2);
 	    detailImageView.setId(detailImageId);
 
@@ -87,10 +90,11 @@ public class ItemView extends LinearLayout{
         }
 		
 		MarginLayoutParams mp3 = new MarginLayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT);  //item的宽高
-	    mp3.setMargins(0, 17, 0, 0);//分别是margin_top那四个属性
+	    mp3.setMargins(0, 0, 0, 0);//分别是margin_top那四个属性
 	    RelativeLayout.LayoutParams lp3 = new RelativeLayout.LayoutParams(mp3);
 	    lp3.addRule(RelativeLayout.LEFT_OF,detailImageId);
 	    lp3.addRule(RelativeLayout.RIGHT_OF, labelResouceId);
+	    lp3.addRule(RelativeLayout.CENTER_VERTICAL);
 	    valueText.setLayoutParams(lp3);
 		valueText.setText(value);
 		valueText.setPadding(0, 3,3, 0);
@@ -98,7 +102,12 @@ public class ItemView extends LinearLayout{
 		valueText.setSingleLine(true);
 		
 		relativeLayout = new RelativeLayout(context);
-		relativeLayout.addView(iconImageView);
+		MarginLayoutParams mp4 = new MarginLayoutParams(RelativeLayout.LayoutParams.FILL_PARENT,RelativeLayout.LayoutParams.WRAP_CONTENT);  //item的宽高
+	    mp3.setMargins(10, 0, 10, 0);//分别是margin_top那四个属性
+	    RelativeLayout.LayoutParams lp4 = new RelativeLayout.LayoutParams(mp4);
+	    lp4.addRule(RelativeLayout.CENTER_VERTICAL);
+		relativeLayout.setLayoutParams(lp4);
+	    relativeLayout.addView(iconImageView);
 		relativeLayout.addView(labelText);
 		relativeLayout.addView(detailImageView);
 		relativeLayout.addView(valueText);
@@ -112,7 +121,7 @@ public class ItemView extends LinearLayout{
 	 * @param resource
 	 */
 	public void setBackground(int resource){
-		this.setBackgroundResource(resource);
+		relativeLayout.setBackgroundResource(resource);
 	}
 	/**
 	 * 设置条目左侧图标
@@ -150,8 +159,9 @@ public class ItemView extends LinearLayout{
 		iconImageView.setVisibility(visibility);
 		if(visibility==View.GONE){
 			MarginLayoutParams mp1 = new MarginLayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT);  //item的宽高
-		    mp1.setMargins(35, 15, 0, 0);//分别是margin_top那四个属性
+		    mp1.setMargins(35, 0, 0, 0);//分别是margin_top那四个属性
 		    RelativeLayout.LayoutParams lp1 = new RelativeLayout.LayoutParams(mp1);
+		    lp1.addRule(RelativeLayout.CENTER_VERTICAL);
 		    labelText.setLayoutParams(lp1);
 		}
 	}
@@ -163,9 +173,10 @@ public class ItemView extends LinearLayout{
 		detailImageView.setVisibility(visibility);
 		if(visibility==View.GONE){
 			MarginLayoutParams mp3 = new MarginLayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT);  //item的宽高
-			mp3.setMargins(0, 18, 37, 5);//分别是margin_top那四个属性
+			mp3.setMargins(0, 0, 37, 0);//分别是margin_top那四个属性
 		    RelativeLayout.LayoutParams lp3 = new RelativeLayout.LayoutParams(mp3);
 		    lp3.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+		    lp3.addRule(RelativeLayout.CENTER_VERTICAL);
 		    valueText.setLayoutParams(lp3);
 		}
 	}

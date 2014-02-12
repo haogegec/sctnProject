@@ -17,9 +17,8 @@ import android.preference.PreferenceManager;
  */
 public class ReturnHeadData {
 
-	public String returnCode;//成功失败的标志
-	public String errorMsg; //错误信息
-	public String userName;//用户名
+	public String resultCode;//成功失败的标志
+	public String resultMsg; //返回信息
 
 	/**
 	 * 将服务端返回的结果解析成json格式，返回头信息
@@ -30,27 +29,15 @@ public class ReturnHeadData {
 		ReturnHeadData returnHeadData = new ReturnHeadData();
 		try {
 			JSONObject resultJSONObject = new JSONObject(result);
-			JSONObject mobileHeadJSONObject = resultJSONObject.getJSONObject("mobileHead");
-			String errormsg = mobileHeadJSONObject.getString("errormsg");
-			String code = mobileHeadJSONObject.getString("code");
-			JSONObject personalJSONObject = mobileHeadJSONObject.getJSONObject("personal");
-			String userName = personalJSONObject.getString("userName");
+			String resultMsg = resultJSONObject.getString("resultMsg");
+			String resultCode = resultJSONObject.getString("resultCode");
 			
-			returnHeadData.returnCode = code;
-			returnHeadData.errorMsg = errormsg;
-			returnHeadData.userName = userName;
-		
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(SctnAplication
-					.getInstance().getApplicationContext());
-			Editor edit = sharedPreferences.edit();
-			if(sharedPreferences.getString("userName", "")==null||"".equals(sharedPreferences.getString("userName", ""))) {
-				edit.putString("userName", userName);
-			}
-			edit.commit();
+			returnHeadData.resultCode = resultCode;
+			returnHeadData.resultMsg = resultMsg;
 			
 		} catch (JSONException e) {
-			returnHeadData.returnCode = "1";
-			returnHeadData.errorMsg = "头信息解析json出错";
+			returnHeadData.resultCode = "1";
+			returnHeadData.resultMsg = "头信息解析json出错";
 		}
 		return returnHeadData;
 		

@@ -36,8 +36,11 @@
     <string name="resumeNote1">(完成一下项即可申请职位)</string>
     <string name="resumeOptional">选填项</string>
     <string name="resumeNote2">(补充一下内容，更全面的展示自己)</string>
-
     <string name="resumeEditActivityTitle">简历修改</string>
+    <string name="resumePreviewActivityTitle">简历预览</string>
+    <string name="personalInfoActivityTitle">个人信息</string>
+    <string name="personalName">姓名</string>
+    <string name="paperInfoNote">证件信息</string>
 <!--     登陆 -->
 <string name="loginActivityTitle">登录</string>
   <string name="username_hint">请输入账号</string>

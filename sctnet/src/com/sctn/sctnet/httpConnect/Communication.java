@@ -237,16 +237,16 @@ public class Communication {
 					} else {
 						ReturnHeadData returnHeadData = ReturnHeadData
 								.parserReturnHeadFromStr(result);
-						if (returnHeadData.returnCode.equals("0")) {
+						if (returnHeadData.resultCode.equals("1")) {
 							Bundle bundle = new Bundle();
-							bundle.putString("errorMsg",
-									returnHeadData.errorMsg);
+							bundle.putString("resultMsg",
+									returnHeadData.resultMsg);
 							m.setData(bundle);
 							m.what = 3;
 							baseHandler.sendMessage(m);
 						} else {
 							Bundle bundle = new Bundle();
-							bundle.putString("result", result);
+							bundle.putString("resultMsg", result);
 							m.setData(bundle);
 							m.what = 1;
 							baseHandler.sendMessage(m);

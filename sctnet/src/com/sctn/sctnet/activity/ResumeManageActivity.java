@@ -17,6 +17,7 @@ public class ResumeManageActivity extends BaicActivity{
 	
 	private ImageView modifyImg;
 	private TextView modifyTextView;
+	private ImageView resumePreviewImg;
 	private int darkBlueColor = Color.parseColor("#00008b");
 	private int blueColor = Color.parseColor("#0b98e0");
 	@Override
@@ -35,11 +36,23 @@ public class ResumeManageActivity extends BaicActivity{
 		modifyImg = (ImageView) findViewById(R.id.resumeModifyImg);
 		modifyTextView = (TextView) findViewById(R.id.resumeModifyText);
 		
+		resumePreviewImg = (ImageView) findViewById(R.id.resumePreview);
 	}
 
 	@Override
 	protected void reigesterAllEvent() {
-		// TODO Auto-generated method stub
+
+		resumePreviewImg.setOnClickListener(new ImageView.OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(ResumeManageActivity.this,
+						ResumePreviewActivity.class);
+				startActivity(intent);
+			}
+			
+		});
 		modifyImg.setOnClickListener(new ImageView.OnClickListener(){
 
 			@Override
