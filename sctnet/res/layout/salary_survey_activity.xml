@@ -1,0 +1,838 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center_horizontal"
+    android:background="@color/background"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <!-- <RelativeLayout
+            android:id="@+id/area"
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/item_selector"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone"
+             >
+
+            <TextView
+                android:id="@+id/tv_area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="地区" />
+
+            <TextView
+                android:id="@+id/tv_area2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/arrow1"
+                android:gravity="right"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="" />
+
+            <ImageView
+                android:id="@+id/arrow1"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:contentDescription="@null"
+                android:shadowColor="#ffffffff"
+                android:shadowDx="0.0"
+                android:shadowDy="1.0"
+                android:shadowRadius="1.0"
+                android:src="@drawable/arrow" >
+            </ImageView>
+        </RelativeLayout> -->
+        
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="性别" />
+
+            <RadioGroup
+                android:id="@+id/sex"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp" >
+
+                <RadioButton
+                    android:id="@+id/mail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="男"
+                    android:textColor="#000000" />
+
+                <RadioButton
+                    android:id="@+id/female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="女"
+                    android:textColor="#000000" />
+            </RadioGroup>
+        </LinearLayout>
+        
+        <LinearLayout
+            android:id="@+id/age"
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/item_selector"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:focusable="true"  
+   			android:focusableInTouchMode="true" >
+
+            <TextView
+                android:id="@+id/tv_age"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="年龄" />
+
+            <EditText
+                android:id="@+id/tv_age2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/my_edittext"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:digits="1234567890"
+                android:maxLength="3"
+                android:inputType="number"
+                android:text="" />
+
+            <!-- <ImageView
+                android:id="@+id/arrow1"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:contentDescription="@null"
+                android:shadowColor="#ffffffff"
+                android:shadowDx="0.0"
+                android:shadowDy="1.0"
+                android:shadowRadius="1.0"
+                android:src="@drawable/arrow" >
+            </ImageView> -->
+        </LinearLayout>
+        
+        
+        
+        <RelativeLayout
+            android:id="@+id/degree"
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/item_selector"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/tv_degree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="学历" />
+
+            <TextView
+                android:id="@+id/tv_degree2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/arrow1"
+                android:gravity="right"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="" />
+
+            <ImageView
+                android:id="@+id/arrow1"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:contentDescription="@null"
+                android:shadowColor="#ffffffff"
+                android:shadowDx="0.0"
+                android:shadowDy="1.0"
+                android:shadowRadius="1.0"
+                android:src="@drawable/arrow" >
+            </ImageView>
+        </RelativeLayout>
+        
+        <RelativeLayout
+            android:id="@+id/overseasEduExp"
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/item_selector"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/tv_overseasEduExp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="是否有海外教育经历" />
+
+            <TextView
+                android:id="@+id/tv_overseasEduExp2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/arrow2"
+                android:gravity="right"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="" />
+
+            <ImageView
+                android:id="@+id/arrow2"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:contentDescription="@null"
+                android:shadowColor="#ffffffff"
+                android:shadowDx="0.0"
+                android:shadowDy="1.0"
+                android:shadowRadius="1.0"
+                android:src="@drawable/arrow" >
+            </ImageView>
+        </RelativeLayout>
+        
+        <RelativeLayout
+            android:id="@+id/workExp"
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/item_selector"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/tv_workExp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="有无工作经验" />
+
+            <TextView
+                android:id="@+id/tv_workExp2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/arrow3"
+                android:gravity="right"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="" />
+
+            <ImageView
+                android:id="@+id/arrow3"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:contentDescription="@null"
+                android:shadowColor="#ffffffff"
+                android:shadowDx="0.0"
+                android:shadowDy="1.0"
+                android:shadowRadius="1.0"
+                android:src="@drawable/arrow" >
+            </ImageView>
+        </RelativeLayout>
+        
+        <RelativeLayout
+            android:id="@+id/foreignLanguage"
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/item_selector"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/tv_foreignLanguage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="外语能力" />
+
+            <TextView
+                android:id="@+id/tv_foreignLanguage2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/arrow4"
+                android:gravity="right"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="" />
+
+            <ImageView
+                android:id="@+id/arrow4"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:contentDescription="@null"
+                android:shadowColor="#ffffffff"
+                android:shadowDx="0.0"
+                android:shadowDy="1.0"
+                android:shadowRadius="1.0"
+                android:src="@drawable/arrow" >
+            </ImageView>
+        </RelativeLayout>
+        
+        
+        
+        <RelativeLayout
+            android:id="@+id/jobExp"
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+           
+            android:layout_marginTop="1dp"
+            android:background="@drawable/item_selector"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/tv_jobExp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="职场经历" />
+
+            <TextView
+                android:id="@+id/tv_jobExp2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/arrow7"
+                android:gravity="right"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="" />
+
+            <ImageView
+                android:id="@+id/arrow7"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:contentDescription="@null"
+                android:shadowColor="#ffffffff"
+                android:shadowDx="0.0"
+                android:shadowDy="1.0"
+                android:shadowRadius="1.0"
+                android:src="@drawable/arrow" >
+            </ImageView>
+        </RelativeLayout>
+        
+        <RelativeLayout
+            android:id="@+id/professionalCertificate"
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/item_selector"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/tv_professional_certificate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="职业资格证书" />
+
+            <TextView
+                android:id="@+id/tv_professional_certificate2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/arrow5"
+                android:gravity="right"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="" />
+
+            <ImageView
+                android:id="@+id/arrow5"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:contentDescription="@null"
+                android:shadowColor="#ffffffff"
+                android:shadowDx="0.0"
+                android:shadowDy="1.0"
+                android:shadowRadius="1.0"
+                android:src="@drawable/arrow" >
+            </ImageView>
+        </RelativeLayout>
+        
+        <RelativeLayout
+            android:id="@+id/skill"
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            
+            android:layout_marginTop="1dp"
+            android:background="@drawable/item_selector"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/tv_skill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="技能技巧" />
+
+            <TextView
+                android:id="@+id/tv_skill2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/arrow6"
+                android:gravity="right"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="" />
+
+            <ImageView
+                android:id="@+id/arrow6"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:contentDescription="@null"
+                android:shadowColor="#ffffffff"
+                android:shadowDx="0.0"
+                android:shadowDy="1.0"
+                android:shadowRadius="1.0"
+                android:src="@drawable/arrow" >
+            </ImageView>
+        </RelativeLayout>
+        
+        <Button
+            android:id="@+id/btn_activity_login"
+            android:layout_width="fill_parent"
+            android:layout_height="45dip"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+             android:layout_marginBottom="20dp"
+            android:background="@drawable/blue_button_selector"
+            android:enabled="true"
+            android:shadowColor="#7f000000"
+            android:shadowDx="0.0"
+            android:shadowDy="1.0"
+            android:shadowRadius="1.0"
+            android:text="登录"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
+
+       <!--  <RelativeLayout
+            android:id="@+id/trade"
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/item_selector"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" 
+            android:visibility="gone"
+            >
+
+            <TextView
+                android:id="@+id/tv_trade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="行业" />
+
+            <TextView
+                android:id="@+id/tv_trade2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/arrow2"
+                android:gravity="right"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="" />
+
+            <ImageView
+                android:id="@+id/arrow2"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:contentDescription="@null"
+                android:shadowColor="#ffffffff"
+                android:shadowDx="0.0"
+                android:shadowDy="1.0"
+                android:shadowRadius="1.0"
+                android:src="@drawable/arrow" />
+        </RelativeLayout> -->
+
+        <!-- <RelativeLayout
+            android:id="@+id/enterpriseProperty"
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/item_selector"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/tv_enterpriseProperty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="企业性质" />
+
+            <TextView
+                android:id="@+id/tv_enterpriseProperty2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/arrow3"
+                android:gravity="right"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="" />
+
+            <ImageView
+                android:id="@+id/arrow3"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:contentDescription="@null"
+                android:shadowColor="#ffffffff"
+                android:shadowDx="0.0"
+                android:shadowDy="1.0"
+                android:shadowRadius="1.0"
+                android:src="@drawable/arrow" >
+            </ImageView>
+        </RelativeLayout> -->
+
+        <!-- <RelativeLayout
+            android:id="@+id/jobCategory"
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/item_selector"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/tv_jobCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="职位类别" />
+
+            <TextView
+                android:id="@+id/tv_jobCategory2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/arrow4"
+                android:gravity="right"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="" />
+
+            <ImageView
+                android:id="@+id/arrow4"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:contentDescription="@null"
+                android:shadowColor="#ffffffff"
+                android:shadowDx="0.0"
+                android:shadowDy="1.0"
+                android:shadowRadius="1.0"
+                android:src="@drawable/arrow" >
+            </ImageView>
+        </RelativeLayout> -->
+
+        
+    </LinearLayout>
+
+    <!--
+    <RelativeLayout 
+          android:id="@+id/relativeLayout"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="16dp"
+          android:layout_marginBottom="16dp"
+          android:layout_marginLeft="8dp"
+          android:layout_marginRight="8dp"
+          android:background="@color/white"
+          >
+          <ImageView
+              android:id="@+id/myPhoto"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:paddingTop="20dp"
+              android:paddingBottom="15dp"
+              android:src="@drawable/default_photo_bg" />
+
+          <TextView 
+              android:id="@+id/resumeName"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_toRightOf="@+id/myPhoto"
+              android:layout_marginTop="20dp"
+              android:text="我的简历"
+              android:paddingLeft="8dp"
+              android:paddingBottom="8dp"
+              android:textColor="@color/black"
+              android:textSize="16dp"/>
+          <TextView 
+              android:id="@+id/resumeUpdate"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:paddingLeft="8dp"
+              android:paddingBottom="8dp"
+              android:text="@string/updateDate"
+              android:layout_toRightOf="@+id/myPhoto"
+              android:layout_below="@+id/resumeName"/>
+          <TextView 
+              android:id="@+id/resumeUpdateValue"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:paddingLeft="5dp"
+              android:paddingBottom="8dp"
+              android:layout_toRightOf="@+id/resumeUpdate"
+              android:layout_alignTop="@+id/resumeUpdate"
+              android:layout_alignBottom="@+id/resumeUpdate"
+              
+              />
+          <TextView 
+              android:id="@+id/resumeFinishStatus"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:paddingLeft="8dp"
+              android:paddingBottom="8dp"
+              android:layout_toRightOf="@+id/myPhoto"
+              android:layout_below="@+id/resumeUpdate"
+              android:layout_alignLeft="@+id/resumeUpdate"
+              android:text="@string/finishStatus"
+              />
+          <TextView 
+              android:id="@+id/resumeFinishStatusValue"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:paddingLeft="5dp"
+              android:paddingBottom="8dp"
+              android:layout_toRightOf="@+id/resumeFinishStatus"
+              android:layout_alignTop="@+id/resumeFinishStatus"
+              android:layout_alignBottom="@+id/resumeFinishStatus"
+              />
+          <TextView 
+              android:id="@+id/resumePublic"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:paddingLeft="8dp"
+              android:paddingBottom="8dp"
+              android:layout_toRightOf="@+id/myPhoto"
+              android:layout_below="@+id/resumeFinishStatus"
+              android:layout_alignLeft="@+id/resumeFinishStatus"
+              android:text="@string/is_public"
+              />
+          <TextView 
+              android:id="@+id/resumePublicValue"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:paddingLeft="5dp"
+              android:paddingBottom="8dp"
+              android:layout_toRightOf="@+id/resumePublic"
+              android:layout_alignTop="@+id/resumePublic"
+              android:layout_alignBottom="@+id/resumePublic"
+              />
+          <ImageView 
+              android:id="@+id/resumePreview"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content" 
+              android:src="@drawable/resume_preview_bg"
+              android:layout_alignParentRight="true"
+              android:layout_below="@+id/resumePublicValue"
+              android:layout_marginRight="5dp"
+              android:paddingBottom="10dp"
+              />
+    </RelativeLayout>
+    <RelativeLayout 
+          android:id="@+id/relativeLayout1"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_below="@+id/relativeLayout"
+          android:layout_alignLeft="@+id/relativeLayout"
+          android:layout_alignRight="@+id/relativeLayout"
+          android:background="@color/white"
+          >
+          <TextView 
+              android:id="@+id/editResumeText"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/blue"
+              android:text="@string/editResume"
+              android:textColor="@color/white"
+              android:paddingLeft="8dp"
+              android:textSize="18dp"
+              android:paddingTop="6dp"
+              android:paddingBottom="6dp"/>
+          <ImageView 
+              android:id="@+id/resumeModifyImg"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:src="@drawable/resume_modify_bg"
+              android:layout_below="@+id/editResumeText"
+              android:layout_marginLeft="35dp"
+              android:layout_marginTop="20dp"/>
+          <TextView 
+              android:id="@+id/resumeModifyText"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:textSize="18dp"
+              android:text="@string/modify"
+              android:textColor="@color/blue"
+              android:layout_toRightOf="@+id/resumeModifyImg"
+              android:layout_below="@+id/editResumeText"
+              android:layout_marginTop="17dp"
+              android:paddingLeft="10dp"
+              android:paddingTop="6dp"
+              />
+          <TextView 
+              android:id="@+id/resumeDeleteText"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:textSize="18dp"
+              android:text="@string/delete"
+              android:textColor="@color/blue"
+              android:layout_below="@+id/editResumeText"
+              android:layout_marginTop="17dp"
+              android:layout_alignParentRight="true"
+              android:paddingTop="6dp"
+              android:layout_marginRight="35dp"
+              />
+          <ImageView 
+              android:id="@+id/resumeDeleteImg"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:src="@drawable/resume_delete_bg"
+              android:layout_below="@+id/editResumeText"
+              android:layout_toLeftOf="@+id/resumeDeleteText"
+              android:layout_marginTop="20dp"
+              android:paddingRight="8dp"/>
+          <ImageView 
+              android:id="@+id/resumeRefreshImg"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:src="@drawable/resume_update_bg"
+              android:layout_below="@+id/resumeModifyImg"
+              android:layout_alignRight="@+id/resumeModifyImg"
+              android:layout_marginTop="35dp"
+              android:paddingBottom="25dp"
+              />
+          <TextView 
+              android:id="@+id/resumeFefreshText"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:textSize="18dp"
+              android:text="@string/refresh"
+              android:textColor="@color/blue"
+              android:layout_toRightOf="@+id/resumeRefreshImg"
+              android:layout_below="@+id/resumeModifyText"
+              android:layout_alignLeft="@+id/resumeModifyText"
+              android:layout_marginTop="33dp"
+              
+              android:paddingLeft="10dp"
+              android:paddingTop="3dp"
+              />
+          <ImageView 
+              android:id="@+id/resumeIsPublicImg"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:src="@drawable/resume_is_public_bg"
+              android:layout_below="@+id/resumeDeleteImg"
+              android:layout_alignLeft="@+id/resumeDeleteImg"
+              android:layout_marginTop="35dp"
+              android:paddingBottom="25dp"
+              />
+          <TextView 
+              android:id="@+id/resumeIsPublicText"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:textSize="18dp"
+              android:text="@string/set_public"
+              android:textColor="@color/blue"
+              android:layout_toRightOf="@+id/resumeIsPublicImg"
+              android:layout_below="@+id/resumeDeleteText"
+              android:paddingLeft="8dp"
+              android:layout_marginTop="33dp"
+              android:paddingTop="3dp"
+              />
+          
+    </RelativeLayout>
+    -->
+
+</ScrollView>
