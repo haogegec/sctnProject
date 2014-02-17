@@ -23,7 +23,7 @@ import com.sctn.sctnet.contants.Constant;
 public class SalarySurveyActivity extends BaicActivity{
 	
 	private RelativeLayout rl_degree;
-	private TextView tv_degree2;// 学历
+	private TextView tv_degree2;// 学历 
 	
 	private RelativeLayout rl_overseasEduExp;
 	private TextView tv_overseasEduExp2;// 海外教育经历
