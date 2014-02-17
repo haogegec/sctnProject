@@ -58,6 +58,8 @@
 	<!-- 薪酬调查 -->
     <string name="salarySurvey">薪酬调查</string>
     <string name="selectForeignLanguage">外语能力</string>
-    <string name="jobExperience">职场经历</string>    
+    <string name="jobExperience">职场经历</string>   
+    <!-- 更多 --> 
+    <string name="moreActivityTitle">更多</string>
 
 </resources>
