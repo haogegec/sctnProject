@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center_horizontal"
+    android:background="@color/background"
+    android:orientation="vertical" >
+
+      <RelativeLayout
+             android:id="@+id/work_direction_search"
+             android:layout_width="wrap_content"  
+             android:layout_height="wrap_content"  
+             android:layout_margin="20dip"
+              >
+
+           <EditText 
+             android:id="@+id/search_edit_bg"
+             android:layout_width="fill_parent"
+	         android:layout_height="wrap_content" 
+             android:background="@drawable/search_bg"
+             android:hint="@string/homeactivityhint"
+             android:gravity="center_vertical"
+              android:paddingLeft="35dip"
+              android:singleLine="true"
+               />  
+               
+              <ImageView 
+	        android:id="@+id/search_bar"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content" 
+	        android:layout_marginLeft="10dip"
+	        android:layout_centerVertical="true"
+	        android:layout_alignLeft="@+id/search_edit_bg"  
+	        android:background="@drawable/search_bar"
+        /> 
+         </RelativeLayout>
+                
+     <com.sctn.sctnet.view.ItemView
+         android:id="@+id/itemview1"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/work_direction_search"
+         android:layout_marginTop="15dp"
+         />
+     <com.sctn.sctnet.view.ItemView
+         android:id="@+id/itemview2"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/itemview1"
+         />
+     <com.sctn.sctnet.view.ItemView
+         android:id="@+id/itemview3"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/itemview2"
+         />
+     <com.sctn.sctnet.view.ItemView
+         android:id="@+id/itemview4"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/itemview3"
+         />
+</RelativeLayout>

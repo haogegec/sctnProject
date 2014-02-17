@@ -185,7 +185,7 @@ public class ItemView extends LinearLayout{
 	 * @param color
 	 */
 	public void setLabelTextColor(int color){
-		labelText.setTextColor(this.getResources().getColor(color));
+		labelText.setTextColor(color);
 	}
 	/**
 	 * 设置标签属性值的颜色

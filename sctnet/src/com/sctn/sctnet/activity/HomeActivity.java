@@ -104,6 +104,9 @@ public class HomeActivity extends BaicActivity {
 			//办事指南
 			@Override
 			public void onClick(View v) {
+				Intent intent = new Intent(HomeActivity.this,
+						WorkDirectionActivity.class);
+				startActivity(intent);
 			}
 		});
 		 

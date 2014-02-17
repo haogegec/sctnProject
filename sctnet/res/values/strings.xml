@@ -41,6 +41,8 @@
     <string name="personalInfoActivityTitle">个人信息</string>
     <string name="personalName">姓名</string>
     <string name="paperInfoNote">证件信息</string>
+<!-- 办事指南 -->
+    <string name="workDirectionActivityTitle">办事指南</string>
 <!--     登陆 -->
 <string name="loginActivityTitle">登录</string>
   <string name="username_hint">请输入账号</string>
