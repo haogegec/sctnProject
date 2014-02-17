@@ -61,5 +61,11 @@
     <string name="jobExperience">职场经历</string>   
     <!-- 更多 --> 
     <string name="moreActivityTitle">更多</string>
+    
+    <!-- 信息咨询 -->
+    <string name="information_query">信息咨询</string>
+    <string name="search_hint">输入关键字搜索</string>
+    <string name="interview">面试</string>
+    <string name="change_job">跳槽</string>
 
 </resources>

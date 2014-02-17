@@ -8,4 +8,6 @@
      <color name="background">#f4f4f4</color><!-- 背景色 灰色 -->
      <color name="darkBlue">#00008b</color><!-- 深蓝色 -->
      <color name="semiTransparent">#55000000</color>
+     <color name="orange">#f78514</color><!-- 暗橙色 -->
+     <color name="lightGreen">#73ba37</color><!-- 浅绿色 -->
  </resources>

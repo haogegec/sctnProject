@@ -130,6 +130,8 @@ public class HomeActivity extends BaicActivity {
 			//信息咨询
 			@Override
 			public void onClick(View v) {
+				Intent intent = new Intent(HomeActivity.this,InformationQueryActivity.class);
+				startActivity(intent);
 			}
 		});
 		 

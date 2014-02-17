@@ -146,6 +146,12 @@
           >
           
       </activity>  
+      <!-- 信息咨询Acitivity -->
+        <activity
+            android:name=".activity.InformationQueryActivity"
+            android:screenOrientation="portrait"
+            >
+        </activity>
     </application>
 
 </manifest>
