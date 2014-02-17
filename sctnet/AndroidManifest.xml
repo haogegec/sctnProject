@@ -118,6 +118,29 @@
             android:name=".activity.WorkDirectionActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <!-- 薪酬调查Activity -->
+        <activity
+            android:name=".activity.SalarySurveyActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <!-- 选择地区Acitivity -->
+        <activity
+            android:name=".activity.SelectAreaActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <!-- 选择外语能力Acitivity -->
+        <activity
+            android:name=".activity.SelectForeignLanguageActivity"
+            android:screenOrientation="portrait"
+            >
+        </activity>
+        <!-- 选择职场经历Acitivity -->
+        <activity
+            android:name=".activity.SelectJobExpActivity"
+            android:screenOrientation="portrait"
+            >
+        </activity>
+        
     </application>
 
 </manifest>
