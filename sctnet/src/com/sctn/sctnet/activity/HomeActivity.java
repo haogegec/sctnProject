@@ -114,6 +114,8 @@ public class HomeActivity extends BaicActivity {
 			//薪资调查
 			@Override
 			public void onClick(View v) {
+				Intent intent = new Intent(HomeActivity.this,SalarySurveyActivity.class);
+				startActivity(intent);
 			}
 		});
 	

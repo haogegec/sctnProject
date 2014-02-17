@@ -12,4 +12,9 @@ public class Constant {
 	
 	public static String packageName = "com.sctn.sctnet";//工程的包名
 	public static String jobSeekerType = "1";//求职者类型
+	
+	//薪酬调查模块中用到的请求码
+	public static final int FOREIGNLANGUAGE_REQUEST_CODE = 1;// 选择外语能力请求码
+	public static final int JOBEXP_REQUEST_CODE = 2;// 职场经历请求码
+	public static final int WORKINGAREA_REQUEST_CODE = 3;// 选择工作地区请求码
 }

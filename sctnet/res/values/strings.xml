@@ -54,4 +54,10 @@
     <string name="login_logo_description">掌上调度logo</string>
     <string name="login">登 录</string>
     <string name="copyright">Copyright © 2014 HelloWorld.All Rights Reserved</string>
+    
+	<!-- 薪酬调查 -->
+    <string name="salarySurvey">薪酬调查</string>
+    <string name="selectForeignLanguage">外语能力</string>
+    <string name="jobExperience">职场经历</string>    
+
 </resources>
