@@ -34,7 +34,7 @@ public class CompanyInfoActivity extends BaicActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.company_info_activity);
-		setTitleBar(getString(R.string.personalActivityTitle), View.VISIBLE, View.GONE);
+		setTitleBar(getString(R.string.companyProfile), View.VISIBLE, View.GONE);
 		super.setTitleRightButtonImg(R.drawable.login_btn_bg);
 		
 //		initAllView();

@@ -41,7 +41,7 @@ public class ReadMyResumeActivity extends BaicActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.read_my_resume_listview);
-		setTitleBar(getString(R.string.personalActivityTitle), View.VISIBLE, View.GONE);
+		setTitleBar(getString(R.string.readMyResume), View.VISIBLE, View.GONE);
 		
 		initAllView();
 		reigesterAllEvent();
