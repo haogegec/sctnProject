@@ -145,18 +145,7 @@
          android:layout_height="wrap_content"
          android:layout_below="@+id/itemview2"
          />
-     <com.sctn.sctnet.view.ItemView
-         android:id="@+id/itemview4"
-         android:layout_width="fill_parent"
-         android:layout_height="wrap_content"
-         android:layout_below="@+id/itemview3"
-         />
-     <com.sctn.sctnet.view.ItemView
-         android:id="@+id/itemview5"
-         android:layout_width="fill_parent"
-         android:layout_height="wrap_content"
-         android:layout_below="@+id/itemview4"
-         />
+     
  
     </RelativeLayout>
     </ScrollView>

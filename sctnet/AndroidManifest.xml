@@ -131,26 +131,31 @@
         <!-- 选择外语能力Acitivity -->
         <activity
             android:name=".activity.SelectForeignLanguageActivity"
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait" >
         </activity>
         <!-- 选择职场经历Acitivity -->
         <activity
             android:name=".activity.SelectJobExpActivity"
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait" >
         </activity>
-      <activity 
-          android:name=".activity.MoreActivity"
-          android:screenOrientation="portrait"
-          >
-          
-      </activity>  
-      <!-- 信息咨询Acitivity -->
+        <activity
+            android:name=".activity.MoreActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <!-- 信息咨询Acitivity -->
         <activity
             android:name=".activity.InformationQueryActivity"
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait" >
+        </activity>
+        <!-- 信息咨询Acitivity -->
+        <activity
+            android:name=".activity.ReadMyResumeActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <!-- 信息咨询Acitivity -->
+        <activity
+            android:name=".activity.CompanyInfoActivity"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 
