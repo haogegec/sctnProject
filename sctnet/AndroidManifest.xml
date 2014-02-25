@@ -152,9 +152,39 @@
             android:name=".activity.ReadMyResumeActivity"
             android:screenOrientation="portrait" >
         </activity>
-        <!-- 信息咨询Acitivity -->
+        <!-- 公司详情Acitivity -->
         <activity
             android:name=".activity.CompanyInfoActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <!-- 用户反馈Acitivity -->
+        <activity
+            android:name=".activity.FeedBackActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <!-- 关于Acitivity -->
+        <activity
+            android:name=".activity.AboutActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <!-- 注册Acitivity -->
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <!-- 修改密码Acitivity -->
+        <activity
+            android:name=".activity.ChangePasswordActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <!-- 职位列表Acitivity -->
+        <activity
+            android:name=".activity.JobListActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <!-- 选择职位发布时间Acitivity -->
+        <activity
+            android:name=".activity.SelectReleaseTimeActivity"
             android:screenOrientation="portrait" >
         </activity>
     </application>
