@@ -23,6 +23,11 @@ import android.widget.Toast;
 
 import com.sctn.sctnet.R;
 
+/**
+ * 职位搜索结果界面
+ * @author 姜勇男
+ *
+ */
 public class JobListActivity extends BaicActivity {
 
 	private MyAdapter jobListAdapter;
@@ -70,10 +75,6 @@ public class JobListActivity extends BaicActivity {
 	@Override
 	protected void initAllView() {
 		jobList = (ListView)findViewById(R.id.lv_jobList);
-//		jobListAdapter = new MyAdapter(this, items, R.layout.job_list_item);
-//		jobList.setAdapter(jobListAdapter);
-//		jobListAdapter.notifyDataSetChanged();
-		
 		btn_apply = (Button)findViewById(R.id.btn_apply);
 		btn_collect = (Button)findViewById(R.id.btn_collect);
 		btn_share = (Button)findViewById(R.id.btn_share);
