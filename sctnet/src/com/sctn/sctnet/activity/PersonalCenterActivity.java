@@ -35,6 +35,8 @@ public class PersonalCenterActivity extends BaicActivity{
 			}
 			
 		});
+		
+		reigesterAllEvent();
 	}
 	private void initView(){
 		itemView1 = (ItemView) findViewById(R.id.itemview1);
@@ -77,6 +79,15 @@ public class PersonalCenterActivity extends BaicActivity{
 	}
 	@Override
 	protected void reigesterAllEvent() {
-		
+		super.titleRightButton.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+//				Toast.makeText(getApplicationContext(), "确定", Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent(PersonalCenterActivity.this,ChangePasswordActivity.class);
+				startActivity(intent);
+			
+			}
+		});
 	}
 }

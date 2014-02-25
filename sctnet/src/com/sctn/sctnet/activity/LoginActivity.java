@@ -4,25 +4,22 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.EditText;
+import android.widget.TextView;
+
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.Utils.StringUtil;
 
@@ -41,6 +38,7 @@ public class LoginActivity extends BaicActivity {
 	private String password;
 	private boolean isCiphertext = false;
 	private AlarmManager am;
+	private TextView register;// 注册按钮
 
 //	private CacheProcess cacheProcess;
 	
@@ -225,6 +223,7 @@ public class LoginActivity extends BaicActivity {
 		etPassword = (EditText) findViewById(R.id.login_edit_password);
 		rememberPassword = (CheckBox) findViewById(R.id.login_remember_password);
 		autoLogin = (CheckBox) findViewById(R.id.login_auto_login);
+		register = (TextView)findViewById(R.id.register);
 	}
 
 	@Override
@@ -310,6 +309,18 @@ public class LoginActivity extends BaicActivity {
 				return false;
 			}
 		});
+		
+		// 注册
+		register.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(LoginActivity.this,RegisterActivity.class);
+				startActivity(intent);
+			}
+			
+		});
+		
 	}
 
 }

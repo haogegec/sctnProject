@@ -27,8 +27,8 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
 /**
- * @author 姜勇男
  * 《谁看了我的简历》界面
+ * @author 姜勇男
  *
  */
 public class ReadMyResumeActivity extends BaicActivity {
@@ -69,7 +69,7 @@ public class ReadMyResumeActivity extends BaicActivity {
 		
 	}
 	
-	//初始化城市列表
+	//初始化数据
     protected void initData(){
     	
     	for (int i = 0; i < companies.length; i++) {

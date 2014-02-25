@@ -72,6 +72,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
                 android:text="性别" />
 
             <RadioGroup
@@ -88,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:checked="true"
                     android:text="男"
-                    android:textColor="#000000" />
+                    android:textColor="@color/lightBlack" />
 
                 <RadioButton
                     android:id="@+id/female"
@@ -96,7 +97,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:text="女"
-                    android:textColor="#000000" />
+                    android:textColor="@color/lightBlack" />
             </RadioGroup>
         </LinearLayout>
         
@@ -119,6 +120,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
                 android:text="年龄" />
 
             <EditText
@@ -167,6 +169,7 @@
                 android:layout_alignParentLeft="true"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
                 android:text="学历" />
 
             <TextView
@@ -211,6 +214,7 @@
                 android:layout_alignParentLeft="true"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
                 android:text="是否有海外教育经历" />
 
             <TextView
@@ -255,6 +259,7 @@
                 android:layout_alignParentLeft="true"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
                 android:text="有无工作经验" />
 
             <TextView
@@ -299,6 +304,7 @@
                 android:layout_alignParentLeft="true"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
                 android:text="外语能力" />
 
             <TextView
@@ -346,6 +352,7 @@
                 android:layout_alignParentLeft="true"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
                 android:text="职场经历" />
 
             <TextView
@@ -390,6 +397,7 @@
                 android:layout_alignParentLeft="true"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
                 android:text="职业资格证书" />
 
             <TextView
@@ -435,6 +443,7 @@
                 android:layout_alignParentLeft="true"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
                 android:text="技能技巧" />
 
             <TextView
@@ -475,7 +484,7 @@
             android:shadowDx="0.0"
             android:shadowDy="1.0"
             android:shadowRadius="1.0"
-            android:text="登录"
+            android:text="@string/submit"
             android:textColor="#ffffff"
             android:textSize="18sp" />
 

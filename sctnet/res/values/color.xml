@@ -11,4 +11,6 @@
      <color name="orange">#f78514</color><!-- 暗橙色 -->
      <color name="lightGreen">#73ba37</color><!-- 浅绿色 -->
      <color name="list_item_color">#fefefe</color><!-- list_item的背景色 -->
+     <color name="lightBlack">#3B3B3B</color>
+     <color name="red">#FF0000</color>
  </resources>

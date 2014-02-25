@@ -21,11 +21,10 @@ import android.widget.TextView;
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.view.SideBar;
 
-public class SelectAreaActivity extends BasicActivity {
+public class SelectReleaseTimeActivity extends BasicActivity {
 	
-	private ListView lv_area;
-	private SideBar indexBar;
-	private static String[] cities = {"北京","成都","广州","杭州","南京","上海","深圳","天津","武汉","西安"};
+	private ListView lv_release_time;
+	private static String[] releaseTimes = {"近一天","近三天","近一周","近两周","近一月","近三月"};
 	private List<Map<String, Object>> listItems = new ArrayList<Map<String, Object>>();
 
 //	private String requestParameters;
@@ -35,7 +34,7 @@ public class SelectAreaActivity extends BasicActivity {
     	
 		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.select_area_listview);
+        setContentView(R.layout.select__release_time_listview);
     	super.setTitleBar("选择地区", View.VISIBLE, View.GONE);
     	
     	initView();
@@ -47,20 +46,17 @@ public class SelectAreaActivity extends BasicActivity {
     
     @Override
 	protected void initView() {
-		// TODO Auto-generated method stub
-		lv_area = (ListView) findViewById(R.id.lv_area);
-//		indexBar = (SideBar) findViewById(R.id.sideBar);  
-//		indexBar.setListView(lv_area);
+    	lv_release_time = (ListView) findViewById(R.id.lv_release_time);
 	}
 
 	@Override
 	protected void registerListener() {
-		lv_area.setOnItemClickListener(new OnItemClickListener() {
+		lv_release_time.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Intent intent = new Intent(SelectAreaActivity.this,SalarySurveyActivity.class);
-				intent.putExtra("area", cities[position]);
+				Intent intent = new Intent(SelectReleaseTimeActivity.this,JobSearchActivity.class);
+				intent.putExtra("releaseTime", releaseTimes[position]);
 				setResult(RESULT_OK,intent);
 				finish();
 				
@@ -72,12 +68,12 @@ public class SelectAreaActivity extends BasicActivity {
     //初始化城市列表
     protected void initData(){
     	
-    	for (int i = 0; i < cities.length; i++) {
+    	for (int i = 0; i < releaseTimes.length; i++) {
 			Map<String, Object> item = new HashMap<String, Object>();
-			item.put("city", cities[i]);
+			item.put("city", releaseTimes[i]);
 			listItems.add(item);
 		}
-    	lv_area.setAdapter(new MyAdapter(this,listItems,R.layout.select_area_item));
+    	lv_release_time.setAdapter(new MyAdapter(this,listItems,R.layout.select_area_item));
     	
     }
     
@@ -112,24 +108,24 @@ public class SelectAreaActivity extends BasicActivity {
 
  		@Override
  		public View getView(int position, View convertView, ViewGroup parent) {
- 			TextView area = null;
+ 			TextView releaseTime = null;
  			
  			
  			if(convertView == null){// 目前显示的是第一页，为这些条目数据new一个view出来，如果不是第一页，则继续用缓存的view
  				convertView = inflater.inflate(resource, null);
  				
  				// 初始化控件
- 				area = (TextView) convertView.findViewById(R.id.area); 				
+ 				releaseTime = (TextView) convertView.findViewById(R.id.area); 				
  				ViewCache viewCache = new ViewCache();
- 				viewCache.area = area;
+ 				viewCache.releaseTime = releaseTime;
  				convertView.setTag(viewCache);
  			} else {
  				// 初始化控件
  				ViewCache viewCache = (ViewCache)convertView.getTag();
- 				area = viewCache.area;
+ 				releaseTime = viewCache.releaseTime;
  			}
  			 
- 			area.setText(cities[position]);
+ 			releaseTime.setText(releaseTimes[position]);
  			
  			return convertView;
  		}
@@ -137,6 +133,6 @@ public class SelectAreaActivity extends BasicActivity {
  	}
  	
  	private final class ViewCache {
- 		public TextView area;// 地区
+ 		public TextView releaseTime;// 地区
  	}
 }

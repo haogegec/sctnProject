@@ -57,7 +57,7 @@ public class SelectForeignLanguageActivity extends BaicActivity {
 	
 	@Override
 	protected void initAllView() {
-		super.titleRightButton.setImageResource(R.drawable.titlebar_img_btn_left_bg);
+		super.titleRightButton.setImageResource(R.drawable.queding);
 		
 		first_language = (RelativeLayout) findViewById(R.id.first_language);
 		tv_first_language2 = (TextView) findViewById(R.id.tv_first_language2);

@@ -8,6 +8,7 @@
     >
    
    <LinearLayout 
+       android:id="@+id/ll_information_query"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:orientation="vertical"
@@ -49,7 +50,7 @@
             android:background="@color/orange"
             />
     
-    <com.sctn.sctnet.view.ItemView
+    <!-- <com.sctn.sctnet.view.ItemView
          android:id="@+id/itemview1"
          android:layout_width="fill_parent"
          android:layout_height="wrap_content"
@@ -79,7 +80,7 @@
          android:layout_height="wrap_content"
          android:layout_marginLeft="10dp"
          android:layout_marginRight="10dp"
-         />
+         /> -->
     
     <TextView 
             android:layout_width="match_parent"

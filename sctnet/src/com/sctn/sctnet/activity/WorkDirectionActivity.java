@@ -35,7 +35,7 @@ public class WorkDirectionActivity extends BaicActivity{
 		itemView4 = (ItemView) findViewById(R.id.itemview4);
 		
 		itemView1.setBackground(R.drawable.item_up_bg);
-		itemView1.setIconImageViewResource(R.drawable.home_btn_normal);
+		itemView1.setIconImageViewResource(R.drawable.work_direction_item);
 		itemView1.setLabel("人事代理指南");
 		itemView1.setLabelTextColor(this.getResources().getColor(R.color.blue));
 		itemView1.setValue("");

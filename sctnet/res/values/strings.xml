@@ -22,6 +22,7 @@
     <string name="postAppRecord">职位申请记录</string>
     <string name="postCollRecord">职位收藏记录</string>
     <string name="companyProfile">公司简介</string>
+    <string name="jobDescription">职位描述</string>
     <string name="readMyResume">谁看过我的简历</string>
 <!-- 简历管理 -->
     <string name="updateDate">更新于</string>
@@ -55,6 +56,7 @@
     <string name="auto_login">自动登录</string>
     <string name="login_logo_description">掌上调度logo</string>
     <string name="login">登 录</string>
+    <string name="registerNow"><u>立即注册</u></string>
     <string name="copyright">Copyright © 2014 HelloWorld.All Rights Reserved</string>
     
 	<!-- 薪酬调查 -->
@@ -63,11 +65,42 @@
     <string name="jobExperience">职场经历</string>   
     <!-- 更多 --> 
     <string name="moreActivityTitle">更多</string>
+    <string name="feedback">用户反馈</string>
+    <string name="feedbackTitle">欢迎您提出宝贵的意见和建议，您留下的每个字都将用来改善我们的软件。</string>
+    <string name="feedbackHint">请输入您的反馈意见（500字以内）</string>
+    <string name="emailHint">您的邮箱（选填）</string>
+    <string name="about">四川省人才交流中心\n网站手机版软件系统</string>
     
     <!-- 信息咨询 -->
     <string name="information_query">信息咨询</string>
     <string name="search_hint">输入关键字搜索</string>
     <string name="interview">面试</string>
     <string name="change_job">跳槽</string>
+    
+    <!-- 注册 -->
+    <string name="registerTitle">注册</string>
+    <string name="register_username_label">用  户  名 </string>
+    <string name="register_password_label">密        码 </string>
+    <string name="register_repassword_label">确认密码</string>
+    <string name="register_email_label">    Email  </string>
+    <string name="register_username_hint">至少4位字母或数字</string>
+    <string name="register_password_hint">6到16位字母数字</string>
+    <string name="register_repassword_hint">请重新输入密码</string>
+    <string name="register_email_hint">您常用的Email</string>
+    <string name="register_hint">必填项</string>
+    <string name="register_hint2">选填项</string>
+    
+    <!-- 修改密码 -->
+    <string name="change_password">修改密码</string>
+    <string name="current_password_hint">当前密码</string>
+    <string name="current_password_hint2">请输入当前密码</string>
+    <string name="new_password_hint">新密码</string>
+    <string name="new_password_hint2">6~16位数字字母</string>
+    <string name="submit">提交</string>
+    
+    <!-- 职位搜素 -->
+    <string name="apply">申请</string>
+    <string name="collect">收藏</string>
+    <string name="share">分享</string>
     
 </resources>

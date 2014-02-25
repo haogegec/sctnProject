@@ -5,87 +5,89 @@
     android:layout_gravity="center_horizontal"
     android:background="@color/background"
     android:orientation="vertical" >
-<RelativeLayout
-           android:id="@+id/set_up_layout"
-           android:layout_width="fill_parent"
-           android:layout_height="wrap_content"
-           android:layout_gravity="center_horizontal"
-           android:background="@drawable/setting_bg_up"
-           android:clickable="true"
-           android:layout_marginTop="20dp"
-           android:paddingBottom="10dip"
-           android:paddingTop="10dip" >
 
-           <!-- 用户反馈 -->
+    <RelativeLayout
+        android:id="@+id/rl_feedback"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/setting_bg_up"
+        android:clickable="true"
+        android:paddingBottom="10dip"
+        android:paddingTop="10dip" >
 
-           <TextView
-               android:id="@+id/set_up_urer_back"
-               android:layout_width="fill_parent"
-               android:layout_height="wrap_content"
-               android:layout_marginLeft="20dip"
-               android:gravity="center_vertical"
-               android:text="用户反馈"
-               android:textColor="#ff000000"
-               android:textSize="17.0dip"
-               android:textStyle="bold" />
+        <!-- 用户反馈 -->
 
-           <TextView
-               android:id="@+id/set_up_user_detail"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_below="@+id/set_up_urer_back"
-               android:layout_marginLeft="20dip"
-               android:text="反馈您遇到的问题及宝贵意见"
-               android:textSize="12.0dip" />
-       </RelativeLayout>
+        <TextView
+            android:id="@+id/set_up_urer_back"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dip"
+            android:gravity="center_vertical"
+            android:text="用户反馈"
+            android:textColor="#ff000000"
+            android:textSize="17.0dip"
+            android:textStyle="bold" />
 
-       <RelativeLayout
-           android:id="@+id/set_up_layout_mid"
-           android:layout_width="fill_parent"
-           android:layout_height="wrap_content"
-           android:layout_below="@id/set_up_layout"
-           android:layout_gravity="center_horizontal"
-           android:background="@drawable/setting_bg_mid"
-           android:clickable="true"
-           android:paddingBottom="10dip"
-           android:paddingTop="10dip" >
+        <TextView
+            android:id="@+id/set_up_user_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/set_up_urer_back"
+            android:layout_marginLeft="20dip"
+            android:text="反馈您遇到的问题及宝贵意见"
+            android:textSize="12.0dip" />
+    </RelativeLayout>
 
-           <!-- 检测更新 -->
+    <RelativeLayout
+        android:id="@+id/rl_update"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_feedback"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/setting_bg_mid"
+        android:clickable="true"
+        android:paddingBottom="10dip"
+        android:paddingTop="10dip" >
 
-           <TextView
-               android:id="@+id/set_up_urer_back"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_marginLeft="20dip"
-               android:gravity="center_vertical"
-               android:text="检测更新"
-               android:textColor="#ff000000"
-               android:textSize="17.0dip"
-               android:textStyle="bold" />
-       </RelativeLayout>
+        <!-- 检测更新 -->
 
-       <RelativeLayout
-           android:id="@+id/set_up_layout_down"
-           android:layout_width="fill_parent"
-           android:layout_height="wrap_content"
-           android:layout_below="@id/set_up_layout_mid"
-           android:layout_gravity="center_horizontal"
-           android:background="@drawable/setting_bg_down"
-           android:clickable="true"
-           android:paddingBottom="10dip"
-           android:paddingTop="10dip" >
+        <TextView
+            android:id="@+id/set_up_urer_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dip"
+            android:gravity="center_vertical"
+            android:text="检测更新"
+            android:textColor="#ff000000"
+            android:textSize="17.0dip"
+            android:textStyle="bold" />
+    </RelativeLayout>
 
-           <!-- 关于 -->
+    <RelativeLayout
+        android:id="@+id/rl_about"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_update"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/setting_bg_down"
+        android:clickable="true"
+        android:paddingBottom="10dip"
+        android:paddingTop="10dip" >
 
-           <TextView
-               android:id="@+id/set_up_urer_back"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_marginLeft="20dip"
-               android:gravity="center_vertical"
-               android:text="关于"
-               android:textColor="#ff000000"
-               android:textSize="17.0dip"
-               android:textStyle="bold" />
-       </RelativeLayout>
-       </RelativeLayout>
+        <!-- 关于 -->
+
+        <TextView
+            android:id="@+id/set_up_urer_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dip"
+            android:gravity="center_vertical"
+            android:text="关于"
+            android:textColor="#ff000000"
+            android:textSize="17.0dip"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+</RelativeLayout>

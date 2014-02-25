@@ -17,4 +17,6 @@ public class Constant {
 	public static final int FOREIGNLANGUAGE_REQUEST_CODE = 1;// 选择外语能力请求码
 	public static final int JOBEXP_REQUEST_CODE = 2;// 职场经历请求码
 	public static final int WORKINGAREA_REQUEST_CODE = 3;// 选择工作地区请求码
+	// 职位搜索模块中用到的请求吗
+	public static final int RELEASETIME_REQUEST_CODE = 4;// 选择发布日期请求码
 }

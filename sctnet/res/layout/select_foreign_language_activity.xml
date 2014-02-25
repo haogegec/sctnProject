@@ -24,6 +24,7 @@
                 android:layout_alignParentLeft="true"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
                 android:text="第一外语" />
 
             <TextView
@@ -68,6 +69,7 @@
                 android:layout_alignParentLeft="true"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
                 android:text="外语等级" />
 
             <TextView

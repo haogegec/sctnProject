@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/company_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:text="XXXXXX股份有限公司"
+            android:textColor="@color/black"
+            android:textSize="16dp" />
+        
+        <TextView
+            android:id="@+id/company_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:text="IT/互联网"
+            android:textColor="@color/lightBlack"
+            android:textSize="13dp" />
+
+        
+
+        <com.sctn.sctnet.view.DashedLineView
+            android:layout_width="wrap_content"
+            android:layout_height="13dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:text="公司性质"
+                    android:textColor="#3B3B3B"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:id="@+id/company_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:text="国企"
+                    android:textColor="@color/black"
+                    android:textSize="16dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
+
+                <TextView
+                    android:id="@+id/company_scale"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:text="公司规模"
+                    android:textColor="#3B3B3B"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:id="@+id/company_scale"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:text="1000~9999人"
+                    android:textColor="@color/black"
+                    android:textSize="16dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <com.sctn.sctnet.view.DashedLineView
+            android:layout_width="wrap_content"
+            android:layout_height="13dp" />
+
+        
+		<LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:text="工作地区"
+                    android:textColor="#3B3B3B"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:id="@+id/working_area"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:text="北京市朝阳区"
+                    android:textColor="@color/black"
+                    android:textSize="16dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:text="发布时间"
+                    android:textColor="#3B3B3B"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:id="@+id/release_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:text="2014-02-20"
+                    android:textColor="@color/black"
+                    android:textSize="16dp" />
+            </LinearLayout>
+        </LinearLayout>
+            
+		<com.sctn.sctnet.view.DashedLineView
+            android:layout_width="wrap_content"
+            android:layout_height="13dp" />
+		
+		<RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" 
+            >
+
+            <ImageView
+                android:id="@+id/dingwei"
+                android:layout_width="40dp"
+                android:layout_height="20dp"
+               	android:layout_centerVertical="true"
+                android:src="@drawable/dingwei" />
+
+            <TextView
+                android:id="@+id/company_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/dingwei"
+                android:padding="2dp"
+                android:text="北京市朝阳区北苑路乙108号北美国际商务中心"
+                android:textColor="@color/black"
+                android:textSize="16dp" />
+        </RelativeLayout>
+        
+		<com.sctn.sctnet.view.DashedLineView
+            android:layout_width="wrap_content"
+            android:layout_height="13dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="具体职位"
+            android:textColor="@color/blue"
+            android:textSize="16dp" />
+
+        <LinearLayout 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+        
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:lineSpacingExtra="3dp"
+            android:text="Java高级软件工程师"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="14dp" />
+        
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:lineSpacingExtra="3dp"
+            android:text="• 职责责任描述：
+1.	参与业务分析、产品功能设计、产品数据库设计、UI设计和核心代码开发
+2.	参与系统架构的技术选型与关键技术验证等
+3.	带领研发小组完成专题研发，进行任务分配、进度跟踪与质量把控
+4.	熟悉系统部署，进行演示或系统培训
+
+• 符合职位责任的技能要求：
+1.	计算机及相关专业，本科及以上学历
+2.	熟悉java，熟悉struts、spring等主流开发技术，能进行B/S应用开发
+3.	具备oracle、db2、sybase、mysql等数据库开发经验技术（至少掌握1种）
+4.	熟练使用Tomcat、WebLogic、WebSphere、JBoss应用服务器（至少1种）
+5.	熟悉面向对象编程思想，对开发模式、设计模式有一定认识
+6.	熟悉SVN、CVS等配置管理工具的使用，具备Maven的项目管理、使用经验
+7.	可出差，善于沟通，能承担压力。
+
+• 符合职位责任的工作经验要求： 
+1.	3年以上J2EE开发经验
+2.	有Web开发经验，熟悉Web开发相关技术与框架（Javascript、ajax、JQuery、Ext等）
+3.	具有数据库开发经验，熟练使用相关技术与工具"
+            android:textColor="#3B3B3B"
+            android:textSize="14dp" />
+
+        </LinearLayout>
+        
+        <LinearLayout 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+        
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:lineSpacingExtra="3dp"
+            android:text="客服代表"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="14dp" />
+        
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:lineSpacingExtra="3dp"
+            android:text="• 职责责任描述：
+1. 了解客户需求，为客户提供专业咨询
+2. 为客户创造价值，树立网站口碑
+3. 参与网站运营，完善用户体验
+
+• 符合职位责任的技能要求：
+1. 普通话标准，性格温和，善于与人沟通
+2. 具备服务意识，乐于助人
+3. 熟练使用各种办公软件，有良好的学习能力
+
+• 符合职位责任的工作经验要求： 
+1. 有无经验均可，具备与客户服务相关工作经验的优先"
+            android:textColor="#3B3B3B"
+            android:textSize="14dp" />
+
+        </LinearLayout>
+        
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="联系方式"
+            android:textColor="@color/blue"
+            android:textSize="16dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:text="联系人："
+                android:textColor="#3B3B3B"
+                android:textSize="13dp" />
+
+            <TextView
+                android:id="@+id/company_contract"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:text="张某某"
+                android:textColor="#3B3B3B"
+                android:textSize="13dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:text="联系电话："
+                android:textColor="#3B3B3B"
+                android:textSize="13dp" />
+
+            <TextView
+                android:id="@+id/company_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:text="13987654321"
+                android:textColor="#3B3B3B"
+                android:textSize="13dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:text="电子邮箱："
+                android:textColor="#3B3B3B"
+                android:textSize="13dp" />
+
+            <TextView
+                android:id="@+id/company_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:text="zhangmoumou@email.com"
+                android:textColor="#3B3B3B"
+                android:textSize="13dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:text="单位网址："
+                android:textColor="#3B3B3B"
+                android:textSize="13dp" />
+
+            <TextView
+                android:id="@+id/company_website"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:text="http://www.zhangmoumou.com"
+                android:textColor="#3B3B3B"
+                android:textSize="13dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

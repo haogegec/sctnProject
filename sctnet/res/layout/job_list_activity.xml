@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/background" >
+
+    <ListView
+        android:id="@+id/lv_jobList"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:cacheColorHint="#00000000"
+        android:divider="@color/background"
+        android:dividerHeight="1dp" 
+        android:layout_marginBottom="40dp"
+        />
+    
+    <LinearLayout
+        android:id="@+id/footbar_layout_ly"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:visibility="visible" >
+
+        <include layout="@layout/footbar_layout" >
+        </include>
+    </LinearLayout>
+
+</RelativeLayout>
