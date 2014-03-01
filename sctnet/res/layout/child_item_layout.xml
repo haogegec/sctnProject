@@ -19,6 +19,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:singleLine="false"
+        android:maxEms="10"
         android:paddingBottom="8dp"
         android:paddingTop="8dp"
         android:paddingRight="15dp"/>

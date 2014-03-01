@@ -25,6 +25,8 @@ import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.Window;
@@ -32,6 +34,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public  abstract class BaicActivity  extends Activity{
 	
@@ -46,6 +49,7 @@ public  abstract class BaicActivity  extends Activity{
 	private String progressText;// 进度条显示文字，null则取默认值
 	private String encryptUsable;
 
+	public String exceptionDesc=null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -276,12 +280,9 @@ public  abstract class BaicActivity  extends Activity{
 		byte[] resultByteType = null;
 		String parameterEncrypted = null;
 		try {
-			if ("Y".equals(encryptUsable)) {
-				// 数据加密（请求数据不进行压缩）
-				parameterEncrypted = EncryptUtil.encryptThreeDESECB(parameter);
-			} else {
-				parameterEncrypted = parameter;
-			}
+			
+			parameterEncrypted = parameter;
+			
 			StringEntity resEntity = new StringEntity(parameterEncrypted,
 					"UTF-8");
 			post.setEntity(resEntity);
@@ -299,10 +300,7 @@ public  abstract class BaicActivity  extends Activity{
 			
 			// 解压返回的数据
 			result = StringUtil.unCompress(resultByteType);
-			if ("Y".equals(encryptUsable)) {
-				// 解密返回的数据
-				result = EncryptUtil.decryptThreeDESECB(result);
-			}
+			
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 			result = StringUtil.getAppException4MOS("网络连接异常，请检查网络设置！");
@@ -314,10 +312,34 @@ public  abstract class BaicActivity  extends Activity{
 			result = StringUtil.getAppException4MOS("返回结果解析错误！");
 		} catch (SysException e) {
 			e.printStackTrace();
-			result = StringUtil.getAppException4MOS("解压或解密出现异常！");
+			result = StringUtil.getAppException4MOS("解压出现异常！");
 		}
 		return result;
 	}
 
+	public void sendExceptionMsg(String res){
+		exceptionDesc=StringUtil.getExceptionDesc(res);
+		Message errMsg=new Message();
+		errMsg.what=-1;
+		baseHandler.sendMessage(errMsg);
+	}
+	
+	public Handler baseHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case -1: {//处理异常信息
+				Toast.makeText(getApplicationContext(), exceptionDesc,
+						Toast.LENGTH_SHORT).show();
+				closeProcessDialog();
+				break;
+			}
+			case 100: {
+				closeProcessDialog();
+				break;
+			}
+			}
+		}
+	};
 	
 }

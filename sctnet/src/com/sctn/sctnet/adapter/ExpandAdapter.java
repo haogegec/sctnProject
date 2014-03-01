@@ -1,5 +1,7 @@
 package com.sctn.sctnet.adapter;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.sctn.sctnet.R;
@@ -22,14 +24,14 @@ public class ExpandAdapter extends BaseExpandableListAdapter {
 
     private Context mContext;
     private LayoutInflater mInflater = null;
-    private String[]   mGroupStrings = null;
+    private List<String>   mGroupStrings = null;
     private List<List<Item>>   mData = null;
 
-    public ExpandAdapter(Context ctx, List<List<Item>> list) {
+    public ExpandAdapter(Context ctx, List<List<Item>> list,List<String> mGroupValue) {
         mContext = ctx;
         mInflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mGroupStrings = mContext.getResources().getStringArray(R.array.groups);
+        mGroupStrings = mGroupValue;
         mData = list;
     }
 
@@ -89,7 +91,7 @@ public class ExpandAdapter extends BaseExpandableListAdapter {
         GroupViewHolder holder = new GroupViewHolder();
         holder.mGroupName = (TextView) convertView
                 .findViewById(R.id.item_title);
-        holder.mGroupName.setText(mGroupStrings[groupPosition]);
+        holder.mGroupName.setText(mGroupStrings.get(groupPosition));
         
         return convertView;
     }

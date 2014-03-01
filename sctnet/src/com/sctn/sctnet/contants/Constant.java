@@ -19,4 +19,8 @@ public class Constant {
 	public static final int WORKINGAREA_REQUEST_CODE = 3;// 选择工作地区请求码
 	// 职位搜索模块中用到的请求吗
 	public static final int RELEASETIME_REQUEST_CODE = 4;// 选择发布日期请求码
+	
+	// 系统图片存放字段
+	public static final String SYS_IMAGE_DATA_STORE = "/mnt/sdcard/sctnet/"; // 图片存放地址
+
 }

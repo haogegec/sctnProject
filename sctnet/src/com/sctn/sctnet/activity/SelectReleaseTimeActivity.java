@@ -19,7 +19,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.sctn.sctnet.R;
-import com.sctn.sctnet.view.SideBar;
 
 public class SelectReleaseTimeActivity extends BasicActivity {
 	

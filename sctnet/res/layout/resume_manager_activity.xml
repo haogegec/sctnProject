@@ -137,31 +137,33 @@
               android:layout_below="@+id/editResumeText"
               android:layout_marginLeft="35dp"
               android:layout_marginTop="20dp"/>
-          <TextView 
+          <Button 
               android:id="@+id/resumeModifyText"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:textSize="18dp"
               android:text="@string/modify"
-              android:textColor="@color/blue"
+              android:textColor="@drawable/btn_text_color"
               android:layout_toRightOf="@+id/resumeModifyImg"
               android:layout_below="@+id/editResumeText"
               android:layout_marginTop="17dp"
               android:paddingLeft="10dp"
               android:paddingTop="6dp"
+              android:background="#00000000"
               />
-          <TextView 
+          <Button 
               android:id="@+id/resumeDeleteText"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:textSize="18dp"
               android:text="@string/delete"
-              android:textColor="@color/blue"
+              android:textColor="@drawable/btn_text_color"
               android:layout_below="@+id/editResumeText"
               android:layout_marginTop="17dp"
               android:layout_alignParentRight="true"
               android:paddingTop="6dp"
               android:layout_marginRight="35dp"
+              android:background="#00000000"
               />
           <ImageView 
               android:id="@+id/resumeDeleteImg"
@@ -182,18 +184,18 @@
               android:layout_marginTop="35dp"
               android:paddingBottom="25dp"
               />
-          <TextView 
+          <Button 
               android:id="@+id/resumeFefreshText"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:textSize="18dp"
               android:text="@string/refresh"
-              android:textColor="@color/blue"
+              android:textColor="@drawable/btn_text_color"
               android:layout_toRightOf="@+id/resumeRefreshImg"
               android:layout_below="@+id/resumeModifyText"
               android:layout_alignLeft="@+id/resumeModifyText"
               android:layout_marginTop="33dp"
-              
+              android:background="#00000000"
               android:paddingLeft="10dp"
               android:paddingTop="3dp"
               />
@@ -207,18 +209,19 @@
               android:layout_marginTop="35dp"
               android:paddingBottom="25dp"
               />
-          <TextView 
+          <Button 
               android:id="@+id/resumeIsPublicText"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:textSize="18dp"
               android:text="@string/set_public"
-              android:textColor="@color/blue"
+              android:textColor="@drawable/btn_text_color"
               android:layout_toRightOf="@+id/resumeIsPublicImg"
               android:layout_below="@+id/resumeDeleteText"
               android:paddingLeft="8dp"
               android:layout_marginTop="33dp"
               android:paddingTop="3dp"
+              android:background="#00000000"
               />
           
     </RelativeLayout> 
