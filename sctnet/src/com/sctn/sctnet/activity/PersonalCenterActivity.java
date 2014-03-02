@@ -10,11 +10,11 @@ import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.Utils.StringUtil;
+import com.sctn.sctnet.cache.CacheProcess;
 import com.sctn.sctnet.view.ItemView;
 
 /**
@@ -27,7 +27,7 @@ public class PersonalCenterActivity extends BaicActivity {
 
 	private ItemView itemView1, itemView2, itemView3, itemView4, itemView5, itemView6;
 	private TextView postAppCount,postCollCount;// 职位申请记录，职位收藏记录
-//	private CacheProcess cacheProcess;// 缓存数据
+	private CacheProcess cacheProcess;// 缓存数据
 	private long userId;// 用户唯一标识
 	private String result;// 服务端返回结果数据
 	private ImageView postAppImage;// 职位申请记录控件
@@ -44,8 +44,8 @@ public class PersonalCenterActivity extends BaicActivity {
 		setContentView(R.layout.personal_center_activity);
 		setTitleBar(getString(R.string.personalActivityTitle), View.VISIBLE, View.VISIBLE);
 		super.setTitleRightButtonImg(R.drawable.log_off_bg);
-//		cacheProcess = new CacheProcess();
-//		userId = cacheProcess.getLongCacheValueInSharedPreferences(this, "userId");
+		cacheProcess = new CacheProcess();
+		userId = cacheProcess.getLongCacheValueInSharedPreferences(this, "userId");
 		initAllView();
 
 		reigesterAllEvent();
@@ -199,95 +199,95 @@ public class PersonalCenterActivity extends BaicActivity {
 		});
 	}
 
-//	/**
-//	 * 在子线程与远端服务器交互，请求数据
-//	 */
-//	private void initDataTread() {
-//		showProcessDialog(false);
-//		Thread mThread = new Thread(new Runnable() {// 启动新的线程，
-//					@Override
-//					public void run() {
-//						initData();
-//					}
-//				});
-//		mThread.start();
-//	}
-//
-//	/**
-//	 * 请求数据，并将返回结果显示在界面上
-//	 */
-//	private void initData() {
-//
-//		String url = "appPersonCenter.app?method=execute";
-//
-//		Message msg = new Message();
-//		try {
-//
-//			JSONObject jsonParmter = new JSONObject();
-//			jsonParmter.put("Userid", userId);
-//			String parameter = jsonParmter.toString();
-//
-//			result = getPostHttpContent(url, parameter);
-//
-//			if (StringUtil.isExcetionInfo(result)) {
-//				PersonalCenterActivity.this.sendExceptionMsg(result);
-//				return;
-//			}
-//
-//			if (StringUtil.isBlank(result)) {// 说明该用户没有创建简历
-//				return;
-//			}
-//
-//			JSONObject responseJsonObject = null;// 返回结果存放在该json对象中
-//
-//			// JSON的解析过程
-//			responseJsonObject = new JSONObject(result);
-//			if (responseJsonObject.getInt("resultCode") == 0) {// 获得响应结果
-//
-//				JSONObject resultJsonObject = responseJsonObject.getJSONObject("result");
-//
-//				post = resultJsonObject.getString("post");// 职位申请记录
-//				resume = resultJsonObject.getString("resume");// 职位收藏记录
-//				company = resultJsonObject.getString("company");// 几个公司看过我的简历
-//
-//				msg.what = 0;
-//				handler.sendMessage(msg);
-//			} else {
-//				String errorResult = (String) responseJsonObject.get("result");
-//				String err = StringUtil.getAppException4MOS(errorResult);
-//				PersonalCenterActivity.this.sendExceptionMsg(err);
-//			}
-//
-//		} catch (JSONException e) {
-//			String err = StringUtil.getAppException4MOS("解析json出错！");
-//			PersonalCenterActivity.this.sendExceptionMsg(err);
-//		}
-//	}
-//
-//	// 处理线程发送的消息
-//	private Handler handler = new Handler() {
-//
-//		public void handleMessage(Message msg) {
-//			switch (msg.what) {
-//			case 0:
-//
-//				updateUI();
-//				break;
-//
-//			}
-//			closeProcessDialog();
-//		}
-//	};
-//
-//	/**
-//	 * 请求完数据，更新界面的数据
-//	 */
-//	private void updateUI(){
-//		username.setText(userId);
-//		itemView1.setValue("共"+post+"条");
-//		postAppCount.setText(resume);
-//		postCollCount.setText(company);
-//		
-//	}
+	/**
+	 * 在子线程与远端服务器交互，请求数据
+	 */
+	private void initDataTread() {
+		showProcessDialog(false);
+		Thread mThread = new Thread(new Runnable() {// 启动新的线程，
+					@Override
+					public void run() {
+						initData();
+					}
+				});
+		mThread.start();
+	}
+
+	/**
+	 * 请求数据，并将返回结果显示在界面上
+	 */
+	private void initData() {
+
+		String url = "appPersonCenter.app?method=execute";
+
+		Message msg = new Message();
+		try {
+
+			JSONObject jsonParmter = new JSONObject();
+			jsonParmter.put("Userid", userId);
+			String parameter = jsonParmter.toString();
+
+			result = getPostHttpContent(url, parameter);
+
+			if (StringUtil.isExcetionInfo(result)) {
+				PersonalCenterActivity.this.sendExceptionMsg(result);
+				return;
+			}
+
+			if (StringUtil.isBlank(result)) {// 说明该用户没有创建简历
+				return;
+			}
+
+			JSONObject responseJsonObject = null;// 返回结果存放在该json对象中
+
+			// JSON的解析过程
+			responseJsonObject = new JSONObject(result);
+			if (responseJsonObject.getInt("resultCode") == 0) {// 获得响应结果
+
+				JSONObject resultJsonObject = responseJsonObject.getJSONObject("result");
+
+				post = resultJsonObject.getString("post");// 职位申请记录
+				resume = resultJsonObject.getString("resume");// 职位收藏记录
+				company = resultJsonObject.getString("company");// 几个公司看过我的简历
+
+				msg.what = 0;
+				handler.sendMessage(msg);
+			} else {
+				String errorResult = (String) responseJsonObject.get("result");
+				String err = StringUtil.getAppException4MOS(errorResult);
+				PersonalCenterActivity.this.sendExceptionMsg(err);
+			}
+
+		} catch (JSONException e) {
+			String err = StringUtil.getAppException4MOS("解析json出错！");
+			PersonalCenterActivity.this.sendExceptionMsg(err);
+		}
+	}
+
+	// 处理线程发送的消息
+	private Handler handler = new Handler() {
+
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case 0:
+
+				updateUI();
+				break;
+
+			}
+			closeProcessDialog();
+		}
+	};
+
+	/**
+	 * 请求完数据，更新界面的数据
+	 */
+	private void updateUI(){
+		username.setText(userId+"");
+		itemView1.setValue("共"+post+"条");
+		postAppCount.setText(resume);
+		postCollCount.setText(company);
+		
+	}
 	
 }
