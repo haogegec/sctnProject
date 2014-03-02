@@ -13,6 +13,7 @@
      <color name="list_item_color">#fefefe</color><!-- list_item的背景色 -->
      <color name="lightBlack">#3B3B3B</color>
      <color name="red">#FF0000</color>
+     <color name="green">#49B675</color>
      <drawable name="blue">#0b98e0</drawable>
      <drawable name="darkBlue">#00008b</drawable>
      

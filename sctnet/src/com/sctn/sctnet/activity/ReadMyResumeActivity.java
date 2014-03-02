@@ -37,17 +37,32 @@ public class ReadMyResumeActivity extends BaicActivity {
 	private static String[] companies = {"苹果","三星","摩托罗拉","诺基亚","小米","华为"};
 	private List<Map<String, Object>> listItems = new ArrayList<Map<String, Object>>();
 	
+	private String flag;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.read_my_resume_listview);
-		setTitleBar(getString(R.string.readMyResume), View.VISIBLE, View.GONE);
 		
+		initIntent();
+		if("readMyResume".equals(flag)){
+			setTitleBar(getString(R.string.readMyResume), View.VISIBLE, View.GONE);
+		} else if("interviewInvitation".equals(flag)){
+			setTitleBar(getString(R.string.invitationsForInterviews), View.VISIBLE, View.GONE);
+		} else if("jobIntentions".equals(flag)){
+			setTitleBar(getString(R.string.jobIntentions), View.VISIBLE, View.GONE);
+		}
 		initAllView();
 		reigesterAllEvent();
 		initData();
 	}
 
+	// 接收上一页面传过来的数据
+	protected void initIntent(){
+		Bundle bundle = getIntent().getExtras();
+		flag = bundle.getString("flag");
+	}
+	
 	@Override
 	protected void initAllView() {
 		lv_company = (ListView) findViewById(R.id.lv_company);
@@ -60,8 +75,25 @@ public class ReadMyResumeActivity extends BaicActivity {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Intent intent = new Intent(ReadMyResumeActivity.this,CompanyInfoActivity.class);
-				startActivity(intent);
+				if("readMyResume".equals(flag)){
+					Intent intent = new Intent(ReadMyResumeActivity.this,CompanyInfoActivity.class);
+					Bundle bundle = new Bundle();
+					bundle.putString("flag", "ReadMyResumeActivity");
+					intent.putExtras(bundle);
+					startActivity(intent);
+				} else if("interviewInvitation".equals(flag)){
+					Intent intent = new Intent(ReadMyResumeActivity.this,InterviewNoticeDetailActivity.class);
+					Bundle bundle = new Bundle();
+					intent.putExtras(bundle);
+					startActivity(intent);
+				} else if("jobIntentions".equals(flag)){
+					Intent intent = new Intent(ReadMyResumeActivity.this,CompanyInfoActivity.class);
+					Bundle bundle = new Bundle();
+					bundle.putString("flag", "ReadMyResumeActivity");
+					intent.putExtras(bundle);
+					startActivity(intent);
+				}
+				
 				
 			}
 

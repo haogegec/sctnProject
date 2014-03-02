@@ -4,29 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.sctn.sctnet.R;
-import com.sctn.sctnet.view.ItemView;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.DisplayMetrics;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnKeyListener;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
+
+import com.sctn.sctnet.R;
 
 /**
  * @author 姜勇男 《谁看了我的简历》界面
@@ -41,10 +33,13 @@ public class CompanyInfoActivity extends BaicActivity {
 	private ViewPager mPager;// 页卡控件
 	private List<View> listViews; // Tab页面列表
 	private TextView company_profile_title, job_description_title;
+	private LinearLayout footbar;
 
 	private Button btn_apply;// 申请
 	private Button btn_collect;// 收藏
 	private Button btn_share;// 分享
+	
+	private String flag;// 标识：是从JobListActivity页面进来还是从ReadMyResumeActivity页面进来
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +48,17 @@ public class CompanyInfoActivity extends BaicActivity {
 		setTitleBar(getString(R.string.companyProfile), View.VISIBLE, View.GONE);
 		super.setTitleRightButtonImg(R.drawable.login_btn_bg);
 
+		initIntent();
 		initTextView();
-		initViewPager();
 		initAllView();
+		initViewPager();
 		reigesterAllEvent();
+	}
+	
+	
+	protected void initIntent(){
+		Bundle bundle = getIntent().getExtras();
+		flag = bundle.getString("flag");
 	}
 
 	/**
@@ -75,7 +77,21 @@ public class CompanyInfoActivity extends BaicActivity {
 	 */
 	public void initViewPager() {
 		// 初始化tab页
-		mPager = (ViewPager) findViewById(R.id.vp_company_info);
+		if("ReadMyResumeActivity".equals(flag)){
+			footbar.setVisibility(View.GONE);
+			mPager = (ViewPager) findViewById(R.id.vp_company_info2);
+			mPager.setVisibility(View.VISIBLE);
+			
+			ViewPager viewPager = (ViewPager) findViewById(R.id.vp_company_info);
+			viewPager.setVisibility(View.GONE);
+		} else {
+			footbar.setVisibility(View.VISIBLE);
+			mPager = (ViewPager) findViewById(R.id.vp_company_info);
+			mPager.setVisibility(View.VISIBLE);
+			
+			ViewPager viewPager = (ViewPager) findViewById(R.id.vp_company_info2);
+			viewPager.setVisibility(View.GONE);
+		}
 		listViews = new ArrayList<View>();
 		LayoutInflater mInflater = getLayoutInflater();
 		listViews.add(mInflater.inflate(R.layout.company_info_layout, null));
@@ -88,6 +104,7 @@ public class CompanyInfoActivity extends BaicActivity {
 
 	@Override
 	protected void initAllView() {
+		footbar = (LinearLayout) findViewById(R.id.footbar_layout_ly);
 		btn_apply = (Button) findViewById(R.id.btn_apply);
 		btn_collect = (Button) findViewById(R.id.btn_collect);
 		btn_share = (Button) findViewById(R.id.btn_share);

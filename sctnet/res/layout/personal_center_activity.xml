@@ -5,149 +5,169 @@
     android:layout_gravity="center_horizontal"
     android:background="@color/background"
     android:orientation="vertical" >
-<ScrollView
+
+    <ScrollView
         android:id="@+id/ScrollView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:scrollbars="none"
-        android:layout_marginTop="15.0dip"
         android:layout_marginBottom="15dip"
-        >
-   <RelativeLayout 
-       android:id="@+id/relativeLayout"  
-       android:layout_width="fill_parent" 
-       android:layout_height="wrap_content"  
-       android:orientation="vertical"> 
-      <RelativeLayout 
-          android:id="@+id/userInfo"
-          android:layout_width="fill_parent"
-          android:layout_height="wrap_content"
-          android:orientation="vertical">
-          <TextView 
-              android:id="@+id/userNameLabel"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="@string/userName"
-              android:layout_marginLeft="20dp"
-              android:layout_marginTop="10dp"
-              android:paddingRight="3dp"
-              android:textSize="16dp"/>
-          <TextView
-              android:id="@+id/userNameValue"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_toRightOf="@+id/userNameLabel"
-              android:layout_alignTop="@+id/userNameLabel"
-              android:layout_alignBottom="@+id/userNameLabel"
-              />
-         </RelativeLayout>
-       
-          <RelativeLayout 
-              android:id="@+id/postApplication"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_alignParentLeft="true"
-              android:layout_marginLeft="36dp"
-              android:layout_below="@+id/userInfo"
-              android:layout_marginTop="20dp"
-              >
-              <ImageView 
-                  android:id="@+id/postAppImage"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:background="@drawable/post_application_bg"
-                  />
-              <TextView 
-                  android:id="@+id/postAppCount"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_alignLeft="@+id/postAppImage"
-                  android:layout_alignRight="@+id/postAppImage"
-                  android:gravity="center"
-                  android:paddingTop="5dp"
-                  android:textSize="20dp"
-                  android:text="3"
-                  android:textColor="@color/white"
-                  android:paddingBottom="2dp"/>
-              <TextView 
-                  android:id="@+id/postAppRecord"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_alignLeft="@+id/postAppImage"
-                  android:layout_alignRight="@+id/postAppImage"
-                  android:layout_below="@+id/postAppCount"
-                  android:gravity="center"
-                  android:paddingTop="3dp"
-                  android:textSize="15dp"
-                  android:text="@string/postAppRecord"
-                  android:textColor="@color/white"
-                  />
-          </RelativeLayout>
-          <RelativeLayout 
-              android:id="@+id/postCollection "
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_alignParentRight="true"
-              android:layout_marginRight="36dp"
-              android:layout_below="@+id/userInfo"
-              android:layout_marginTop="20dp"
-              >
-              <ImageView 
-                  android:id="@+id/postCollImage"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:background="@drawable/post_collection_bg"
-                  />
-              <TextView 
-                  android:id="@+id/postCollCount"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_alignLeft="@+id/postCollImage"
-                  android:layout_alignRight="@+id/postCollImage"
-                  android:gravity="center"
-                  android:paddingTop="5dp"
-                  android:text="1"
-                  android:textColor="@color/white"
-                  android:textSize="20dp"
-                  android:paddingBottom="2dp"/>
-              <TextView 
-                  android:id="@+id/postCollRecord"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_alignLeft="@+id/postCollImage"
-                  android:layout_alignRight="@+id/postCollImage"
-                  android:layout_below="@+id/postCollCount"
-                  android:gravity="center"
-                  android:paddingTop="3dp"
-                  android:textSize="15dp"
-                  android:text="@string/postCollRecord"
-                  android:textColor="@color/white"
-                  />
-          </RelativeLayout>
-          
-     <com.sctn.sctnet.view.ItemView
-         android:id="@+id/itemview1"
-         android:layout_width="fill_parent"
-         android:layout_height="wrap_content"
-         android:layout_below="@+id/postApplication"
-         android:layout_marginTop="15dp"
-         />
-     <com.sctn.sctnet.view.ItemView
-         android:id="@+id/itemview2"
-         android:layout_width="fill_parent"
-         android:layout_height="wrap_content"
-         android:layout_below="@+id/itemview1"
-         />
-     <com.sctn.sctnet.view.ItemView
-         android:id="@+id/itemview3"
-         android:layout_width="fill_parent"
-         android:layout_height="wrap_content"
-         android:layout_below="@+id/itemview2"
-         />
-     
- 
-    </RelativeLayout>
+        android:layout_marginTop="15.0dip"
+        android:scrollbars="none" >
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:id="@+id/userInfo"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/userNameLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingRight="3dp"
+                    android:text="@string/userName"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/userNameValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/userNameLabel"
+                    android:layout_alignTop="@+id/userNameLabel"
+                    android:layout_toRightOf="@+id/userNameLabel" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/postApplication"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/userInfo"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="20dp" >
+
+                <ImageView
+                    android:id="@+id/postAppImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/post_application_bg" />
+
+                <TextView
+                    android:id="@+id/postAppCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/postAppImage"
+                    android:layout_alignRight="@+id/postAppImage"
+                    android:gravity="center"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="5dp"
+                    android:text="3"
+                    android:textColor="@color/white"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/postAppRecord"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/postAppImage"
+                    android:layout_alignRight="@+id/postAppImage"
+                    android:layout_below="@+id/postAppCount"
+                    android:gravity="center"
+                    android:paddingTop="3dp"
+                    android:text="@string/postAppRecord"
+                    android:textColor="@color/white"
+                    android:textSize="15dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/postCollection "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/userInfo"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="20dp" >
+
+                <ImageView
+                    android:id="@+id/postCollImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/post_collection_bg" />
+
+                <TextView
+                    android:id="@+id/postCollCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/postCollImage"
+                    android:layout_alignRight="@+id/postCollImage"
+                    android:gravity="center"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="5dp"
+                    android:text="1"
+                    android:textColor="@color/white"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/postCollRecord"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/postCollImage"
+                    android:layout_alignRight="@+id/postCollImage"
+                    android:layout_below="@+id/postCollCount"
+                    android:gravity="center"
+                    android:paddingTop="3dp"
+                    android:text="@string/postCollRecord"
+                    android:textColor="@color/white"
+                    android:textSize="15dp" />
+            </RelativeLayout>
+
+            <com.sctn.sctnet.view.ItemView
+                android:id="@+id/itemview1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/postApplication"
+                android:layout_marginTop="15dp" />
+
+            <com.sctn.sctnet.view.ItemView
+                android:id="@+id/itemview5"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/itemview1" />
+            
+            <com.sctn.sctnet.view.ItemView
+                android:id="@+id/itemview6"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/itemview5" />
+
+            <com.sctn.sctnet.view.ItemView
+                android:id="@+id/itemview2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/itemview6" />
+
+            <com.sctn.sctnet.view.ItemView
+                android:id="@+id/itemview3"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/itemview2" />
+
+            <com.sctn.sctnet.view.ItemView
+                android:id="@+id/itemview4"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/itemview3" />
+        </RelativeLayout>
     </ScrollView>
 
 </RelativeLayout>

@@ -53,21 +53,21 @@ public class WorkDirectionActivity extends BaicActivity{
 		});
 		
 		itemView2.setBackground(R.drawable.item_up_bg);
-		itemView2.setIconImageViewResource(R.drawable.home_btn_normal);
+		itemView2.setIconImageViewResource(R.drawable.work_direction_item);
 		itemView2.setLabel("学生入户指南");
 		itemView2.setLabelTextColor(this.getResources().getColor(R.color.blue));
 		itemView2.setValue("");
 		itemView2.setDetailImageViewResource(R.drawable.detail);
 		
 		itemView3.setBackground(R.drawable.item_up_bg);
-		itemView3.setIconImageViewResource(R.drawable.home_btn_normal);
+		itemView3.setIconImageViewResource(R.drawable.work_direction_item);
 		itemView3.setLabel("人才工作证办事指南");
 		itemView3.setLabelTextColor(this.getResources().getColor(R.color.blue));
 		itemView3.setValue("");
 		itemView3.setDetailImageViewResource(R.drawable.detail);
 		
 		itemView4.setBackground(R.drawable.item_mid_bg);
-		itemView4.setIconImageViewResource(R.drawable.home_btn_normal);
+		itemView4.setIconImageViewResource(R.drawable.work_direction_item);
 		itemView4.setLabel("相关资料下载");
 		itemView4.setLabelTextColor(this.getResources().getColor(R.color.blue));
 		itemView4.setValue("");

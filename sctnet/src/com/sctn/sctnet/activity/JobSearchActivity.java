@@ -43,8 +43,7 @@ public class JobSearchActivity extends BaicActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.job_search_activity);
-		setTitleBar(getString(R.string.jobsearchTitle), View.GONE, View.VISIBLE);
-		super.setTitleRightButtonImg(R.drawable.login_btn_bg);
+		setTitleBar(getString(R.string.jobsearchTitle), View.VISIBLE, View.GONE);
 
 		initAllView();
 		initIntent();
@@ -144,9 +143,8 @@ public class JobSearchActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View v) {
-				// Intent intent = new
-				// Intent(JobSearchActivity.this,GuideActivity.class);
-				// startActivity(intent);
+				 Intent intent = new Intent(JobSearchActivity.this,SelectIndustryActivity.class);
+				 startActivityForResult(intent,Constant.INDUSTRY_REQUEST_CODE);
 			}
 
 		});
@@ -204,6 +202,10 @@ public class JobSearchActivity extends BaicActivity {
 				break;
 			}
 			
+			case Constant.INDUSTRY_REQUEST_CODE: {
+				
+				break;
+			}
 			
 			}
 		}

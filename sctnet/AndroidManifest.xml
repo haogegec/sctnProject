@@ -187,6 +187,21 @@
             android:name=".activity.SelectReleaseTimeActivity"
             android:screenOrientation="portrait" >
         </activity>
+         <!-- 选择职位发布时间Acitivity -->
+        <activity
+            android:name=".activity.SelectIndustryActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <!-- 职位申请记录Acitivity -->
+        <activity
+            android:name=".activity.MyAppliedJobActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <!-- 面试通知详情Acitivity -->
+        <activity
+            android:name=".activity.InterviewNoticeDetailActivity"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>

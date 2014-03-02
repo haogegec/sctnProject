@@ -19,10 +19,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.sctn.sctnet.R;
+import com.sctn.sctnet.view.SideBar;
 
 public class SelectAreaActivity extends BasicActivity {
 	
 	private ListView lv_area;
+	private SideBar indexBar;
 	private static String[] cities = {"北京","成都","广州","杭州","南京","上海","深圳","天津","武汉","西安"};
 	private List<Map<String, Object>> listItems = new ArrayList<Map<String, Object>>();
 
@@ -57,7 +59,7 @@ public class SelectAreaActivity extends BasicActivity {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Intent intent = new Intent(SelectAreaActivity.this,SalarySurveyActivity.class);
+				Intent intent = getIntent();
 				intent.putExtra("area", cities[position]);
 				setResult(RESULT_OK,intent);
 				finish();

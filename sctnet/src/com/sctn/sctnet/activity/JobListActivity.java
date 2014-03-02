@@ -230,6 +230,9 @@ public class JobListActivity extends BaicActivity {
 				public void onClick(View v) {
 					
 					Intent intent = new Intent(JobListActivity.this,CompanyInfoActivity.class);
+					Bundle bundle = new Bundle();
+					bundle.putString("flag", "jobListActivity");
+					intent.putExtras(bundle);
 					startActivity(intent);
 					
 				}

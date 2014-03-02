@@ -29,6 +29,7 @@
                 android:layout_alignParentLeft="true"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
                 android:text="工作地区" />
 
             <TextView
@@ -73,6 +74,7 @@
                 android:layout_alignParentLeft="true"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
                 android:text="工龄" />
 
             <TextView
@@ -117,6 +119,7 @@
                 android:layout_alignParentLeft="true"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
                 android:text="行业类别" />
 
             <TextView
@@ -161,6 +164,7 @@
                 android:layout_alignParentLeft="true"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
                 android:text="目前就职的行业" />
 
             <TextView
@@ -205,6 +209,7 @@
                 android:layout_alignParentLeft="true"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
                 android:text="该行业累计工作时间" />
 
             <TextView
@@ -249,6 +254,7 @@
                 android:layout_alignParentLeft="true"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
                 android:text="职务" />
 
             <TextView
@@ -341,6 +347,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
                 android:text="月薪" />
 
             <EditText
@@ -359,6 +366,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
                 android:text="元" />
 
             <!--
@@ -396,6 +404,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
                 android:text="分红" />
 
             <EditText
@@ -414,6 +423,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
                 android:text="元" />
 
             <!--
@@ -497,6 +507,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
                 android:text="年薪" />
 
             <EditText
@@ -515,6 +526,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
                 android:text="万元" />
         </LinearLayout>
 
@@ -582,6 +594,7 @@
                 android:layout_alignParentLeft="true"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
                 android:text="现单位规模" />
 
             <TextView
@@ -626,6 +639,7 @@
                 android:layout_alignParentLeft="true"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
                 android:text="现单位性质" />
 
             <TextView
@@ -673,6 +687,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:paddingTop="10dp"
+                android:textColor="@color/lightBlack"
                 android:text="对目前薪资的看法" />
 
             <EditText
@@ -680,8 +695,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:layout_below="@id/tv_opinion"
+                android:padding="10dp"
                 android:gravity="left|top"
-                android:textSize="16dp"
+                android:background="@drawable/search_edittext_bg"
                 android:visibility="visible" />
         </RelativeLayout>
     </LinearLayout>

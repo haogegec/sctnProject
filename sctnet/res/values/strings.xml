@@ -24,6 +24,11 @@
     <string name="companyProfile">公司简介</string>
     <string name="jobDescription">职位描述</string>
     <string name="readMyResume">谁看过我的简历</string>
+    <string name="invitationsForInterviews">我的面试邀请</string>
+    <string name="jobIntentions">我的招聘意向</string>
+    <string name="interviewNotice">面试通知</string>
+    <string name="myAppliedJob">我申请的职位</string>
+    <string name="myCollectedJob">我收藏的职位</string>
 <!-- 简历管理 -->
     <string name="updateDate">更新于</string>
     <string name="finishStatus">完成度</string>
@@ -99,6 +104,8 @@
     <string name="submit">提交</string>
     
     <!-- 职位搜素 -->
+    <string name="select_industry">选择行业</string>
+    <string name="select_job">选择职能</string>
     <string name="apply">申请</string>
     <string name="collect">收藏</string>
     <string name="share">分享</string>

@@ -103,7 +103,7 @@ public class ItemView extends LinearLayout{
 		
 		relativeLayout = new RelativeLayout(context);
 		MarginLayoutParams mp4 = new MarginLayoutParams(RelativeLayout.LayoutParams.FILL_PARENT,RelativeLayout.LayoutParams.WRAP_CONTENT);  //item的宽高
-	    mp3.setMargins(10, 0, 10, 0);//分别是margin_top那四个属性
+	    mp4.setMargins(10, 0, 10, 0);//分别是margin_top那四个属性
 	    RelativeLayout.LayoutParams lp4 = new RelativeLayout.LayoutParams(mp4);
 	    lp4.addRule(RelativeLayout.CENTER_VERTICAL);
 		relativeLayout.setLayoutParams(lp4);
