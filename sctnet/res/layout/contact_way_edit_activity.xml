@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center_horizontal"
+    android:background="@color/background"
+    android:orientation="vertical" >
+
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+       
+        <LinearLayout
+            android:id="@+id/contactsname"
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/item_selector"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:focusable="true"  
+   			android:focusableInTouchMode="true" >
+
+            <TextView
+                android:id="@+id/contactsname_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
+                android:text="第二联系人" />
+
+            <EditText
+                android:id="@+id/contactsname_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/my_edittext"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="" />
+        </LinearLayout>
+        
+        <LinearLayout
+            android:id="@+id/contactsphone"
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/item_selector"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:focusable="true"  
+   			android:focusableInTouchMode="true" >
+
+            <TextView
+                android:id="@+id/contactsphone_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
+                android:text="第二联系人电话" />
+
+            <EditText
+                android:id="@+id/contactsphone_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/my_edittext"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="" />
+        </LinearLayout>
+        
+        <LinearLayout
+            android:id="@+id/userphone"
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/item_selector"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:focusable="true"  
+   			android:focusableInTouchMode="true" >
+
+            <TextView
+                android:id="@+id/userphone_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
+                android:text="本人电话" />
+
+            <EditText
+                android:id="@+id/userphone_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/my_edittext"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="" />
+        </LinearLayout>
+        
+        <LinearLayout
+            android:id="@+id/email"
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/item_selector"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:focusable="true"  
+   			android:focusableInTouchMode="true" >
+
+            <TextView
+                android:id="@+id/email_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
+                android:text="邮箱" />
+
+            <EditText
+                android:id="@+id/email_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/my_edittext"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="" />
+        </LinearLayout>
+        
+        <LinearLayout
+            android:id="@+id/postalcode"
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/item_selector"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:focusable="true"  
+   			android:focusableInTouchMode="true" >
+
+            <TextView
+                android:id="@+id/postalcode_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
+                android:text="邮政编码" />
+
+            <EditText
+                android:id="@+id/postalcode_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/my_edittext"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="" />
+        </LinearLayout>
+       <LinearLayout
+            android:id="@+id/qqmsn"
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/item_selector"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:focusable="true"  
+   			android:focusableInTouchMode="true" >
+
+            <TextView
+                android:id="@+id/qqmsn_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
+                android:text="QQ号" />
+
+            <EditText
+                android:id="@+id/qqmsn_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/my_edittext"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+</ScrollView>

@@ -19,7 +19,7 @@
 	   		android:layout_height="wrap_content"
 	   		android:scrollbars="none"
 	        android:divider="#eeeeee"
-    		android:dividerHeight="0.3dp">
+    		android:dividerHeight="0.2dp">
 	        
 	    </ListView>
 	</LinearLayout>

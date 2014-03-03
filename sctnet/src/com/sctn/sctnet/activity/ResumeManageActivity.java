@@ -433,12 +433,10 @@ public class ResumeManageActivity extends BaicActivity {
 				if(StringUtil.isBlank(reccontent)){
 					personalExperienceMap.put("推荐自己", reccontent);
 				}
-				if(StringUtil.isBlank(resume)){
-					personalExperienceMap.put("介绍自己", resume);
-				}
-				if(StringUtil.isBlank(political)){
-					basicInfoMap.put("政治面貌", political);
-				}
+//				if(StringUtil.isBlank(resume)){
+//					personalExperienceMap.put("介绍自己", resume);
+//				}
+				
 				if(StringUtil.isBlank(sex)){
 					basicInfoMap.put("性别", sex);
 				}
@@ -449,7 +447,7 @@ public class ResumeManageActivity extends BaicActivity {
 					educationExperienceMap.put("专业职称", technology);
 				}
 				if(StringUtil.isBlank(truename)){
-					educationExperienceMap.put("姓名", truename);
+					basicInfoMap.put("姓名", truename);
 				}
 				if(StringUtil.isBlank(twoenglish)){
 					educationExperienceMap.put("第二外语", twoenglish);
@@ -461,7 +459,7 @@ public class ResumeManageActivity extends BaicActivity {
 					basicInfoMap.put("身高", Long.toString(useheight));
 				}
 				if(StringUtil.isBlank(usephone)){
-					contactMap.put("手机", usephone);
+					contactMap.put("本人手机号", usephone);
 				}
 				if(StringUtil.isBlank(workexperience)){
 					workExperienceMap.put("工作年限", Long.toString(workexperience));

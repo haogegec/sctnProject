@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/background"
+    android:orientation="vertical" >
+    <EditText
+        android:id="@+id/workperformance_edit"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="top"
+        android:background="@drawable/search_edittext_bg"
+        android:hint="@string/work_performance_hint"
+        android:padding="10dp"
+        android:maxLength="5000" 
+        android:textColor="#3B3B3B"
+        android:textSize="16dp" />
+
+</LinearLayout>

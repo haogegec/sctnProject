@@ -38,28 +38,28 @@ public class ResumeEditActivity extends BaicActivity{
 		itemView4 = (ItemView) findViewById(R.id.itemview11);
 		itemView5 = (ItemView) findViewById(R.id.itemview12);
 		
-		itemView1.setBackground(R.drawable.item_mid);
+		itemView1.setBackground(R.drawable.item_mid_bg);
 		itemView1.setIconImageViewResource(R.drawable.home_btn_normal);
 		itemView1.setLabel("基本信息");
 		itemView1.setValue("");
 		itemView1.setDetailImageViewResource(R.drawable.detail);
 		itemView1.setIconImageVisibility(View.GONE);
 		
-		itemView2.setBackground(R.drawable.item_mid);
+		itemView2.setBackground(R.drawable.item_mid_bg);
 		itemView2.setIconImageViewResource(R.drawable.home_btn_normal);
 		itemView2.setLabel("个人简介");
 		itemView2.setValue("");
 		itemView2.setDetailImageViewResource(R.drawable.detail);
 		itemView2.setIconImageVisibility(View.GONE);
 		
-		itemView3.setBackground(R.drawable.item_mid);
+		itemView3.setBackground(R.drawable.item_mid_bg);
 		itemView3.setIconImageViewResource(R.drawable.home_btn_normal);
 		itemView3.setLabel("求职意向");
 		itemView3.setValue("");
 		itemView3.setDetailImageViewResource(R.drawable.detail);
 		itemView3.setIconImageVisibility(View.GONE);
 		
-		itemView6.setBackground(R.drawable.item_mid);
+		itemView6.setBackground(R.drawable.item_mid_bg);
 		itemView6.setIconImageViewResource(R.drawable.home_btn_normal);
 		itemView6.setLabel("联系方式");
 		itemView6.setValue("");
@@ -67,14 +67,14 @@ public class ResumeEditActivity extends BaicActivity{
 		itemView6.setIconImageVisibility(View.GONE);
 		
 		
-		itemView4.setBackground(R.drawable.item_mid);
+		itemView4.setBackground(R.drawable.item_mid_bg);
 		itemView4.setIconImageViewResource(R.drawable.home_btn_normal);
 		itemView4.setLabel("教育情况");
 		itemView4.setValue("");
 		itemView4.setDetailImageViewResource(R.drawable.detail);
 		itemView4.setIconImageVisibility(View.GONE);
 		
-		itemView5.setBackground(R.drawable.item_mid);
+		itemView5.setBackground(R.drawable.item_mid_bg);
 		itemView5.setIconImageViewResource(R.drawable.delete);
 		itemView5.setLabel("职业生涯");
 		itemView5.setValue("");
@@ -90,7 +90,62 @@ public class ResumeEditActivity extends BaicActivity{
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(ResumeEditActivity.this,PersonalInfoActivity.class);
+				Intent intent = new Intent(ResumeEditActivity.this,BasicInfoEditActivity.class);
+				startActivity(intent);				
+			}
+			
+		});
+		
+		itemView2.getRelativeLayout().setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(ResumeEditActivity.this,PersonalProfileEditActivity.class);
+				startActivity(intent);				
+			}
+			
+		});
+		
+		itemView3.getRelativeLayout().setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(ResumeEditActivity.this,JobIntentionEditActivity.class);
+				startActivity(intent);				
+			}
+			
+		});
+		
+		itemView6.getRelativeLayout().setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(ResumeEditActivity.this,ContactWayEditActivity.class);
+				startActivity(intent);				
+			}
+			
+		});
+		
+		itemView4.getRelativeLayout().setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(ResumeEditActivity.this,EducationExperienceEditActivity.class);
+				startActivity(intent);				
+			}
+			
+		});
+		
+		itemView5.getRelativeLayout().setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(ResumeEditActivity.this,WorkExperienceEditActivity.class);
 				startActivity(intent);				
 			}
 			

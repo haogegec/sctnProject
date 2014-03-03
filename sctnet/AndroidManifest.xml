@@ -118,6 +118,38 @@
             android:name=".activity.WorkDirectionActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".activity.BasicInfoEditActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.PersonalProfileEditActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.JobIntentionEditActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.ContactWayEditActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.EducationExperienceEditActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.WorkExperienceEditActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.WorkPerformanceEditActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.ResumeCreateActivity"
+            android:screenOrientation="portrait" >
+        </activity>
         <!-- 薪酬调查Activity -->
         <activity
             android:name=".activity.SalarySurveyActivity"

@@ -1,7 +1,10 @@
 package com.sctn.sctnet.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.cache.CacheProcess;
@@ -13,24 +16,37 @@ import com.sctn.sctnet.cache.CacheProcess;
  */
 public class ResumeCreateActivity extends BaicActivity{
 
+	private Button createBtn;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.resume_manager_activity);
-		setTitleBar(getString(R.string.resumeManageActivityTitle),
-				View.VISIBLE, View.VISIBLE);
+		setContentView(R.layout.resume_create_activity);
+		setTitleBar(getString(R.string.ResumeCreateActivityTitle),
+				View.VISIBLE, View.GONE);
 		
 
 	}
 	
 	@Override
 	protected void initAllView() {
-		// TODO Auto-generated method stub
+		
+		createBtn = (Button) findViewById(R.id.create_btn);
 		
 	}
 	@Override
 	protected void reigesterAllEvent() {
-		// TODO Auto-generated method stub
+		
+		createBtn.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				
+				Intent intent = new Intent(ResumeCreateActivity.this,ResumeEditActivity.class);
+				startActivity(intent);
+				
+			}
+			
+		});
 		
 	}
 

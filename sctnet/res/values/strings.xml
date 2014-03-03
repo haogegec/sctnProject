@@ -49,6 +49,20 @@
     <string name="personalInfoActivityTitle">个人信息</string>
     <string name="personalName">姓名</string>
     <string name="paperInfoNote">证件信息</string>
+    <string name="BasicInfoEditActivityTitle">编辑基本信息</string>
+    <string name="ProvincesActivityTitle">编辑个人简介</string>
+    <string name="JobIntentionEditActivityTitle">编辑求职意向</string>
+    <string name="ContactWayEditActivityTitle">编辑联系方式</string>
+    <string name="EducationExperienceEditActivityTitle">编辑联系方式</string>
+    <string name="WorkExperienceEditActivityTitle">编辑职业生涯</string>
+    <string name="WorkPerformanceEditActivityTitle">编辑工作经验</string>
+    <string name="ResumeCreateActivityTitle">创建简历</string>
+    <string name="reccontent">推荐自己：</string>
+    <string name="specialtyContent">特长：</string>
+    <string name="reccontent_hint">请输入推荐的内容（不超过200个字）</string>
+    <string name="specialtyContent_hint">请输入您的特长（不超过200个字）</string>
+    <string name="work_performance_hint">请输入您的工作经验（不超过5000个字）</string>
+    
 <!-- 办事指南 -->
     <string name="workDirectionActivityTitle">办事指南</string>
 <!--     登陆 -->
