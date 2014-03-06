@@ -17,7 +17,7 @@ import com.sctn.sctnet.R;
 import com.sctn.sctnet.contants.Constant;
 
 /**
- * 选择外语能力界面
+ * 职场经历界面
  * 
  * @author 姜勇男
  * 
@@ -94,7 +94,7 @@ public class SelectJobExpActivity extends BaicActivity {
 
 	@Override
 	protected void initAllView() {
-		super.titleRightButton.setImageResource(R.drawable.titlebar_img_btn_left_bg);
+		super.titleRightButton.setImageResource(R.drawable.queding);
 
 		rl_workingArea = (RelativeLayout) findViewById(R.id.workingArea);
 		tv_workingArea2 = (TextView) findViewById(R.id.tv_workingArea2);

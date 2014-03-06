@@ -7,7 +7,7 @@ package com.sctn.sctnet.contants;
  */
 public class Constant {
 
-	public static String ServerURL="http://www.weeqii.com/booking/";//测试环境
+	public static String ServerURL="http://60.172.228.219:9099/scgenuis/";//测试环境
 	public static String ServerImageURL="http://www.weeqii.com/booking/main!getImage";//图片地址
 	
 	public static String packageName = "com.sctn.sctnet";//工程的包名
@@ -22,5 +22,10 @@ public class Constant {
 	public static final int INDUSTRY_REQUEST_CODE = 5;// 选择行业请求码
 	// 系统图片存放字段
 	public static final String SYS_IMAGE_DATA_STORE = "/mnt/sdcard/sctnet/"; // 图片存放地址
+	
+	// 登录请求码
+	public static final int LOGIN_PERSONAL_CENTER_ACTIVITY = 10;
+	
+	
 
 }

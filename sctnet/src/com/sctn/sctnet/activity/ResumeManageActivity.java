@@ -270,7 +270,7 @@ public class ResumeManageActivity extends BaicActivity {
 			jsonParmter.put("Userid", userId);
 			String parameter = jsonParmter.toString();
 			
-			result = getPostHttpContent(url, parameter);
+//			result = getPostHttpContent(url, parameter);
 
 			if (StringUtil.isExcetionInfo(result)) {
 				ResumeManageActivity.this.sendExceptionMsg(result);

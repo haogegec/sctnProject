@@ -84,7 +84,7 @@ public class LoginActivity extends BaicActivity {
 			requestJsonObject.put("userName", userName);
 			requestJsonObject.put("password", password);
 			//获取响应的结果信息
-			response = getPostHttpContent("appLogin.app?method=execute", requestJsonObject.toString());
+//			response = getPostHttpContent("appLogin.app?method=execute", requestJsonObject.toString());
 			
 			if (StringUtil.isExcetionInfo(response)) {
 				LoginActivity.this.sendExceptionMsg(response);

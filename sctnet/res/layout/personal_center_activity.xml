@@ -71,7 +71,7 @@
                     android:gravity="center"
                     android:paddingBottom="2dp"
                     android:paddingTop="5dp"
-                    android:text="3"
+                    android:text=" "
                     android:textColor="@color/white"
                     android:textSize="20dp" />
 
@@ -113,7 +113,7 @@
                     android:gravity="center"
                     android:paddingBottom="2dp"
                     android:paddingTop="5dp"
-                    android:text="1"
+                    android:text=" "
                     android:textColor="@color/white"
                     android:textSize="20dp" />
 
@@ -143,18 +143,12 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/itemview1" />
-            
-            <com.sctn.sctnet.view.ItemView
-                android:id="@+id/itemview6"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/itemview5" />
 
             <com.sctn.sctnet.view.ItemView
                 android:id="@+id/itemview2"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/itemview6" />
+                android:layout_below="@+id/itemview5" />
 
             <com.sctn.sctnet.view.ItemView
                 android:id="@+id/itemview3"

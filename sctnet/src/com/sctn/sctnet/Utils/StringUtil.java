@@ -1,23 +1,23 @@
 package com.sctn.sctnet.Utils;
 
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.zip.GZIPInputStream;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
+import com.sctn.sctnet.component.MultiMemberGZIPInputStream;
 
 public class StringUtil {
 
@@ -396,20 +396,21 @@ public class StringUtil {
 		
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		ByteArrayInputStream in = new ByteArrayInputStream(bytCompressed);
-		String res="";
-		try{
-			GZIPInputStream gunzip = new GZIPInputStream(in);
+		String res = "";
+		try {
+			GZIPInputStream gunzip = new MultiMemberGZIPInputStream(in);
 			byte[] buffer = new byte[256];
 			int n;
 			while ((n = gunzip.read(buffer)) >= 0) {
 				out.write(buffer, 0, n);
 			}
-		 res=out.toString("GBK");
-//			res=out.toString();
-		}catch(IOException e){
+			res = out.toString("UTF-8");
+		} catch (IOException e) {
+			e.printStackTrace();
 			throw new SysException("", "解压过程中出现异常！ ", e);
 		}
-		
-		return  res;
+
+		return res;
+
 	}
 }

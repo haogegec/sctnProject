@@ -88,6 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
+                    android:button="@drawable/common_radio"
                     android:text="男"
                     android:textColor="@color/lightBlack" />
 
@@ -96,6 +97,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
+                    android:button="@drawable/common_radio"
                     android:text="女"
                     android:textColor="@color/lightBlack" />
             </RadioGroup>
@@ -636,7 +638,8 @@
           android:layout_marginLeft="8dp"
           android:layout_marginRight="8dp"
           android:background="@color/white"
-          >
+          >
+
           <ImageView
               android:id="@+id/myPhoto"
               android:layout_width="wrap_content"
@@ -841,7 +844,9 @@
               android:paddingTop="3dp"
               />
           
-    </RelativeLayout>
+    </RelativeLayout>
+
+
     -->
 
 </ScrollView>
