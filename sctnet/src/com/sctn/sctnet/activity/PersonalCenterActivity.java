@@ -133,7 +133,7 @@ public class PersonalCenterActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View v) {
-				
+				startActivity(new Intent(PersonalCenterActivity.this,RegisterActivity.class));
 			}
 		});
 		

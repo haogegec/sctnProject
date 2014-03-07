@@ -103,7 +103,7 @@
     <string name="register_repassword_label">确认密码</string>
     <string name="register_email_label">    Email  </string>
     <string name="register_username_hint">至少4位字母或数字</string>
-    <string name="register_password_hint">6到16位字母数字</string>
+    <string name="register_password_hint">6到16位字符</string>
     <string name="register_repassword_hint">请重新输入密码</string>
     <string name="register_email_hint">您常用的Email</string>
     <string name="register_hint">必填项</string>

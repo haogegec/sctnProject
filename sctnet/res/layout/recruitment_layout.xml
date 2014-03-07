@@ -56,10 +56,12 @@
             android:textColor="@color/blue"
             android:textSize="17dp" />
 
-        <com.sctn.sctnet.view.DashedLineBlueView
-            android:id="@+id/dashedLine"
-            android:layout_width="wrap_content"
-            android:layout_height="14dp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:layout_marginTop="5dp"
+            android:background="@color/blue" >
+        </View>
 
         <RelativeLayout
             android:layout_width="match_parent"

@@ -1,6 +1,5 @@
 package com.sctn.sctnet.Utils;
 
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -44,7 +43,6 @@ public class StringUtil {
 		return "";
 	}
 
-	
 	/**
 	 * 按长度截取字符串
 	 * 
@@ -96,26 +94,26 @@ public class StringUtil {
 		}
 		return obj.toString().trim();
 	}
-	
-	
-	public static String add(String str,int num){
+
+	public static String add(String str, int num) {
 		int i = num;
-		if(!isBlank(str)){
+		if (!isBlank(str)) {
 			int intStr = Integer.parseInt(str);
 			i = i + intStr;
 		}
-		
-		return Integer.toString(i) ;
+
+		return Integer.toString(i);
 	}
-	
+
 	/**
 	 * 判断一个字符串是否都为数字
 	 */
-	public  static boolean isDigit(String strNum) {  
-	    Pattern pattern = Pattern.compile("[0-9]{1,}");  
-	    Matcher matcher = pattern.matcher((CharSequence) strNum);  
-	    return matcher.matches();  
+	public static boolean isDigit(String strNum) {
+		Pattern pattern = Pattern.compile("[0-9]{1,}");
+		Matcher matcher = pattern.matcher((CharSequence) strNum);
+		return matcher.matches();
 	}
+
 	/**
 	 * 
 	 * @param str
@@ -173,8 +171,8 @@ public class StringUtil {
 		}
 		return sb.toString();
 	}
-	
-	public static String subInStringByFlag(String str,String flag) {
+
+	public static String subInStringByFlag(String str, String flag) {
 		if (isBlank(str))
 			return null;
 		StringBuffer sb = new StringBuffer(str);
@@ -182,7 +180,7 @@ public class StringUtil {
 		if (index < 0) {
 			return str;
 		} else {
-			str = sb.delete(sb.length()-flag.length(), sb.length()).toString();
+			str = sb.delete(sb.length() - flag.length(), sb.length()).toString();
 			index = str.indexOf(flag);
 			if (index < 0) {
 				return str;
@@ -191,6 +189,7 @@ public class StringUtil {
 			}
 		}
 	}
+
 	/**
 	 * 根据标识获取str中最后一个flag后的内容
 	 * 
@@ -240,31 +239,30 @@ public class StringUtil {
 		return ret;
 
 	}
-	
-	
+
 	/**
-	 * 根据正则表达式截取匹配的字符串列表
-	 * 从指定字符串中，按正则表达式要求，找出其中能匹配上的字符串列表
+	 * 根据正则表达式截取匹配的字符串列表 从指定字符串中，按正则表达式要求，找出其中能匹配上的字符串列表
+	 * 
 	 * @param str
 	 * @param regx
 	 * @return
 	 */
-	public static List catchStr(String str,String regx){
+	public static List catchStr(String str, String regx) {
 		if (isBlank(str))
 			return null;
-		
+
 		List ret = new ArrayList();
 		Pattern pattern = Pattern.compile(regx);
 		Matcher matcher = pattern.matcher(str);
 		int start = 0;
 		int end = 0;
-		while(matcher.find()){
+		while (matcher.find()) {
 			start = matcher.start();
 			end = matcher.end();
-			ret.add(str.substring(start,end));
+			ret.add(str.substring(start, end));
 		}
 		return ret;
-		
+
 	}
 
 	/**
@@ -278,122 +276,136 @@ public class StringUtil {
 			return "";
 		return str.replaceAll("[\n\r\u0085\u2028\u2029]", "");
 	}
-	public static String lpad(String str ,int length) {  
+
+	public static String lpad(String str, int length) {
 		if (isBlank(str))
 			return "";
-		int  j= str.length();
-		for(int i=j;i<length;i++){
-        	str ="0"+str;
-        }
-        return str;
-    }
-	
-	
+		int j = str.length();
+		for (int i = j; i < length; i++) {
+			str = "0" + str;
+		}
+		return str;
+	}
+
 	public static boolean isExcetionInfo(String str) {
-		if(isBlank(str))return false;
-		Document doc=Jsoup.parseBodyFragment(str);
-		Element  text=doc.getElementById("errinfospan");
-		if(str.startsWith("<!DOCTYPE html")||str.startsWith("<!DOCTYPE HTML") || text!=null ) {
+		if (isBlank(str))
+			return false;
+		Document doc = Jsoup.parseBodyFragment(str);
+		Element text = doc.getElementById("errinfospan");
+		if (str.startsWith("<!DOCTYPE html") || str.startsWith("<!DOCTYPE HTML") || text != null) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	/**
 	 * 创建异常页面源码字符串，用于MOS Native替代抛出的异常页面
+	 * 
 	 * @param errMsg
 	 * @return
 	 */
 	public static String getAppException4MOS(String errMsg) {
-		String str="<!DOCTYPE html><html><head></head><body><span id=\"errinfospan\">"+errMsg+" </span></body></html>";
+		String str = "<!DOCTYPE html><html><head></head><body><span id=\"errinfospan\">" + errMsg + " </span></body></html>";
 		return str;
 	}
-	
+
 	/**
-	 * 获取服务器端返回的错误信息描述。当服务器端出现Exception时，客户端得到的结果是一个html 错误界面源码，该方法通过解析html，获得错误描述信息
+	 * 获取服务器端返回的错误信息描述。当服务器端出现Exception时，客户端得到的结果是一个html
+	 * 错误界面源码，该方法通过解析html，获得错误描述信息
+	 * 
 	 * @param result
 	 * @return
 	 */
 	public static String getExceptionDesc(String result) {
-		Document doc=Jsoup.parseBodyFragment(result);
-		Element  ele= doc.getElementById("errinfospan");
-		String text="";
-        if( ele!=null) {
-        	text=ele.text();
-        }else {
-        	text="服务器端出现异常！";
-        }
-        return text;
+		Document doc = Jsoup.parseBodyFragment(result);
+		Element ele = doc.getElementById("errinfospan");
+		String text = "";
+		if (ele != null) {
+			text = ele.text();
+		} else {
+			text = "服务器端出现异常！";
+		}
+		return text;
 	}
-	
+
 	/**
 	 * 获取http://search.anccnet.com返回的条码查询结果。解析Html获得相应字段
 	 * 查询url为http://search.anccnet.com/searchResult.aspx?keyword=对应的EAN码
+	 * 
 	 * @param result
 	 * @return
 	 */
-	public static Map<String,String> getEanResult(String result) {
-		Map<String,String> resultMap=new HashMap<String,String>();
-		Document doc=Jsoup.parseBodyFragment(result);
-	   
-		String txtTccode=doc.getElementById("txt_tccode").text();
-		String firmName=doc.getElementById("firm_name").text();
-		String firmNameEn=doc.getElementById("firm_name_en").text();
-		String registerAddress=doc.getElementById("register_address").text();
-		String registerAddressEn=doc.getElementById("register_address_en").text();
-		String registerPostalcode=doc.getElementById("register_postalcode").text();
+	public static Map<String, String> getEanResult(String result) {
+		Map<String, String> resultMap = new HashMap<String, String>();
+		Document doc = Jsoup.parseBodyFragment(result);
+
+		String txtTccode = doc.getElementById("txt_tccode").text();
+		String firmName = doc.getElementById("firm_name").text();
+		String firmNameEn = doc.getElementById("firm_name_en").text();
+		String registerAddress = doc.getElementById("register_address").text();
+		String registerAddressEn = doc.getElementById("register_address_en").text();
+		String registerPostalcode = doc.getElementById("register_postalcode").text();
 		resultMap.put("txtTccode", txtTccode);
 		resultMap.put("firmName", firmName);
 		resultMap.put("firmNameEn", firmNameEn);
 		resultMap.put("registerAddress", registerAddress);
 		resultMap.put("registerAddressEn", registerAddressEn);
 		resultMap.put("registerPostalcode", registerPostalcode);
-		if(resultMap==null||resultMap.isEmpty()) {
+		if (resultMap == null || resultMap.isEmpty()) {
 			return null;
 		}
 		return resultMap;
 	}
 
-	public static  List<Map<String, String>> getScanEanResult(String result) {
-		Map<String,String> resultMap=new HashMap<String,String>();
-		Document doc=Jsoup.parseBodyFragment(result);
-	             
-	   Element element =doc.getElementsByClass("p-info").first();
-	   Elements titleElements = element.getElementsByTag("dt");
-	   Elements contentElements = element.getElementsByTag("dd");
-	   List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-	   for (int i=0;i<titleElements.size();i++){
-		   Map<String, String>  map = new HashMap<String, String>();
-		   map.put("title", titleElements.get(i).getElementsByTag("dt").text());
-		   map.put("content", contentElements.get(i).getElementsByTag("dd").text());
-		   list.add(map);
-	   }
+	public static List<Map<String, String>> getScanEanResult(String result) {
+		Map<String, String> resultMap = new HashMap<String, String>();
+		Document doc = Jsoup.parseBodyFragment(result);
 
-	   
+		Element element = doc.getElementsByClass("p-info").first();
+		Elements titleElements = element.getElementsByTag("dt");
+		Elements contentElements = element.getElementsByTag("dd");
+		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+		for (int i = 0; i < titleElements.size(); i++) {
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("title", titleElements.get(i).getElementsByTag("dt").text());
+			map.put("content", contentElements.get(i).getElementsByTag("dd").text());
+			list.add(map);
+		}
+
 		return list;
 	}
-	
-	
-	public static void main(String[] args)  {
-		//String str = "kkjlj l.class";
+
+	public static boolean isEmailFormat(String email) {
+		boolean tag = true;
+		final String pattern1 = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+		final Pattern pattern = Pattern.compile(pattern1);
+		final Matcher mat = pattern.matcher(email);
+		if (!mat.find()) {
+			tag = false;
+		}
+		return tag;
+	}
+
+	public static void main(String[] args) {
+		// String str = "kkjlj l.class";
 		String str = "where instr($GET_PHONE_GROUP_TYPE,'[31]')>0 and nvl(replace($GET_PHONE_GROUP_SPEC_STR,'[31]',''),'N')<>'N' and $GET_PHONE_GROUP_TYPE=1";
-		//log.debug(StringUtil.removeSuffix(str, ".class"));
+		// log.debug(StringUtil.removeSuffix(str, ".class"));
 
-		//System.out.println(StringUtil.getLastStr("com.cattsoft.sp.component.domain.SoManagerDOM","."));
+		// System.out.println(StringUtil.getLastStr("com.cattsoft.sp.component.domain.SoManagerDOM","."));
 
-		//String a = "com.cattsoft.sp. \r com \n ponent.domain.SoManagerDOM";
-		//System.out.println(StringUtil.filterNextLine(a));
-		//System.out.println(StringUtil.subString("aa",10));
-		
-		//System.out.println(StringUtil.add("1", 11));
-		
-		System.out.println(StringUtil.catchStr(str,"\\$\\w*\\b").get(0));
-		System.out.println(StringUtil.catchStr(str,"\\$\\w*\\b").get(1)); 
-		System.out.println(StringUtil.catchStr(str,"\\$\\w*\\b").get(2)); 
+		// String a = "com.cattsoft.sp. \r com \n ponent.domain.SoManagerDOM";
+		// System.out.println(StringUtil.filterNextLine(a));
+		// System.out.println(StringUtil.subString("aa",10));
+
+		// System.out.println(StringUtil.add("1", 11));
+
+		System.out.println(StringUtil.catchStr(str, "\\$\\w*\\b").get(0));
+		System.out.println(StringUtil.catchStr(str, "\\$\\w*\\b").get(1));
+		System.out.println(StringUtil.catchStr(str, "\\$\\w*\\b").get(2));
 	}
 
 	public static String unCompress(byte[] bytCompressed) throws SysException {
-		
+
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		ByteArrayInputStream in = new ByteArrayInputStream(bytCompressed);
 		String res = "";
