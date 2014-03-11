@@ -48,94 +48,97 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/postApplication"
-                android:layout_width="wrap_content"
+                android:id="@+id/rl_relativelayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
                 android:layout_below="@+id/userInfo"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="20dp" >
+                android:gravity="center_horizontal" >
 
-                <ImageView
-                    android:id="@+id/postAppImage"
+                <RelativeLayout
+                    android:id="@+id/postApplication"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/post_application_bg" />
+                    android:layout_marginTop="20dp" >
 
-                <TextView
-                    android:id="@+id/postAppCount"
+                    <ImageView
+                        android:id="@+id/postAppImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/post_application_bg" />
+
+                    <TextView
+                        android:id="@+id/postAppCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/postAppImage"
+                        android:layout_alignRight="@+id/postAppImage"
+                        android:gravity="center"
+                        android:paddingBottom="2dp"
+                        android:paddingTop="5dp"
+                        android:text=" "
+                        android:textColor="@color/white"
+                        android:textSize="20dp" />
+
+                    <TextView
+                        android:id="@+id/postAppRecord"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/postAppImage"
+                        android:layout_alignRight="@+id/postAppImage"
+                        android:layout_below="@+id/postAppCount"
+                        android:gravity="center"
+                        android:paddingTop="3dp"
+                        android:text="@string/postAppRecord"
+                        android:textColor="@color/white"
+                        android:textSize="15dp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/postCollection "
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/postAppImage"
-                    android:layout_alignRight="@+id/postAppImage"
-                    android:gravity="center"
-                    android:paddingBottom="2dp"
-                    android:paddingTop="5dp"
-                    android:text=" "
-                    android:textColor="@color/white"
-                    android:textSize="20dp" />
+                    android:layout_marginTop="20dp"
+                    android:layout_toRightOf="@+id/postApplication" >
 
-                <TextView
-                    android:id="@+id/postAppRecord"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/postAppImage"
-                    android:layout_alignRight="@+id/postAppImage"
-                    android:layout_below="@+id/postAppCount"
-                    android:gravity="center"
-                    android:paddingTop="3dp"
-                    android:text="@string/postAppRecord"
-                    android:textColor="@color/white"
-                    android:textSize="15dp" />
-            </RelativeLayout>
+                    <ImageView
+                        android:id="@+id/postCollImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/post_collection_bg" />
 
-            <RelativeLayout
-                android:id="@+id/postCollection "
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/userInfo"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="20dp" >
+                    <TextView
+                        android:id="@+id/postCollCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/postCollImage"
+                        android:layout_alignRight="@+id/postCollImage"
+                        android:gravity="center"
+                        android:paddingBottom="2dp"
+                        android:paddingTop="5dp"
+                        android:text=" "
+                        android:textColor="@color/white"
+                        android:textSize="20dp" />
 
-                <ImageView
-                    android:id="@+id/postCollImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/post_collection_bg" />
-
-                <TextView
-                    android:id="@+id/postCollCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/postCollImage"
-                    android:layout_alignRight="@+id/postCollImage"
-                    android:gravity="center"
-                    android:paddingBottom="2dp"
-                    android:paddingTop="5dp"
-                    android:text=" "
-                    android:textColor="@color/white"
-                    android:textSize="20dp" />
-
-                <TextView
-                    android:id="@+id/postCollRecord"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/postCollImage"
-                    android:layout_alignRight="@+id/postCollImage"
-                    android:layout_below="@+id/postCollCount"
-                    android:gravity="center"
-                    android:paddingTop="3dp"
-                    android:text="@string/postCollRecord"
-                    android:textColor="@color/white"
-                    android:textSize="15dp" />
+                    <TextView
+                        android:id="@+id/postCollRecord"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/postCollImage"
+                        android:layout_alignRight="@+id/postCollImage"
+                        android:layout_below="@+id/postCollCount"
+                        android:gravity="center"
+                        android:paddingTop="3dp"
+                        android:text="@string/postCollRecord"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+                </RelativeLayout>
             </RelativeLayout>
 
             <com.sctn.sctnet.view.ItemView
                 android:id="@+id/itemview1"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/postApplication"
+                android:layout_below="@+id/rl_relativelayout"
                 android:layout_marginTop="15dp" />
 
             <com.sctn.sctnet.view.ItemView

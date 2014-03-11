@@ -22,7 +22,7 @@
             android:textSize="16dp" />
         
         <TextView
-            android:id="@+id/company_type"
+            android:id="@+id/company_industry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="2dp"
@@ -74,7 +74,6 @@
                 android:paddingRight="10dp" >
 
                 <TextView
-                    android:id="@+id/company_scale"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="2dp"
@@ -201,6 +200,7 @@
             >
         
         <TextView
+            android:id="@+id/job_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -211,6 +211,7 @@
             android:textSize="14dp" />
         
         <TextView
+            android:id="@+id/job_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -239,43 +240,6 @@
 
         </LinearLayout>
         
-        <LinearLayout 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
-        
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:lineSpacingExtra="3dp"
-            android:text="客服代表"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="14dp" />
-        
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:lineSpacingExtra="3dp"
-            android:text="• 职责责任描述：
-1. 了解客户需求，为客户提供专业咨询
-2. 为客户创造价值，树立网站口碑
-3. 参与网站运营，完善用户体验
-
-• 符合职位责任的技能要求：
-1. 普通话标准，性格温和，善于与人沟通
-2. 具备服务意识，乐于助人
-3. 熟练使用各种办公软件，有良好的学习能力
-
-• 符合职位责任的工作经验要求： 
-1. 有无经验均可，具备与客户服务相关工作经验的优先"
-            android:textColor="#3B3B3B"
-            android:textSize="14dp" />
-
-        </LinearLayout>
         
         <TextView
             android:layout_width="match_parent"
@@ -295,12 +259,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="2dp"
-                android:text="联系人："
+                android:text="联系人及联系电话："
                 android:textColor="#3B3B3B"
                 android:textSize="13dp" />
 
             <TextView
-                android:id="@+id/company_contract"
+                android:id="@+id/company_contacts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="2dp"
@@ -309,7 +273,7 @@
                 android:textSize="13dp" />
         </LinearLayout>
 
-        <LinearLayout
+       <!--  <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="5"
@@ -331,7 +295,7 @@
                 android:text="13987654321"
                 android:textColor="#3B3B3B"
                 android:textSize="13dp" />
-        </LinearLayout>
+        </LinearLayout> -->
 
         <LinearLayout
             android:layout_width="wrap_content"

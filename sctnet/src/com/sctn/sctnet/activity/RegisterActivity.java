@@ -47,7 +47,7 @@ public class RegisterActivity extends BaicActivity {
 	private String email;
 	
 	private String response;// 服务端返回结果
-	private String userId;// 注册成功后服务端返回的userId
+	private long userId;// 注册成功后服务端返回的userId
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -140,7 +140,7 @@ public class RegisterActivity extends BaicActivity {
 			params.add(new BasicNameValuePair("UserName", username));
 			params.add(new BasicNameValuePair("UserPwd", password));
 			params.add(new BasicNameValuePair("UserTxtPwd", userTxtPwd));
-			params.add(new BasicNameValuePair("E_Mail", email));// 没填写邮箱的时候传空值
+			params.add(new BasicNameValuePair("email", email));// 没填写邮箱的时候传空值
 			response = getPostHttpContent(url, params);
 
 			if (StringUtil.isExcetionInfo(response)) {
@@ -152,23 +152,21 @@ public class RegisterActivity extends BaicActivity {
 
 			// JSON的解析过程
 			responseJsonObject = new JSONObject(response);
-			if (responseJsonObject.getInt("resultCode") == 0) {// 获得响应结果
+			if (responseJsonObject.getString("resultCode").equals("0")) {// 获得响应结果
 
-				JSONObject resultJsonObject = responseJsonObject.getJSONObject("result");
-
-				String resultCode = resultJsonObject.getString("resultCode");// resultCode = "0" 代表注册成功
+				String resultCode = responseJsonObject.getString("resultCode");// resultCode = "0" 代表注册成功
 				
 				if("0".equals(resultCode)){// resultCode = "0" 代表注册成功
-					userId = resultJsonObject.getString("userid");// 注册完之后的userid
+					userId = Long.parseLong(responseJsonObject.getString("userid"));// 注册完之后的userid
 					SharePreferencesUtils.setSharedStringData("userName",username);
 					SharePreferencesUtils.setSharedStringData("password",password);
 					SharePreferencesUtils.setSharedStringData("userTxtPwd",userTxtPwd);
-					SharePreferencesUtils.setSharedStringData("userId",userId);
+					SharePreferencesUtils.setSharedlongData("userId",userId);
 					SharePreferencesUtils.setSharedBooleanData("isLogin",true);
 					if(!StringUtil.isBlank(email))SharePreferencesUtils.setSharedStringData("email",email);
 				}
 				
-				Toast.makeText(getApplicationContext(), "注册成功", Toast.LENGTH_LONG).show();
+//				Toast.makeText(getApplicationContext(), "注册成功", Toast.LENGTH_LONG).show();s
 //				setResult(RESULT_OK);
 //				finish();
 				
@@ -179,6 +177,7 @@ public class RegisterActivity extends BaicActivity {
 			}
 
 		} catch (JSONException e) {
+			e.printStackTrace();
 			String err = StringUtil.getAppException4MOS("解析json出错！");
 			RegisterActivity.this.sendExceptionMsg(err);
 		}

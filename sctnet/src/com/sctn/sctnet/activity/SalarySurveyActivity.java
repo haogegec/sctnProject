@@ -1,5 +1,10 @@
 package com.sctn.sctnet.activity;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -8,9 +13,7 @@ import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.widget.ImageView;
@@ -61,8 +64,8 @@ public class SalarySurveyActivity extends BaicActivity {
 
 	private String sex;// 性别
 	private String age;// 年龄
-	private String degree;// 学历
-	
+	private String foreignLanguage;// 外语能力，在SelectForeignLanguage页面选择之后，传到该页面
+	private String jobExperence;// 职场经历，在SelectJobExp页面选择之后，传到该页面
 	
 	private String result;// 服务端返回结果数据
 
@@ -105,7 +108,9 @@ public class SalarySurveyActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View arg0) {
-
+				
+//				initDegree();
+				
 				builder.setTitle("请选择您的学历");
 				builder.setSingleChoiceItems(degrees, 0, new DialogInterface.OnClickListener() {
 
@@ -272,6 +277,50 @@ public class SalarySurveyActivity extends BaicActivity {
 		}
 	}
 
+	/**
+	 * 请求数据，获取学历
+	 */
+	private void initDegree() {
+
+		String url = "appCmbShow.app";
+		Message msg = new Message();
+		
+		try {
+
+			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
+			params.add(new BasicNameValuePair("type", "11"));
+			params.add(new BasicNameValuePair("key", "1"));
+			result = getPostHttpContent(url, params);
+			
+			if (StringUtil.isExcetionInfo(result)) {
+				SalarySurveyActivity.this.sendExceptionMsg(result);
+				return;
+			}
+
+			JSONObject responseJsonObject = null;// 返回结果存放在该json对象中
+
+			// JSON的解析过程
+			responseJsonObject = new JSONObject(result);
+			if (responseJsonObject.getInt("resultCode") == 0) {// 获得响应结果
+
+				JSONObject resultJsonObject = responseJsonObject.getJSONObject("result");
+
+				JSONArray jArray = resultJsonObject.getJSONArray("");
+				
+//				msg.what = 0;
+//				handler.sendMessage(msg);
+			} else {
+				String errorResult = (String) responseJsonObject.get("result");
+				String err = StringUtil.getAppException4MOS(errorResult);
+				SalarySurveyActivity.this.sendExceptionMsg(err);
+			}
+
+		} catch (JSONException e) {
+			String err = StringUtil.getAppException4MOS("解析json出错！");
+			SalarySurveyActivity.this.sendExceptionMsg(err);
+		}
+	}
+	
 //	/**
 //	 * 在子线程与远端服务器交互，请求数据
 //	 */

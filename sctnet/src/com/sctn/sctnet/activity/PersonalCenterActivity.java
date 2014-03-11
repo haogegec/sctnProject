@@ -7,12 +7,12 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -54,7 +54,7 @@ public class PersonalCenterActivity extends BaicActivity {
 		setTitleBar(getString(R.string.personalActivityTitle), View.VISIBLE, View.VISIBLE);
 		super.setTitleRightButtonImg(R.drawable.log_off_bg);
 		cacheProcess = new CacheProcess();
-		userId = cacheProcess.getLongCacheValueInSharedPreferences(this, "userId");
+//		userId = cacheProcess.getLongCacheValueInSharedPreferences(this, "userId");
 		
 		initAllView();
 		reigesterAllEvent();
@@ -215,11 +215,18 @@ public class PersonalCenterActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(PersonalCenterActivity.this, MyAppliedJobActivity.class);
-				Bundle bundle = new Bundle();
-				bundle.putString("flag","postApplication");// 职位申请记录和职位收藏记录进入同一个页面，用flag判断是点击哪个进来的
-				intent.putExtras(bundle);
-				startActivity(intent);
+				if(StringUtil.isBlank(post) || "0".equals(post)){
+					new  AlertDialog.Builder(PersonalCenterActivity.this)    
+					.setMessage("您近期没有申请过职位，您可以去“职位搜索”看看自己感兴趣的职位哦！" )  
+	                .setPositiveButton("确定" ,  null)  
+	                .show();  
+				} else {
+					Intent intent = new Intent(PersonalCenterActivity.this, MyAppliedJobActivity.class);
+					Bundle bundle = new Bundle();
+					bundle.putString("flag","postApplication");// 职位申请记录和职位收藏记录进入同一个页面，用flag判断是点击哪个进来的
+					intent.putExtras(bundle);
+					startActivity(intent);
+				}
 
 			}
 		});
@@ -229,12 +236,19 @@ public class PersonalCenterActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(PersonalCenterActivity.this, MyAppliedJobActivity.class);
-				Bundle bundle = new Bundle();
-				bundle.putString("flag","postCollect");// 职位申请记录和职位收藏记录进入同一个页面，用flag判断是点击哪个进来的
-				intent.putExtras(bundle);
-				startActivity(intent);
-
+				if(StringUtil.isBlank(resume) || "0".equals(resume)){
+					new  AlertDialog.Builder(PersonalCenterActivity.this)
+					.setTitle("友情提示")
+					.setMessage("您没有收藏过任何职位，您可以去“职位搜索”看看自己感兴趣的职位哦！" )  
+	                .setPositiveButton("确定" ,  null)  
+	                .show();  
+				} else {
+					Intent intent = new Intent(PersonalCenterActivity.this, MyAppliedJobActivity.class);
+					Bundle bundle = new Bundle();
+					bundle.putString("flag","postCollect");// 职位申请记录和职位收藏记录进入同一个页面，用flag判断是点击哪个进来的
+					intent.putExtras(bundle);
+					startActivity(intent);
+				}
 			}
 		});
 	}
@@ -264,7 +278,7 @@ public class PersonalCenterActivity extends BaicActivity {
 		try {
 
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-			params.add(new BasicNameValuePair("Userid", "217294"));
+			params.add(new BasicNameValuePair("Userid", "197244"));
 			result = getPostHttpContent(url, params);
 
 			if (StringUtil.isExcetionInfo(result)) {
@@ -319,10 +333,10 @@ public class PersonalCenterActivity extends BaicActivity {
 	 */
 	private void updateUI(){
 		username.setText(userId+"");
-		itemView1.setValue("共"+post+"条");
+		itemView1.setValue("共"+company+"条");
 		itemView5.setValue("共"+invite+"条");
-		postAppCount.setText(resume);
-		postCollCount.setText(company);
+		postAppCount.setText(post);
+		postCollCount.setText(resume);
 		
 	}
 	

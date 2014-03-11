@@ -3,7 +3,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/background"
-    android:orientation="vertical" >
+    android:id="@+id/rl_layout"
+    android:visibility="invisible" >
 
     <LinearLayout
         android:id="@+id/companyInfo_tab_title"
@@ -52,7 +53,7 @@
         android:background="#ffffff"
         android:flipInterval="30"
         android:persistentDrawingCache="animation" />
-    
+
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_company_info2"
         android:layout_width="fill_parent"
@@ -62,8 +63,7 @@
         android:background="#ffffff"
         android:flipInterval="30"
         android:persistentDrawingCache="animation"
-        android:visibility="gone"
-         />
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/footbar_layout_ly"
