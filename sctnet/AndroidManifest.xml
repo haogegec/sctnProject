@@ -254,6 +254,10 @@
         <activity
             android:name=".activity.InformationListMoreActivity"
             android:screenOrientation="portrait" >
+        </activity> 
+        <activity
+            android:name=".activity.CompanyLocationActivity"
+            android:screenOrientation="portrait" >
         </activity>        
     </application>
 

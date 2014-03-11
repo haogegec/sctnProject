@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,6 +19,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -178,6 +180,8 @@ public class CompanyInfoActivity extends BaicActivity {
 				Toast.makeText(getApplicationContext(), "分享", Toast.LENGTH_LONG).show();
 			}
 		});
+		
+		
 	}
 
 	/**
@@ -269,6 +273,16 @@ public class CompanyInfoActivity extends BaicActivity {
 		tv_companyEmail = (TextView) companyInfoPage.findViewById(R.id.company_email);// 电子邮箱
 		tv_companyWebsite = (TextView) companyInfoPage.findViewById(R.id.company_website);// 公司网址
 
+		tv_companyAddress.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent(CompanyInfoActivity.this,CompanyLocationActivity.class);
+				
+				startActivity(intent);
+			}
+			
+		});
 	}
 
 	// 初始化职位描述

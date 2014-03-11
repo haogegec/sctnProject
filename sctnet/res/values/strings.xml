@@ -126,5 +126,6 @@
 
     <!-- 现场招聘会 -->
     <string name="recentRecruiment">近期招聘</string>
+    <string name="load_tips">正在地址加载...</string>
 
 </resources>
