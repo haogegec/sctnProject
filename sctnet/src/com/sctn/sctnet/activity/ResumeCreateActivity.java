@@ -23,7 +23,8 @@ public class ResumeCreateActivity extends BaicActivity{
 		setContentView(R.layout.resume_create_activity);
 		setTitleBar(getString(R.string.ResumeCreateActivityTitle),
 				View.VISIBLE, View.GONE);
-		
+		initAllView();
+		reigesterAllEvent();
 
 	}
 	

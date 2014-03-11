@@ -26,6 +26,19 @@ public class Constant {
 	// 登录请求码
 	public static final int LOGIN_PERSONAL_CENTER_ACTIVITY = 10;
 	
+	//首页中的登录功能用到的请求码
+	public static final int LOGIN_REQUEST_CONDE=1;
+	
+	public static final int PageSize = 15;//每个列表页面一页显示的个数
+	
+	public static final int REQUEST_TIMEOUT = 50*1000;//设置请求超时50秒钟 
+	public static final int SO_TIMEOUT = 50*1000;  //设置等待数据超时时间50秒钟
+	
+	public static final int PROVINCE_TYPE=1;//请求省份类型id
+	public static final int CITY_TYPE=2;//请求市类型id
+	public static final int INDUSTRY_TYPE=3;//请求行业类型id
+	public static final int POSITION_TYPE=4;//请求职业类型id
+	
 	
 
 }

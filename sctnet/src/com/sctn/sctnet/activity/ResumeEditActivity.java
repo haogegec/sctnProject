@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.sctn.sctnet.R;
+import com.sctn.sctnet.entity.ResumeInfo;
 import com.sctn.sctnet.view.ItemView;
 /**
  * 简历编辑界面
@@ -16,6 +17,7 @@ public class ResumeEditActivity extends BaicActivity{
 
 	private ItemView itemView1,itemView2,itemView3,itemView4,itemView5,itemView6;
 	private Bundle bundle;
+	private ResumeInfo resumeInfo;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -24,6 +26,9 @@ public class ResumeEditActivity extends BaicActivity{
 		super.setTitleRightButtonImg(R.drawable.log_off_bg);
 		Intent intent = this.getIntent();
 		bundle = intent.getExtras();
+		if(bundle.getSerializable("resumeInfo")!=null){
+			resumeInfo = (ResumeInfo) bundle.getSerializable("resumeInfo");
+		}
 		initAllView();
 		reigesterAllEvent();
 	}

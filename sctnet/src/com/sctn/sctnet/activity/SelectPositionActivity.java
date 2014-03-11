@@ -6,12 +6,10 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,140 +19,135 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.Utils.StringUtil;
 import com.sctn.sctnet.contants.Constant;
-import com.sctn.sctnet.view.SideBar;
 
-public class SelectAreaActivity extends BaicActivity {
+public class SelectPositionActivity extends BaicActivity{
 	
 	private ListView lv_area;
-	private SideBar indexBar;
-	private static String[] cities = {"北京","成都","广州","杭州","南京","上海","深圳","天津","武汉","西安"};
 	private List<Map<String, String>> listItems = new ArrayList<Map<String, String>>();
-
 	//服务端返回结果
 	private String result;
 	private com.alibaba.fastjson.JSONObject responseJsonObject = null;// 返回结果存放在该json对象中
-//	private String requestParameters;
-	
-    @Override
+	private List<Map> backIndustryType;
+	@Override
     public void onCreate(Bundle savedInstanceState) {
     	
         super.onCreate(savedInstanceState);
         setContentView(R.layout.select_area_listview);
-    	super.setTitleBar("选择地区", View.VISIBLE, View.GONE);
+    	super.setTitleBar("选择职业", View.VISIBLE, View.GONE);
     	
     	initAllView();
     	reigesterAllEvent();
 		requestDataThread();
         
     }
-    /**
-	 * 请求数据线程
-	 * 
-	 */
-	private void requestDataThread() {
-		showProcessDialog(false);
-		Thread mThread = new Thread(new Runnable() {// 启动新的线程，
-					@Override
-					public void run() {
-						requestData();
-					}
-				});
-		mThread.start();
-	}
-	 private void requestData(){
-			
-			String url = "appCmbShow.app";
-
-			Message msg = new Message();
-			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-			params.add(new BasicNameValuePair("type", Constant.PROVINCE_TYPE+""));
-			params.add(new BasicNameValuePair("key", "1"));
-			result = getPostHttpContent(url, params);
-
-			if (StringUtil.isExcetionInfo(result)) {
-				SelectAreaActivity.this.sendExceptionMsg(result);
-				return;
-			}
-
-			if (StringUtil.isBlank(result)) {
-				result = StringUtil.getAppException4MOS("未获得服务器响应结果！");
-				SelectAreaActivity.this.sendExceptionMsg(result);
-			}
-			Message m=new Message();
-			responseJsonObject = com.alibaba.fastjson.JSONObject
-					.parseObject(result);
-			if(responseJsonObject.get("resultcode").toString().equals("0")) {
+	
+	 /**
+		 * 请求数据线程
+		 * 
+		 */
+		private void requestDataThread() {
+			showProcessDialog(true);
+			Thread mThread = new Thread(new Runnable() {// 启动新的线程，
+						@Override
+						public void run() {
+							requestData();
+						}
+					});
+			mThread.start();
+		}
+		 private void requestData(){
 				
-				com.alibaba.fastjson.JSONObject json = responseJsonObject.getJSONObject("result");
-				Set<Entry<String,Object>> set = json.entrySet();
-				Iterator<Entry<String,Object>> iter = set.iterator();
-				while(iter.hasNext()){
-					Map<String,String> map = new HashMap<String,String>();
-					Entry obj = iter.next();
-					map.put("id",(String) obj.getKey());
-					map.put("value", (String) obj.getValue());
-					listItems.add(map);
+				String url = "appCmbShow.app";
+
+				Message msg = new Message();
+				List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
+				params.add(new BasicNameValuePair("type", Constant.INDUSTRY_TYPE+""));
+				params.add(new BasicNameValuePair("key", "1"));
+				result = getPostHttpContent(url, params);
+
+				if (StringUtil.isExcetionInfo(result)) {
+					SelectPositionActivity.this.sendExceptionMsg(result);
+					return;
 				}
-				m.what = 0;
-			}else {
-				String errorResult = (String) responseJsonObject.get("result");
-				String err = StringUtil.getAppException4MOS(errorResult);
-				SelectAreaActivity.this.sendExceptionMsg(err);
-			}
+
+				if (StringUtil.isBlank(result)) {
+					result = StringUtil.getAppException4MOS("未获得服务器响应结果！");
+					SelectPositionActivity.this.sendExceptionMsg(result);
+					return;
+				}
+				Message m=new Message();
+				responseJsonObject = com.alibaba.fastjson.JSONObject
+						.parseObject(result);
+				if(responseJsonObject.get("resultcode").toString().equals("0")) {
 					
-			handler.sendMessage(m);
-	 }
-	   
-	// 处理线程发送的消息
-			private Handler handler = new Handler() {
-
-				public void handleMessage(Message msg) {
-					switch (msg.what) {
-					case 0:
-						initUI();
-						break;
-
+					com.alibaba.fastjson.JSONObject json = responseJsonObject.getJSONObject("result");
+					Set<Entry<String,Object>> set = json.entrySet();
+					Iterator<Entry<String,Object>> iter = set.iterator();
+					while(iter.hasNext()){
+						Map<String,String> map = new HashMap<String,String>();
+						Entry obj = iter.next();
+						map.put("id",(String) obj.getKey());
+						map.put("value", (String) obj.getValue());
+						listItems.add(map);
 					}
-					closeProcessDialog();
+					m.what = 0;
+				}else {
+					String errorResult = (String) responseJsonObject.get("result");
+					String err = StringUtil.getAppException4MOS(errorResult);
+					SelectPositionActivity.this.sendExceptionMsg(err);
 				}
-			};
-    @Override
+						
+				handler.sendMessage(m);
+		 }
+		   
+		// 处理线程发送的消息
+				private Handler handler = new Handler() {
+
+					public void handleMessage(Message msg) {
+						switch (msg.what) {
+						case 0:
+							initUI();
+							break;
+
+						}
+						closeProcessDialog();
+					}
+				};
+
+	@Override
 	protected void initAllView() {
-		// TODO Auto-generated method stub
-		lv_area = (ListView) findViewById(R.id.lv_area);
+		
+        lv_area = (ListView) findViewById(R.id.lv_area);
 		
 		lv_area.setAdapter(new MyAdapter(this,listItems,R.layout.select_area_item));
-//		indexBar = (SideBar) findViewById(R.id.sideBar);  
-//		indexBar.setListView(lv_area);
 	}
 
 	@Override
 	protected void reigesterAllEvent() {
+		
 		lv_area.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Intent intent = getIntent();
-				intent.putExtra("area", cities[position]);
-				setResult(RESULT_OK,intent);
-				finish();
-				
+				Intent intent = new Intent(SelectPositionActivity.this,SelectPositionDetailActivity.class);
+				intent.putExtra("content", listItems.get(position).get("value"));
+				intent.putExtra("id", listItems.get(position).get("value"));
+				startActivityForResult(intent,Constant.POSITION_TYPE);
 			}
 
 		});
-	} 
-    
-    //初始化城市列表
+		
+	}
+	  //初始化城市列表
     protected void initUI(){
     	
     	lv_area.setAdapter(new MyAdapter(this,listItems,R.layout.select_area_item));
@@ -219,4 +212,28 @@ public class SelectAreaActivity extends BaicActivity {
  	private final class ViewCache {
  		public TextView area;// 地区
  	}
+
+ 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			switch (requestCode) {
+
+			case Constant.POSITION_TYPE: {
+				
+				backIndustryType = (List<Map>) ((List) data.getSerializableExtra("list")).get(0);
+				Intent intent = getIntent();
+				ArrayList list = new ArrayList();
+				list.add(backIndustryType);
+				intent.putExtra("list", list);
+				setResult(RESULT_OK,intent);
+				finish();
+				
+				break;
+			}
+			
+			
+		}
+		}
+	}
+
 }

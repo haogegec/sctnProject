@@ -1,7 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="fill_parent"
     android:id="@+id/sv_scroll"
     android:background="@color/background" >
 
@@ -14,7 +14,9 @@
             android:id="@+id/home_activity_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dip" >
+            android:layout_marginTop="20dip"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp" >
 
             <EditText
                 android:id="@+id/search_edit_bg"
@@ -42,8 +44,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/home_activity_search"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:orientation="vertical" >
 
@@ -62,10 +62,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" />
 
-            <com.sctn.sctnet.view.ItemView
-                android:id="@+id/itemview4"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <Button

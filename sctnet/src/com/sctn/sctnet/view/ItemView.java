@@ -3,6 +3,7 @@ package com.sctn.sctnet.view;
 import com.sctn.sctnet.R;
 
 import android.content.Context;
+import android.text.TextUtils.TruncateAt;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -66,7 +67,8 @@ public class ItemView extends LinearLayout{
 	    RelativeLayout.LayoutParams lp1 = new RelativeLayout.LayoutParams(mp1);
 	    lp1.addRule(RelativeLayout.RIGHT_OF,iconImageId);
 	    lp1.addRule(RelativeLayout.CENTER_VERTICAL);
-	    labelText.setMaxEms(20);
+	    labelText.setMaxEms(12);
+	    labelText.setEllipsize(TruncateAt.END);
 	    labelText.setLayoutParams(lp1);
 	    labelText.setText(label);
 	    labelText.setPadding(5, 3,5, 0);
@@ -192,7 +194,7 @@ public class ItemView extends LinearLayout{
 	 * @param color
 	 */
 	public void setValueTextColor(int color){
-		valueText.setTextColor(this.getResources().getColor(color));
+		valueText.setTextColor(color);
 	}
 	/**
 	 * 获取标签属性值

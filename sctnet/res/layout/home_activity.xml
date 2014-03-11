@@ -26,6 +26,7 @@
              android:hint="@string/homeactivityhint"
              android:gravity="center_vertical"
               android:paddingLeft="35dip"
+              android:focusable="false"
               android:singleLine="true"
                />  
                

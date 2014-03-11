@@ -2,13 +2,22 @@ package com.sctn.sctnet.activity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
+
+import org.apache.http.message.BasicNameValuePair;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +35,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sctn.sctnet.R;
+import com.sctn.sctnet.Utils.StringUtil;
+import com.sctn.sctnet.contants.Constant;
 import com.sctn.sctnet.view.MyTextView;
 import com.sctn.sctnet.view.PinnedHeaderListView;
 import com.sctn.sctnet.view.PinnedHeaderListView.PinnedHeaderAdapter;
@@ -39,7 +50,7 @@ import com.sctn.sctnet.view.PinnedHeaderListView.PinnedHeaderAdapter;
 public class SelectIndustryActivity extends BaicActivity {
 
 	private PinnedHeaderListView listView;
-	private List<ItemEntity> data;
+	private List<ItemEntity> data = new ArrayList<ItemEntity>();
 	private View headerView;
 	private PinnedAdapter pinnedAdapter;
 	private List<Integer> list = new ArrayList<Integer>();// 存储map的key，删除的时候从list查出当前key（当前用户选择的checkbox的position是第几个view）
@@ -49,6 +60,12 @@ public class SelectIndustryActivity extends BaicActivity {
 	private RelativeLayout rl_layout;
 	private TextView count;// 已选择的行业个数，最多同时能选5个行业
 	int i = 0;
+	
+	//服务端返回结果
+	private String result;
+	private com.alibaba.fastjson.JSONObject responseJsonObject = null;// 返回结果存放在该json对象中
+	
+	private List backList = new ArrayList();//回传给职位搜索页面的数据
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +75,84 @@ public class SelectIndustryActivity extends BaicActivity {
 
 		initAllView();
 		reigesterAllEvent();
+		requestDataThread();
 	}
+	
+	/**
+	 * 请求数据线程
+	 * 
+	 */
+	private void requestDataThread() {
+		showProcessDialog(true);
+		Thread mThread = new Thread(new Runnable() {// 启动新的线程，
+					@Override
+					public void run() {
+						requestData();
+					}
+				});
+		mThread.start();
+	}
+	private void requestData(){
+		
+		String url = "appCmbShow.app";
 
+		Message msg = new Message();
+		List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
+		params.add(new BasicNameValuePair("type", Constant.INDUSTRY_TYPE+""));
+		params.add(new BasicNameValuePair("key", "1"));
+		result = getPostHttpContent(url, params);
+
+		if (StringUtil.isExcetionInfo(result)) {
+			SelectIndustryActivity.this.sendExceptionMsg(result);
+			return;
+		}
+
+		if (StringUtil.isBlank(result)) {
+			result = StringUtil.getAppException4MOS("未获得服务器响应结果！");
+			SelectIndustryActivity.this.sendExceptionMsg(result);
+			return;
+		}
+		Message m=new Message();
+		responseJsonObject = com.alibaba.fastjson.JSONObject
+				.parseObject(result);
+		if(responseJsonObject.get("resultcode").toString().equals("0")) {
+			
+			com.alibaba.fastjson.JSONObject json = responseJsonObject.getJSONObject("result");
+			Set<Entry<String,Object>> set = json.entrySet();
+			Iterator<Entry<String,Object>> iter = set.iterator();
+			while(iter.hasNext()){
+				
+				Entry obj = iter.next();
+				ItemEntity itemEntity1 = new ItemEntity("全部行业",(String) obj.getValue(),(String) obj.getKey());
+				data.add(itemEntity1);
+			}
+			m.what = 0;
+		}else {
+			String errorResult = (String) responseJsonObject.get("result");
+			String err = StringUtil.getAppException4MOS(errorResult);
+			SelectIndustryActivity.this.sendExceptionMsg(err);
+		}
+				
+		handler.sendMessage(m);
+ }
+   
+// 处理线程发送的消息
+		private Handler handler = new Handler() {
+
+			public void handleMessage(Message msg) {
+				switch (msg.what) {
+				case 0:
+					initUI();
+					break;
+
+				}
+				closeProcessDialog();
+			}
+		};
+
+		private void initUI(){
+			pinnedAdapter.notifyDataSetChanged();
+		}
 	@Override
 	protected void initAllView() {
 		super.titleRightButton.setImageResource(R.drawable.queding);
@@ -73,7 +166,7 @@ public class SelectIndustryActivity extends BaicActivity {
 		count = (TextView) findViewById(R.id.count);
 
 		listView = (PinnedHeaderListView) findViewById(R.id.listview);
-		data = createTestData();
+
 		// * 创建新的HeaderView，即置顶的HeaderView
 		headerView = getLayoutInflater().inflate(R.layout.pinned_header_listview_item_header, listView, false);
 		listView.setPinnedHeader(headerView);
@@ -90,9 +183,11 @@ public class SelectIndustryActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View v) {
-//				Intent intent = getIntent();
-//				intent.putExtra("", "");
-				setResult(RESULT_OK);
+				Intent intent = getIntent();
+				ArrayList list = new ArrayList();
+				list.add(backList);
+				intent.putExtra("list", list);
+				setResult(RESULT_OK,intent);
 				finish();
 			}
 		});
@@ -126,63 +221,15 @@ public class SelectIndustryActivity extends BaicActivity {
 		}
 	}
 
-	private List<ItemEntity> createTestData() {
-
-		List<ItemEntity> data = new ArrayList<ItemEntity>();
-
-		ItemEntity itemEntity1 = new ItemEntity("IT/互联网", "计算机软件");
-		ItemEntity itemEntity2 = new ItemEntity("IT/互联网", "电子商务");
-		ItemEntity itemEntity3 = new ItemEntity("金融业", "基金/证券");
-		ItemEntity itemEntity4 = new ItemEntity("金融业", "保险/银行");
-		ItemEntity itemEntity5 = new ItemEntity("房地产/建筑", "建材/工程");
-		ItemEntity itemEntity6 = new ItemEntity("房地产/建筑", "装饰装潢");
-		ItemEntity itemEntity7 = new ItemEntity("房地产/建筑", "商业中心");
-		ItemEntity itemEntity8 = new ItemEntity("商业服务", "广告");
-		ItemEntity itemEntity9 = new ItemEntity("商业服务", "会展");
-		ItemEntity itemEntity10 = new ItemEntity("商业服务", "公关");
-		ItemEntity itemEntity11 = new ItemEntity("贸易/批发", "零售");
-		ItemEntity itemEntity12 = new ItemEntity("贸易/批发", "耐用消费品");
-		ItemEntity itemEntity13 = new ItemEntity("文体教育", "教育/培训");
-		ItemEntity itemEntity14 = new ItemEntity("文体教育", "工艺美术/奢侈品");
-		ItemEntity itemEntity15 = new ItemEntity("生产加工/制造", "汽车/摩托车");
-		ItemEntity itemEntity16 = new ItemEntity("生产加工/制造", "机电设备");
-		ItemEntity itemEntity17 = new ItemEntity("生产加工/制造", "仪器表及工业自动化");
-		ItemEntity itemEntity18 = new ItemEntity("生产加工/制造", "印刷/造纸");
-		ItemEntity itemEntity19 = new ItemEntity("生产加工/制造", "医疗设备/器械");
-		ItemEntity itemEntity20 = new ItemEntity("生产加工/制造", "航天设备");
-
-		data.add(itemEntity1);
-		data.add(itemEntity2);
-		data.add(itemEntity3);
-		data.add(itemEntity4);
-		data.add(itemEntity5);
-		data.add(itemEntity6);
-		data.add(itemEntity7);
-		data.add(itemEntity8);
-		data.add(itemEntity9);
-		data.add(itemEntity10);
-		data.add(itemEntity11);
-		data.add(itemEntity12);
-		data.add(itemEntity13);
-		data.add(itemEntity14);
-		data.add(itemEntity15);
-		data.add(itemEntity16);
-		data.add(itemEntity17);
-		data.add(itemEntity18);
-		data.add(itemEntity19);
-		data.add(itemEntity20);
-
-		return data;
-
-	}
-
 	public class ItemEntity {
 		private String mTitle;
 		private String mContent;
+		private String mContentId;
 
-		public ItemEntity(String pTitle, String pContent) {
+		public ItemEntity(String pTitle, String pContent,String pContentId) {
 			mTitle = pTitle;
 			mContent = pContent;
+			mContentId = pContentId;
 		}
 
 		public String getTitle() {
@@ -192,6 +239,12 @@ public class SelectIndustryActivity extends BaicActivity {
 		public String getContent() {
 			return mContent;
 		}
+
+		public String getmContentId() {
+			return mContentId;
+		}
+
+		
 	}
 
 	class PinnedAdapter extends BaseAdapter implements OnScrollListener, PinnedHeaderAdapter {
@@ -281,7 +334,10 @@ public class SelectIndustryActivity extends BaicActivity {
 							checkBoxState.put(position, ((CheckBox)v).isChecked());
 							list.add(position);
 							count.setText(checkBoxState.size()+"/5");
-							
+							HashMap map = new HashMap();
+							map.put("id", data.get(position).getmContentId());
+							map.put("value", data.get(position).getContent());
+							backList.add(map);
 							TextView tv_already_selected = new TextView(SelectIndustryActivity.this);
 							LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
 							params.setMargins(0, 5, 0, 0);

@@ -7,9 +7,9 @@
         android:minSdkVersion="8"
         android:targetSdkVersion="15" />
 
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" >
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" ><!-- 用于评论模块分享位置信息 -->
     </uses-permission>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" >
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" ><!-- 用于评论模块分享位置信息 -->
     </uses-permission>
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -46,7 +46,7 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" >
     </uses-permission>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-
+    
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
@@ -160,6 +160,10 @@
             android:name=".activity.SelectAreaActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".activity.SelectWorkAreaActivity"
+            android:screenOrientation="portrait" >
+        </activity>
         <!-- 选择外语能力Acitivity -->
         <activity
             android:name=".activity.SelectForeignLanguageActivity"
@@ -224,6 +228,14 @@
             android:name=".activity.SelectIndustryActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".activity.SelectPositionActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.SelectPositionDetailActivity"
+            android:screenOrientation="portrait" >
+        </activity>
         <!-- 职位申请记录Acitivity -->
         <activity
             android:name=".activity.MyAppliedJobActivity"
@@ -234,6 +246,15 @@
             android:name=".activity.InterviewNoticeDetailActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <!-- 信息咨询 -->
+        <activity
+            android:name=".activity.InformationDetailActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.InformationListMoreActivity"
+            android:screenOrientation="portrait" >
+        </activity>        
     </application>
 
 </manifest>

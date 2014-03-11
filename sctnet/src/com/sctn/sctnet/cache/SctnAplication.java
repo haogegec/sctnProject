@@ -15,6 +15,8 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
 
+import com.sctn.sctnet.contants.Constant;
+
 import android.app.Application;
 
 public class SctnAplication extends Application{
@@ -52,8 +54,8 @@ public class SctnAplication extends Application{
 	// 创建HttpClient对象
 		private HttpClient createHttpClient() {
 			HttpParams params = new BasicHttpParams();
-			HttpConnectionParams.setConnectionTimeout(params, 500000);
-			HttpConnectionParams.setSoTimeout(params, 1800000);
+			HttpConnectionParams.setConnectionTimeout(params, Constant.REQUEST_TIMEOUT);
+			HttpConnectionParams.setSoTimeout(params, Constant.SO_TIMEOUT);
 			HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
 			HttpProtocolParams.setContentCharset(params,
 					HTTP.DEFAULT_CONTENT_CHARSET);

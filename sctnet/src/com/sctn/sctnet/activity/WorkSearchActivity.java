@@ -26,18 +26,18 @@ import android.widget.TextView;
 import com.sctn.sctnet.R;
 
 /**
- * @author wanghaoc
- * 首页关键字职位搜索
- *
+ * @author wanghaoc 首页关键字职位搜索
+ * 
  */
 public class WorkSearchActivity extends Activity {
 
-	private int perSpacing ;
+	private int perSpacing;
 	private ArrayList<TextView> pageTitles = new ArrayList<TextView>();
 	private ImageView cursor;// 动画图片
 	private int currIndex = 0;// 当前页卡编号
 	private Animation animation = null;
 	private EditText search_edit;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -45,40 +45,38 @@ public class WorkSearchActivity extends Activity {
 		setContentView(R.layout.worksearch_activity);
 		initAllView();
 		reigesterAllEvent();
-	}	
-	
-	 
-   protected void initAllView() {
+	}
+
+	protected void initAllView() {
 		// 获取手机屏幕的宽度
 		getScreenWidth();
 		initPageTitles();
 		initImageView();
-		//初始化Edit编辑框
-		 search_edit = (EditText) findViewById(R.id.search_edit_bg);
+		// 初始化Edit编辑框
+		search_edit = (EditText) findViewById(R.id.search_edit_bg);
 	}
 
 	protected void reigesterAllEvent() {
 		setPageTitleOnClickListener();
 		search_edit.setOnKeyListener(new OnKeyListener() {
-	   //输入完后按键盘上的搜索键【回车键改为了搜索键】
-        public boolean onKey(View v, int keyCode, KeyEvent event) {
-        if(keyCode==KeyEvent.KEYCODE_ENTER){//修改回车键功能
-        // 先隐藏键盘
-        ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)) .hideSoftInputFromWindow(
-         WorkSearchActivity.this
-        .getCurrentFocus()
-        .getWindowToken(),
-        InputMethodManager.HIDE_NOT_ALWAYS);
+			// 输入完后按键盘上的搜索键【回车键改为了搜索键】
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				if (keyCode == KeyEvent.KEYCODE_ENTER) {// 修改回车键功能
+					// 先隐藏键盘
+					((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))
+							.hideSoftInputFromWindow(WorkSearchActivity.this
+									.getCurrentFocus().getWindowToken(),
+									InputMethodManager.HIDE_NOT_ALWAYS);
 
-        //跳转页面 
-    	Intent intent = new Intent(WorkSearchActivity.this,
-    			SearchResultActivity.class);
-	    startActivity(intent);
-        }
-        return false;
-        }
-        
-        });
+					// 跳转页面
+					Intent intent = new Intent(WorkSearchActivity.this,
+							SearchResultActivity.class);
+					startActivity(intent);
+				}
+				return false;
+			}
+
+		});
 	}
 
 	/**
@@ -89,7 +87,7 @@ public class WorkSearchActivity extends Activity {
 			pageTitles.get(i).setOnClickListener(new MyOnClickListener(i));
 		}
 	}
-	
+
 	/**
 	 * 头标点击监听
 	 */
@@ -97,23 +95,23 @@ public class WorkSearchActivity extends Activity {
 		private int index = 0;
 
 		public MyOnClickListener(int i) {
-			
+
 			index = i;
 		}
-		
+
 		public void onClick(View v) {
-			
+
 			switch (index) {
 			case 0:
 				if (currIndex == 1) {
 					// 从2到1
 					moveOnetoLeft(perSpacing);
-					
+
 				} else if (currIndex == 2) {
 					// 从3到1
 					moveTwoToLeft(perSpacing);
-				} 
-				currIndex=index;
+				}
+				currIndex = index;
 				break;
 			case 1:
 				// 从1 到 2 页面
@@ -122,8 +120,8 @@ public class WorkSearchActivity extends Activity {
 				} else if (currIndex == 2) {
 					// 从3到2
 					moveOnetoLeft(perSpacing);
-				} 
-				currIndex=index;
+				}
+				currIndex = index;
 				break;
 			case 2:
 				// 从1到3
@@ -133,38 +131,36 @@ public class WorkSearchActivity extends Activity {
 					// 从 2 到3
 					moveOneToRight(perSpacing);
 				}
-				currIndex=index;
+				currIndex = index;
 				break;
-				}
-//			setPageTitlesColor(arg0);
-//			currIndex = arg0;
+			}
+			// setPageTitlesColor(arg0);
+			// currIndex = arg0;
 			animation.setFillAfter(true);// True:图片停在动画结束位置
 			animation.setDuration(300);
 			cursor.startAnimation(animation);
-	};
+		};
 	}
+
 	/**
 	 * 初始化页卡标题
 	 */
 	private void initPageTitles() {
 		pageTitles.clear();
-		pageTitles
-				.add((TextView) findViewById(R.id.search_layout_title1));
-		pageTitles
-				.add((TextView) findViewById(R.id.search_layout_title2));
-		pageTitles
-				.add((TextView) findViewById(R.id.search_layout_title3));
+		pageTitles.add((TextView) findViewById(R.id.search_layout_title1));
+		pageTitles.add((TextView) findViewById(R.id.search_layout_title2));
+		pageTitles.add((TextView) findViewById(R.id.search_layout_title3));
 	}
-	
+
 	/**
 	 * 获取屏幕宽度/4
 	 */
 	private int getScreenWidth() {
 		DisplayMetrics dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
-		 int screenW = dm.widthPixels;// 获取屏幕宽度
-		  perSpacing = screenW /3;
-		  return perSpacing;
+		int screenW = dm.widthPixels;// 获取屏幕宽度
+		perSpacing = screenW / 3;
+		return perSpacing;
 	}
 
 	/**
@@ -189,7 +185,7 @@ public class WorkSearchActivity extends Activity {
 		matrix.postTranslate(0, 0);
 		cursor.setImageMatrix(matrix);// 设置动画初始位置
 	}
-	
+
 	/**
 	 * @param one
 	 *            向左移动一个单位
@@ -212,6 +208,7 @@ public class WorkSearchActivity extends Activity {
 		}
 
 	}
+
 	/**
 	 * @param one
 	 *            向左移动2个单位
@@ -224,7 +221,7 @@ public class WorkSearchActivity extends Activity {
 			animation = new TranslateAnimation(2 * one, 0, 0, 0);
 		}
 	}
-	
+
 	/**
 	 * @param one
 	 *            向右移2个单位
@@ -246,7 +243,7 @@ public class WorkSearchActivity extends Activity {
 			animation = new TranslateAnimation(0, 2 * one, 0, 0);
 		}
 	}
-	
+
 	/**
 	 * @param one
 	 *            向右移动1个单位

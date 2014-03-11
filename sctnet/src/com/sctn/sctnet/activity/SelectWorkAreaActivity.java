@@ -6,12 +6,10 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,23 +19,21 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.Utils.StringUtil;
 import com.sctn.sctnet.contants.Constant;
+import com.sctn.sctnet.entity.ResumeInfo;
 import com.sctn.sctnet.view.SideBar;
 
-public class SelectAreaActivity extends BaicActivity {
+public class SelectWorkAreaActivity extends BaicActivity{
 	
 	private ListView lv_area;
-	private SideBar indexBar;
-	private static String[] cities = {"北京","成都","广州","杭州","南京","上海","深圳","天津","武汉","西安"};
 	private List<Map<String, String>> listItems = new ArrayList<Map<String, String>>();
 
 	//服务端返回结果
@@ -62,7 +58,7 @@ public class SelectAreaActivity extends BaicActivity {
 	 * 
 	 */
 	private void requestDataThread() {
-		showProcessDialog(false);
+		showProcessDialog(true);
 		Thread mThread = new Thread(new Runnable() {// 启动新的线程，
 					@Override
 					public void run() {
@@ -77,18 +73,18 @@ public class SelectAreaActivity extends BaicActivity {
 
 			Message msg = new Message();
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-			params.add(new BasicNameValuePair("type", Constant.PROVINCE_TYPE+""));
-			params.add(new BasicNameValuePair("key", "1"));
+			params.add(new BasicNameValuePair("type", Constant.CITY_TYPE+""));
+			params.add(new BasicNameValuePair("key", "19510000"));
 			result = getPostHttpContent(url, params);
 
 			if (StringUtil.isExcetionInfo(result)) {
-				SelectAreaActivity.this.sendExceptionMsg(result);
+				SelectWorkAreaActivity.this.sendExceptionMsg(result);
 				return;
 			}
 
 			if (StringUtil.isBlank(result)) {
 				result = StringUtil.getAppException4MOS("未获得服务器响应结果！");
-				SelectAreaActivity.this.sendExceptionMsg(result);
+				SelectWorkAreaActivity.this.sendExceptionMsg(result);
 			}
 			Message m=new Message();
 			responseJsonObject = com.alibaba.fastjson.JSONObject
@@ -109,7 +105,7 @@ public class SelectAreaActivity extends BaicActivity {
 			}else {
 				String errorResult = (String) responseJsonObject.get("result");
 				String err = StringUtil.getAppException4MOS(errorResult);
-				SelectAreaActivity.this.sendExceptionMsg(err);
+				SelectWorkAreaActivity.this.sendExceptionMsg(err);
 			}
 					
 			handler.sendMessage(m);
@@ -145,7 +141,8 @@ public class SelectAreaActivity extends BaicActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Intent intent = getIntent();
-				intent.putExtra("area", cities[position]);
+				intent.putExtra("id", listItems.get(position).get("id"));
+				intent.putExtra("value", listItems.get(position).get("value"));
 				setResult(RESULT_OK,intent);
 				finish();
 				
@@ -219,4 +216,5 @@ public class SelectAreaActivity extends BaicActivity {
  	private final class ViewCache {
  		public TextView area;// 地区
  	}
+
 }

@@ -291,33 +291,22 @@ public abstract class BaicActivity extends Activity {
 		// String parameterEncrypted = null;
 		try {
 
-			UrlEncodedFormEntity resEntity = new UrlEncodedFormEntity(parameter, HTTP.UTF_8);
+			UrlEncodedFormEntity resEntity = new UrlEncodedFormEntity(parameter,
+					HTTP.UTF_8);
 			post.setEntity(resEntity);
 			// 获取响应的结果
 			HttpResponse response = client.execute(post);
 			// 获取HttpEntity
 			HttpEntity respEntity = response.getEntity();
+
 			// 获取响应的结果信息
 			resultByteType = EntityUtils.toByteArray(respEntity);
-
-			// parameterEncrypted = parameter;
-			//
-			// StringEntity resEntity = new StringEntity(parameterEncrypted,
-			// "UTF-8");
-			// post.setEntity(resEntity);
-			// // 获取响应的结果
-			// HttpResponse response = client.execute(post);
-			// // 获取HttpEntity
-			// HttpEntity respEntity = response.getEntity();
-			//
-			// // 获取响应的结果信息
-			// resultByteType = EntityUtils.toByteArray(respEntity);
-			//
-			// if(resultByteType == null || resultByteType.length==0){
-			// return result;
-			// }
-			//
-			// // 解压返回的数据
+			
+			if(resultByteType == null || resultByteType.length==0){
+				return result;
+			}
+			
+			// 解压返回的数据
 			result = StringUtil.unCompress(resultByteType);
 
 		} catch (ClientProtocolException e) {
