@@ -303,6 +303,16 @@ public class CompanyInfoActivity extends BaicActivity {
 		tv_companyEmail2 = (TextView) companyInfoPage.findViewById(R.id.company_email);// 电子邮箱
 		tv_companyWebsite2 = (TextView) companyInfoPage.findViewById(R.id.company_website);// 公司网址
 
+		tv_companyAddress2.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent(CompanyInfoActivity.this,CompanyLocationActivity.class);
+				
+				startActivity(intent);
+			}
+			
+		});
 	}
 
 	/**
