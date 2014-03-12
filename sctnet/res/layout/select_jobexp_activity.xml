@@ -120,7 +120,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textColor="@color/lightBlack"
-                android:text="行业类别" />
+                android:text="目前就职的行业" />
 
             <TextView
                 android:id="@+id/tv_industryCategory2"
@@ -165,7 +165,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textColor="@color/lightBlack"
-                android:text="目前就职的行业" />
+                android:text="目前就职的职位类别" />
 
             <TextView
                 android:id="@+id/tv_currentIndustry2"
@@ -236,8 +236,43 @@
             </ImageView>
         </RelativeLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/job"
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/item_selector"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:focusable="true"  
+   			android:focusableInTouchMode="true"
+             >
+
+            <TextView
+                android:id="@+id/tv_job"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
+                android:text="职务" />
+
+            <EditText
+                android:id="@+id/et_job2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/my_edittext"
+                android:layout_marginRight="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="" />
+
+        </LinearLayout>
+        
+        <RelativeLayout
+            android:id="@+id/jobExp"
             android:layout_width="fill_parent"
             android:layout_height="55dp"
             android:layout_marginLeft="15dp"
@@ -248,17 +283,17 @@
             android:orientation="horizontal" >
 
             <TextView
-                android:id="@+id/tv_job"
+                android:id="@+id/tv_jobExp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textColor="@color/lightBlack"
-                android:text="职务" />
+                android:text="担任现职务时间" />
 
             <TextView
-                android:id="@+id/tv_job2"
+                android:id="@+id/tv_jobExp2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@+id/arrow6"
@@ -351,7 +386,7 @@
                 android:text="月薪" />
 
             <EditText
-                android:id="@+id/tv_monthlySalary2"
+                android:id="@+id/et_monthlySalary2"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/my_edittext"
@@ -408,7 +443,7 @@
                 android:text="分红" />
 
             <EditText
-                android:id="@+id/tv_dividend2"
+                android:id="@+id/et_dividend2"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/my_edittext"
@@ -511,7 +546,7 @@
                 android:text="年薪" />
 
             <EditText
-                android:id="@+id/tv_annualSalary2"
+                android:id="@+id/et_annualSalary2"
                 android:layout_width="190dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/my_edittext"
@@ -527,7 +562,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textColor="@color/lightBlack"
-                android:text="万元" />
+                android:text="元" />
         </LinearLayout>
 
         <!--

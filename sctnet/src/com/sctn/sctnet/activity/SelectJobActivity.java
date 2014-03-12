@@ -13,7 +13,11 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,31 +31,34 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.Utils.StringUtil;
 import com.sctn.sctnet.contants.Constant;
 import com.sctn.sctnet.view.SideBar;
 
-public class SelectAreaActivity extends BaicActivity {
+public class SelectJobActivity extends BaicActivity {
 
-	private ListView lv_area;
-	private SideBar indexBar;
-	private static String[] cities;
-	private static String[] cityIds;
+	private ListView lv_job;
+	private static String[] jobs;
+	private static String[] jobIds;
 	private List<Map<String, String>> listItems = new ArrayList<Map<String, String>>();
 
 	// 服务端返回结果
 	private String result;
 	private com.alibaba.fastjson.JSONObject responseJsonObject = null;// 返回结果存放在该json对象中
-	// private String requestParameters;
+	private String key;// 职务的id
+
+	private Builder builder;// 学历选择
+	private Dialog dialog;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.select_area_listview);
-		super.setTitleBar("选择地区", View.VISIBLE, View.GONE);
+		super.setTitleBar("选择职位类别", View.VISIBLE, View.GONE);
 
 		initAllView();
 		reigesterAllEvent();
@@ -80,18 +87,18 @@ public class SelectAreaActivity extends BaicActivity {
 
 		Message msg = new Message();
 		List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-		params.add(new BasicNameValuePair("type", Constant.PROVINCE_TYPE + ""));
+		params.add(new BasicNameValuePair("type", "8"));
 		params.add(new BasicNameValuePair("key", "1"));
 		result = getPostHttpContent(url, params);
 
 		if (StringUtil.isExcetionInfo(result)) {
-			SelectAreaActivity.this.sendExceptionMsg(result);
+			SelectJobActivity.this.sendExceptionMsg(result);
 			return;
 		}
 
 		if (StringUtil.isBlank(result)) {
 			result = StringUtil.getAppException4MOS("未获得服务器响应结果！");
-			SelectAreaActivity.this.sendExceptionMsg(result);
+			SelectJobActivity.this.sendExceptionMsg(result);
 		}
 		Message m = new Message();
 		responseJsonObject = com.alibaba.fastjson.JSONObject.parseObject(result);
@@ -100,24 +107,73 @@ public class SelectAreaActivity extends BaicActivity {
 			com.alibaba.fastjson.JSONObject json = responseJsonObject.getJSONObject("result");
 			Set<Entry<String, Object>> set = json.entrySet();
 			Iterator<Entry<String, Object>> iter = set.iterator();
-			cities = new String[set.size()];
-			cityIds = new String[set.size()];
+			jobs = new String[set.size()];
+			jobIds = new String[set.size()];
 			int i = 0;
 			while (iter.hasNext()) {
 				Map<String, String> map = new HashMap<String, String>();
 				Entry obj = iter.next();
 				map.put("id", (String) obj.getKey());
 				map.put("value", (String) obj.getValue());
-				cities[i] = (String) obj.getValue();
-				cityIds[i] = (String) obj.getKey();
+				jobs[i] = (String) obj.getValue();
+				jobIds[i] = (String) obj.getKey();
 				listItems.add(map);
 				i++;
 			}
-			m.what = Constant.AREA;
+			m.what = Constant.JOB;
 		} else {
 			String errorResult = (String) responseJsonObject.get("result");
 			String err = StringUtil.getAppException4MOS(errorResult);
-			SelectAreaActivity.this.sendExceptionMsg(err);
+			SelectJobActivity.this.sendExceptionMsg(err);
+		}
+
+		handler.sendMessage(m);
+	}
+
+	private void initJobDataThread(int position) {
+
+		String url = "appCmbShow.app";
+
+		Message msg = new Message();
+		List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
+		params.add(new BasicNameValuePair("type", "13"));
+		params.add(new BasicNameValuePair("key", jobIds[position]));
+		result = getPostHttpContent(url, params);
+
+		if (StringUtil.isExcetionInfo(result)) {
+			SelectJobActivity.this.sendExceptionMsg(result);
+			return;
+		}
+
+		if (StringUtil.isBlank(result)) {
+			result = StringUtil.getAppException4MOS("未获得服务器响应结果！");
+			SelectJobActivity.this.sendExceptionMsg(result);
+		}
+		Message m = new Message();
+		responseJsonObject = com.alibaba.fastjson.JSONObject.parseObject(result);
+		if (responseJsonObject.get("resultcode").toString().equals("0")) {
+
+			com.alibaba.fastjson.JSONObject json = responseJsonObject.getJSONObject("result");
+			Set<Entry<String, Object>> set = json.entrySet();
+			Iterator<Entry<String, Object>> iter = set.iterator();
+			jobs = new String[set.size()];
+			jobIds = new String[set.size()];
+			int i = 0;
+			while (iter.hasNext()) {
+				Map<String, String> map = new HashMap<String, String>();
+				Entry obj = iter.next();
+				map.put("id", (String) obj.getKey());
+				map.put("value", (String) obj.getValue());
+				jobs[i] = (String) obj.getValue();
+				jobIds[i] = (String) obj.getKey();
+				listItems.add(map);
+				i++;
+			}
+			m.what = Constant.DETAIL_JOB;
+		} else {
+			String errorResult = (String) responseJsonObject.get("result");
+			String err = StringUtil.getAppException4MOS(errorResult);
+			SelectJobActivity.this.sendExceptionMsg(err);
 		}
 
 		handler.sendMessage(m);
@@ -128,10 +184,12 @@ public class SelectAreaActivity extends BaicActivity {
 
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
-			case Constant.AREA:
+			case Constant.JOB:
 				initUI();
 				break;
-
+			case Constant.DETAIL_JOB:
+				initJobData();
+				break;
 			}
 			closeProcessDialog();
 		}
@@ -139,30 +197,54 @@ public class SelectAreaActivity extends BaicActivity {
 
 	@Override
 	protected void initAllView() {
-		lv_area = (ListView) findViewById(R.id.lv_area);
-
-		lv_area.setAdapter(new MyAdapter(this, listItems, R.layout.select_area_item));
+		lv_job = (ListView) findViewById(R.id.lv_area);
+		builder = new AlertDialog.Builder(SelectJobActivity.this);
 	}
 
 	@Override
 	protected void reigesterAllEvent() {
-		lv_area.setOnItemClickListener(new OnItemClickListener() {
+		lv_job.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Intent intent = getIntent();
-				intent.putExtra("area", cities[position]);
-				intent.putExtra("areaId", cityIds[position]);
-				setResult(RESULT_OK, intent);
-				finish();
+			public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+
+				showProcessDialog(false);
+				Thread mThread = new Thread(new Runnable() {// 启动新的线程，
+							@Override
+							public void run() {
+								initJobDataThread(position);
+							}
+						});
+				mThread.start();
 			}
 
 		});
 	}
 
-	// 初始化城市列表
 	protected void initUI() {
-		lv_area.setAdapter(new MyAdapter(this, listItems, R.layout.select_area_item));
+		lv_job.setAdapter(new MyAdapter(this, listItems, R.layout.select_area_item));
+	}
+
+	protected void initJobData() {
+		builder.setTitle("请选择您的职务");
+		builder.setSingleChoiceItems(jobs, 0, new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				
+				Intent intent = getIntent();
+				intent.putExtra("jobId", jobIds[which]);
+				intent.putExtra("job", jobs[which]);
+				setResult(RESULT_OK,intent);
+				finish();
+				
+				dialog.dismiss();
+			}
+
+		});
+		dialog = builder.create();
+		dialog.show();
+
 	}
 
 	// 自定义适配器
@@ -196,23 +278,23 @@ public class SelectAreaActivity extends BaicActivity {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			TextView area = null;
+			TextView job = null;
 
 			if (convertView == null) {// 目前显示的是第一页，为这些条目数据new一个view出来，如果不是第一页，则继续用缓存的view
 				convertView = inflater.inflate(resource, null);
 
 				// 初始化控件
-				area = (TextView) convertView.findViewById(R.id.area);
+				job = (TextView) convertView.findViewById(R.id.area);
 				ViewCache viewCache = new ViewCache();
-				viewCache.area = area;
+				viewCache.area = job;
 				convertView.setTag(viewCache);
 			} else {
 				// 初始化控件
 				ViewCache viewCache = (ViewCache) convertView.getTag();
-				area = viewCache.area;
+				job = viewCache.area;
 			}
 
-			area.setText(list.get(position).get("value"));
+			job.setText(list.get(position).get("value"));
 
 			return convertView;
 		}

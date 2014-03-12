@@ -33,25 +33,23 @@ import com.sctn.sctnet.Utils.StringUtil;
 import com.sctn.sctnet.contants.Constant;
 import com.sctn.sctnet.view.SideBar;
 
-public class SelectAreaActivity extends BaicActivity {
+public class SelectCurrentIndustryActivity extends BaicActivity {
 
 	private ListView lv_area;
 	private SideBar indexBar;
-	private static String[] cities;
-	private static String[] cityIds;
+	private static String[] currentIndustry;
+	private static String[] currentIndustryIds;
 	private List<Map<String, String>> listItems = new ArrayList<Map<String, String>>();
 
 	// 服务端返回结果
 	private String result;
-	private com.alibaba.fastjson.JSONObject responseJsonObject = null;// 返回结果存放在该json对象中
-	// private String requestParameters;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.select_area_listview);
-		super.setTitleBar("选择地区", View.VISIBLE, View.GONE);
+		setContentView(R.layout.select_current_industry_listview);
+		super.setTitleBar("选择目前就职的行业", View.VISIBLE, View.GONE);
 
 		initAllView();
 		reigesterAllEvent();
@@ -68,59 +66,61 @@ public class SelectAreaActivity extends BaicActivity {
 		Thread mThread = new Thread(new Runnable() {// 启动新的线程，
 					@Override
 					public void run() {
-						requestData();
+						initCurrentIndustryThread();
 					}
 				});
 		mThread.start();
 	}
 
-	private void requestData() {
-
+	private void initCurrentIndustryThread() {
 		String url = "appCmbShow.app";
-
 		Message msg = new Message();
-		List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-		params.add(new BasicNameValuePair("type", Constant.PROVINCE_TYPE + ""));
-		params.add(new BasicNameValuePair("key", "1"));
-		result = getPostHttpContent(url, params);
 
-		if (StringUtil.isExcetionInfo(result)) {
-			SelectAreaActivity.this.sendExceptionMsg(result);
-			return;
-		}
+		try {
 
-		if (StringUtil.isBlank(result)) {
-			result = StringUtil.getAppException4MOS("未获得服务器响应结果！");
-			SelectAreaActivity.this.sendExceptionMsg(result);
-		}
-		Message m = new Message();
-		responseJsonObject = com.alibaba.fastjson.JSONObject.parseObject(result);
-		if (responseJsonObject.get("resultcode").toString().equals("0")) {
+			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
+			params.add(new BasicNameValuePair("type", "9"));
+			params.add(new BasicNameValuePair("key", "1"));
+			result = getPostHttpContent(url, params);
 
-			com.alibaba.fastjson.JSONObject json = responseJsonObject.getJSONObject("result");
-			Set<Entry<String, Object>> set = json.entrySet();
-			Iterator<Entry<String, Object>> iter = set.iterator();
-			cities = new String[set.size()];
-			cityIds = new String[set.size()];
-			int i = 0;
-			while (iter.hasNext()) {
-				Map<String, String> map = new HashMap<String, String>();
-				Entry obj = iter.next();
-				map.put("id", (String) obj.getKey());
-				map.put("value", (String) obj.getValue());
-				cities[i] = (String) obj.getValue();
-				cityIds[i] = (String) obj.getKey();
-				listItems.add(map);
-				i++;
+			if (StringUtil.isExcetionInfo(result)) {
+				SelectCurrentIndustryActivity.this.sendExceptionMsg(result);
+				return;
 			}
-			m.what = Constant.AREA;
-		} else {
-			String errorResult = (String) responseJsonObject.get("result");
-			String err = StringUtil.getAppException4MOS(errorResult);
-			SelectAreaActivity.this.sendExceptionMsg(err);
-		}
 
-		handler.sendMessage(m);
+			JSONObject responseJsonObject = new JSONObject(result);
+
+			if (responseJsonObject.getInt("resultcode") == 0) {// 获得响应结果
+
+				JSONObject resultJsonObject = responseJsonObject.getJSONObject("result");
+				Iterator it = resultJsonObject.keys();
+				currentIndustry = new String[resultJsonObject.length()];
+				currentIndustryIds = new String[resultJsonObject.length()];
+				int i=0;
+				while (it.hasNext()) {
+					Map<String, String> map = new HashMap<String, String>();
+					String key = (String) it.next();
+					String value = resultJsonObject.getString(key);
+					currentIndustryIds[i] = key;
+					currentIndustry[i] = value;
+					map.put("id", key);
+					map.put("value", value);
+					listItems.add(map);
+					i++;
+				}
+
+				msg.what = Constant.CURRENT_INDUSTRY;
+				handler.sendMessage(msg);
+			} else {
+				String errorResult = (String) responseJsonObject.get("result");
+				String err = StringUtil.getAppException4MOS(errorResult);
+				SelectCurrentIndustryActivity.this.sendExceptionMsg(err);
+			}
+
+		} catch (JSONException e) {
+			String err = StringUtil.getAppException4MOS("解析json出错！");
+			SelectCurrentIndustryActivity.this.sendExceptionMsg(err);
+		}
 	}
 
 	// 处理线程发送的消息
@@ -128,7 +128,7 @@ public class SelectAreaActivity extends BaicActivity {
 
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
-			case Constant.AREA:
+			case Constant.CURRENT_INDUSTRY:
 				initUI();
 				break;
 
@@ -139,9 +139,12 @@ public class SelectAreaActivity extends BaicActivity {
 
 	@Override
 	protected void initAllView() {
-		lv_area = (ListView) findViewById(R.id.lv_area);
+		// TODO Auto-generated method stub
+		lv_area = (ListView) findViewById(R.id.lv_currentIndustry);
 
 		lv_area.setAdapter(new MyAdapter(this, listItems, R.layout.select_area_item));
+		// indexBar = (SideBar) findViewById(R.id.sideBar);
+		// indexBar.setListView(lv_area);
 	}
 
 	@Override
@@ -151,10 +154,11 @@ public class SelectAreaActivity extends BaicActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Intent intent = getIntent();
-				intent.putExtra("area", cities[position]);
-				intent.putExtra("areaId", cityIds[position]);
+				intent.putExtra("currentIndustry", currentIndustry[position]);
+				intent.putExtra("currentIndustryId", currentIndustryIds[position]);
 				setResult(RESULT_OK, intent);
 				finish();
+
 			}
 
 		});
@@ -162,7 +166,9 @@ public class SelectAreaActivity extends BaicActivity {
 
 	// 初始化城市列表
 	protected void initUI() {
+
 		lv_area.setAdapter(new MyAdapter(this, listItems, R.layout.select_area_item));
+
 	}
 
 	// 自定义适配器

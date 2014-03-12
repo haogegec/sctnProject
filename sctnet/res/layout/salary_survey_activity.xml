@@ -6,10 +6,127 @@
     android:background="@color/background"
     android:orientation="vertical" >
 
+    
+    
     <LinearLayout 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
+        
+        
+        <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="21.0dip" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/linear_layout"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/salarySurvey_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="6"
+                android:background="@null"
+                android:drawableLeft="@drawable/icon1"
+                android:drawablePadding="10dp"
+                android:hint="@string/salarySurvey_username"
+                android:padding="10dp" />
+        </LinearLayout>
+        
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/linear_layout"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/salarySurvey_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="6"
+                android:background="@null"
+                android:drawableLeft="@drawable/icon1"
+                android:drawablePadding="10dp"
+                android:hint="@string/salarySurvey_password"
+                android:inputType="textPassword"
+                android:padding="10dp" />
+        </LinearLayout>
+
+        
+
+        <!--
+        <EditText
+            android:id="@+id/login_edit_username"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="5.0dip"
+            android:layout_marginLeft="5.0dip"
+            android:layout_marginRight="5.0dip"
+            android:layout_marginTop="10.0dip"
+            android:background="@drawable/common_edit"
+            android:hint="@string/username_hint"
+            android:maxLength="20"
+            android:paddingLeft="80.0dip"
+            android:saveEnabled="true"
+            android:singleLine="true" />
+
+        <TextView
+            android:id="@+id/login_tv_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/login_edit_username"
+            android:layout_alignLeft="@+id/login_edit_username"
+            android:layout_alignTop="@+id/login_edit_username"
+            android:layout_marginRight="15.0dip"
+            android:gravity="center_vertical"
+            android:paddingLeft="15.0dip"
+            android:paddingRight="15.0dip"
+            android:text="@string/username_label"
+            android:textColor="#FF000000"
+            android:textSize="20.0dip" />
+
+        <EditText
+            android:id="@+id/login_edit_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/login_edit_username"
+            android:layout_alignRight="@+id/login_edit_username"
+            android:layout_below="@+id/login_edit_username"
+            android:layout_marginRight="1.0dip"
+            android:layout_marginTop="15.0dip"
+            android:background="@drawable/common_edit"
+            android:hint="@string/password_hint"
+            android:inputType="textPassword"
+            android:maxLength="16"
+            android:paddingLeft="80.0dip"
+            android:saveEnabled="true" />
+
+        <TextView
+            android:id="@+id/login_tv_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/login_edit_password"
+            android:layout_alignRight="@+id/login_tv_username"
+            android:layout_alignTop="@+id/login_edit_password"
+            android:gravity="center_vertical"
+            android:paddingLeft="15.0dip"
+            android:paddingRight="15.0dip"
+            android:text="@string/password_label"
+            android:textColor="#FF000000"
+            android:textSize="20.0dip" />
+        -->
+    </RelativeLayout>
 
         <!-- <RelativeLayout
             android:id="@+id/area"
@@ -79,7 +196,6 @@
                 android:id="@+id/sex"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
                 android:orientation="horizontal"
                 android:paddingLeft="10dp" >
 
@@ -126,12 +242,13 @@
                 android:text="年龄" />
 
             <EditText
-                android:id="@+id/tv_age2"
+                android:id="@+id/et_age2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/my_edittext"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:layout_marginRight="10dp"
                 android:digits="1234567890"
                 android:maxLength="3"
                 android:inputType="number"
@@ -150,8 +267,6 @@
                 android:src="@drawable/arrow" >
             </ImageView> -->
         </LinearLayout>
-        
-        
         
         <RelativeLayout
             android:id="@+id/degree"
@@ -198,7 +313,7 @@
             </ImageView>
         </RelativeLayout>
         
-        <RelativeLayout
+        <!-- <RelativeLayout
             android:id="@+id/overseasEduExp"
             android:layout_width="fill_parent"
             android:layout_height="55dp"
@@ -241,9 +356,55 @@
                 android:shadowRadius="1.0"
                 android:src="@drawable/arrow" >
             </ImageView>
-        </RelativeLayout>
+        </RelativeLayout> -->
         
-        <RelativeLayout
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="1dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
+                android:text="是否有海外教育经历" />
+
+            <RadioGroup
+                android:id="@+id/overseasEduExp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp" >
+
+                <RadioButton
+                    android:id="@+id/no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:button="@drawable/common_radio"
+                    android:text="无"
+                    android:textColor="@color/lightBlack" />
+
+                <RadioButton
+                    android:id="@+id/yes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:button="@drawable/common_radio"
+                    android:text="有"
+                    android:textColor="@color/lightBlack" />
+            </RadioGroup>
+        </LinearLayout>
+        
+        <!-- <RelativeLayout
             android:id="@+id/workExp"
             android:layout_width="fill_parent"
             android:layout_height="55dp"
@@ -286,7 +447,7 @@
                 android:shadowRadius="1.0"
                 android:src="@drawable/arrow" >
             </ImageView>
-        </RelativeLayout>
+        </RelativeLayout> -->
         
         <RelativeLayout
             android:id="@+id/foreignLanguage"
@@ -333,7 +494,178 @@
             </ImageView>
         </RelativeLayout>
         
+        <LinearLayout
+            android:id="@+id/professionalCertificate"
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/item_selector"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:focusable="true"  
+   			android:focusableInTouchMode="true" >
+
+            <TextView
+                android:id="@+id/tv_professional_certificate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
+                android:text="职业资格证书" />
+
+            <EditText
+                android:id="@+id/et_professional_certificate2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/my_edittext"
+                android:layout_marginRight="10dp"
+                android:singleLine="true"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="" />
+
+           <!--  <ImageView
+                android:id="@+id/arrow5"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:contentDescription="@null"
+                android:shadowColor="#ffffffff"
+                android:shadowDx="0.0"
+                android:shadowDy="1.0"
+                android:shadowRadius="1.0"
+                android:src="@drawable/arrow" >
+            </ImageView> -->
+        </LinearLayout>
         
+         <LinearLayout
+            android:id="@+id/skill"
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/item_selector"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:focusable="true"  
+   			android:focusableInTouchMode="true" >
+
+            <TextView
+                android:id="@+id/tv_skill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
+                android:text="技能技巧" />
+
+            <EditText
+                android:id="@+id/et_skill2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/my_edittext"
+                android:layout_marginRight="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:singleLine="true"
+                android:text="" />
+
+        </LinearLayout>
+        
+        <!-- <RelativeLayout
+            android:id="@+id/professionalCertificate"
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/item_selector"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/tv_professional_certificate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
+                android:text="职业资格证书" />
+
+            <TextView
+                android:id="@+id/tv_professional_certificate2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/arrow5"
+                android:gravity="right"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="" />
+
+            <ImageView
+                android:id="@+id/arrow5"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:contentDescription="@null"
+                android:shadowColor="#ffffffff"
+                android:shadowDx="0.0"
+                android:shadowDy="1.0"
+                android:shadowRadius="1.0"
+                android:src="@drawable/arrow" >
+            </ImageView>
+        </RelativeLayout> -->
+        
+        <!-- <RelativeLayout
+            android:id="@+id/skill"
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            
+            android:layout_marginTop="1dp"
+            android:background="@drawable/item_selector"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/tv_skill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
+                android:text="技能技巧" />
+
+            <TextView
+                android:id="@+id/tv_skill2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/arrow6"
+                android:gravity="right"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="" />
+
+            <ImageView
+                android:id="@+id/arrow6"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:contentDescription="@null"
+                android:shadowColor="#ffffffff"
+                android:shadowDx="0.0"
+                android:shadowDy="1.0"
+                android:shadowRadius="1.0"
+                android:src="@drawable/arrow" >
+            </ImageView>
+        </RelativeLayout> -->
         
         <RelativeLayout
             android:id="@+id/jobExp"
@@ -381,99 +713,8 @@
             </ImageView>
         </RelativeLayout>
         
-        <RelativeLayout
-            android:id="@+id/professionalCertificate"
-            android:layout_width="fill_parent"
-            android:layout_height="55dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="1dp"
-            android:background="@drawable/item_selector"
-            android:gravity="center_vertical"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:id="@+id/tv_professional_certificate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:textColor="@color/lightBlack"
-                android:text="职业资格证书" />
-
-            <TextView
-                android:id="@+id/tv_professional_certificate2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/arrow5"
-                android:gravity="right"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text="" />
-
-            <ImageView
-                android:id="@+id/arrow5"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_alignParentRight="true"
-                android:contentDescription="@null"
-                android:shadowColor="#ffffffff"
-                android:shadowDx="0.0"
-                android:shadowDy="1.0"
-                android:shadowRadius="1.0"
-                android:src="@drawable/arrow" >
-            </ImageView>
-        </RelativeLayout>
-        
-        <RelativeLayout
-            android:id="@+id/skill"
-            android:layout_width="fill_parent"
-            android:layout_height="55dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            
-            android:layout_marginTop="1dp"
-            android:background="@drawable/item_selector"
-            android:gravity="center_vertical"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:id="@+id/tv_skill"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:textColor="@color/lightBlack"
-                android:text="技能技巧" />
-
-            <TextView
-                android:id="@+id/tv_skill2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/arrow6"
-                android:gravity="right"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text="" />
-
-            <ImageView
-                android:id="@+id/arrow6"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_alignParentRight="true"
-                android:contentDescription="@null"
-                android:shadowColor="#ffffffff"
-                android:shadowDx="0.0"
-                android:shadowDy="1.0"
-                android:shadowRadius="1.0"
-                android:src="@drawable/arrow" >
-            </ImageView>
-        </RelativeLayout>
-        
         <Button
-            android:id="@+id/btn_activity_login"
+            android:id="@+id/btn_submit"
             android:layout_width="fill_parent"
             android:layout_height="45dip"
             android:layout_marginLeft="15dp"

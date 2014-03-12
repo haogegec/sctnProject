@@ -82,6 +82,9 @@
     <string name="salarySurvey">薪酬调查</string>
     <string name="selectForeignLanguage">外语能力</string>
     <string name="jobExperience">职场经历</string>
+    <string name="salarySurvey_username">你参与调查的ID号</string>
+    <string name="salarySurvey_password">你参与调查的密码</string>
+    
     <!-- 更多 -->
     <string name="moreActivityTitle">更多</string>
     <string name="feedback">用户反馈</string>
