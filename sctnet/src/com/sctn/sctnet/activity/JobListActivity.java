@@ -220,6 +220,12 @@ public class JobListActivity extends BaicActivity {
 
 				JSONArray resultJsonArray = responseJsonObject.getJSONArray("result");
 				
+				if(resultJsonArray==null||resultJsonArray.length()==0){
+					String err = StringUtil.getAppException4MOS("没有您要搜索的结果");
+					JobListActivity.this.sendExceptionMsg(err);
+					return;
+				}
+				
 				total = responseJsonObject.getInt("total");//总数
 				if (resultJsonArray.length() > 15) {
 					count = 15;

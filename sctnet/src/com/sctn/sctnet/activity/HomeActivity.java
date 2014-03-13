@@ -111,6 +111,8 @@ public class HomeActivity extends BaicActivity {
 			// 招聘会现场
 			@Override
 			public void onClick(View v) {
+				Intent intent = new Intent(HomeActivity.this, RecruitmentActivity.class);
+				startActivity(intent);
 			}
 		});
 

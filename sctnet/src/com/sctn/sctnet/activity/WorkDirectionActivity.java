@@ -2,8 +2,13 @@ package com.sctn.sctnet.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.view.ItemView;
@@ -16,6 +21,7 @@ import com.sctn.sctnet.view.ItemView;
 public class WorkDirectionActivity extends BaicActivity{
 	
 	private ItemView itemView1,itemView2,itemView3,itemView4;
+	private EditText searchEdit;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -28,7 +34,9 @@ public class WorkDirectionActivity extends BaicActivity{
 
 	@Override
 	protected void initAllView() {
-		// TODO Auto-generated method stub
+		
+		searchEdit = (EditText) findViewById(R.id.search_edit_bg);
+		
 		itemView1 = (ItemView) findViewById(R.id.itemview1);
 		itemView2 = (ItemView) findViewById(R.id.itemview2);
 		itemView3 = (ItemView) findViewById(R.id.itemview3);
@@ -46,7 +54,12 @@ public class WorkDirectionActivity extends BaicActivity{
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(WorkDirectionActivity.this,GuideActivity.class);
+				Intent intent = new Intent(WorkDirectionActivity.this,InformationListMoreActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putString("cid","71" );
+				bundle.putString("title", "人事代理指南");
+				bundle.putString("url", "workGuid!findByCid.app");
+				intent.putExtras(bundle);
 				startActivity(intent);				
 			}
 			
@@ -58,6 +71,21 @@ public class WorkDirectionActivity extends BaicActivity{
 		itemView2.setLabelTextColor(this.getResources().getColor(R.color.blue));
 		itemView2.setValue("");
 		itemView2.setDetailImageViewResource(R.drawable.detail);
+		itemView2.getRelativeLayout().setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(WorkDirectionActivity.this,InformationListMoreActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putString("cid","71" );
+				bundle.putString("title", "学生入户指南");
+				bundle.putString("url", "workGuid!findByCid.app");
+				intent.putExtras(bundle);
+				startActivity(intent);				
+			}
+			
+		});
 		
 		itemView3.setBackground(R.drawable.item_up_bg);
 		itemView3.setIconImageViewResource(R.drawable.work_direction_item);
@@ -65,6 +93,21 @@ public class WorkDirectionActivity extends BaicActivity{
 		itemView3.setLabelTextColor(this.getResources().getColor(R.color.blue));
 		itemView3.setValue("");
 		itemView3.setDetailImageViewResource(R.drawable.detail);
+		itemView3.getRelativeLayout().setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(WorkDirectionActivity.this,InformationListMoreActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putString("cid","71" );
+				bundle.putString("title", "人才工作证办事指南");
+				bundle.putString("url", "workGuid!findByCid.app");
+				intent.putExtras(bundle);
+				startActivity(intent);				
+			}
+			
+		});
 		
 		itemView4.setBackground(R.drawable.item_up_bg);
 		itemView4.setIconImageViewResource(R.drawable.work_direction_item);
@@ -77,7 +120,23 @@ public class WorkDirectionActivity extends BaicActivity{
 
 	@Override
 	protected void reigesterAllEvent() {
-		// TODO Auto-generated method stub
+		searchEdit.setOnEditorActionListener(new OnEditorActionListener() { 
+            
+	           @Override
+	           public boolean onEditorAction(TextView v, int actionId, KeyEvent event) { 
+	               if (actionId == EditorInfo.IME_ACTION_DONE||actionId == KeyEvent.KEYCODE_ENTER||actionId == 0) { 
+	            	   Intent intent = new Intent(WorkDirectionActivity.this,InformationListMoreActivity.class);
+						Bundle bundle = new Bundle();
+						bundle.putString("search", searchEdit.getText().toString());
+						bundle.putString("cid","71" );
+						bundle.putString("title", "搜索结果");
+						bundle.putString("url", "workGuid!search.app");
+						intent.putExtras(bundle);
+						startActivity(intent);
+	               } 
+	               return false; 
+	           } 
+	       });
 		
 	}
 

@@ -94,7 +94,7 @@ public class SelectPositionDetailActivity extends BaicActivity{
 
 		Message msg = new Message();
 		List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-		params.add(new BasicNameValuePair("type", Constant.POSITION_TYPE+""));
+		params.add(new BasicNameValuePair("type", Constant.POSITION_DETAIL_TYPE+""));
 		params.add(new BasicNameValuePair("key", industryId));
 		result = getPostHttpContent(url, params);
 

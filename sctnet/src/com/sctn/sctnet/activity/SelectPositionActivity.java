@@ -70,7 +70,7 @@ public class SelectPositionActivity extends BaicActivity{
 
 				Message msg = new Message();
 				List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-				params.add(new BasicNameValuePair("type", Constant.INDUSTRY_TYPE+""));
+				params.add(new BasicNameValuePair("type", Constant.POSITION_TYPE+""));
 				params.add(new BasicNameValuePair("key", "1"));
 				result = getPostHttpContent(url, params);
 
@@ -140,7 +140,7 @@ public class SelectPositionActivity extends BaicActivity{
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Intent intent = new Intent(SelectPositionActivity.this,SelectPositionDetailActivity.class);
 				intent.putExtra("content", listItems.get(position).get("value"));
-				intent.putExtra("id", listItems.get(position).get("value"));
+				intent.putExtra("id", listItems.get(position).get("id"));
 				startActivityForResult(intent,Constant.POSITION_TYPE);
 			}
 

@@ -42,6 +42,7 @@ public class Constant {
 	public static final int CITY_TYPE = 2;// 请求市类型id
 	public static final int INDUSTRY_TYPE = 3;// 请求行业类型id
 	public static final int POSITION_TYPE = 4;// 请求职业类型id
+	public static final int POSITION_DETAIL_TYPE = 5;//请求详细职位类型id
 
 	// 薪酬调查页面获取后台数据时候用到的常量
 	public static final int DEGREE = 11;// 学位

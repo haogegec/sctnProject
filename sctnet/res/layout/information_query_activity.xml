@@ -6,13 +6,13 @@
     android:id="@+id/sv_scroll"
     android:background="@color/background" >
    
-   <LinearLayout 
+  <LinearLayout 
        android:id="@+id/ll_information_query"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:orientation="vertical"
        >
-    
+ 
     <com.sctn.sctnet.view.SearchEditText
             android:id="@+id/et_search_searchtxt"
             android:layout_width="fill_parent"
@@ -29,7 +29,8 @@
             android:singleLine="true"
             android:textColor="#555"
             android:textColorHint="#999"
-            android:textSize="15dp" />
+            android:textSize="15dp" 
+            />
     
    </LinearLayout> 
 </ScrollView>

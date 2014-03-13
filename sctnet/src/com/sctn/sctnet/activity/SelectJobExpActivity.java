@@ -384,6 +384,7 @@ public class SelectJobExpActivity extends BaicActivity {
 					Toast.makeText(getApplicationContext(), "请填写您对目前薪资的看法", Toast.LENGTH_SHORT).show();
 				} else {
 					Intent intent = getIntent();
+					intent.putExtra("workingAreaId", workingAreaId);
 					intent.putExtra("workingArea", workingArea);
 					intent.putExtra("workingYear", workingYear);
 					intent.putExtra("currentIndustry", currentIndustry);

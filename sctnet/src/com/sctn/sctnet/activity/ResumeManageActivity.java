@@ -2,9 +2,11 @@ package com.sctn.sctnet.activity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,6 +28,7 @@ import android.widget.Toast;
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.Utils.StringUtil;
 import com.sctn.sctnet.cache.CacheProcess;
+import com.sctn.sctnet.contants.Constant;
 import com.sctn.sctnet.entity.ResumeInfo;
 import com.sctn.sctnet.httpConnect.AsyncBitmapLoader;
 
@@ -96,7 +99,7 @@ public class ResumeManageActivity extends BaicActivity {
 		userId = cacheProcess.getLongCacheValueInSharedPreferences(this, "userId");
 		initAllView();
 		reigesterAllEvent();
-	//	initDataTread();
+		initDataTread();
 
 	}
 
@@ -134,9 +137,9 @@ public class ResumeManageActivity extends BaicActivity {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(ResumeManageActivity.this,
 						ResumePreviewActivity.class);
-//				Bundle bundle = new Bundle();
-//				bundle.putSerializable("resumeInfo", resumeInfo);
-//				intent.putExtras(bundle);
+				Bundle bundle = new Bundle();
+				bundle.putSerializable("resumeInfo", dataList);
+				intent.putExtras(bundle);
 				startActivity(intent);
 			}
 
@@ -146,8 +149,7 @@ public class ResumeManageActivity extends BaicActivity {
 			@Override
 			public void onClick(View arg0) {
 				
-				modifyBtn.setFocusable(true);
-				modifyBtn.setPressed(true);
+				
 				toResumeEditActivity();
 			}
 
@@ -168,8 +170,7 @@ public class ResumeManageActivity extends BaicActivity {
 			@Override
 			public void onClick(View arg0) {
 				
-				deleteBtn.setFocusable(true);
-				deleteBtn.setPressed(true);
+				
 				deleteDialog();
 			}
 
@@ -191,8 +192,7 @@ public class ResumeManageActivity extends BaicActivity {
 			@Override
 			public void onClick(View arg0) {
 				
-				refreshBtn.setPressed(true);
-				refreshBtn.setFocusable(true);
+				
 				//刷新简历thread
 				
 			}
@@ -216,8 +216,6 @@ public class ResumeManageActivity extends BaicActivity {
 			@Override
 			public void onClick(View arg0) {
 				
-				isPublicBtn.setPressed(true);
-				isPublicBtn.setFocusable(true);
 				//公开简历thread
 				
 			}
@@ -261,16 +259,16 @@ public class ResumeManageActivity extends BaicActivity {
 	 */
 	private void initData() {
 				
-		String url = "appPersonInfo.app?method=execute";
+		String url = "appPersonInfo.app";
 		
 		Message msg = new Message();
 		try {
 			
-			JSONObject jsonParmter = new JSONObject();
-			jsonParmter.put("Userid", userId);
-			String parameter = jsonParmter.toString();
+			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
+			params.add(new BasicNameValuePair("Userid",  "212461"));
+	
 			
-//			result = getPostHttpContent(url, parameter);
+			result = getPostHttpContent(url, params);
 
 			if (StringUtil.isExcetionInfo(result)) {
 				ResumeManageActivity.this.sendExceptionMsg(result);
@@ -279,10 +277,9 @@ public class ResumeManageActivity extends BaicActivity {
 			
 			if (StringUtil.isBlank(result)) {//说明该用户没有创建简历
 				
-				Intent intent = new Intent(ResumeManageActivity.this,
-						ResumeCreateActivity.class);
-				startActivity(intent);
-				finish();
+				msg.what = 1;
+				handler.sendMessage(msg);
+				
 				return;
 			}
 			
@@ -294,7 +291,7 @@ public class ResumeManageActivity extends BaicActivity {
 				
 				JSONObject resultJsonObject = responseJsonObject.getJSONObject("result");
 				
-				String accountCity = resultJsonObject.getString("accountCity");
+				String accountCity = resultJsonObject.getString("accountcity");
 				String address = resultJsonObject.getString("address");
 				String adminpost = resultJsonObject.getString("adminpost");
 				String aidprofession = resultJsonObject.getString("aidprofession");
@@ -337,134 +334,134 @@ public class ResumeManageActivity extends BaicActivity {
 				long workexperience = resultJsonObject.getLong("workexperience");
 				String workperformance = resultJsonObject.getString("workperformance");
 				
-				if(StringUtil.isBlank(birthplace)){
+				if(!StringUtil.isBlank(birthplace)){
 					basicInfoMap.put("籍贯", birthplace);
 				}
-				if(StringUtil.isBlank(accountCity)){
+				if(!StringUtil.isBlank(accountCity)){
 					basicInfoMap.put("户口所在地", accountCity);
 				}
-				if(StringUtil.isBlank(address)){
+				if(!StringUtil.isBlank(address)){
 					basicInfoMap.put("地址", address);
 				}
-				if(StringUtil.isBlank(birthday)){
+				if(!StringUtil.isBlank(birthday)){
 					basicInfoMap.put("出生日期", birthday);
 				}
 				
-				if(StringUtil.isBlank(cardid)){
+				if(!StringUtil.isBlank(cardid)){
 					basicInfoMap.put("身份证号", cardid);
 				}
 				
-				if(StringUtil.isBlank(adminpost)){
+				if(!StringUtil.isBlank(adminpost)){
 					workExperienceMap.put("当前从事职业", adminpost);
 				}
-				if(StringUtil.isBlank(aidprofession)){
+				if(!StringUtil.isBlank(aidprofession)){
 					educationExperienceMap.put("辅助专业", aidprofession);
 				}
 				
-				if(StringUtil.isBlank(companyname)){
+				if(!StringUtil.isBlank(companyname)){
 					workExperienceMap.put("当前公司", companyname);
 				}
-				if(StringUtil.isBlank(computerlevel)){
+				if(!StringUtil.isBlank(computerlevel)){
 					educationExperienceMap.put("微机水平", computerlevel);
 				}
-				if(StringUtil.isBlank(contactsname)){
+				if(!StringUtil.isBlank(contactsname)){
 					contactMap.put("联系人", contactsname);
 				}
-				if(StringUtil.isBlank(contactsphone)){
+				if(!StringUtil.isBlank(contactsphone)){
 					contactMap.put("联系人电话", contactsphone);
 				}
-				if(StringUtil.isBlank(currentcity)){
+				if(!StringUtil.isBlank(currentcity)){
 					basicInfoMap.put("当前城市", currentcity);
 				}
-				if(StringUtil.isBlank(currentprofessional)){
+				if(!StringUtil.isBlank(currentprofessional)){
 					workExperienceMap.put("当前从事行业", currentprofessional);
 				}
-				if(StringUtil.isBlank(degree)){
+				if(!StringUtil.isBlank(degree)){
 					educationExperienceMap.put("学位", degree);
 				}
-				if(StringUtil.isBlank(degreecert)){
+				if(!StringUtil.isBlank(degreecert)){
 					educationExperienceMap.put("学位证号", degreecert);
 				}	
-				if(StringUtil.isBlank(drivecode)){
+				if(!StringUtil.isBlank(drivecode)){
 					basicInfoMap.put("驾驶证号", drivecode);
 				}
-				if(StringUtil.isBlank(education)){
+				if(!StringUtil.isBlank(education)){
 					educationExperienceMap.put("学历", education);
 				}
-				if(StringUtil.isBlank(email)){
+				if(!StringUtil.isBlank(email)){
 					contactMap.put("邮箱", email);
 				}
-				if(StringUtil.isBlank(graduatedcode)){
+				if(!StringUtil.isBlank(graduatedcode)){
 					educationExperienceMap.put("毕业证号", graduatedcode);
 				}
-				if(StringUtil.isBlank(graduateddate)){
+				if(!StringUtil.isBlank(graduateddate)){
 					educationExperienceMap.put("毕业日期", graduateddate);
 				}
-				if(StringUtil.isBlank(graduatedschool)){
+				if(!StringUtil.isBlank(graduatedschool)){
 					educationExperienceMap.put("毕业学校", graduatedschool);
 				}
-				if(StringUtil.isBlank(healthstate)){
+				if(!StringUtil.isBlank(healthstate)){
 					basicInfoMap.put("健康状况", healthstate);
 				}
-				if(StringUtil.isBlank(marriagestate)){
+				if(!StringUtil.isBlank(marriagestate)){
 					basicInfoMap.put("婚姻状况", marriagestate);
 				}
-				if(StringUtil.isBlank(oneenglish)){
+				if(!StringUtil.isBlank(oneenglish)){
 					educationExperienceMap.put("第一外语", oneenglish);
 				}
-				if(StringUtil.isBlank(onelevel)){
+				if(!StringUtil.isBlank(onelevel)){
 					educationExperienceMap.put("第一外语水平", onelevel);
 				}
-				if(StringUtil.isBlank(people)){
+				if(!StringUtil.isBlank(people)){
 					basicInfoMap.put("民族", people);
 				}
-				if(StringUtil.isBlank(political)){
+				if(!StringUtil.isBlank(political)){
 					basicInfoMap.put("政治面貌", political);
 				}
-				if(StringUtil.isBlank(postalcode)){
+				if(!StringUtil.isBlank(postalcode)){
 					contactMap.put("邮政编码", postalcode);
 				}
-				if(StringUtil.isBlank(profession)){
+				if(!StringUtil.isBlank(profession)){
 					educationExperienceMap.put("专业", profession);
 				}
-				if(StringUtil.isBlank(qqmsn)){
+				if(!StringUtil.isBlank(qqmsn)){
 					contactMap.put("QQ", qqmsn);
 				}
-				if(StringUtil.isBlank(reccontent)){
+				if(!StringUtil.isBlank(reccontent)){
 					personalExperienceMap.put("推荐自己", reccontent);
 				}
 //				if(StringUtil.isBlank(resume)){
 //					personalExperienceMap.put("介绍自己", resume);
 //				}
 				
-				if(StringUtil.isBlank(sex)){
+				if(!StringUtil.isBlank(sex)){
 					basicInfoMap.put("性别", sex);
 				}
-				if(StringUtil.isBlank(specialtycontent)){
+				if(!StringUtil.isBlank(specialtycontent)){
 					personalExperienceMap.put("特长", specialtycontent);
 				}
-				if(StringUtil.isBlank(technology)){
+				if(!StringUtil.isBlank(technology)){
 					educationExperienceMap.put("专业职称", technology);
 				}
-				if(StringUtil.isBlank(truename)){
+				if(!StringUtil.isBlank(truename)){
 					basicInfoMap.put("姓名", truename);
 				}
-				if(StringUtil.isBlank(twoenglish)){
+				if(!StringUtil.isBlank(twoenglish)){
 					educationExperienceMap.put("第二外语", twoenglish);
 				}
-				if(StringUtil.isBlank(twolevel)){
+				if(!StringUtil.isBlank(twolevel)){
 					educationExperienceMap.put("第二外语水平", twolevel);
 				}
-				if(StringUtil.isBlank(useheight)){
+				if(!StringUtil.isBlank(useheight)){
 					basicInfoMap.put("身高", Long.toString(useheight));
 				}
-				if(StringUtil.isBlank(usephone)){
+				if(!StringUtil.isBlank(usephone)){
 					contactMap.put("本人手机号", usephone);
 				}
-				if(StringUtil.isBlank(workexperience)){
+				if(!StringUtil.isBlank(workexperience)){
 					workExperienceMap.put("工作年限", Long.toString(workexperience));
 				}
-				if(StringUtil.isBlank(workperformance)){
+				if(!StringUtil.isBlank(workperformance)){
 					workExperienceMap.put("工作业绩", workperformance);
 				}
 				
@@ -512,7 +509,7 @@ public class ResumeManageActivity extends BaicActivity {
 				
 				resumeInfo.setEducation(education);
 				resumeInfo.setEmail(email);
-				resumeInfo.setEndtime(resultJsonObject.getString("endTime"));
+				resumeInfo.setEndtime(resultJsonObject.getString("endtime"));
 				
 				resumeInfo.setGraduatedcode(graduatedcode);
 				resumeInfo.setGraduateddate(graduateddate);
@@ -553,7 +550,7 @@ public class ResumeManageActivity extends BaicActivity {
 				resumeInfo.setUpresumetime(resultJsonObject.getString("upresumetime"));
 				resumeInfo.setUseheight(useheight);
 				resumeInfo.setUsephone(usephone);
-				resumeInfo.setUserhead(resultJsonObject.getString("usehead"));
+				resumeInfo.setUserhead(resultJsonObject.getString("userhead"));
 				resumeInfo.setUserid(resultJsonObject.getLong("userid"));
 				
 				resumeInfo.setWorkexperience(workexperience);
@@ -582,6 +579,12 @@ public class ResumeManageActivity extends BaicActivity {
 
 				updateUI();
 				break;
+			case 1:{
+				Intent intent = new Intent(ResumeManageActivity.this,
+						ResumeCreateActivity.class);
+				startActivity(intent);
+				finish();
+			}break;
 
 			}
 			closeProcessDialog();
@@ -593,16 +596,16 @@ public class ResumeManageActivity extends BaicActivity {
 	 */
 	private void updateUI(){
 		
-		resumeNameValue.setText(resumeInfo.getResume());
+		resumeNameValue.setText("我的简历");
 		resumeUpdateValue.setText(resumeInfo.getUpresumetime());
 		resumeFinishStatusValue.setText(finishStatus);
 		resumePublicValue.setText(resumeInfo.getIshide()+"");
 		
 		if(resumeInfo.getIshide()==0){
-			isPublicImg.setBackgroundResource(R.drawable.resume_is_secret_bg);
+			isPublicImg.setImageResource(R.drawable.resume_is_secret_bg);
 			isPublicBtn.setText("隐藏");
 		}else{
-			isPublicImg.setBackgroundResource(R.drawable.resume_is_public_bg);
+			isPublicImg.setImageResource(R.drawable.resume_is_public_bg);
 			isPublicBtn.setText("公开");
 		}
 		
@@ -611,9 +614,9 @@ public class ResumeManageActivity extends BaicActivity {
 	private void toResumeEditActivity() {
 		Intent intent = new Intent(ResumeManageActivity.this,
 				ResumeEditActivity.class);
-//		Bundle bundle = new Bundle();
-//		bundle.putSerializable("resumeInfo", resumeInfo);
-//		intent.putExtras(bundle);
+		Bundle bundle = new Bundle();
+		bundle.putSerializable("resumeInfo", dataList);
+		intent.putExtras(bundle);
 		startActivity(intent);
 	}
 	

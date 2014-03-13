@@ -196,6 +196,7 @@
         <!-- 信息咨询Acitivity -->
         <activity
             android:name=".activity.InformationQueryActivity"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
             android:screenOrientation="portrait" >
         </activity>
         <!-- 信息咨询Acitivity -->
@@ -289,6 +290,15 @@
             android:name=".activity.TestActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".activity.RecruitmentActivity"
+            android:screenOrientation="portrait" >
+        </activity> 
+        <activity
+            android:name=".activity.RecruitmentSearchResultActivity"
+            android:screenOrientation="portrait" >
+        </activity> 
+        
 
         <!-- Required SDK核心功能 -->
         <activity

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.jsoup.helper.StringUtil;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -38,7 +40,7 @@ public class JobSearchActivity extends BaicActivity {
 	private List<Map<String, String>> listItems = new ArrayList<Map<String, String>>();
 	private CacheProcess cacheProcess;
 	
-	private String areaId;
+	private String areaId="";
 	private String industryTypeId="";
 	private String positionTypeId="";
 	private List<Map> backIndustryType;
@@ -182,7 +184,12 @@ public class JobSearchActivity extends BaicActivity {
 				
 				Intent intent = new Intent(JobSearchActivity.this,JobListActivity.class);
 				Bundle bundle = new Bundle();
-				bundle.putString("areaId", areaId);
+				if(!StringUtil.isBlank(areaId)){
+					bundle.putString("areaId", areaId+",");
+				}else{
+					bundle.putString("areaId", areaId);
+				}
+				
 				bundle.putString("industryTypeId",industryTypeId);
 				bundle.putString("positionTypeId", positionTypeId);
 				intent.putExtras(bundle);

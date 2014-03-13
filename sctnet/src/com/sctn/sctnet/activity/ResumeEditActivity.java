@@ -1,5 +1,8 @@
 package com.sctn.sctnet.activity;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -17,7 +20,8 @@ public class ResumeEditActivity extends BaicActivity{
 
 	private ItemView itemView1,itemView2,itemView3,itemView4,itemView5,itemView6;
 	private Bundle bundle;
-	private ResumeInfo resumeInfo;
+//	private ResumeInfo resumeInfo;
+	private ArrayList<ArrayList<HashMap<String, String>>> dataList;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -26,9 +30,7 @@ public class ResumeEditActivity extends BaicActivity{
 		super.setTitleRightButtonImg(R.drawable.log_off_bg);
 		Intent intent = this.getIntent();
 		bundle = intent.getExtras();
-		if(bundle.getSerializable("resumeInfo")!=null){
-			resumeInfo = (ResumeInfo) bundle.getSerializable("resumeInfo");
-		}
+		dataList = (ArrayList<ArrayList<HashMap<String, String>>>) bundle.getSerializable("resumeInfo");
 		initAllView();
 		reigesterAllEvent();
 	}
@@ -96,6 +98,7 @@ public class ResumeEditActivity extends BaicActivity{
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(ResumeEditActivity.this,BasicInfoEditActivity.class);
+				Bundle Bundle = new Bundle();
 				startActivity(intent);				
 			}
 			

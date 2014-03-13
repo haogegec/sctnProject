@@ -37,6 +37,7 @@ public class WorkSearchActivity extends Activity {
 	private int currIndex = 0;// 当前页卡编号
 	private Animation animation = null;
 	private EditText search_edit;
+	private int i=0;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -63,15 +64,16 @@ public class WorkSearchActivity extends Activity {
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
 				if (keyCode == KeyEvent.KEYCODE_ENTER) {// 修改回车键功能
 					// 先隐藏键盘
-					((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))
-							.hideSoftInputFromWindow(WorkSearchActivity.this
-									.getCurrentFocus().getWindowToken(),
-									InputMethodManager.HIDE_NOT_ALWAYS);
+//					((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))
+//							.hideSoftInputFromWindow(WorkSearchActivity.this
+//									.getCurrentFocus().getWindowToken(),
+//									InputMethodManager.HIDE_NOT_ALWAYS);
 
 					// 跳转页面
 					Intent intent = new Intent(WorkSearchActivity.this,
 							SearchResultActivity.class);
 					startActivity(intent);
+					
 				}
 				return false;
 			}

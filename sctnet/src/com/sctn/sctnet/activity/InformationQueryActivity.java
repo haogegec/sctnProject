@@ -1,38 +1,33 @@
 package com.sctn.sctnet.activity;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
+import android.view.ViewGroup.MarginLayoutParams;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.Utils.StringUtil;
-import com.sctn.sctnet.contants.Constant;
 import com.sctn.sctnet.view.ItemView;
+import com.sctn.sctnet.view.SearchEditText;
 /**
  * 信息咨询界面
  * @author 姜勇男
@@ -40,20 +35,21 @@ import com.sctn.sctnet.view.ItemView;
  */
 public class InformationQueryActivity extends BaicActivity{
 	
-//	private ItemView itemView1,itemView2,itemView3,itemView4,itemView5,itemView6,itemView7,itemView8;
-//	private ItemView[] itemViews = {itemView1,itemView2,itemView3,itemView4};
-	private String[] labels = {"思维太跳跃的你得小心了","这样的面试者不受欢迎","面试时候的注意事项","怎么巧妙回答面试官的刁难问题"};
-	private String[] labels2 = {"想要跳槽成功的四大要点","绝对不要跳槽的其中情形","跳槽对个人发展的利弊","跳槽穷半年 改行穷三年"};
+    private SearchEditText searchEdit;
 	private LinearLayout parentLayout;
 	private Button moreBtn;
 	private int pageNo=0;
 	private String bigTitleId;
+	private String title;
+	private String id;
+	private String searchStr;
 	//服务端返回结果
 	private String result;
 	private JSONObject responseJsonObject = null;// 返回结果存放在该json对象中
 	private LinearLayout.LayoutParams bigTitlep;
 	private LinearLayout.LayoutParams littleTitlep;
-	
+	private LinearLayout.LayoutParams buttonlep;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -67,27 +63,38 @@ public class InformationQueryActivity extends BaicActivity{
 	private void initUI(){
 		
 		JSONArray resultJsonArray;
+		MarginLayoutParams mp = new MarginLayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT);  //item的宽高
+	     mp.setMargins(40, 0, 10, 0);//分别是margin_top那四个属性
+	     RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(mp);
+	    
+		 lp.addRule(RelativeLayout.CENTER_VERTICAL);
 		try {
 			resultJsonArray = responseJsonObject.getJSONArray("result");
 			for(int i=0;i<resultJsonArray.length();i++) {
 				
-				JSONArray dataJsonArray = resultJsonArray.getJSONObject(i).getJSONArray("data");					
-				String title = resultJsonArray.getJSONObject(i).getString("title");
-				bigTitleId = resultJsonArray.getJSONObject(i).getString("cid");
+				JSONArray dataJsonArray = resultJsonArray.getJSONObject(i).getJSONArray("list");					
+				title = resultJsonArray.getJSONObject(i).getString("colname");
+				bigTitleId = resultJsonArray.getJSONObject(i).getString("id");
 				LinearLayout l = (LinearLayout)getLayoutInflater().inflate(R.layout.information_big_item, null);
 				TextView titleText = (TextView) l.getChildAt(0);
-				if(i/2==0){
+				if(i%2==0){
 					titleText.setBackgroundResource(R.color.lightGreen);
 				}
 				titleText.setText(title);
 				parentLayout.addView(l, bigTitlep);
-				
-				for(int j=0;j<dataJsonArray.length();j++) {
+				int count;
+				if(dataJsonArray.length()>=3){
+					count = 3;
+				}else{
+					count = dataJsonArray.length();
+				}
+				for(int j=0;j<3;j++) {
 									
 					LinearLayout ll = (LinearLayout)getLayoutInflater().inflate(R.layout.itemview_layout, null);
 		
+					id = dataJsonArray.getJSONObject(j).getString("id");
 					ItemView itemView = (ItemView)ll.getChildAt(0);
-					itemView.setBackground(R.drawable.item_mid);
+					itemView.setBackground(R.drawable.item_mid_bg);
 					itemView.setIconImageViewResource(R.drawable.home_btn_normal);
 					itemView.setLabel(dataJsonArray.getJSONObject(j).getString("title"));
 					itemView.setValue("");
@@ -97,27 +104,42 @@ public class InformationQueryActivity extends BaicActivity{
 
 						@Override
 						public void onClick(View view) {
-							Toast.makeText(getApplicationContext(), "点击了", Toast.LENGTH_SHORT).show();			
+							Intent intent = new Intent(InformationQueryActivity.this,InformationDetailActivity.class);
+							Bundle bundle = new Bundle();
+							bundle.putString("title", title);
+							bundle.putString("id", id);
+							intent.putExtras(bundle);
+							startActivity(intent);
 						}
 						
 					});
-					parentLayout.addView(ll, (i+2));
+					parentLayout.addView(ll, littleTitlep);
 							
 				}
-				moreBtn = new Button(this);
-				moreBtn.setWidth(android.view.ViewGroup.LayoutParams.MATCH_PARENT);
-				moreBtn.setBackgroundColor(0XFFF6F6F6);
-				moreBtn.setTextColor(0XFF444242);
-				moreBtn.setText("更  多");
-				moreBtn.setTextSize(16);
-				moreBtn.setOnClickListener(new OnClickListener() {
+				if(count>=3){
+					moreBtn = new Button(this);
+					moreBtn.setWidth(android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+					moreBtn.setBackgroundResource(R.drawable.item_mid);
+					moreBtn.setTextColor(0XFF444242);
+					moreBtn.setText("更  多");
+					//moreBtn.setLayoutParams(lp);
+					moreBtn.setOnClickListener(new OnClickListener() {
 
-					@Override
-					public void onClick(View v) {
-						pageNo++;
-						Toast.makeText(getApplicationContext(), "点击了", Toast.LENGTH_SHORT).show();			
-					}
-				});
+						@Override
+						public void onClick(View v) {
+							Intent intent = new Intent(InformationQueryActivity.this,InformationListMoreActivity.class);
+							Bundle bundle = new Bundle();
+							bundle.putString("title", title);
+							bundle.putString("cid", bigTitleId);
+							bundle.putString("url", "appInfo!findByCid.app");
+							intent.putExtras(bundle);
+							startActivity(intent);
+						}
+					});
+					
+					parentLayout.addView(moreBtn, buttonlep);
+				}
+				
 				
 			}
 		} catch (JSONException e) {
@@ -139,11 +161,36 @@ public class InformationQueryActivity extends BaicActivity{
 		littleTitlep = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.FILL_PARENT,
 				LinearLayout.LayoutParams.WRAP_CONTENT);
+		buttonlep = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.FILL_PARENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT);
+
+		buttonlep.leftMargin = 14;
+		buttonlep.rightMargin = 14;
+		searchEdit = (SearchEditText) findViewById(R.id.et_search_searchtxt);
 	}
 
 	@Override
 	protected void reigesterAllEvent() {
 		
+		//searchStr = searchEdit.getText().toString();
+		
+		searchEdit.setOnEditorActionListener(new OnEditorActionListener() { 
+            
+           @Override
+           public boolean onEditorAction(TextView v, int actionId, KeyEvent event) { 
+               if (actionId == EditorInfo.IME_ACTION_DONE||actionId == KeyEvent.KEYCODE_ENTER||actionId == 0) { 
+            	   Intent intent = new Intent(InformationQueryActivity.this,InformationListMoreActivity.class);
+					Bundle bundle = new Bundle();
+					bundle.putString("title", "搜索结果");
+					bundle.putString("search", searchEdit.getText().toString());
+					bundle.putString("url", "appInfo!search.app");
+					intent.putExtras(bundle);
+					startActivity(intent);
+               } 
+               return false; 
+           } 
+       }); 
 		
 	}
 	
@@ -152,7 +199,7 @@ public class InformationQueryActivity extends BaicActivity{
 	 * 
 	 */
 	private void requestDataThread() {
-		showProcessDialog(false);
+		showProcessDialog(true);
 		Thread mThread = new Thread(new Runnable() {// 启动新的线程，
 					@Override
 					public void run() {
@@ -164,7 +211,7 @@ public class InformationQueryActivity extends BaicActivity{
 	
    private void requestData(){
 		
-		String url = "AppInfoAction.app";
+		String url = "appInfo.app";
 
 		Message msg = new Message();
 		try {
@@ -182,17 +229,20 @@ public class InformationQueryActivity extends BaicActivity{
 				InformationQueryActivity.this.sendExceptionMsg(result);
 				return;
 			}
+			responseJsonObject = new JSONObject(result);
 			Message m=new Message();
-            if(responseJsonObject.get("resultCode").equals("0")) {
+            if(responseJsonObject.get("resultCode").toString().equals("0")) {
 								
 				m.what = 0;
+				handler.sendMessage(m);
 			}else {
 				String errorResult = (String) responseJsonObject.get("result");
 				String err = StringUtil.getAppException4MOS(errorResult);
 				InformationQueryActivity.this.sendExceptionMsg(err);
+				return;
 			}
 					
-			handler.sendMessage(m);
+			
 			
 	}catch (JSONException e) {
 		String err = StringUtil.getAppException4MOS("解析json出错！");

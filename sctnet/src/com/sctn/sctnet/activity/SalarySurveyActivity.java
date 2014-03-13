@@ -382,7 +382,7 @@ public class SalarySurveyActivity extends BaicActivity {
 
 			case Constant.JOBEXP_REQUEST_CODE: {
 
-				workingAreaId = data.getStringExtra("areaId");
+				workingAreaId = data.getStringExtra("workingAreaId");
 				workingArea = data.getStringExtra("workingArea");
 				workingYear = data.getStringExtra("workingYear");
 				currentIndustryId = data.getStringExtra("currentIndustryId");
@@ -422,6 +422,7 @@ public class SalarySurveyActivity extends BaicActivity {
 			params.add(new BasicNameValuePair("age", age));
 			params.add(new BasicNameValuePair("city", workingAreaId));
 			params.add(new BasicNameValuePair("companytype", propertyId));
+			params.add(new BasicNameValuePair("degree", degreeId));
 			params.add(new BasicNameValuePair("dwgm", scaleId));
 			params.add(new BasicNameValuePair("experience", workingYear));
 			params.add(new BasicNameValuePair("foreignLanguage", foreignLanguageId));

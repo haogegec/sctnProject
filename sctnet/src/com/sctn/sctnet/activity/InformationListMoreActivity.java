@@ -38,6 +38,7 @@ public class InformationListMoreActivity extends BaicActivity {
 	private SimpleAdapter informationListAdapter;
 	private ListView informationList;
 	private List<Map<String, Object>> items = new ArrayList<Map<String, Object>>();
+	private String search;
 
 	private View footViewBar;// 下滑加载条
 	private int count;// 一次可以显示的条数（=pageSize或者小于）
@@ -45,6 +46,7 @@ public class InformationListMoreActivity extends BaicActivity {
 	private int pageNo = 1;
 	private int pageSize = Constant.PageSize;
 	private String cid;// 大栏目id
+	private String url;
 	// 返回数据
 	private int total;// 总条数
 	private String result;// 服务端返回的json字符串
@@ -63,7 +65,13 @@ public class InformationListMoreActivity extends BaicActivity {
 		Intent intent = this.getIntent();
 		Bundle bundle = intent.getExtras();
 		title = bundle.getString("title");
-		cid = bundle.getString("cid");
+		if(bundle.getString("cid")!=null){
+			cid = bundle.getString("cid");
+		}
+		if(bundle.getString("search")!=null){
+			search = bundle.getString("search");
+		}
+		url = bundle.getString("url");
 	}
 
 	/**
@@ -75,7 +83,7 @@ public class InformationListMoreActivity extends BaicActivity {
 	private void requestDataThread(final int i) {
 
 		if (i == 0) {
-			showProcessDialog(false);
+			showProcessDialog(true);
 		}
 
 		Thread mThread = new Thread(new Runnable() {// 启动新的线程，
@@ -89,7 +97,7 @@ public class InformationListMoreActivity extends BaicActivity {
 
 	private void requestData(int i) {
 
-		String url = "appPostSearch.app";
+	//	String url = "appInfo!findByCid.app";
 
 		Message msg = new Message();
 		try {
@@ -98,7 +106,12 @@ public class InformationListMoreActivity extends BaicActivity {
 
 			params.add(new BasicNameValuePair("pageNo", pageNo + ""));
 			params.add(new BasicNameValuePair("pageSize", pageSize + ""));
-			params.add(new BasicNameValuePair("cid", cid));
+			if(!StringUtil.isBlank(cid)){
+				params.add(new BasicNameValuePair("cid", cid));
+			}
+			if(!StringUtil.isBlank(search)){
+				params.add(new BasicNameValuePair("title", search));
+			}
 
 			result = getPostHttpContent(url, params);
 
@@ -121,8 +134,12 @@ public class InformationListMoreActivity extends BaicActivity {
 
 				JSONArray resultJsonArray = responseJsonObject
 						.getJSONArray("result");
-
-				total = responseJsonObject.getInt("total");// 总数
+				if(resultJsonArray==null||resultJsonArray.length()==0){
+					String err = StringUtil.getAppException4MOS("没有您要搜索的结果");
+					InformationListMoreActivity.this.sendExceptionMsg(err);
+					return;
+				}
+				total = responseJsonObject.getInt("resultCount");// 总数
 				if (resultJsonArray.length() > 15) {
 					count = 15;
 				} else {
@@ -183,11 +200,13 @@ public class InformationListMoreActivity extends BaicActivity {
 	 * 第一次请求数据初始化页面
 	 */
 	private void initUI() {
+		
+		informationList.setAdapter(informationListAdapter);
 
 		if (total > pageSize * pageNo) {
 			informationList.addFooterView(footViewBar);// 添加list底部更多按钮
 		}
-		informationList.setAdapter(informationListAdapter);
+		
 	}
 
 	/**
@@ -200,7 +219,7 @@ public class InformationListMoreActivity extends BaicActivity {
 		}
 		informationListAdapter.notifyDataSetChanged();
 		informationList.setAdapter(informationListAdapter);
-		informationList.setSelection((pageNo - 1) * pageSize);
+		informationList.setSelection((pageNo - 1) * 10-5);
 	}
 
 	private AbsListView.OnScrollListener listener = new AbsListView.OnScrollListener() {
@@ -213,24 +232,28 @@ public class InformationListMoreActivity extends BaicActivity {
 		@Override
 		public void onScrollStateChanged(AbsListView view, int scrollState) {
 
-			pageNo++;
-			requestDataThread(1);// 滑动list请求数据
+			if (view.getLastVisiblePosition() == view.getCount() - 1) {
+				pageNo++;
+				requestDataThread(1);// 滑动list请求数据
+			}
+			
 
 		}
 	};
 
 	@Override
 	protected void initAllView() {
-		setTitleBar(title, View.VISIBLE, View.VISIBLE);
-		super.setTitleRightButtonImg(R.drawable.login_btn_bg);
-
+		setTitleBar(title, View.VISIBLE, View.GONE);
+		
 		informationList = (ListView) findViewById(R.id.information_list);
+		footViewBar = View.inflate(InformationListMoreActivity.this, R.layout.foot_view_loading, null);
 		informationListAdapter = new SimpleAdapter(
 				InformationListMoreActivity.this, items,
 				R.layout.information_list_item,
 				new String[] { "little_column_title" },
 				new int[] { R.id.little_column_content });
 		informationList.setAdapter(informationListAdapter);
+		informationList.setOnScrollListener(listener);
 	}
 
 	@Override
@@ -245,7 +268,7 @@ public class InformationListMoreActivity extends BaicActivity {
 				Intent intent = new Intent();
 				Bundle bundle = new Bundle();
 				bundle.putString("title", title);
-				bundle.putString("content", (String) items.get(position).get("content"));
+				bundle.putString("id", items.get(position).get("id")+"");
 				intent.setClass(InformationListMoreActivity.this, InformationDetailActivity.class);
 				intent.putExtras(bundle);
 				startActivity(intent);

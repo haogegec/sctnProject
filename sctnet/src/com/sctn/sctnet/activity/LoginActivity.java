@@ -44,7 +44,7 @@ public class LoginActivity extends BaicActivity {
 	private boolean isLogin;
 	private String userName;
 	private String password;
-	
+	private Button registerBtn;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -175,6 +175,7 @@ public class LoginActivity extends BaicActivity {
 		etPassword = (EditText) findViewById(R.id.login_edit_password);
 		rememberPassword = (CheckBox) findViewById(R.id.login_remember_password);
 		autoLogin = (CheckBox) findViewById(R.id.login_auto_login);
+		registerBtn = (Button) findViewById(R.id.register);
 	}
 
 	@Override
@@ -252,6 +253,18 @@ public class LoginActivity extends BaicActivity {
 				etUserName.requestFocus();
 				return false;
 			}
+		});
+		
+		registerBtn.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				
+				Intent intent = new Intent(LoginActivity.this,RegisterActivity.class);
+				
+				startActivity(intent);
+			}
+			
 		});
 	}
 
