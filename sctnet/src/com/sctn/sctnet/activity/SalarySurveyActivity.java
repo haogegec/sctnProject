@@ -79,19 +79,19 @@ public class SalarySurveyActivity extends BaicActivity {
 	// };// 职业资格证书
 	// private String[] skills = { "C++", "图形设计", "演讲" };// 技能技巧
 
-	private String salarySurveyUsername;
-	private String salarySurveyPassword;
-	private String degreeId;// 学历ID
-	private String degree;
+	private String salarySurveyUsername = "";
+	private String salarySurveyPassword = "";
+	private String degreeId = "";// 学历ID
+	private String degree = "";
 	private String sex = "男";// 性别
-	private String age;// 年龄
+	private String age = "";// 年龄
 	private String overseasEduExp = "1";// 海外工作经历,默认为1，1代表无
-	private String foreignLanguage;// 外语能力，在SelectForeignLanguage页面选择之后，传到该页面
-	private String foreignLanguageId;// 外语能力，在SelectForeignLanguage页面选择之后，传到该页面
-	private String languageLevel;// 外语等级，在SelectForeignLanguage页面选择之后，传到该页面
+	private String foreignLanguage = "";// 外语能力，在SelectForeignLanguage页面选择之后，传到该页面
+	private String foreignLanguageId = "";// 外语能力，在SelectForeignLanguage页面选择之后，传到该页面
+	private String languageLevel = "";// 外语等级，在SelectForeignLanguage页面选择之后，传到该页面
 	private String languageLevelId = "0";// 外语等级，在SelectForeignLanguage页面选择之后，传到该页面
-	private String professionalCertificate;// 职业资格证书
-	private String skill;// 技能技巧
+	private String professionalCertificate = "";// 职业资格证书
+	private String skill = "";// 技能技巧
 
 	// ===================== 职场经历页面的参数 ==============================
 	private String workingAreaId;// 工作地区ID
@@ -123,7 +123,6 @@ public class SalarySurveyActivity extends BaicActivity {
 		setTitleBar(getString(R.string.salarySurvey), View.VISIBLE, View.GONE);
 		initAllView();
 		reigesterAllEvent();
-		// initDataThread();
 	}
 
 	@Override
@@ -383,7 +382,7 @@ public class SalarySurveyActivity extends BaicActivity {
 
 			case Constant.JOBEXP_REQUEST_CODE: {
 
-				workingAreaId = data.getStringExtra("workingAreaId");
+				workingAreaId = data.getStringExtra("areaId");
 				workingArea = data.getStringExtra("workingArea");
 				workingYear = data.getStringExtra("workingYear");
 				currentIndustryId = data.getStringExtra("currentIndustryId");
@@ -415,7 +414,7 @@ public class SalarySurveyActivity extends BaicActivity {
 	}
 
 	private void submitThread() {
-		String url = "insert.app";
+		String url = "AppSalaryInfoAction!insert.app";
 		Message msg = new Message();
 
 		try {
