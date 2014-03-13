@@ -1,32 +1,43 @@
 package com.sctn.sctnet.activity;
 
-import com.sctn.sctnet.R;
-
-import android.os.Bundle;
-import android.view.Window;
-import android.view.WindowManager;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.os.Bundle;
+import android.view.Window;
+
+import com.sctn.sctnet.R;
+import com.sctn.sctnet.Utils.PushUtil;
+import com.sctn.sctnet.contants.Constant;
 
 /**
  * 欢迎页
+ * 
  * @author wanghaoc
- *
+ * 
  */
 public class WelcomeActivity extends Activity {
 
 	private boolean isFirstIn;
-	private  SharedPreferences preferences ;
+	private SharedPreferences preferences;
 	private static final String SHAREDPREFERENCES_NAME = "first_pref";
-	
+
+	// 推送用的变量=========================================
+	public static boolean isForeground = false;// =======
+	private MessageReceiver mMessageReceiver;// =========
+
+	// =================================================
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-//		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
-//				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		// getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+		// WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.welcome_activity);
 		isFirstLode();
 		init();
@@ -34,6 +45,7 @@ public class WelcomeActivity extends Activity {
 
 	/**
 	 * 根据参数来决定跳转到那个页面
+	 * 
 	 * @author wanghaoc
 	 */
 	public void init() {
@@ -41,10 +53,10 @@ public class WelcomeActivity extends Activity {
 			public void run() {
 				try {
 					Thread.sleep(2500);
-					if(isFirstIn){
+					if (isFirstIn) {
 						changeLodePref();
 						goGuide();
-					}else{
+					} else {
 						goHome();
 					}
 					finish();
@@ -52,42 +64,71 @@ public class WelcomeActivity extends Activity {
 					e.printStackTrace();
 				}
 			}
-			
+
 		}.start();
 	}
-	
+
 	/**
 	 * 修改登陸參數
+	 * 
 	 * @author wanghaoc
 	 */
 	private void changeLodePref() {
-		Editor edit = preferences.edit();//获得编辑器  
-		edit.putBoolean("isFirstRun", false);//这个地方一定要分开写，否则失效。
+		Editor edit = preferences.edit();// 获得编辑器
+		edit.putBoolean("isFirstRun", false);// 这个地方一定要分开写，否则失效。
 		edit.commit();
 	}
+
 	/**
-	 *引导页
+	 * 引导页
+	 * 
 	 * @author wanghaoc
 	 */
 	private void goGuide() {
-		startActivity(new Intent(WelcomeActivity.this,GuideActivity.class));
+		startActivity(new Intent(WelcomeActivity.this, GuideActivity.class));
 	}
 
 	/**
-	 *  跳转到主页
+	 * 跳转到主页
+	 * 
 	 * @author wanghaoc
 	 */
 	private void goHome() {
-		startActivity(new Intent(WelcomeActivity.this,HomeActivity.class));
+		startActivity(new Intent(WelcomeActivity.this, HomeActivity.class));
 	}
 
 	/**
-	 *判断是否是第一次登陆系统并设置参数
+	 * 判断是否是第一次登陆系统并设置参数
+	 * 
 	 * @author wanghaoc
 	 */
-	private void isFirstLode(){
-		preferences = getSharedPreferences(
-				SHAREDPREFERENCES_NAME, MODE_PRIVATE);
+	private void isFirstLode() {
+		preferences = getSharedPreferences(SHAREDPREFERENCES_NAME, MODE_PRIVATE);
 		isFirstIn = preferences.getBoolean("isFirstRun", true);
+	}
+
+	// for receive customer msg from jpush server
+	public void registerMessageReceiver() {
+		mMessageReceiver = new MessageReceiver();
+		IntentFilter filter = new IntentFilter();
+		filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+		filter.addAction(Constant.MESSAGE_RECEIVED_ACTION);
+		registerReceiver(mMessageReceiver, filter);
+	}
+
+	public class MessageReceiver extends BroadcastReceiver {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (Constant.MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
+				String messge = intent.getStringExtra(Constant.KEY_MESSAGE);
+				String extras = intent.getStringExtra(Constant.KEY_EXTRAS);
+				StringBuilder showMsg = new StringBuilder();
+				showMsg.append(Constant.KEY_MESSAGE + " : " + messge + "\n");
+				if (!PushUtil.isEmpty(extras)) {
+					showMsg.append(Constant.KEY_EXTRAS + " : " + extras + "\n");
+				}
+			}
+		}
 	}
 }

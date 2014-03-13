@@ -15,9 +15,10 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
 
-import com.sctn.sctnet.contants.Constant;
-
 import android.app.Application;
+import cn.jpush.android.api.JPushInterface;
+
+import com.sctn.sctnet.contants.Constant;
 
 public class SctnAplication extends Application{
 
@@ -30,6 +31,9 @@ public class SctnAplication extends Application{
 		super.onCreate();
 		instance=this;
 		httpClient = createHttpClient();
+		
+		JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
+	    JPushInterface.init(this);     		// 初始化 JPush
 	}
 	
 	public static SctnAplication getInstance(){
