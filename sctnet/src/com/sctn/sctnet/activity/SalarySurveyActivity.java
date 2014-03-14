@@ -414,7 +414,7 @@ public class SalarySurveyActivity extends BaicActivity {
 	}
 
 	private void submitThread() {
-		String url = "AppSalaryInfoAction!insert.app";
+		String url = "appSalary!insert.app";
 		Message msg = new Message();
 
 		try {
@@ -426,7 +426,7 @@ public class SalarySurveyActivity extends BaicActivity {
 			params.add(new BasicNameValuePair("dwgm", scaleId));
 			params.add(new BasicNameValuePair("experience", workingYear));
 			params.add(new BasicNameValuePair("foreignLanguage", foreignLanguageId));
-			params.add(new BasicNameValuePair("grade", languageLevel));
+			params.add(new BasicNameValuePair("grade", languageLevelId));
 			params.add(new BasicNameValuePair("hyyears", totalworkingtime));
 			params.add(new BasicNameValuePair("monthsalary", monthlySalary));
 			params.add(new BasicNameValuePair("opinion", opinion));
@@ -452,7 +452,7 @@ public class SalarySurveyActivity extends BaicActivity {
 
 			JSONObject responseJsonObject = new JSONObject(result);
 
-			if (responseJsonObject.getInt("resultcode") == 0) {// 获得响应结果
+			if (responseJsonObject.getInt("resultCode") == 0) {// 获得响应结果
 
 				msg.what = Constant.SALARY_SURVEY_SUBMIT;
 				handler.sendMessage(msg);
@@ -528,6 +528,7 @@ public class SalarySurveyActivity extends BaicActivity {
 				break;
 			case Constant.SALARY_SURVEY_SUBMIT:
 				Toast.makeText(getApplicationContext(), "提交成功", Toast.LENGTH_SHORT).show();
+				startHomeActivity();
 				break;
 			}
 			closeProcessDialog();
@@ -553,5 +554,10 @@ public class SalarySurveyActivity extends BaicActivity {
 		});
 		dialog = builder.create();
 		dialog.show();
+	}
+	
+	private void startHomeActivity(){
+		Intent intent = new Intent(SalarySurveyActivity.this,HomeActivity.class);
+		startActivity(intent);
 	}
 }

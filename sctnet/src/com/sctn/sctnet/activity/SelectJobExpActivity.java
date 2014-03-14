@@ -57,13 +57,13 @@ public class SelectJobExpActivity extends BaicActivity {
 	private RelativeLayout rl_jobExp;
 	private TextView tv_jobExp2;// 担任现职务时间
 
-	private LinearLayout ll_monthlySalary;
+	// private LinearLayout ll_monthlySalary;
 	private EditText et_monthlySalary2;// 月薪
 
-	private LinearLayout ll_dividend;
+	// private LinearLayout ll_dividend;
 	private EditText et_dividend2;// 分红
 
-	private LinearLayout ll_annualSalary;
+	// private LinearLayout ll_annualSalary;
 	private EditText et_annualSalary2;// 年薪
 
 	private RelativeLayout rl_scale;
@@ -77,12 +77,12 @@ public class SelectJobExpActivity extends BaicActivity {
 	private Builder builder;
 	private Dialog dialog;
 
-	private String[] workingYears = { "无", "1~2年", "3~4年", "5~10年", "10年及以上" };// 工龄
-	private String[] totalWorkingTime = { "无", "1~2年", "3~4年", "5~10年", "10年及以上" };// 该行业累计工作时间
-	private String[] workExp = { "无", "1~2年", "3~4年", "5~10年", "10年及以上" };// 担任现职务之间
+	private String[] workingYears = { "6个月以下", "6~12个月", "1年", "2年", "3年", "4年", "5年", "6~9年", "10~15年", "16年以上" };// 工龄
+	private String[] totalWorkingTime = { "6个月以下", "6~12个月", "1年", "2年", "3年", "4年", "5年", "6~9年", "10~15年", "16年以上" };// 该行业累计工作时间
+	private String[] workExp = { "6个月以下", "6~12个月", "1年", "2年", "3年", "4年", "5年", "6~9年", "10~15年", "16年以上" };// 担任现职务之间
 
-	private String[] currentIndustries;// 目前就职的行业
-	private String[] currentIndustryIds;
+	// private String[] currentIndustries;// 目前就职的行业
+	// private String[] currentIndustryIds;
 
 	private String[] scales;// 规模
 	private String[] scaleIds;// 规模ID
@@ -94,12 +94,12 @@ public class SelectJobExpActivity extends BaicActivity {
 	private String workingArea;// 工作地区
 	private String workingYear;// 工龄
 	private String currentIndustryId;// 目前就职的行业的ID
-	private String currentIndustry;// 目前就职的行业的
+	private String currentIndustry;// 目前就职的行业
 	private String jobId;// 目前的职位类别ID
 	private String job;// 目前的职位类别
 	private String totalworkingtime;// 该行业累计工作时间
 	private String position;// 职务
-	private String jobExp;
+	private String jobExp;// 担任现职务的时间
 	private String monthlySalary;// 月薪
 	private String dividend;// 分红
 	private String annualSalary;// 年薪
@@ -184,13 +184,13 @@ public class SelectJobExpActivity extends BaicActivity {
 		rl_jobExp = (RelativeLayout) findViewById(R.id.jobExp);
 		tv_jobExp2 = (TextView) findViewById(R.id.tv_jobExp2);
 
-		ll_monthlySalary = (LinearLayout) findViewById(R.id.monthlySalary);
+		// ll_monthlySalary = (LinearLayout) findViewById(R.id.monthlySalary);
 		et_monthlySalary2 = (EditText) findViewById(R.id.et_monthlySalary2);
 
-		ll_dividend = (LinearLayout) findViewById(R.id.dividend);
+		// ll_dividend = (LinearLayout) findViewById(R.id.dividend);
 		et_dividend2 = (EditText) findViewById(R.id.et_dividend2);
 
-		ll_annualSalary = (LinearLayout) findViewById(R.id.annualSalary);
+		// ll_annualSalary = (LinearLayout) findViewById(R.id.annualSalary);
 		et_annualSalary2 = (EditText) findViewById(R.id.et_annualSalary2);
 
 		rl_scale = (RelativeLayout) findViewById(R.id.scale);
@@ -230,7 +230,7 @@ public class SelectJobExpActivity extends BaicActivity {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						tv_workingYears2.setText(workingYears[which]);
-						workingYear = workingYears[which];
+						workingYear = (which == 0) ? "1" : (which == 1) ? "6" : (which == 2) ? "12" : (which == 3) ? "24" : (which == 4) ? "36" : (which == 5) ? "48" : (which == 6) ? "60" : (which == 7) ? "72" : (which == 8) ? "120" : "192";
 						dialog.dismiss();
 					}
 
@@ -263,7 +263,7 @@ public class SelectJobExpActivity extends BaicActivity {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						tv_jobExp2.setText(workExp[which]);
-						jobExp = workExp[which];
+						jobExp = (which == 0) ? "1" : (which == 1) ? "6" : (which == 2) ? "12" : (which == 3) ? "24" : (which == 4) ? "36" : (which == 5) ? "48" : (which == 6) ? "60" : (which == 7) ? "72" : (which == 8) ? "120" : "192";
 						dialog.dismiss();
 					}
 
@@ -298,7 +298,7 @@ public class SelectJobExpActivity extends BaicActivity {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						tv_totalWorkingTime2.setText(totalWorkingTime[which]);
-						totalworkingtime = totalWorkingTime[which];
+						totalworkingtime = (which == 0) ? "1" : (which == 1) ? "6" : (which == 2) ? "12" : (which == 3) ? "24" : (which == 4) ? "36" : (which == 5) ? "48" : (which == 6) ? "60" : (which == 7) ? "72" : (which == 8) ? "120" : "192";
 						dialog.dismiss();
 					}
 
