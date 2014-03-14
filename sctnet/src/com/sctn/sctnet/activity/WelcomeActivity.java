@@ -1,6 +1,5 @@
 package com.sctn.sctnet.activity;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.view.Window;
+import cn.jpush.android.api.InstrumentedActivity;
 
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.Utils.PushUtil;
@@ -20,7 +20,7 @@ import com.sctn.sctnet.contants.Constant;
  * @author wanghaoc
  * 
  */
-public class WelcomeActivity extends Activity {
+public class WelcomeActivity extends InstrumentedActivity {
 
 	private boolean isFirstIn;
 	private SharedPreferences preferences;
@@ -130,5 +130,18 @@ public class WelcomeActivity extends Activity {
 				}
 			}
 		}
+	}
+	
+	@Override
+	protected void onResume() {
+		isForeground = true;
+		super.onResume();
+	}
+
+
+	@Override
+	protected void onPause() {
+		isForeground = false;
+		super.onPause();
 	}
 }
