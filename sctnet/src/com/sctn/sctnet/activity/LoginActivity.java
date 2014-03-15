@@ -15,13 +15,9 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.Message;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -111,7 +107,7 @@ public class LoginActivity extends BaicActivity {
 			responseJsonObject = new JSONObject(response);
 			if (responseJsonObject.getInt("resultCode")==0) {//获得响应结果，登录成功                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
 
-				long userId = responseJsonObject.getJSONObject("result").getLong("userid");
+				long userId = responseJsonObject.getLong("userid");
 				sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 				Editor editor = sharedPreferences.edit();
 				editor.putString("userName", userName);
@@ -124,8 +120,7 @@ public class LoginActivity extends BaicActivity {
 				} else if(isRememberPassword){
 					editor.putBoolean("isRememberPassword", isRememberPassword);
 				}
-				Intent intent = new Intent();
-				setResult(RESULT_OK,intent);
+				setResult(RESULT_OK);
 				finish();
 			}else{
 				String result = (String) responseJsonObject.get("result");
@@ -238,14 +233,14 @@ public class LoginActivity extends BaicActivity {
 			}
 		});
 		
-		etPassword.setOnTouchListener(new EditText.OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				etPassword.requestFocus();
-				return false;
-			}
-		});
+//		etPassword.setOnTouchListener(new EditText.OnTouchListener() {
+//			
+//			@Override
+//			public boolean onTouch(View v, MotionEvent event) {
+//				etPassword.requestFocus();
+//				return false;
+//			}
+//		});
 		
 		etUserName.setOnClickListener(new EditText.OnClickListener() {
 			
@@ -257,14 +252,14 @@ public class LoginActivity extends BaicActivity {
 			}
 		});
 		
-		etUserName.setOnTouchListener(new EditText.OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				etUserName.requestFocus();
-				return false;
-			}
-		});
+//		etUserName.setOnTouchListener(new EditText.OnTouchListener() {
+//			
+//			@Override
+//			public boolean onTouch(View v, MotionEvent event) {
+//				etUserName.requestFocus();
+//				return false;
+//			}
+//		});
 		
 		registerBtn.setOnClickListener(new OnClickListener(){
 

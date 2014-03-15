@@ -20,7 +20,7 @@ public class LoginInfo {
 	/**
 	 * 退出登录
 	 * */
-	public static void LogOut() {
+	public static void logOut() {
 		//清空 请求头信息
 		long userId = 0;
 		SharePreferencesUtils.setSharedlongData("userId",userId);

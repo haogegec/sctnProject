@@ -27,7 +27,7 @@ public class HomeActivity extends BaicActivity {
 	private ImageView function_more_click;
 	private ImageView person_centre_click;
 	private ImageView personalCenterImg;
-	private static boolean isExit = false;//程序退出标志位
+	private static boolean isExit = false;// 程序退出标志位
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,14 +79,14 @@ public class HomeActivity extends BaicActivity {
 			// 简历管理
 			@Override
 			public void onClick(View v) {
-				
+
 				if (LoginInfo.isLogin()) {
 					Intent intent = new Intent(HomeActivity.this, ResumeManageActivity.class);
 					startActivity(intent);
 				} else {
 					Toast.makeText(getApplicationContext(), "请先登录", Toast.LENGTH_SHORT).show();
 					Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-					startActivityForResult(intent,Constant.LOGIN_RESUME_MANAGE_ACTIVITY);
+					startActivityForResult(intent, Constant.LOGIN_RESUME_MANAGE_ACTIVITY);
 				}
 			}
 		});
@@ -113,16 +113,16 @@ public class HomeActivity extends BaicActivity {
 			// 薪资调查
 			@Override
 			public void onClick(View v) {
-				
+
 				if (LoginInfo.isLogin()) {
 					Intent intent = new Intent(HomeActivity.this, SalarySurveyActivity.class);
 					startActivity(intent);
 				} else {
 					Toast.makeText(getApplicationContext(), "请先登录", Toast.LENGTH_SHORT).show();
 					Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-					startActivityForResult(intent,Constant.LOGIN_SALARY_SURVEY_ACTIVITY);
+					startActivityForResult(intent, Constant.LOGIN_SALARY_SURVEY_ACTIVITY);
 				}
-				
+
 			}
 		});
 
@@ -172,74 +172,75 @@ public class HomeActivity extends BaicActivity {
 				} else {
 					Toast.makeText(getApplicationContext(), "请先登录", Toast.LENGTH_SHORT).show();
 					Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-					startActivityForResult(intent,Constant.LOGIN_PERSONAL_CENTER_ACTIVITY);
+					startActivityForResult(intent, Constant.LOGIN_PERSONAL_CENTER_ACTIVITY);
 				}
 			}
 		});
 
 	}
-	
+
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
 			switch (requestCode) {
-				case Constant.LOGIN_PERSONAL_CENTER_ACTIVITY : {
-					startActivity(new Intent(HomeActivity.this,PersonalCenterActivity.class));
-					break;
-				}
-				case Constant.LOGIN_RESUME_MANAGE_ACTIVITY : {
-					startActivity(new Intent(HomeActivity.this,ResumeManageActivity.class));
-					break;
-				}
-				case Constant.LOGIN_SALARY_SURVEY_ACTIVITY : {
-					startActivity(new Intent(HomeActivity.this,SalarySurveyActivity.class));
-					break;
-				}
-				
-				
+			case Constant.LOGIN_PERSONAL_CENTER_ACTIVITY: {
+				Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
+				startActivity(new Intent(HomeActivity.this, PersonalCenterActivity.class));
+				break;
+			}
+			case Constant.LOGIN_RESUME_MANAGE_ACTIVITY: {
+				Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
+				startActivity(new Intent(HomeActivity.this, ResumeManageActivity.class));
+				break;
+			}
+			case Constant.LOGIN_SALARY_SURVEY_ACTIVITY: {
+				Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
+				startActivity(new Intent(HomeActivity.this, SalarySurveyActivity.class));
+				break;
+			}
+
 			}
 		}
 	}
-	
-	//点击两次返回键退出程序
+
+	// 点击两次返回键退出程序
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			exit();
+			return false;
+		} else {
+			return super.onKeyDown(keyCode, event);
+		}
+	}
+
+	public void exit() {
+		if (!isExit) {
+			isExit = true;
+			Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+			mHandler.sendEmptyMessageDelayed(0, 2000);
+
+		} else {
+
+			new Handler().postDelayed(new Runnable() {
+				public void run() {
+					finish();
+					System.exit(0);
+				}
+			}, 700);
+
+		}
+	}
+
+	Handler mHandler = new Handler() {
+
 		@Override
-	    public boolean onKeyDown(int keyCode, KeyEvent event) {
-	        if (keyCode == KeyEvent.KEYCODE_BACK) {
-	            exit();
-	            return false;
-	        } else {
-	            return super.onKeyDown(keyCode, event);
-	        }
-	    }
-		
-		public void exit(){
-	        if (!isExit) {
-	            isExit = true;
-	            Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
-	            mHandler.sendEmptyMessageDelayed(0, 2000);
-	              
-	        } else{
-	        	
-	        	 new Handler().postDelayed(new Runnable(){  
-	        	     public void run() {  
-	        	    	 finish();
-	        	         System.exit(0); 
-	        	     }  
-	        	  }, 700); 
-	        	
-	        }
-	    }
-		
-		Handler mHandler = new Handler() {
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			super.handleMessage(msg);
+			isExit = false;
 
-	        @Override
-	        public void handleMessage(Message msg) {
-	            // TODO Auto-generated method stub
-	            super.handleMessage(msg);
-	            isExit = false;
-	            
-	            
-	        }
+		}
 
-     };
+	};
 }

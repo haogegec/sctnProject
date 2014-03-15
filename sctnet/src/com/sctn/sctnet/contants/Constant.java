@@ -34,6 +34,10 @@ public class Constant {
 	public static final int LOGIN_RESUME_MANAGE_ACTIVITY = 21;
 	public static final int LOGIN_SALARY_SURVEY_ACTIVITY = 22;
 	
+	// 职位申请时用到的请求码
+	public static final int LOGIN_APPLY_JOB_ACTIVITY = 23;
+	public static final int LOGIN_COLLECT_JOB_ACTIVITY = 24;
+	
 	public static final int PageSize = 15;// 每个列表页面一页显示的个数
 
 	public static final int REQUEST_TIMEOUT = 50 * 1000;// 设置请求超时50秒钟
@@ -65,4 +69,10 @@ public class Constant {
 	
 	// 登录页注册请求码
 	public static final int REGISTER_REQUEST_CODE = 0;
+	
+	// 职位申请、收藏成功时的msg.what的值
+	public static final int APPLY_SUCCESS = 101;
+	public static final int COLLECT_SUCCESS = 102;
+	
+	
 }

@@ -27,7 +27,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sctn.sctnet.R;
+import com.sctn.sctnet.Utils.SharePreferencesUtils;
 import com.sctn.sctnet.Utils.StringUtil;
+import com.sctn.sctnet.contants.Constant;
+import com.sctn.sctnet.entity.LoginInfo;
 
 /**
  * 职位描述/公司简介 Tab页面
@@ -156,8 +159,13 @@ public class CompanyInfoActivity extends BaicActivity {
 			@Override
 			public void onClick(View v) {
 				// 这里得判断是否登录、没登录则跳转到登录页面
-
-				applyThread();
+				if(LoginInfo.isLogin()){
+					applyThread();
+				} else {
+					Toast.makeText(getApplicationContext(), "请先登录", Toast.LENGTH_SHORT).show();
+					Intent intent = new Intent(CompanyInfoActivity.this, LoginActivity.class);
+					startActivityForResult(intent, Constant.LOGIN_APPLY_JOB_ACTIVITY);
+				}
 			}
 		});
 
@@ -380,11 +388,11 @@ public class CompanyInfoActivity extends BaicActivity {
 		try {
 
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-			// params.add(new BasicNameValuePair("Companyid", companyId));
-			// params.add(new BasicNameValuePair("jobsid", jobId));
+			params.add(new BasicNameValuePair("Companyid", companyId));
+			params.add(new BasicNameValuePair("jobsid", jobId));
 
-			params.add(new BasicNameValuePair("Companyid", "12725"));
-			params.add(new BasicNameValuePair("jobsid", "94049"));
+//			params.add(new BasicNameValuePair("Companyid", "12725"));
+//			params.add(new BasicNameValuePair("jobsid", "94049"));
 
 			result = getPostHttpContent(url, params);
 
@@ -486,9 +494,8 @@ public class CompanyInfoActivity extends BaicActivity {
 
 		try {
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-			// long userId = SharePreferencesUtils.getSharedlongData("userId");
-			// params.add(new BasicNameValuePair("Userid", userId));
-			params.add(new BasicNameValuePair("Userid", "217294"));
+			long userId = SharePreferencesUtils.getSharedlongData("userId");
+			params.add(new BasicNameValuePair("Userid", userId+""));
 			params.add(new BasicNameValuePair("jobsid", jobId));
 			params.add(new BasicNameValuePair("Companyid", companyId));
 			result = getPostHttpContent(url, params);
@@ -533,9 +540,8 @@ public class CompanyInfoActivity extends BaicActivity {
 
 		try {
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-			// long userId = SharePreferencesUtils.getSharedlongData("userId");
-			// params.add(new BasicNameValuePair("Userid", userId));
-			params.add(new BasicNameValuePair("Userid", "217294"));
+			 long userId = SharePreferencesUtils.getSharedlongData("userId");
+			 params.add(new BasicNameValuePair("Userid", userId+""));
 			result = getPostHttpContent(url, params);
 
 			if (StringUtil.isExcetionInfo(result)) {
@@ -573,5 +579,23 @@ public class CompanyInfoActivity extends BaicActivity {
 			closeProcessDialog();
 		}
 	};
+	
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			switch (requestCode) {
+				case Constant.LOGIN_APPLY_JOB_ACTIVITY: {
+					Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
+					applyThread();
+					break;
+				}
+				case Constant.LOGIN_COLLECT_JOB_ACTIVITY: {
+					Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
+					collectThread();
+					break;
+				}
+			}
+		}
+	}
 
 }

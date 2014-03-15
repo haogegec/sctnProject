@@ -237,7 +237,7 @@ public class ResumeManageActivity extends BaicActivity {
 			@Override
 			public void onClick(View v) {
 				// 将本地保存的登录信息清空
-				LoginInfo.LogOut();
+				LoginInfo.logOut();
 				// ->直接跳转到HomeActivity 同时清空栈中 HomeActivity 之前的 Activity
 				Toast.makeText(ResumeManageActivity.this, "退出成功", Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent(ResumeManageActivity.this, HomeActivity.class);

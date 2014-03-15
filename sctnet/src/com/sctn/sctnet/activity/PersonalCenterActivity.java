@@ -138,8 +138,8 @@ public class PersonalCenterActivity extends BaicActivity {
 			@Override
 			public void onClick(View v) {
 				// 将本地保存的登录信息清空
-				LoginInfo.LogOut();
-				// ->直接跳转到HomeActivity 同时清空栈中 HomeActivity 之前的 Activity
+				LoginInfo.logOut();
+				// ->直接跳转到 HomeActivity(设置成单例) 同时清空栈中 HomeActivity 之前的 Activity
 				Toast.makeText(PersonalCenterActivity.this, "退出成功", Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent(PersonalCenterActivity.this, HomeActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // 利用ClearTop标志
