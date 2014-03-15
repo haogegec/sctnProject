@@ -184,12 +184,7 @@ public class JobSearchActivity extends BaicActivity {
 				
 				Intent intent = new Intent(JobSearchActivity.this,JobListActivity.class);
 				Bundle bundle = new Bundle();
-				if(!StringUtil.isBlank(areaId)){
-					bundle.putString("areaId", areaId+",");
-				}else{
-					bundle.putString("areaId", areaId);
-				}
-				
+				bundle.putString("areaId", areaId);
 				bundle.putString("industryTypeId",industryTypeId);
 				bundle.putString("positionTypeId", positionTypeId);
 				intent.putExtras(bundle);
@@ -219,7 +214,12 @@ public class JobSearchActivity extends BaicActivity {
 				String industryTypeTitle="";
 				for(int i=0;i<backIndustryType.size();i++){
 					industryTypeTitle = industryTypeTitle+backIndustryType.get(i).get("value").toString();
-					industryTypeId = industryTypeId+backIndustryType.get(i).get("id").toString()+",";
+					if(i==backIndustryType.size()-1){
+						industryTypeId = industryTypeId+backIndustryType.get(i).get("id").toString();
+					}else{
+						industryTypeId = industryTypeId+backIndustryType.get(i).get("id").toString()+",";
+					}
+					
 				}
 				searchitemView2.setValue(industryTypeTitle);
 				break;
@@ -229,7 +229,12 @@ public class JobSearchActivity extends BaicActivity {
 				String industryTypeTitle="";
 				for(int i=0;i<backPositionType.size();i++){
 					industryTypeTitle = industryTypeTitle+backPositionType.get(i).get("value").toString();
-					positionTypeId =positionTypeId+ backPositionType.get(i).get("id").toString()+",";
+					if(i==backPositionType.size()-1){
+						positionTypeId =positionTypeId+ backPositionType.get(i).get("id").toString();
+					}else{
+						positionTypeId =positionTypeId+ backPositionType.get(i).get("id").toString()+",";
+					}
+					
 				}
 				searchitemView3.setValue(industryTypeTitle);
 				break;

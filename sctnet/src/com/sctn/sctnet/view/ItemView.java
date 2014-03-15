@@ -100,7 +100,8 @@ public class ItemView extends LinearLayout{
 	    valueText.setLayoutParams(lp3);
 		valueText.setText(value);
 		valueText.setPadding(0, 3,3, 0);
-		valueText.setMaxEms(20);
+		valueText.setMaxEms(12);
+		valueText.setEllipsize(TruncateAt.END);
 		valueText.setSingleLine(true);
 		
 		relativeLayout = new RelativeLayout(context);

@@ -235,31 +235,31 @@ public class JobListActivity extends BaicActivity {
                 for(int j=0;j<count;j++){
                 	
                 	Map<String, Object> item = new HashMap<String, Object>();
-        			item.put("companyid", resultJsonArray.getJSONObject(i).get("companyid"));//公司id
-        			item.put("companyname", resultJsonArray.getJSONObject(i).get("companyname"));// 公司
-        			item.put("jobsName",resultJsonArray.getJSONObject(i).get("jobsName"));// 职位
-        			item.put("clickNum",resultJsonArray.getJSONObject(i).get("clickNum"));//点击次数
-        			item.put("computerLevel",resultJsonArray.getJSONObject(i).get("computerLevel"));//计算机能力
-        			item.put("description",resultJsonArray.getJSONObject(i).get("description"));//工作描述
-        			item.put("english",resultJsonArray.getJSONObject(i).get("english"));//语种
-        			item.put("houseWhere",resultJsonArray.getJSONObject(i).get("houseWhere"));//是否提供住宿
-        			item.put("jobsClass",resultJsonArray.getJSONObject(i).get("jobsClass"));//职位类别
-        			item.put("jobsNumber",resultJsonArray.getJSONObject(i).get("jobsNumber"));//招聘人数
-        			item.put("jobsstate",resultJsonArray.getJSONObject(i).get("jobsstate"));//职位状态
-        			item.put("monthlySalary",resultJsonArray.getJSONObject(i).get("monthlySalary"));//月薪
-        			item.put("needAge",resultJsonArray.getJSONObject(i).get("needAge"));//最小年纪
-        			item.put("needEducation",resultJsonArray.getJSONObject(i).get("needEducation"));//学历
-        			item.put("needHeight",resultJsonArray.getJSONObject(i).get("needHeight"));//身高
-        			item.put("needProfession",resultJsonArray.getJSONObject(i).get("needProfession"));//专业
-        			item.put("needWorkExperience",resultJsonArray.getJSONObject(i).get("needWorkExperience"));//职位状态
-        			item.put("political",resultJsonArray.getJSONObject(i).get("political"));//政治面貌
-        			item.put("postTime",resultJsonArray.getJSONObject(i).get("postTime"));//发布时间
-        			item.put("rid",resultJsonArray.getJSONObject(i).get("rid"));
-        			item.put("sex",resultJsonArray.getJSONObject(i).get("sex"));//性别
-        			item.put("titles",resultJsonArray.getJSONObject(i).get("titles"));//技术
-        			item.put("validityTime",resultJsonArray.getJSONObject(i).get("validityTime"));//有效时间
-        			item.put("workManner",resultJsonArray.getJSONObject(i).get("workManner"));//工作方式
-        			item.put("workRegion",resultJsonArray.getJSONObject(i).get("workRegion"));//工作地区
+        			item.put("companyid", resultJsonArray.getJSONObject(j).get("companyid"));//公司id
+       			item.put("companyname", resultJsonArray.getJSONObject(j).get("companyname"));// 公司
+        			item.put("jobsName",resultJsonArray.getJSONObject(j).get("jobsName"));// 职位
+        			item.put("clickNum",resultJsonArray.getJSONObject(j).get("clickNum"));//点击次数
+        			item.put("computerLevel",resultJsonArray.getJSONObject(j).get("computerLevel"));//计算机能力
+        			item.put("description",resultJsonArray.getJSONObject(j).get("description"));//工作描述
+        			item.put("english",resultJsonArray.getJSONObject(j).get("english"));//语种
+        			item.put("houseWhere",resultJsonArray.getJSONObject(j).get("houseWhere"));//是否提供住宿
+        			item.put("jobsClass",resultJsonArray.getJSONObject(j).get("jobsClass"));//职位类别
+        			item.put("jobsNumber",resultJsonArray.getJSONObject(j).get("jobsNumber"));//招聘人数
+        			item.put("jobsstate",resultJsonArray.getJSONObject(j).get("jobsstate"));//职位状态
+        			item.put("monthlySalary",resultJsonArray.getJSONObject(j).get("monthlySalary"));//月薪
+        			item.put("needAge",resultJsonArray.getJSONObject(j).get("needAge"));//最小年纪
+        			item.put("needEducation",resultJsonArray.getJSONObject(j).get("needEducation"));//学历
+        			item.put("needHeight",resultJsonArray.getJSONObject(j).get("needHeight"));//身高
+        			item.put("needProfession",resultJsonArray.getJSONObject(j).get("needProfession"));//专业
+        			item.put("needWorkExperience",resultJsonArray.getJSONObject(j).get("needWorkExperience"));//职位状态
+        			item.put("political",resultJsonArray.getJSONObject(j).get("political"));//政治面貌
+        			item.put("postTime",resultJsonArray.getJSONObject(j).get("postTime"));//发布时间
+        			item.put("rid",resultJsonArray.getJSONObject(j).get("rid"));
+        			item.put("sex",resultJsonArray.getJSONObject(j).get("sex"));//性别
+        			item.put("titles",resultJsonArray.getJSONObject(j).get("titles"));//技术
+        			item.put("validityTime",resultJsonArray.getJSONObject(j).get("validityTime"));//有效时间
+        			item.put("workManner",resultJsonArray.getJSONObject(j).get("workManner"));//工作方式
+        			item.put("workRegion",resultJsonArray.getJSONObject(j).get("workRegion"));//工作地区
         			items.add(item);
                 }
                 if(i==0){

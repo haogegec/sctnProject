@@ -193,5 +193,6 @@ public class GuideActivity extends Activity {
 	 */
 	private void goHome() {
 		startActivity(new Intent(GuideActivity.this, HomeActivity.class));
+		finish();
 	}
 }

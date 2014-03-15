@@ -65,6 +65,7 @@
 
     <!-- 办事指南 -->
     <string name="workDirectionActivityTitle">办事指南</string>
+    <string name="downLoadListActivityTitle">相关资料下载</string>
     <!-- 登陆 -->
     <string name="loginActivityTitle">登录</string>
     <string name="username_hint">请输入账号</string>
@@ -131,5 +132,8 @@
     <string name="recentRecruiment">近期招聘</string>
     <string name="load_tips">正在地址加载...</string>
     <string name="RecruitmentActivityTitle">现场招聘会</string>
+    
+    <!-- 档案查询 -->
+    <string name="ArchivesQueryActivityTitle">档案查询</string>
 
 </resources>

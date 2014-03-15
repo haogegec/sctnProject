@@ -17,44 +17,62 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.Utils.StringUtil;
 import com.sctn.sctnet.contants.Constant;
-/**
- * 招聘会搜索结果页面
- * @author xueweiwei
- *
- */
-public class RecruitmentSearchResultActivity extends BaicActivity{
+
+public class ArchivesListActivity extends BaicActivity{
 	
-	private ListView recruitmentListView;
+	private ListView archivesListView;
 	private View footViewBar;// 下滑加载条
-	private SimpleAdapter recruitmentListAdapter;
+	private SimpleAdapter archivesListAdapter;
 	private List<Map<String, Object>> items = new ArrayList<Map<String, Object>>();
 	
 	private int count;// 一次可以显示的条数（=pageSize或者小于）
 	// 请求数据
 	private int pageNo = 1;
 	private int pageSize = Constant.PageSize;
-	private String searchStr;
+	private String trueName;
+	private String birthday;
 	// 返回数据
 	private int total;// 总条数
 	private String result;// 服务端返回的json字符串
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.information_list_more_activity);
+		setContentView(R.layout.archives_list);
 		setTitleBar("搜索结果", View.VISIBLE, View.GONE);
 		Intent intent = this.getIntent();
 		Bundle bundle = intent.getExtras();
-		searchStr = bundle.getString("searchStr");
+		trueName = bundle.getString("trueName");
+		birthday = bundle.getString("birthday");
 		initAllView();
 		reigesterAllEvent();
 		requestDataThread(0);// 第一次请求数据
+	}
+
+	@Override
+	protected void initAllView() {
+		
+		archivesListView = (ListView) findViewById(R.id.archives_list);
+
+		footViewBar = View.inflate(ArchivesListActivity.this, R.layout.foot_view_loading, null);
+		archivesListAdapter = new SimpleAdapter(
+				ArchivesListActivity.this, items,
+				R.layout.archives_list_item,
+				new String[] { "file_id","user_name","birthday","sex","addtime" },
+				new int[] { R.id.file_id,R.id.user_name,R.id.birthday,R.id.sex,R.id.addtime });
+		archivesListView.setAdapter(archivesListAdapter);
+		archivesListView.setOnScrollListener(listener);
+	}
+
+	@Override
+	protected void reigesterAllEvent() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	/**
@@ -79,7 +97,7 @@ public class RecruitmentSearchResultActivity extends BaicActivity{
 	}
 	private void requestData(int i) {
 
-			String url = "appOfferInfo!queryInfo.app";
+			String url = "appArchives!search.app";
 
 			Message msg = new Message();
 			try {
@@ -87,18 +105,19 @@ public class RecruitmentSearchResultActivity extends BaicActivity{
 				List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
 
 				params.add(new BasicNameValuePair("page", pageNo + ""));
-				params.add(new BasicNameValuePair("SiteRecruitmentName", searchStr));
+				params.add(new BasicNameValuePair("userName", trueName));
+				params.add(new BasicNameValuePair("birthday", birthday));
 
 				result = getPostHttpContent(url, params);
 
 				if (StringUtil.isExcetionInfo(result)) {
-					RecruitmentSearchResultActivity.this.sendExceptionMsg(result);
+					ArchivesListActivity.this.sendExceptionMsg(result);
 					return;
 				}
 
 				if (StringUtil.isBlank(result)) {
 					result = StringUtil.getAppException4MOS("未获得服务器响应结果！");
-					RecruitmentSearchResultActivity.this.sendExceptionMsg(result);
+					ArchivesListActivity.this.sendExceptionMsg(result);
 					return;
 				}
 
@@ -112,7 +131,7 @@ public class RecruitmentSearchResultActivity extends BaicActivity{
 							.getJSONArray("result");
 					if(resultJsonArray==null||resultJsonArray.length()==0){
 						String err = StringUtil.getAppException4MOS("没有您要搜索的结果");
-						RecruitmentSearchResultActivity.this.sendExceptionMsg(err);
+						ArchivesListActivity.this.sendExceptionMsg(err);
 						return;
 					}
 
@@ -125,10 +144,16 @@ public class RecruitmentSearchResultActivity extends BaicActivity{
 					for (int j = 0; j < count; j++) {
 
 						Map<String, Object> item = new HashMap<String, Object>();
-						item.put("recruitment_type", resultJsonArray.getJSONObject(j).get("holdclassid"));
-						item.put("recruitment_name", resultJsonArray.getJSONObject(j).get("siterecruitmentname"));
-						item.put("recruitment_time",resultJsonArray.getJSONObject(j).get("holddate"));
-						item.put("recruitment_id", resultJsonArray.getJSONObject(j).get("id"));
+					 
+						item.put("file_id", resultJsonArray.getJSONObject(j).get("fileId"));
+						item.put("user_name", resultJsonArray.getJSONObject(j).get("username"));
+						item.put("birthday",resultJsonArray.getJSONObject(j).get("birthday"));
+						if((resultJsonArray.getJSONObject(j).get("sex")+"").equals("0")){
+							item.put("sex", "女");
+						}else{
+							item.put("sex", "男");
+						}
+						item.put("addtime",resultJsonArray.getJSONObject(j).get("addTime"));
 
 						items.add(item);
 					}
@@ -143,12 +168,12 @@ public class RecruitmentSearchResultActivity extends BaicActivity{
 				} else {
 					String errorResult = (String) responseJsonObject.get("result");
 					String err = StringUtil.getAppException4MOS(errorResult);
-					RecruitmentSearchResultActivity.this.sendExceptionMsg(err);
+					ArchivesListActivity.this.sendExceptionMsg(err);
 				}
 
 			} catch (JSONException e) {
 				String err = StringUtil.getAppException4MOS("解析json出错！");
-				RecruitmentSearchResultActivity.this.sendExceptionMsg(err);
+				ArchivesListActivity.this.sendExceptionMsg(err);
 			}
 		}
 
@@ -177,10 +202,10 @@ public class RecruitmentSearchResultActivity extends BaicActivity{
 		 */
 		private void initUI() {
 			
-			recruitmentListView.setAdapter(recruitmentListAdapter);
+			archivesListView.setAdapter(archivesListAdapter);
 
 			if (total > pageSize * pageNo) {
-				recruitmentListView.addFooterView(footViewBar);// 添加list底部更多按钮
+				archivesListView.addFooterView(footViewBar);// 添加list底部更多按钮
 			}
 			
 		}
@@ -191,11 +216,11 @@ public class RecruitmentSearchResultActivity extends BaicActivity{
 		private void updateUI() {
 
 			if (total <= pageSize * pageNo) {
-				recruitmentListView.removeFooterView(footViewBar);// 添加list底部更多按钮
+				archivesListView.removeFooterView(footViewBar);// 添加list底部更多按钮
 			}
-			recruitmentListAdapter.notifyDataSetChanged();
-			recruitmentListView.setAdapter(recruitmentListAdapter);
-			recruitmentListView.setSelection((pageNo - 1) * 10-5);
+			archivesListAdapter.notifyDataSetChanged();
+			archivesListView.setAdapter(archivesListAdapter);
+			archivesListView.setSelection((pageNo - 1) * 10-5);
 		}
 
 
@@ -217,27 +242,5 @@ public class RecruitmentSearchResultActivity extends BaicActivity{
 
 		}
 	};
-
-	@Override
-	protected void initAllView() {
-		
-		recruitmentListView = (ListView) findViewById(R.id.information_list);
-
-		footViewBar = View.inflate(RecruitmentSearchResultActivity.this, R.layout.foot_view_loading, null);
-		recruitmentListAdapter = new SimpleAdapter(
-				RecruitmentSearchResultActivity.this, items,
-				R.layout.recruitment_item,
-				new String[] { "recruitment_type","recruitment_name","recruitment_time" },
-				new int[] { R.id.recruitment_type,R.id.recruitment_name,R.id.recruitment_time });
-		recruitmentListView.setAdapter(recruitmentListAdapter);
-		recruitmentListView.setOnScrollListener(listener);
-		
-	}
-
-	@Override
-	protected void reigesterAllEvent() {
-		
-		
-	}
 
 }

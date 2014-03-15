@@ -115,6 +115,17 @@ public class WorkDirectionActivity extends BaicActivity{
 		itemView4.setLabelTextColor(this.getResources().getColor(R.color.blue));
 		itemView4.setValue("");
 		itemView4.setDetailImageViewResource(R.drawable.detail);
+		itemView4.getRelativeLayout().setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(WorkDirectionActivity.this,DownLoadListActivity.class);
+				;
+				startActivity(intent);				
+			}
+			
+		});
 	
 	}
 

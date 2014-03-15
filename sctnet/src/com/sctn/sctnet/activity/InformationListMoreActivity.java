@@ -148,11 +148,11 @@ public class InformationListMoreActivity extends BaicActivity {
 				for (int j = 0; j < count; j++) {
 
 					Map<String, Object> item = new HashMap<String, Object>();
-					item.put("id", resultJsonArray.getJSONObject(i).get("id"));// 小栏目的id
+					item.put("id", resultJsonArray.getJSONObject(j).get("id"));// 小栏目的id
 					item.put("little_column_title", resultJsonArray
-							.getJSONObject(i).get("title"));// 小栏目的名称
+							.getJSONObject(j).get("title"));// 小栏目的名称
 					item.put("content",
-							resultJsonArray.getJSONObject(i).get("content"));// 职位
+							resultJsonArray.getJSONObject(j).get("content"));// 职位
 
 					items.add(item);
 				}

@@ -94,7 +94,7 @@ public class LoginActivity extends BaicActivity {
 		try {
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
 			params.add(new BasicNameValuePair("UserName", userName));
-			params.add(new BasicNameValuePair("UserPwd", Md5Builder.getMd5(password)));
+			params.add(new BasicNameValuePair("UserTxtPwd", Md5Builder.getMd5(password)));
 			response = getPostHttpContent(url, params);
 			
 			if (StringUtil.isExcetionInfo(response)) {

@@ -285,6 +285,14 @@
             android:name=".activity.CompanyLocationActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".activity.ArchivesListActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.ArchivesQueryActivity"
+            android:screenOrientation="portrait" >
+        </activity>
         <!-- 消息推送打开之后显示 -->
         <activity
             android:name=".activity.TestActivity"
@@ -298,7 +306,10 @@
             android:name=".activity.RecruitmentSearchResultActivity"
             android:screenOrientation="portrait" >
         </activity> 
-        
+        <activity
+            android:name=".activity.DownLoadListActivity"
+            android:screenOrientation="portrait" >
+        </activity>
 
         <!-- Required SDK核心功能 -->
         <activity
