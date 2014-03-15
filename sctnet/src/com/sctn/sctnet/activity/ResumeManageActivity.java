@@ -29,6 +29,7 @@ import com.sctn.sctnet.R;
 import com.sctn.sctnet.Utils.StringUtil;
 import com.sctn.sctnet.cache.CacheProcess;
 import com.sctn.sctnet.contants.Constant;
+import com.sctn.sctnet.entity.LoginInfo;
 import com.sctn.sctnet.entity.ResumeInfo;
 import com.sctn.sctnet.httpConnect.AsyncBitmapLoader;
 
@@ -49,7 +50,7 @@ public class ResumeManageActivity extends BaicActivity {
 	private Button refreshBtn;
 	private ImageView isPublicImg;
 	private Button isPublicBtn;
-	
+
 	private ImageView myPhoto;
 	private TextView resumeNameValue;
 	private TextView resumeUpdateValue;
@@ -66,34 +67,32 @@ public class ResumeManageActivity extends BaicActivity {
 	private CacheProcess cacheProcess;// 缓存数据
 
 	private String result;// 服务端返回结果数据
-	
-	private ResumeInfo resumeInfo;//简历表所对应的类
-	
-	private String finishStatus;//简历完成度
-	
-	
-	private HashMap<String,String> basicInfoMap = new HashMap<String,String>();//基本信息
-	private HashMap<String,String> personalExperienceMap = new HashMap<String,String>();//个人简介
-	private HashMap<String,String> educationExperienceMap = new HashMap<String,String>();//教育情况
-	private HashMap<String,String> workExperienceMap = new HashMap<String,String>();//职业生涯
-	private HashMap<String,String> jobIntentionMap = new HashMap<String,String>();//求职意向
-	private HashMap<String,String> contactMap = new HashMap<String,String>();//联系方式
-	
-	private ArrayList<HashMap<String,String>> basicInfoList = new ArrayList<HashMap<String,String>>();//基本信息
-	private ArrayList<HashMap<String,String>> personalExperienceList = new ArrayList<HashMap<String,String>>();//个人简介
-	private ArrayList<HashMap<String,String>> educationExperienceList = new ArrayList<HashMap<String,String>>();//教育情况
-	private ArrayList<HashMap<String,String>> workExperienceList = new ArrayList<HashMap<String,String>>();//职业生涯
-	private ArrayList<HashMap<String,String>> jobIntentionList = new ArrayList<HashMap<String,String>>();//求职意向
-	private ArrayList<HashMap<String,String>> contactList = new ArrayList<HashMap<String,String>>();//联系方式
-	
-	private ArrayList<ArrayList<HashMap<String,String>>> dataList = new ArrayList<ArrayList<HashMap<String,String>>>();
+
+	private ResumeInfo resumeInfo;// 简历表所对应的类
+
+	private String finishStatus;// 简历完成度
+
+	private HashMap<String, String> basicInfoMap = new HashMap<String, String>();// 基本信息
+	private HashMap<String, String> personalExperienceMap = new HashMap<String, String>();// 个人简介
+	private HashMap<String, String> educationExperienceMap = new HashMap<String, String>();// 教育情况
+	private HashMap<String, String> workExperienceMap = new HashMap<String, String>();// 职业生涯
+	private HashMap<String, String> jobIntentionMap = new HashMap<String, String>();// 求职意向
+	private HashMap<String, String> contactMap = new HashMap<String, String>();// 联系方式
+
+	private ArrayList<HashMap<String, String>> basicInfoList = new ArrayList<HashMap<String, String>>();// 基本信息
+	private ArrayList<HashMap<String, String>> personalExperienceList = new ArrayList<HashMap<String, String>>();// 个人简介
+	private ArrayList<HashMap<String, String>> educationExperienceList = new ArrayList<HashMap<String, String>>();// 教育情况
+	private ArrayList<HashMap<String, String>> workExperienceList = new ArrayList<HashMap<String, String>>();// 职业生涯
+	private ArrayList<HashMap<String, String>> jobIntentionList = new ArrayList<HashMap<String, String>>();// 求职意向
+	private ArrayList<HashMap<String, String>> contactList = new ArrayList<HashMap<String, String>>();// 联系方式
+
+	private ArrayList<ArrayList<HashMap<String, String>>> dataList = new ArrayList<ArrayList<HashMap<String, String>>>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.resume_manager_activity);
-		setTitleBar(getString(R.string.resumeManageActivityTitle),
-				View.VISIBLE, View.VISIBLE);
+		setTitleBar(getString(R.string.resumeManageActivityTitle), View.VISIBLE, View.VISIBLE);
 		super.setTitleRightButtonImg(R.drawable.log_off_bg);
 		cacheProcess = new CacheProcess();
 		userId = cacheProcess.getLongCacheValueInSharedPreferences(this, "userId");
@@ -105,22 +104,22 @@ public class ResumeManageActivity extends BaicActivity {
 
 	@Override
 	protected void initAllView() {
-		
+
 		resumePreviewImg = (ImageView) findViewById(R.id.resumePreview);
-		
+
 		modifyImg = (ImageView) findViewById(R.id.resumeModifyImg);
 		modifyBtn = (Button) findViewById(R.id.resumeModifyText);
 
 		deleteImg = (ImageView) findViewById(R.id.resumeDeleteImg);
 		deleteBtn = (Button) findViewById(R.id.resumeDeleteText);
-		
+
 		refreshImg = (ImageView) findViewById(R.id.resumeRefreshImg);
 		refreshBtn = (Button) findViewById(R.id.resumeFefreshText);
-		
+
 		isPublicImg = (ImageView) findViewById(R.id.resumeIsPublicImg);
 		isPublicBtn = (Button) findViewById(R.id.resumeIsPublicText);
-		
-		//要更新的值
+
+		// 要更新的值
 		resumeNameValue = (TextView) findViewById(R.id.resumeName);
 		resumeUpdateValue = (TextView) findViewById(R.id.resumeUpdateValue);
 		resumeFinishStatusValue = (TextView) findViewById(R.id.resumeFinishStatusValue);
@@ -135,8 +134,7 @@ public class ResumeManageActivity extends BaicActivity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(ResumeManageActivity.this,
-						ResumePreviewActivity.class);
+				Intent intent = new Intent(ResumeManageActivity.this, ResumePreviewActivity.class);
 				Bundle bundle = new Bundle();
 				bundle.putSerializable("resumeInfo", dataList);
 				intent.putExtras(bundle);
@@ -148,8 +146,7 @@ public class ResumeManageActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View arg0) {
-				
-				
+
 				toResumeEditActivity();
 			}
 
@@ -158,85 +155,96 @@ public class ResumeManageActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View v) {
-				
+
 				modifyImg.setPressed(true);
 				toResumeEditActivity();
 			}
 
 		});
-		
+
 		deleteImg.setOnClickListener(new ImageView.OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
-				
-				
+
 				deleteDialog();
 			}
 
 		});
-		
+
 		deleteBtn.setOnClickListener(new Button.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				
+
 				deleteImg.setPressed(true);
 				deleteDialog();
 			}
 
 		});
-		
+
 		refreshImg.setOnClickListener(new ImageView.OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
-				
-				
-				//刷新简历thread
-				
+
+				// 刷新简历thread
+
 			}
 
 		});
-		
+
 		refreshBtn.setOnClickListener(new Button.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				
+
 				refreshImg.setPressed(true);
-				//刷新简历thread
-				
+				// 刷新简历thread
+
 			}
 
 		});
-		
+
 		isPublicImg.setOnClickListener(new ImageView.OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
-				
-				//公开简历thread
-				
+
+				// 公开简历thread
+
 			}
 
 		});
-		
+
 		isPublicBtn.setOnClickListener(new Button.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				
+
 				isPublicImg.setPressed(true);
-				//公开简历thread
-				
-				//消息中要更新 isPulicBtn、isPublicImg的值
-				
+				// 公开简历thread
+
+				// 消息中要更新 isPulicBtn、isPublicImg的值
+
 			}
 
 		});
-		
-		
+
+		// 注销
+		super.titleRightButton.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// 将本地保存的登录信息清空
+				LoginInfo.LogOut();
+				// ->直接跳转到HomeActivity 同时清空栈中 HomeActivity 之前的 Activity
+				Toast.makeText(ResumeManageActivity.this, "退出成功", Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent(ResumeManageActivity.this, HomeActivity.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // 利用ClearTop标志
+				startActivity(intent);
+			}
+		});
 
 	}
 
@@ -258,39 +266,38 @@ public class ResumeManageActivity extends BaicActivity {
 	 * 请求数据，并将返回结果显示在界面上
 	 */
 	private void initData() {
-				
+
 		String url = "appPersonInfo.app";
-		
+
 		Message msg = new Message();
 		try {
-			
+
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-			params.add(new BasicNameValuePair("Userid",  "212461"));
-	
-			
+			params.add(new BasicNameValuePair("Userid", "212461"));
+
 			result = getPostHttpContent(url, params);
 
 			if (StringUtil.isExcetionInfo(result)) {
 				ResumeManageActivity.this.sendExceptionMsg(result);
 				return;
 			}
-			
-			if (StringUtil.isBlank(result)) {//说明该用户没有创建简历
-				
+
+			if (StringUtil.isBlank(result)) {// 说明该用户没有创建简历
+
 				msg.what = 1;
 				handler.sendMessage(msg);
-				
+
 				return;
 			}
-			
-			JSONObject responseJsonObject = null;//返回结果存放在该json对象中
-			
+
+			JSONObject responseJsonObject = null;// 返回结果存放在该json对象中
+
 			// JSON的解析过程
 			responseJsonObject = new JSONObject(result);
-			if (responseJsonObject.getInt("resultCode")==0) {//获得响应结果
-				
+			if (responseJsonObject.getInt("resultCode") == 0) {// 获得响应结果
+
 				JSONObject resultJsonObject = responseJsonObject.getJSONObject("result");
-				
+
 				String accountCity = resultJsonObject.getString("accountcity");
 				String address = resultJsonObject.getString("address");
 				String adminpost = resultJsonObject.getString("adminpost");
@@ -333,154 +340,154 @@ public class ResumeManageActivity extends BaicActivity {
 				String usephone = resultJsonObject.getString("usephone");
 				long workexperience = resultJsonObject.getLong("workexperience");
 				String workperformance = resultJsonObject.getString("workperformance");
-				
-				if(!StringUtil.isBlank(birthplace)){
+
+				if (!StringUtil.isBlank(birthplace)) {
 					basicInfoMap.put("籍贯", birthplace);
 				}
-				if(!StringUtil.isBlank(accountCity)){
+				if (!StringUtil.isBlank(accountCity)) {
 					basicInfoMap.put("户口所在地", accountCity);
 				}
-				if(!StringUtil.isBlank(address)){
+				if (!StringUtil.isBlank(address)) {
 					basicInfoMap.put("地址", address);
 				}
-				if(!StringUtil.isBlank(birthday)){
+				if (!StringUtil.isBlank(birthday)) {
 					basicInfoMap.put("出生日期", birthday);
 				}
-				
-				if(!StringUtil.isBlank(cardid)){
+
+				if (!StringUtil.isBlank(cardid)) {
 					basicInfoMap.put("身份证号", cardid);
 				}
-				
-				if(!StringUtil.isBlank(adminpost)){
+
+				if (!StringUtil.isBlank(adminpost)) {
 					workExperienceMap.put("当前从事职业", adminpost);
 				}
-				if(!StringUtil.isBlank(aidprofession)){
+				if (!StringUtil.isBlank(aidprofession)) {
 					educationExperienceMap.put("辅助专业", aidprofession);
 				}
-				
-				if(!StringUtil.isBlank(companyname)){
+
+				if (!StringUtil.isBlank(companyname)) {
 					workExperienceMap.put("当前公司", companyname);
 				}
-				if(!StringUtil.isBlank(computerlevel)){
+				if (!StringUtil.isBlank(computerlevel)) {
 					educationExperienceMap.put("微机水平", computerlevel);
 				}
-				if(!StringUtil.isBlank(contactsname)){
+				if (!StringUtil.isBlank(contactsname)) {
 					contactMap.put("联系人", contactsname);
 				}
-				if(!StringUtil.isBlank(contactsphone)){
+				if (!StringUtil.isBlank(contactsphone)) {
 					contactMap.put("联系人电话", contactsphone);
 				}
-				if(!StringUtil.isBlank(currentcity)){
+				if (!StringUtil.isBlank(currentcity)) {
 					basicInfoMap.put("当前城市", currentcity);
 				}
-				if(!StringUtil.isBlank(currentprofessional)){
+				if (!StringUtil.isBlank(currentprofessional)) {
 					workExperienceMap.put("当前从事行业", currentprofessional);
 				}
-				if(!StringUtil.isBlank(degree)){
+				if (!StringUtil.isBlank(degree)) {
 					educationExperienceMap.put("学位", degree);
 				}
-				if(!StringUtil.isBlank(degreecert)){
+				if (!StringUtil.isBlank(degreecert)) {
 					educationExperienceMap.put("学位证号", degreecert);
-				}	
-				if(!StringUtil.isBlank(drivecode)){
+				}
+				if (!StringUtil.isBlank(drivecode)) {
 					basicInfoMap.put("驾驶证号", drivecode);
 				}
-				if(!StringUtil.isBlank(education)){
+				if (!StringUtil.isBlank(education)) {
 					educationExperienceMap.put("学历", education);
 				}
-				if(!StringUtil.isBlank(email)){
+				if (!StringUtil.isBlank(email)) {
 					contactMap.put("邮箱", email);
 				}
-				if(!StringUtil.isBlank(graduatedcode)){
+				if (!StringUtil.isBlank(graduatedcode)) {
 					educationExperienceMap.put("毕业证号", graduatedcode);
 				}
-				if(!StringUtil.isBlank(graduateddate)){
+				if (!StringUtil.isBlank(graduateddate)) {
 					educationExperienceMap.put("毕业日期", graduateddate);
 				}
-				if(!StringUtil.isBlank(graduatedschool)){
+				if (!StringUtil.isBlank(graduatedschool)) {
 					educationExperienceMap.put("毕业学校", graduatedschool);
 				}
-				if(!StringUtil.isBlank(healthstate)){
+				if (!StringUtil.isBlank(healthstate)) {
 					basicInfoMap.put("健康状况", healthstate);
 				}
-				if(!StringUtil.isBlank(marriagestate)){
+				if (!StringUtil.isBlank(marriagestate)) {
 					basicInfoMap.put("婚姻状况", marriagestate);
 				}
-				if(!StringUtil.isBlank(oneenglish)){
+				if (!StringUtil.isBlank(oneenglish)) {
 					educationExperienceMap.put("第一外语", oneenglish);
 				}
-				if(!StringUtil.isBlank(onelevel)){
+				if (!StringUtil.isBlank(onelevel)) {
 					educationExperienceMap.put("第一外语水平", onelevel);
 				}
-				if(!StringUtil.isBlank(people)){
+				if (!StringUtil.isBlank(people)) {
 					basicInfoMap.put("民族", people);
 				}
-				if(!StringUtil.isBlank(political)){
+				if (!StringUtil.isBlank(political)) {
 					basicInfoMap.put("政治面貌", political);
 				}
-				if(!StringUtil.isBlank(postalcode)){
+				if (!StringUtil.isBlank(postalcode)) {
 					contactMap.put("邮政编码", postalcode);
 				}
-				if(!StringUtil.isBlank(profession)){
+				if (!StringUtil.isBlank(profession)) {
 					educationExperienceMap.put("专业", profession);
 				}
-				if(!StringUtil.isBlank(qqmsn)){
+				if (!StringUtil.isBlank(qqmsn)) {
 					contactMap.put("QQ", qqmsn);
 				}
-				if(!StringUtil.isBlank(reccontent)){
+				if (!StringUtil.isBlank(reccontent)) {
 					personalExperienceMap.put("推荐自己", reccontent);
 				}
-//				if(StringUtil.isBlank(resume)){
-//					personalExperienceMap.put("介绍自己", resume);
-//				}
-				
-				if(!StringUtil.isBlank(sex)){
+				// if(StringUtil.isBlank(resume)){
+				// personalExperienceMap.put("介绍自己", resume);
+				// }
+
+				if (!StringUtil.isBlank(sex)) {
 					basicInfoMap.put("性别", sex);
 				}
-				if(!StringUtil.isBlank(specialtycontent)){
+				if (!StringUtil.isBlank(specialtycontent)) {
 					personalExperienceMap.put("特长", specialtycontent);
 				}
-				if(!StringUtil.isBlank(technology)){
+				if (!StringUtil.isBlank(technology)) {
 					educationExperienceMap.put("专业职称", technology);
 				}
-				if(!StringUtil.isBlank(truename)){
+				if (!StringUtil.isBlank(truename)) {
 					basicInfoMap.put("姓名", truename);
 				}
-				if(!StringUtil.isBlank(twoenglish)){
+				if (!StringUtil.isBlank(twoenglish)) {
 					educationExperienceMap.put("第二外语", twoenglish);
 				}
-				if(!StringUtil.isBlank(twolevel)){
+				if (!StringUtil.isBlank(twolevel)) {
 					educationExperienceMap.put("第二外语水平", twolevel);
 				}
-				if(!StringUtil.isBlank(useheight)){
+				if (!StringUtil.isBlank(useheight)) {
 					basicInfoMap.put("身高", Long.toString(useheight));
 				}
-				if(!StringUtil.isBlank(usephone)){
+				if (!StringUtil.isBlank(usephone)) {
 					contactMap.put("本人手机号", usephone);
 				}
-				if(!StringUtil.isBlank(workexperience)){
+				if (!StringUtil.isBlank(workexperience)) {
 					workExperienceMap.put("工作年限", Long.toString(workexperience));
 				}
-				if(!StringUtil.isBlank(workperformance)){
+				if (!StringUtil.isBlank(workperformance)) {
 					workExperienceMap.put("工作业绩", workperformance);
 				}
-				
+
 				basicInfoList.add(basicInfoMap);
 				personalExperienceList.add(personalExperienceMap);
 				workExperienceList.add(workExperienceMap);
 				educationExperienceList.add(educationExperienceMap);
 				contactList.add(contactMap);
 				jobIntentionList.add(jobIntentionMap);
-				
+
 				dataList.add(basicInfoList);
 				dataList.add(personalExperienceList);
 				dataList.add(workExperienceList);
 				dataList.add(educationExperienceList);
 				dataList.add(contactList);
 				dataList.add(jobIntentionList);
-				
+
 				resumeInfo = new ResumeInfo();
-				
+
 				resumeInfo.setAccountcity(accountCity);
 				resumeInfo.setAdapplicationtstate(resultJsonObject.getLong("adapplicationtstate"));
 				resumeInfo.setAdapplicationttme(resultJsonObject.getString("adapplicationttme"));
@@ -489,10 +496,10 @@ public class ResumeManageActivity extends BaicActivity {
 				resumeInfo.setAdviewendtime(resultJsonObject.getString("adviewendtime"));
 				resumeInfo.setAdviewplaytime(resultJsonObject.getString("adviewplaytime"));
 				resumeInfo.setAidprofession(aidprofession);
-				
+
 				resumeInfo.setBirthday(birthday);
 				resumeInfo.setBirthplace(birthplace);
-				
+
 				resumeInfo.setCardid(cardid);
 				resumeInfo.setClicknuum(resultJsonObject.getLong("clicknuum"));
 				resumeInfo.setCompanyid(resultJsonObject.getLong("companyid"));
@@ -502,63 +509,63 @@ public class ResumeManageActivity extends BaicActivity {
 				resumeInfo.setContactsphone(contactsphone);
 				resumeInfo.setCurrentcity(currentcity);
 				resumeInfo.setCurrentprofessional(currentprofessional);
-				
+
 				resumeInfo.setDegree(degree);
 				resumeInfo.setDegreecert(degreecert);
 				resumeInfo.setDrivecode(drivecode);
-				
+
 				resumeInfo.setEducation(education);
 				resumeInfo.setEmail(email);
 				resumeInfo.setEndtime(resultJsonObject.getString("endtime"));
-				
+
 				resumeInfo.setGraduatedcode(graduatedcode);
 				resumeInfo.setGraduateddate(graduateddate);
 				resumeInfo.setGraduatedschool(graduatedschool);
-				
+
 				resumeInfo.setHealthstate(healthstate);
-				
+
 				resumeInfo.setIshide(resultJsonObject.getInt("ishide"));
 				resumeInfo.setIsresumehide(resultJsonObject.getLong("isresumehide"));
-				
+
 				resumeInfo.setJobsid(resultJsonObject.getLong("jobsid"));
 				resumeInfo.setJobsname(resultJsonObject.getString("jobsname"));
-				
+
 				resumeInfo.setMarriagestate(marriagestate);
-				
+
 				resumeInfo.setOneenglish(oneenglish);
 				resumeInfo.setOnelevel(onelevel);
-				
+
 				resumeInfo.setPeople(people);
 				resumeInfo.setPolitical(political);
 				resumeInfo.setPostalcode(postalcode);
 				resumeInfo.setProfession(profession);
-				
+
 				resumeInfo.setQqmsn(qqmsn);
-				
+
 				resumeInfo.setReccontent(reccontent);
 				resumeInfo.setResume(resume);
-				
+
 				resumeInfo.setSex(sex);
 				resumeInfo.setSpecialtycontent(specialtycontent);
-				
+
 				resumeInfo.setTechnology(technology);
 				resumeInfo.setTruename(truename);
 				resumeInfo.setTwoenglish(twoenglish);
 				resumeInfo.setTwolevel(twolevel);
 				resumeInfo.setType(resultJsonObject.getString("type"));
-				
+
 				resumeInfo.setUpresumetime(resultJsonObject.getString("upresumetime"));
 				resumeInfo.setUseheight(useheight);
 				resumeInfo.setUsephone(usephone);
 				resumeInfo.setUserhead(resultJsonObject.getString("userhead"));
 				resumeInfo.setUserid(resultJsonObject.getLong("userid"));
-				
+
 				resumeInfo.setWorkexperience(workexperience);
 				resumeInfo.setWorkperformance(workperformance);
-				
+
 				msg.what = 0;
 				handler.sendMessage(msg);
-			}else{
+			} else {
 				String errorResult = (String) responseJsonObject.get("result");
 				String err = StringUtil.getAppException4MOS(errorResult);
 				ResumeManageActivity.this.sendExceptionMsg(err);
@@ -579,12 +586,12 @@ public class ResumeManageActivity extends BaicActivity {
 
 				updateUI();
 				break;
-			case 1:{
-				Intent intent = new Intent(ResumeManageActivity.this,
-						ResumeCreateActivity.class);
+			case 1: {
+				Intent intent = new Intent(ResumeManageActivity.this, ResumeCreateActivity.class);
 				startActivity(intent);
 				finish();
-			}break;
+			}
+				break;
 
 			}
 			closeProcessDialog();
@@ -594,52 +601,51 @@ public class ResumeManageActivity extends BaicActivity {
 	/**
 	 * 请求完数据，更新界面的数据
 	 */
-	private void updateUI(){
-		
+	private void updateUI() {
+
 		resumeNameValue.setText("我的简历");
 		resumeUpdateValue.setText(resumeInfo.getUpresumetime());
 		resumeFinishStatusValue.setText(finishStatus);
-		resumePublicValue.setText(resumeInfo.getIshide()+"");
-		
-		if(resumeInfo.getIshide()==0){
+		resumePublicValue.setText(resumeInfo.getIshide() + "");
+
+		if (resumeInfo.getIshide() == 0) {
 			isPublicImg.setImageResource(R.drawable.resume_is_secret_bg);
 			isPublicBtn.setText("隐藏");
-		}else{
+		} else {
 			isPublicImg.setImageResource(R.drawable.resume_is_public_bg);
 			isPublicBtn.setText("公开");
 		}
-		
+
 	}
+
 	// 跳转到简历修改界面
 	private void toResumeEditActivity() {
-		Intent intent = new Intent(ResumeManageActivity.this,
-				ResumeEditActivity.class);
+		Intent intent = new Intent(ResumeManageActivity.this, ResumeEditActivity.class);
 		Bundle bundle = new Bundle();
 		bundle.putSerializable("resumeInfo", dataList);
 		intent.putExtras(bundle);
 		startActivity(intent);
 	}
-	
-	 //删除提示框
-	 public void deleteDialog() {
-			// TODO Auto-generated method stub
-			AlertDialog.Builder builder = new Builder(this);
-			builder.setMessage("确定要删除吗?");
-			builder.setTitle("提示");
-			builder.setIcon(android.R.drawable.ic_dialog_alert);
-			builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) {
-					//删除线程
-				}
-			});
 
-			builder.setNegativeButton("取消",
-					new android.content.DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int which) {
-							dialog.dismiss();
-						}
-					});
+	// 删除提示框
+	public void deleteDialog() {
+		// TODO Auto-generated method stub
+		AlertDialog.Builder builder = new Builder(this);
+		builder.setMessage("确定要删除吗?");
+		builder.setTitle("提示");
+		builder.setIcon(android.R.drawable.ic_dialog_alert);
+		builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				// 删除线程
+			}
+		});
 
-			builder.create().show();
-		}
+		builder.setNegativeButton("取消", new android.content.DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}
+		});
+
+		builder.create().show();
+	}
 }

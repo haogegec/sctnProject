@@ -27,12 +27,13 @@ public class Constant {
 	// 系统图片存放字段
 	public static final String SYS_IMAGE_DATA_STORE = "/mnt/sdcard/sctnet/"; // 图片存放地址
 
-	// 个人中心登录请求码
-	public static final int LOGIN_PERSONAL_CENTER_ACTIVITY = 10;
 
 	// 首页中的登录功能用到的请求码
 	public static final int LOGIN_REQUEST_CONDE = 1;
-
+	public static final int LOGIN_PERSONAL_CENTER_ACTIVITY = 10;
+	public static final int LOGIN_RESUME_MANAGE_ACTIVITY = 21;
+	public static final int LOGIN_SALARY_SURVEY_ACTIVITY = 22;
+	
 	public static final int PageSize = 15;// 每个列表页面一页显示的个数
 
 	public static final int REQUEST_TIMEOUT = 50 * 1000;// 设置请求超时50秒钟
@@ -61,4 +62,7 @@ public class Constant {
 	public static final String KEY_TITLE = "title";
 	public static final String KEY_MESSAGE = "message";
 	public static final String KEY_EXTRAS = "extras";
+	
+	// 登录页注册请求码
+	public static final int REGISTER_REQUEST_CODE = 0;
 }

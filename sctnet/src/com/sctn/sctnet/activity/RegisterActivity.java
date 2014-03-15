@@ -7,30 +7,18 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.AlarmManager;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Message;
-import android.preference.PreferenceManager;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.Utils.Md5Builder;
 import com.sctn.sctnet.Utils.SharePreferencesUtils;
 import com.sctn.sctnet.Utils.StringUtil;
+import com.sctn.sctnet.entity.LoginInfo;
 
 public class RegisterActivity extends BaicActivity {
 
@@ -134,9 +122,9 @@ public class RegisterActivity extends BaicActivity {
 
 		Message msg = new Message();
 		try {
-			// ClassID=1&UserName=wzp&UserPwd=wzp&UserTxtPwd=加密密码&E_Mail=wzpym1983@126.com
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
 			params.add(new BasicNameValuePair("ClassID", "1"));
+			params.add(new BasicNameValuePair("type", "1"));
 			params.add(new BasicNameValuePair("UserName", username));
 			params.add(new BasicNameValuePair("UserPwd", password));
 			params.add(new BasicNameValuePair("UserTxtPwd", userTxtPwd));
@@ -162,13 +150,12 @@ public class RegisterActivity extends BaicActivity {
 					SharePreferencesUtils.setSharedStringData("password",password);
 					SharePreferencesUtils.setSharedStringData("userTxtPwd",userTxtPwd);
 					SharePreferencesUtils.setSharedlongData("userId",userId);
-					SharePreferencesUtils.setSharedBooleanData("isLogin",true);
+					SharePreferencesUtils.setSharedBooleanData(LoginInfo.LOGIN_SUCCESS_FLAG,true);
 					if(!StringUtil.isBlank(email))SharePreferencesUtils.setSharedStringData("email",email);
 				}
 				
-//				Toast.makeText(getApplicationContext(), "注册成功", Toast.LENGTH_LONG).show();s
-//				setResult(RESULT_OK);
-//				finish();
+				setResult(RESULT_OK);
+				finish();
 				
 			} else {
 				String errorResult = (String) responseJsonObject.get("result");

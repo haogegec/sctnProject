@@ -1,5 +1,9 @@
 package com.sctn.sctnet.activity;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -10,6 +14,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.os.Message;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -25,7 +30,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import com.sctn.sctnet.R;
+import com.sctn.sctnet.Utils.Md5Builder;
 import com.sctn.sctnet.Utils.StringUtil;
+import com.sctn.sctnet.contants.Constant;
 /**
  * 登陆界面
  * @author xueweiwei
@@ -59,6 +66,11 @@ public class LoginActivity extends BaicActivity {
 	 * 登录验证并处理缓存
 	 */
 	public void login() {
+		
+		String url = "appLogin.app";
+
+		Message msg = new Message();
+		
 		String response="";
 		sctnApp.setReLogin(false);
 		JSONObject responseJsonObject = null;
@@ -80,11 +92,10 @@ public class LoginActivity extends BaicActivity {
 			return;
 		}
 		try {
-			JSONObject requestJsonObject = new JSONObject();
-			requestJsonObject.put("userName", userName);
-			requestJsonObject.put("password", password);
-			//获取响应的结果信息
-//			response = getPostHttpContent("appLogin.app?method=execute", requestJsonObject.toString());
+			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
+			params.add(new BasicNameValuePair("UserName", userName));
+			params.add(new BasicNameValuePair("UserPwd", Md5Builder.getMd5(password)));
+			response = getPostHttpContent(url, params);
 			
 			if (StringUtil.isExcetionInfo(response)) {
 				LoginActivity.this.sendExceptionMsg(response);
@@ -261,11 +272,24 @@ public class LoginActivity extends BaicActivity {
 			public void onClick(View v) {
 				
 				Intent intent = new Intent(LoginActivity.this,RegisterActivity.class);
-				
-				startActivity(intent);
+				startActivityForResult(intent, Constant.REGISTER_REQUEST_CODE);
 			}
 			
 		});
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			switch (requestCode) {
+				case Constant.REGISTER_REQUEST_CODE : {
+					setResult(RESULT_OK);
+					finish();
+					break;
+				}
+			}
+		}
 	}
 
 }

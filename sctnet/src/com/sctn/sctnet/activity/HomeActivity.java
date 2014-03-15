@@ -1,7 +1,10 @@
 package com.sctn.sctnet.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -75,8 +78,15 @@ public class HomeActivity extends BaicActivity {
 			// 简历管理
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(HomeActivity.this, ResumeManageActivity.class);
-				startActivity(intent);
+				
+				if (LoginInfo.isLogin()) {
+					Intent intent = new Intent(HomeActivity.this, ResumeManageActivity.class);
+					startActivity(intent);
+				} else {
+					Toast.makeText(getApplicationContext(), "请先登录", Toast.LENGTH_SHORT).show();
+					Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+					startActivityForResult(intent,Constant.LOGIN_RESUME_MANAGE_ACTIVITY);
+				}
 			}
 		});
 
@@ -102,8 +112,16 @@ public class HomeActivity extends BaicActivity {
 			// 薪资调查
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(HomeActivity.this, SalarySurveyActivity.class);
-				startActivity(intent);
+				
+				if (LoginInfo.isLogin()) {
+					Intent intent = new Intent(HomeActivity.this, SalarySurveyActivity.class);
+					startActivity(intent);
+				} else {
+					Toast.makeText(getApplicationContext(), "请先登录", Toast.LENGTH_SHORT).show();
+					Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+					startActivityForResult(intent,Constant.LOGIN_SALARY_SURVEY_ACTIVITY);
+				}
+				
 			}
 		});
 
@@ -145,16 +163,14 @@ public class HomeActivity extends BaicActivity {
 			// 个人中心
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(HomeActivity.this, PersonalCenterActivity.class);
-				startActivity(intent);
-//				if (LoginInfo.isLogin()) {
-//					Intent intent = new Intent(HomeActivity.this, PersonalCenterActivity.class);
-//					startActivity(intent);
-//				} else {
-//					Toast.makeText(getApplicationContext(), "请先登录", Toast.LENGTH_SHORT).show();
-//					Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-//					startActivityForResult(intent,Constant.LOGIN_PERSONAL_CENTER_ACTIVITY);
-//				}
+				if (LoginInfo.isLogin()) {
+					Intent intent = new Intent(HomeActivity.this, PersonalCenterActivity.class);
+					startActivity(intent);
+				} else {
+					Toast.makeText(getApplicationContext(), "请先登录", Toast.LENGTH_SHORT).show();
+					Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+					startActivityForResult(intent,Constant.LOGIN_PERSONAL_CENTER_ACTIVITY);
+				}
 			}
 		});
 
@@ -166,7 +182,18 @@ public class HomeActivity extends BaicActivity {
 			switch (requestCode) {
 				case Constant.LOGIN_PERSONAL_CENTER_ACTIVITY : {
 					startActivity(new Intent(HomeActivity.this,PersonalCenterActivity.class));
+					break;
 				}
+				case Constant.LOGIN_RESUME_MANAGE_ACTIVITY : {
+					startActivity(new Intent(HomeActivity.this,ResumeManageActivity.class));
+					break;
+				}
+				case Constant.LOGIN_SALARY_SURVEY_ACTIVITY : {
+					startActivity(new Intent(HomeActivity.this,SalarySurveyActivity.class));
+					break;
+				}
+				
+				
 			}
 		}
 	}

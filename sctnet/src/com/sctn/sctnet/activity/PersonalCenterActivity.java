@@ -16,11 +16,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.Utils.SharePreferencesUtils;
 import com.sctn.sctnet.Utils.StringUtil;
-import com.sctn.sctnet.cache.CacheProcess;
+import com.sctn.sctnet.entity.LoginInfo;
 import com.sctn.sctnet.view.ItemView;
 
 /**
@@ -33,13 +34,14 @@ public class PersonalCenterActivity extends BaicActivity {
 
 	private ItemView itemView1, itemView2, itemView3, itemView4, itemView5;
 	private TextView postAppCount,postCollCount;// 职位申请记录，职位收藏记录
-	private CacheProcess cacheProcess;// 缓存数据
+//	private CacheProcess cacheProcess;// 缓存数据
 	private long userId;// 用户唯一标识
 	private String result;// 服务端返回结果数据
 	private ImageView postAppImage;// 职位申请记录控件
 	private ImageView postCollImage;// 职位收藏记录
 	private TextView username;
 	
+	private String userName;// 登录名
 	private String post = "";// 职位申请记录
 	private String resume = "";// 职位收藏记录
 	private String company = "";// 几个公司看过我的简历
@@ -53,8 +55,10 @@ public class PersonalCenterActivity extends BaicActivity {
 		setContentView(R.layout.personal_center_activity);
 		setTitleBar(getString(R.string.personalActivityTitle), View.VISIBLE, View.VISIBLE);
 		super.setTitleRightButtonImg(R.drawable.log_off_bg);
-		cacheProcess = new CacheProcess();
+//		cacheProcess = new CacheProcess();
 //		userId = cacheProcess.getLongCacheValueInSharedPreferences(this, "userId");
+		userId = SharePreferencesUtils.getSharedlongData("userId");
+		userName = SharePreferencesUtils.getSharedStringData("userName");
 		
 		initAllView();
 		reigesterAllEvent();
@@ -133,7 +137,13 @@ public class PersonalCenterActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(PersonalCenterActivity.this,RegisterActivity.class));
+				// 将本地保存的登录信息清空
+				LoginInfo.LogOut();
+				// ->直接跳转到HomeActivity 同时清空栈中 HomeActivity 之前的 Activity
+				Toast.makeText(PersonalCenterActivity.this, "退出成功", Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent(PersonalCenterActivity.this, HomeActivity.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // 利用ClearTop标志
+				startActivity(intent);
 			}
 		});
 		
@@ -278,7 +288,7 @@ public class PersonalCenterActivity extends BaicActivity {
 		try {
 
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-			params.add(new BasicNameValuePair("Userid", "197244"));
+			params.add(new BasicNameValuePair("Userid", userId+""));
 			result = getPostHttpContent(url, params);
 
 			if (StringUtil.isExcetionInfo(result)) {
@@ -332,7 +342,7 @@ public class PersonalCenterActivity extends BaicActivity {
 	 * 请求完数据，更新界面的数据
 	 */
 	private void updateUI(){
-		username.setText(userId+"");
+		username.setText(userName);
 		itemView1.setValue("共"+company+"条");
 		itemView5.setValue("共"+invite+"条");
 		postAppCount.setText(post);
