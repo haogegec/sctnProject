@@ -523,6 +523,7 @@
                 android:background="@drawable/my_edittext"
                 android:layout_marginRight="10dp"
                 android:singleLine="true"
+                android:inputType="textNoSuggestions"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="" />
@@ -572,6 +573,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:singleLine="true"
+                android:inputType="textNoSuggestions"
                 android:text="" />
 
         </LinearLayout>

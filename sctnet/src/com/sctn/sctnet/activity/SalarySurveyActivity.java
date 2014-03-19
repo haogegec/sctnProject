@@ -73,11 +73,6 @@ public class SalarySurveyActivity extends BaicActivity {
 
 	private String[] degreeIds;// 存储学历对应的ID
 	private String[] degrees;// 学历
-	// private String[] overseasEduExp = { "无", "1~2年", "3~4年", "5~10年",
-	// "10年及以上" };// 海外教育经历
-	// private String[] professionalCertificates = { "造价师", "会计师", "营业员", "推销员"
-	// };// 职业资格证书
-	// private String[] skills = { "C++", "图形设计", "演讲" };// 技能技巧
 
 	private String salarySurveyUsername = "";
 	private String salarySurveyPassword = "";

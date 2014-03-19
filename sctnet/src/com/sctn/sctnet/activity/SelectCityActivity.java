@@ -25,25 +25,22 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.Utils.StringUtil;
 import com.sctn.sctnet.contants.Constant;
-import com.sctn.sctnet.view.SideBar;
 
-public class SelectAreaActivity extends BaicActivity {
+public class SelectCityActivity extends BaicActivity {
 
-	private ListView lv_area;
-	private SideBar indexBar;
-	private static String[] provinces;
-	private static String[] provinceIds;
-	private String province;
+	private ListView lv_city;
+
 	private String provinceId;
+	private String province;
+	private static String[] cities;
+	private static String[] cityIds;
 	private List<Map<String, String>> listItems = new ArrayList<Map<String, String>>();
 
-	// 服务端返回结果
-	private String result;
-	private com.alibaba.fastjson.JSONObject responseJsonObject = null;// 返回结果存放在该json对象中
-	private String flag;
+	private String result;// 服务端返回的结果
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -55,76 +52,96 @@ public class SelectAreaActivity extends BaicActivity {
 		initIntent();
 		initAllView();
 		reigesterAllEvent();
-		requestDataThread();
+		requestCityThread();
 
 	}
 
-	private void initIntent() {
-		flag = getIntent().getStringExtra("flag");
+	protected void initIntent(){
+		provinceId = getIntent().getStringExtra("provinceId");
+		province = getIntent().getStringExtra("province");
+	}
+	
+	@Override
+	protected void initAllView() {
+		lv_city = (ListView) findViewById(R.id.lv_area);
+		lv_city.setAdapter(new CityAdapter(this, listItems, R.layout.select_area_item));
 	}
 
-	/**
-	 * 请求数据线程
-	 * 
-	 */
-	private void requestDataThread() {
+	@Override
+	protected void reigesterAllEvent() {
+		lv_city.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+				Intent intent = getIntent();
+				intent.putExtra("city", cities[position]);
+				intent.putExtra("cityId", cityIds[position]);
+				intent.putExtra("province", province);
+				intent.putExtra("provinceId", provinceId);
+				setResult(RESULT_OK, intent);
+				finish();
+			}
+
+		});
+	}
+
+	private void requestCityThread() {
 		showProcessDialog(false);
 		Thread mThread = new Thread(new Runnable() {// 启动新的线程，
 					@Override
 					public void run() {
-						requestData();
+						requestCity();
 					}
 				});
 		mThread.start();
 	}
 
-	private void requestData() {
-
+	private void requestCity() {
 		String url = "appCmbShow.app";
 
 		Message msg = new Message();
 		List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-		params.add(new BasicNameValuePair("type", Constant.PROVINCE_TYPE + ""));
-		params.add(new BasicNameValuePair("key", "1"));
+		params.add(new BasicNameValuePair("type", Constant.CITY_TYPE + ""));
+		params.add(new BasicNameValuePair("key", provinceId));
 		result = getPostHttpContent(url, params);
 
 		if (StringUtil.isExcetionInfo(result)) {
-			SelectAreaActivity.this.sendExceptionMsg(result);
+			SelectCityActivity.this.sendExceptionMsg(result);
 			return;
 		}
 
 		if (StringUtil.isBlank(result)) {
 			result = StringUtil.getAppException4MOS("未获得服务器响应结果！");
-			SelectAreaActivity.this.sendExceptionMsg(result);
+			SelectCityActivity.this.sendExceptionMsg(result);
 		}
-		Message m = new Message();
-		responseJsonObject = com.alibaba.fastjson.JSONObject.parseObject(result);
+		JSONObject responseJsonObject = JSONObject.parseObject(result);
 		if (responseJsonObject.get("resultcode").toString().equals("0")) {
 
-			com.alibaba.fastjson.JSONObject json = responseJsonObject.getJSONObject("result");
+			JSONObject json = responseJsonObject.getJSONObject("result");
 			Set<Entry<String, Object>> set = json.entrySet();
 			Iterator<Entry<String, Object>> iter = set.iterator();
-			provinces = new String[set.size()];
-			provinceIds = new String[set.size()];
+			cities = new String[set.size()];
+			cityIds = new String[set.size()];
 			int i = 0;
 			while (iter.hasNext()) {
 				Map<String, String> map = new HashMap<String, String>();
 				Entry obj = iter.next();
 				map.put("id", (String) obj.getKey());
 				map.put("value", (String) obj.getValue());
-				provinces[i] = (String) obj.getValue();
-				provinceIds[i] = (String) obj.getKey();
+				cities[i] = (String) obj.getValue();
+				cityIds[i] = (String) obj.getKey();
 				listItems.add(map);
 				i++;
 			}
-			m.what = Constant.AREA;
+			msg.what = Constant.CITY_TYPE;
 		} else {
 			String errorResult = (String) responseJsonObject.get("result");
 			String err = StringUtil.getAppException4MOS(errorResult);
-			SelectAreaActivity.this.sendExceptionMsg(err);
+			SelectCityActivity.this.sendExceptionMsg(err);
 		}
 
-		handler.sendMessage(m);
+		handler.sendMessage(msg);
 	}
 
 	// 处理线程发送的消息
@@ -132,7 +149,7 @@ public class SelectAreaActivity extends BaicActivity {
 
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
-			case Constant.AREA:
+			case Constant.CITY_TYPE:
 				initUI();
 				break;
 			}
@@ -140,77 +157,19 @@ public class SelectAreaActivity extends BaicActivity {
 		}
 	};
 
-	@Override
-	protected void initAllView() {
-		lv_area = (ListView) findViewById(R.id.lv_area);
-
-		lv_area.setAdapter(new MyAdapter(this, listItems, R.layout.select_area_item));
-	}
-
-	@Override
-	protected void reigesterAllEvent() {
-		lv_area.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-				if ("BasicInfoEditActivity".equals(flag) || "JobIntentionEditActivity".equals(flag)) {
-					Intent intent = new Intent(SelectAreaActivity.this, SelectCityActivity.class);
-					intent.putExtra("provinceId", provinceIds[position]);
-					intent.putExtra("province", provinces[position]);
-					startActivityForResult(intent , Constant.SELECT_CITY_REQUEST_CODE);
-				} else {
-					Intent intent = getIntent();
-					intent.putExtra("area", provinces[position]);
-					intent.putExtra("areaId", provinceIds[position]);
-					setResult(RESULT_OK, intent);
-					finish();
-				}
-			}
-
-		});
-	}
-
 	// 初始化城市列表
 	protected void initUI() {
-		lv_area.setAdapter(new MyAdapter(this, listItems, R.layout.select_area_item));
-	}
-
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode == RESULT_OK) {
-			switch (requestCode) {
-
-			case Constant.SELECT_CITY_REQUEST_CODE:
-				
-				Intent intent = getIntent();
-				
-				String city = data.getStringExtra("city");
-				String cityId = data.getStringExtra("cityId");
-				province = data.getStringExtra("province");
-				provinceId = data.getStringExtra("provinceId");
-				
-				intent.putExtra("city", city);
-				intent.putExtra("cityId", cityId);
-				intent.putExtra("province", province);
-				intent.putExtra("provinceId", provinceId);
-				
-				setResult(RESULT_OK, intent);
-				finish();
-				
-				break;
-			}
-		}
+		lv_city.setAdapter(new CityAdapter(this, listItems, R.layout.select_area_item));
 	}
 
 	// 自定义适配器
-	class MyAdapter extends BaseAdapter {
+	class CityAdapter extends BaseAdapter {
 		private Context mContext;// 上下文对象
 		List<Map<String, String>> list;// 这是要绑定的数据
 		private int resource;// 这是要绑定的 item 布局文件
 		private LayoutInflater inflater;// 布局填充器，Android系统内置的
 
-		public MyAdapter(Context context, List<Map<String, String>> list, int resource) {
+		public CityAdapter(Context context, List<Map<String, String>> list, int resource) {
 			this.mContext = context;
 			this.list = list;
 			this.resource = resource;
@@ -234,23 +193,23 @@ public class SelectAreaActivity extends BaicActivity {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			TextView area = null;
+			TextView city = null;
 
 			if (convertView == null) {// 目前显示的是第一页，为这些条目数据new一个view出来，如果不是第一页，则继续用缓存的view
 				convertView = inflater.inflate(resource, null);
 
 				// 初始化控件
-				area = (TextView) convertView.findViewById(R.id.area);
+				city = (TextView) convertView.findViewById(R.id.area);
 				ViewCache viewCache = new ViewCache();
-				viewCache.area = area;
+				viewCache.city = city;
 				convertView.setTag(viewCache);
 			} else {
 				// 初始化控件
 				ViewCache viewCache = (ViewCache) convertView.getTag();
-				area = viewCache.area;
+				city = viewCache.city;
 			}
 
-			area.setText(list.get(position).get("value"));
+			city.setText(list.get(position).get("value"));
 
 			return convertView;
 		}
@@ -258,7 +217,7 @@ public class SelectAreaActivity extends BaicActivity {
 	}
 
 	private final class ViewCache {
-		public TextView area;// 地区
+		public TextView city;// 市
 	}
 
 }

@@ -74,5 +74,9 @@ public class Constant {
 	public static final int APPLY_SUCCESS = 101;
 	public static final int COLLECT_SUCCESS = 102;
 	
-	
+	// 简历管理模块。选择籍贯。选择城市。户口所在地。居住地请求码
+	public static final int SELECT_NATIVE_PLACE_REQUEST_CODE = 25;
+	public static final int SELECT_CITY_REQUEST_CODE = 26;
+	public static final int SELECT_RESIDENCE_REQUEST_CODE = 27;
+	public static final int SELECT_HABITAT_REQUEST_CODE = 28;
 }

@@ -18,6 +18,8 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="20dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:background="@drawable/item_selector"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -28,7 +30,6 @@
                 android:id="@+id/name_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textColor="@color/lightBlack"
                 android:text="姓名" />
@@ -39,7 +40,6 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/my_edittext"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:text="" />
         </LinearLayout>
         
@@ -65,9 +65,9 @@
                 android:id="@+id/sex"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+				android:gravity="left"
                 android:orientation="horizontal"
-                android:paddingLeft="10dp" >
+                android:paddingLeft="20dp" >
 
                 <RadioButton
                     android:id="@+id/mail"
@@ -75,6 +75,7 @@
                     android:layout_height="wrap_content"
                     android:checked="true"
                     android:text="男"
+                    android:button="@drawable/common_radio"
                     android:textColor="@color/lightBlack" />
 
                 <RadioButton
@@ -83,6 +84,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:text="女"
+                    android:button="@drawable/common_radio"
                     android:textColor="@color/lightBlack" />
             </RadioGroup>
         </LinearLayout>
@@ -272,6 +274,8 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="1dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:background="@drawable/item_selector"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -282,10 +286,9 @@
                 android:id="@+id/heigh_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textColor="@color/lightBlack"
-                android:text="身高" />
+                android:text="身高（cm）" />
 
             <EditText
                 android:id="@+id/heigh_value"
@@ -293,11 +296,11 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/my_edittext"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:digits="1234567890"
                 android:maxLength="3"
                 android:inputType="number"
                 android:text="" />
+            
         </LinearLayout>
         
         
@@ -444,7 +447,6 @@
             android:layout_height="55dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            
             android:layout_marginTop="1dp"
             android:background="@drawable/item_selector"
             android:gravity="center_vertical"
@@ -471,7 +473,7 @@
                 android:text="" />
 
             <ImageView
-                android:id="@+id/arrow7"
+                android:id="@+id/arrow6"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_alignParentRight="true"
@@ -490,6 +492,8 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="1dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:background="@drawable/item_selector"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -500,7 +504,6 @@
                 android:id="@+id/cardid_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textColor="@color/lightBlack"
                 android:text="身份证号" />
@@ -511,7 +514,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/my_edittext"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                android:inputType="textNoSuggestions"
                 android:text="" />
         </LinearLayout>
         <LinearLayout
@@ -521,6 +524,8 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="1dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:background="@drawable/item_selector"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -531,7 +536,6 @@
                 android:id="@+id/drivecode_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textColor="@color/lightBlack"
                 android:text="驾驶证号" />
@@ -542,7 +546,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/my_edittext"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                android:inputType="textNoSuggestions"
                 android:text="" />
         </LinearLayout>
         <LinearLayout
@@ -552,6 +556,9 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="1dp"
+            android:layout_marginBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:background="@drawable/item_selector"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -562,7 +569,6 @@
                 android:id="@+id/address_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textColor="@color/lightBlack"
                 android:text="地址" />
@@ -573,7 +579,6 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/my_edittext"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:text="" />
         </LinearLayout>
        

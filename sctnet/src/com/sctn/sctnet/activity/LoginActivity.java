@@ -120,6 +120,7 @@ public class LoginActivity extends BaicActivity {
 				} else if(isRememberPassword){
 					editor.putBoolean("isRememberPassword", isRememberPassword);
 				}
+				editor.commit();
 				setResult(RESULT_OK);
 				finish();
 			}else{

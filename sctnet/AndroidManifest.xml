@@ -311,6 +311,11 @@
             android:name=".activity.DownLoadListActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <!-- 选择城市 -->
+        <activity
+            android:name=".activity.SelectCityActivity"
+            android:screenOrientation="portrait" >
+        </activity>
 
         <!-- Required SDK核心功能 -->
         <activity

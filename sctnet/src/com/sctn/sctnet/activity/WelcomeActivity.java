@@ -8,7 +8,9 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.view.Window;
+import android.widget.Toast;
 import cn.jpush.android.api.InstrumentedActivity;
+import cn.jpush.android.api.JPushInterface;
 
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.Utils.PushUtil;
@@ -41,6 +43,9 @@ public class WelcomeActivity extends InstrumentedActivity {
 		setContentView(R.layout.welcome_activity);
 		isFirstLode();
 		init();
+		
+		Toast.makeText(getApplicationContext(), JPushInterface.getRegistrationID(this), Toast.LENGTH_LONG).show();
+		System.out.println("ID = "+JPushInterface.getRegistrationID(this));
 	}
 
 	/**

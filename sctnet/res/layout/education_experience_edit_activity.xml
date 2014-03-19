@@ -6,11 +6,11 @@
     android:background="@color/background"
     android:orientation="vertical" >
 
-    <LinearLayout 
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
-        
+
         <LinearLayout
             android:id="@+id/graduatedschool"
             android:layout_width="fill_parent"
@@ -19,10 +19,10 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/item_selector"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:focusable="true"  
-   			android:focusableInTouchMode="true" >
+            android:orientation="horizontal" >
 
             <TextView
                 android:id="@+id/graduatedschool_text"
@@ -30,8 +30,8 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:textColor="@color/lightBlack"
-                android:text="毕业学校" />
+                android:text="毕业学校"
+                android:textColor="@color/lightBlack" />
 
             <EditText
                 android:id="@+id/graduatedschool_value"
@@ -42,6 +42,7 @@
                 android:paddingRight="10dp"
                 android:text="" />
         </LinearLayout>
+
         <RelativeLayout
             android:id="@+id/graduateddate"
             android:layout_width="fill_parent"
@@ -60,8 +61,9 @@
                 android:layout_alignParentLeft="true"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:textColor="@color/lightBlack"
-                android:text="毕业日期" />
+                android:text="毕业日期"
+                android:textColor="@color/lightBlack" />
+
             <TextView
                 android:id="@+id/graduateddate_value"
                 android:layout_width="wrap_content"
@@ -85,7 +87,7 @@
                 android:src="@drawable/arrow" >
             </ImageView>
         </RelativeLayout>
-       
+
         <LinearLayout
             android:id="@+id/graduatedcode"
             android:layout_width="fill_parent"
@@ -94,10 +96,10 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="1dp"
             android:background="@drawable/item_selector"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:focusable="true"  
-   			android:focusableInTouchMode="true" >
+            android:orientation="horizontal" >
 
             <TextView
                 android:id="@+id/graduatedcode_text"
@@ -105,8 +107,8 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:textColor="@color/lightBlack"
-                android:text="毕业证号" />
+                android:text="毕业证号"
+                android:textColor="@color/lightBlack" />
 
             <EditText
                 android:id="@+id/graduatedcode_value"
@@ -117,6 +119,7 @@
                 android:paddingRight="10dp"
                 android:text="" />
         </LinearLayout>
+
         <RelativeLayout
             android:id="@+id/education"
             android:layout_width="fill_parent"
@@ -135,8 +138,9 @@
                 android:layout_alignParentLeft="true"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:textColor="@color/lightBlack"
-                android:text="学历" />
+                android:text="学历"
+                android:textColor="@color/lightBlack" />
+
             <TextView
                 android:id="@+id/education_value"
                 android:layout_width="wrap_content"
@@ -160,6 +164,7 @@
                 android:src="@drawable/arrow" >
             </ImageView>
         </RelativeLayout>
+
         <LinearLayout
             android:id="@+id/degree"
             android:layout_width="fill_parent"
@@ -168,10 +173,10 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="1dp"
             android:background="@drawable/item_selector"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:focusable="true"  
-   			android:focusableInTouchMode="true" >
+            android:orientation="horizontal" >
 
             <TextView
                 android:id="@+id/degree_text"
@@ -179,8 +184,8 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:textColor="@color/lightBlack"
-                android:text="学位" />
+                android:text="学位"
+                android:textColor="@color/lightBlack" />
 
             <EditText
                 android:id="@+id/degree_value"
@@ -191,7 +196,7 @@
                 android:paddingRight="10dp"
                 android:text="" />
         </LinearLayout>
-        
+
         <LinearLayout
             android:id="@+id/degreecert"
             android:layout_width="fill_parent"
@@ -200,10 +205,10 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="1dp"
             android:background="@drawable/item_selector"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:focusable="true"  
-   			android:focusableInTouchMode="true" >
+            android:orientation="horizontal" >
 
             <TextView
                 android:id="@+id/degreecert_text"
@@ -211,8 +216,8 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:textColor="@color/lightBlack"
-                android:text="学位证号" />
+                android:text="学位证号"
+                android:textColor="@color/lightBlack" />
 
             <EditText
                 android:id="@+id/degreecert_value"
@@ -223,7 +228,7 @@
                 android:paddingRight="10dp"
                 android:text="" />
         </LinearLayout>
-        
+
         <LinearLayout
             android:id="@+id/profession"
             android:layout_width="fill_parent"
@@ -232,10 +237,10 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="1dp"
             android:background="@drawable/item_selector"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:focusable="true"  
-   			android:focusableInTouchMode="true" >
+            android:orientation="horizontal" >
 
             <TextView
                 android:id="@+id/profession_text"
@@ -243,8 +248,8 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:textColor="@color/lightBlack"
-                android:text="专业" />
+                android:text="专业"
+                android:textColor="@color/lightBlack" />
 
             <EditText
                 android:id="@+id/profession_value"
@@ -255,7 +260,7 @@
                 android:paddingRight="10dp"
                 android:text="" />
         </LinearLayout>
-        
+
         <LinearLayout
             android:id="@+id/technology"
             android:layout_width="fill_parent"
@@ -264,10 +269,10 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="1dp"
             android:background="@drawable/item_selector"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:focusable="true"  
-   			android:focusableInTouchMode="true" >
+            android:orientation="horizontal" >
 
             <TextView
                 android:id="@+id/technology_text"
@@ -275,8 +280,8 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:textColor="@color/lightBlack"
-                android:text="专业职称" />
+                android:text="专业职称"
+                android:textColor="@color/lightBlack" />
 
             <EditText
                 android:id="@+id/technology_value"
@@ -287,7 +292,8 @@
                 android:paddingRight="10dp"
                 android:text="" />
         </LinearLayout>
-       <LinearLayout
+
+        <LinearLayout
             android:id="@+id/aidprofession"
             android:layout_width="fill_parent"
             android:layout_height="55dp"
@@ -295,10 +301,10 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="1dp"
             android:background="@drawable/item_selector"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:focusable="true"  
-   			android:focusableInTouchMode="true" >
+            android:orientation="horizontal" >
 
             <TextView
                 android:id="@+id/aidprofession_text"
@@ -306,8 +312,8 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:textColor="@color/lightBlack"
-                android:text="辅助专业" />
+                android:text="辅助专业"
+                android:textColor="@color/lightBlack" />
 
             <EditText
                 android:id="@+id/aidprofession_value"
@@ -318,8 +324,8 @@
                 android:paddingRight="10dp"
                 android:text="" />
         </LinearLayout>
-        
-       <RelativeLayout
+
+        <RelativeLayout
             android:id="@+id/computerlevel"
             android:layout_width="fill_parent"
             android:layout_height="55dp"
@@ -337,8 +343,9 @@
                 android:layout_alignParentLeft="true"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:textColor="@color/lightBlack"
-                android:text="微机水平" />
+                android:text="微机水平"
+                android:textColor="@color/lightBlack" />
+
             <TextView
                 android:id="@+id/computerlevel_value"
                 android:layout_width="wrap_content"
@@ -362,8 +369,8 @@
                 android:src="@drawable/arrow" >
             </ImageView>
         </RelativeLayout>
-        
-       <LinearLayout
+
+        <RelativeLayout
             android:id="@+id/oneenglish"
             android:layout_width="fill_parent"
             android:layout_height="55dp"
@@ -372,28 +379,42 @@
             android:layout_marginTop="1dp"
             android:background="@drawable/item_selector"
             android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:focusable="true"  
-   			android:focusableInTouchMode="true" >
+            android:orientation="horizontal" >
 
             <TextView
                 android:id="@+id/oneenglish_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:textColor="@color/lightBlack"
-                android:text="第一外语" />
+                android:text="第一外语"
+                android:textColor="@color/lightBlack" />
 
-            <EditText
+            <TextView
                 android:id="@+id/oneenglish_value"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/my_edittext"
+                android:layout_toLeftOf="@+id/arrow2"
+                android:gravity="right"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="" />
-        </LinearLayout>
+
+            <ImageView
+                android:id="@+id/arrow2"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:contentDescription="@null"
+                android:shadowColor="#ffffffff"
+                android:shadowDx="0.0"
+                android:shadowDy="1.0"
+                android:shadowRadius="1.0"
+                android:src="@drawable/arrow" >
+            </ImageView>
+        </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/oneenglishlevel"
             android:layout_width="fill_parent"
@@ -412,20 +433,21 @@
                 android:layout_alignParentLeft="true"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:textColor="@color/lightBlack"
-                android:text="第一外语水平" />
+                android:text="第一外语水平"
+                android:textColor="@color/lightBlack" />
+
             <TextView
                 android:id="@+id/oneenglishlevel_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/arrow1"
+                android:layout_toLeftOf="@+id/arrow3"
                 android:gravity="right"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="" />
 
             <ImageView
-                android:id="@+id/arrow1"
+                android:id="@+id/arrow3"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_alignParentRight="true"
@@ -437,8 +459,8 @@
                 android:src="@drawable/arrow" >
             </ImageView>
         </RelativeLayout>
-        
-        <LinearLayout
+
+        <RelativeLayout
             android:id="@+id/twoenglish"
             android:layout_width="fill_parent"
             android:layout_height="55dp"
@@ -447,32 +469,47 @@
             android:layout_marginTop="1dp"
             android:background="@drawable/item_selector"
             android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:focusable="true"  
-   			android:focusableInTouchMode="true" >
+            android:orientation="horizontal" >
 
             <TextView
                 android:id="@+id/twoenglish_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:textColor="@color/lightBlack"
-                android:text="第二外语" />
+                android:text="第二外语"
+                android:textColor="@color/lightBlack" />
 
-            <EditText
+            <TextView
                 android:id="@+id/twoenglish_value"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/my_edittext"
+                android:layout_toLeftOf="@+id/arrow4"
+                android:gravity="right"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="" />
-        </LinearLayout>
+
+            <ImageView
+                android:id="@+id/arrow4"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:contentDescription="@null"
+                android:shadowColor="#ffffffff"
+                android:shadowDx="0.0"
+                android:shadowDy="1.0"
+                android:shadowRadius="1.0"
+                android:src="@drawable/arrow" >
+            </ImageView>
+        </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/twoenglishlevel"
             android:layout_width="fill_parent"
             android:layout_height="55dp"
+            android:layout_marginBottom="20dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="1dp"
@@ -487,20 +524,21 @@
                 android:layout_alignParentLeft="true"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:textColor="@color/lightBlack"
-                android:text="第二外语水平" />
+                android:text="第二外语水平"
+                android:textColor="@color/lightBlack" />
+
             <TextView
                 android:id="@+id/twoenglishlevel_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/arrow1"
+                android:layout_toLeftOf="@+id/arrow5"
                 android:gravity="right"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="" />
 
             <ImageView
-                android:id="@+id/arrow1"
+                android:id="@+id/arrow5"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_alignParentRight="true"
@@ -513,6 +551,5 @@
             </ImageView>
         </RelativeLayout>
     </LinearLayout>
-
 
 </ScrollView>

@@ -52,6 +52,8 @@ public class SelectJobActivity extends BaicActivity {
 
 	private Builder builder;// 学历选择
 	private Dialog dialog;
+	
+	private String flag;// WorkExperienceEditActivity、SelectJobExpActivity两个页面跳过来之后，根据flag，请求的服务端方法不同
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -60,12 +62,79 @@ public class SelectJobActivity extends BaicActivity {
 		setContentView(R.layout.select_area_listview);
 		super.setTitleBar("选择职位类别", View.VISIBLE, View.GONE);
 
+		initIntent();
 		initAllView();
 		reigesterAllEvent();
 		requestDataThread();
 
 	}
+	
+	private void initIntent(){
+		flag = getIntent().getStringExtra("flag");
+	}
 
+//	/**
+//	 * 请求数据线程
+//	 * 
+//	 */
+//	private void requestJobThread() {
+//		showProcessDialog(false);
+//		Thread mThread = new Thread(new Runnable() {// 启动新的线程，
+//					@Override
+//					public void run() {
+//						requestJob();
+//					}
+//				});
+//		mThread.start();
+//	}
+//	
+//	private void requestJob() {
+//
+//		String url = "appCmbShow.app";
+//		List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
+//		params.add(new BasicNameValuePair("type", "4"));
+//		params.add(new BasicNameValuePair("key", "1"));
+//		result = getPostHttpContent(url, params);
+//
+//		if (StringUtil.isExcetionInfo(result)) {
+//			SelectJobActivity.this.sendExceptionMsg(result);
+//			return;
+//		}
+//
+//		if (StringUtil.isBlank(result)) {
+//			result = StringUtil.getAppException4MOS("未获得服务器响应结果！");
+//			SelectJobActivity.this.sendExceptionMsg(result);
+//		}
+//		Message m = new Message();
+//		responseJsonObject = com.alibaba.fastjson.JSONObject.parseObject(result);
+//		if (responseJsonObject.get("resultcode").toString().equals("0")) {
+//
+//			com.alibaba.fastjson.JSONObject json = responseJsonObject.getJSONObject("result");
+//			Set<Entry<String, Object>> set = json.entrySet();
+//			Iterator<Entry<String, Object>> iter = set.iterator();
+//			jobs = new String[set.size()];
+//			jobIds = new String[set.size()];
+//			int i = 0;
+//			while (iter.hasNext()) {
+//				Map<String, String> map = new HashMap<String, String>();
+//				Entry obj = iter.next();
+//				map.put("id", (String) obj.getKey());
+//				map.put("value", (String) obj.getValue());
+//				jobs[i] = (String) obj.getValue();
+//				jobIds[i] = (String) obj.getKey();
+//				listItems.add(map);
+//				i++;
+//			}
+//			m.what = Constant.JOB;
+//		} else {
+//			String errorResult = (String) responseJsonObject.get("result");
+//			String err = StringUtil.getAppException4MOS(errorResult);
+//			SelectJobActivity.this.sendExceptionMsg(err);
+//		}
+//
+//		handler.sendMessage(m);
+//	}
+	
 	/**
 	 * 请求数据线程
 	 * 
@@ -84,10 +153,12 @@ public class SelectJobActivity extends BaicActivity {
 	private void requestData() {
 
 		String url = "appCmbShow.app";
-
-		Message msg = new Message();
 		List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-		params.add(new BasicNameValuePair("type", "8"));
+		if("WorkExperienceEditActivity".equals(flag)){
+			params.add(new BasicNameValuePair("type", "4"));
+		} else {
+			params.add(new BasicNameValuePair("type", "8"));
+		}
 		params.add(new BasicNameValuePair("key", "1"));
 		result = getPostHttpContent(url, params);
 
@@ -136,7 +207,11 @@ public class SelectJobActivity extends BaicActivity {
 
 		Message msg = new Message();
 		List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-		params.add(new BasicNameValuePair("type", "13"));
+		if("WorkExperienceEditActivity".equals(flag)){
+			params.add(new BasicNameValuePair("type", "5"));
+		} else {
+			params.add(new BasicNameValuePair("type", "13"));
+		}
 		params.add(new BasicNameValuePair("key", jobIds[position]));
 		result = getPostHttpContent(url, params);
 
@@ -149,7 +224,6 @@ public class SelectJobActivity extends BaicActivity {
 			result = StringUtil.getAppException4MOS("未获得服务器响应结果！");
 			SelectJobActivity.this.sendExceptionMsg(result);
 		}
-		Message m = new Message();
 		responseJsonObject = com.alibaba.fastjson.JSONObject.parseObject(result);
 		if (responseJsonObject.get("resultcode").toString().equals("0")) {
 
@@ -169,14 +243,14 @@ public class SelectJobActivity extends BaicActivity {
 				listItems.add(map);
 				i++;
 			}
-			m.what = Constant.DETAIL_JOB;
+			msg.what = Constant.DETAIL_JOB;
 		} else {
 			String errorResult = (String) responseJsonObject.get("result");
 			String err = StringUtil.getAppException4MOS(errorResult);
 			SelectJobActivity.this.sendExceptionMsg(err);
 		}
 
-		handler.sendMessage(m);
+		handler.sendMessage(msg);
 	}
 
 	// 处理线程发送的消息

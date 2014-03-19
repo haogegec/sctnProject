@@ -40,7 +40,8 @@ public class SelectCurrentIndustryActivity extends BaicActivity {
 	private static String[] currentIndustry;
 	private static String[] currentIndustryIds;
 	private List<Map<String, String>> listItems = new ArrayList<Map<String, String>>();
-
+	private String flag;
+	
 	// 服务端返回结果
 	private String result;
 
@@ -51,12 +52,17 @@ public class SelectCurrentIndustryActivity extends BaicActivity {
 		setContentView(R.layout.select_current_industry_listview);
 		super.setTitleBar("选择目前就职的行业", View.VISIBLE, View.GONE);
 
+		initIntent();
 		initAllView();
 		reigesterAllEvent();
 		requestDataThread();
 
 	}
 
+	private void initIntent(){
+		flag = getIntent().getStringExtra("flag");
+	}
+	
 	/**
 	 * 请求数据线程
 	 * 
@@ -79,7 +85,11 @@ public class SelectCurrentIndustryActivity extends BaicActivity {
 		try {
 
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-			params.add(new BasicNameValuePair("type", "9"));
+			if("WorkExperienceEditActivity".equals(flag)){
+				params.add(new BasicNameValuePair("type", "3"));
+			} else {
+				params.add(new BasicNameValuePair("type", "9"));
+			}
 			params.add(new BasicNameValuePair("key", "1"));
 			result = getPostHttpContent(url, params);
 

@@ -37,7 +37,6 @@ public class ResumeEditActivity extends BaicActivity{
 	
 	@Override
 	protected void initAllView() {
-		// TODO Auto-generated method stub
 		itemView1 = (ItemView) findViewById(R.id.itemview1);
 		itemView2 = (ItemView) findViewById(R.id.itemview2);
 		itemView3 = (ItemView) findViewById(R.id.itemview3);
@@ -91,68 +90,67 @@ public class ResumeEditActivity extends BaicActivity{
 
 	@Override
 	protected void reigesterAllEvent() {
-		// TODO Auto-generated method stub
+		
+		// 基本信息
 		itemView1.getRelativeLayout().setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				Intent intent = new Intent(ResumeEditActivity.this,BasicInfoEditActivity.class);
-				Bundle Bundle = new Bundle();
 				startActivity(intent);				
 			}
 			
 		});
 		
+		// 个人简介
 		itemView2.getRelativeLayout().setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				Intent intent = new Intent(ResumeEditActivity.this,PersonalProfileEditActivity.class);
 				startActivity(intent);				
 			}
 			
 		});
 		
+		// 求职意向
 		itemView3.getRelativeLayout().setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				Intent intent = new Intent(ResumeEditActivity.this,JobIntentionEditActivity.class);
 				startActivity(intent);				
 			}
 			
 		});
 		
+		// 联系方式
 		itemView6.getRelativeLayout().setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				Intent intent = new Intent(ResumeEditActivity.this,ContactWayEditActivity.class);
 				startActivity(intent);				
 			}
 			
 		});
 		
+		// 教育情况
 		itemView4.getRelativeLayout().setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				Intent intent = new Intent(ResumeEditActivity.this,EducationExperienceEditActivity.class);
 				startActivity(intent);				
 			}
 			
 		});
 		
+		// 职业生涯
 		itemView5.getRelativeLayout().setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				Intent intent = new Intent(ResumeEditActivity.this,WorkExperienceEditActivity.class);
 				startActivity(intent);				
 			}
