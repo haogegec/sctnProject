@@ -43,6 +43,7 @@ public class JobSearchActivity extends BaicActivity {
 	private String areaId="";
 	private String industryTypeId="";
 	private String positionTypeId="";
+	
 	private List<Map> backIndustryType;
 	private List<Map> backPositionType;
 	@Override
@@ -66,7 +67,7 @@ public class JobSearchActivity extends BaicActivity {
 			ItemView jobSearchLogItem = (ItemView) layout.findViewById(R.id.job_search_log_item);
 			jobSearchLogItem.setBackground(R.drawable.item_up_bg);
 			jobSearchLogItem.setIconImageViewResource(R.drawable.home_btn_normal);
-			jobSearchLogItem.setLabel(listItems.get(i).get("condition"));
+			jobSearchLogItem.setLabel(listItems.get(i).get("list_" + i+"areaName")+listItems.get(i).get("list_" + i+"JobsClass")+listItems.get(i).get("list_" + i+"NeedProfession"));
 			jobSearchLogItem.setValue(listItems.get(i).get("count"));
 			jobSearchLogItem.setValueTextColor(getResources().getColor(R.color.blue));
 			jobSearchLogItem.setDetailImageViewResource(R.drawable.detail);
@@ -187,6 +188,9 @@ public class JobSearchActivity extends BaicActivity {
 				bundle.putString("areaId", areaId);
 				bundle.putString("industryTypeId",industryTypeId);
 				bundle.putString("positionTypeId", positionTypeId);
+				bundle.putString("areaName", searchitemView1.getValue());
+				bundle.putString("industryTypeName", searchitemView2.getValue());
+				bundle.putString("positionTypeName", searchitemView3.getValue());
 				intent.putExtras(bundle);
 				startActivity(intent);
 				

@@ -37,7 +37,6 @@ public class InformationQueryActivity extends BaicActivity{
 	
     private SearchEditText searchEdit;
 	private LinearLayout parentLayout;
-	private Button moreBtn;
 	private int pageNo=0;
 	private String bigTitleId;
 	private String title;
@@ -49,7 +48,7 @@ public class InformationQueryActivity extends BaicActivity{
 	private LinearLayout.LayoutParams bigTitlep;
 	private LinearLayout.LayoutParams littleTitlep;
 	private LinearLayout.LayoutParams buttonlep;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -63,11 +62,6 @@ public class InformationQueryActivity extends BaicActivity{
 	private void initUI(){
 		
 		JSONArray resultJsonArray;
-		MarginLayoutParams mp = new MarginLayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT);  //item的宽高
-	     mp.setMargins(40, 0, 10, 0);//分别是margin_top那四个属性
-	     RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(mp);
-	    
-		 lp.addRule(RelativeLayout.CENTER_VERTICAL);
 		try {
 			resultJsonArray = responseJsonObject.getJSONArray("result");
 			for(int i=0;i<resultJsonArray.length();i++) {
@@ -88,10 +82,10 @@ public class InformationQueryActivity extends BaicActivity{
 				}else{
 					count = dataJsonArray.length();
 				}
+				
 				for(int j=0;j<3;j++) {
-									
 					LinearLayout ll = (LinearLayout)getLayoutInflater().inflate(R.layout.itemview_layout, null);
-		
+	
 					id = dataJsonArray.getJSONObject(j).getString("id");
 					ItemView itemView = (ItemView)ll.getChildAt(0);
 					itemView.setBackground(R.drawable.item_mid_bg);
@@ -117,12 +111,9 @@ public class InformationQueryActivity extends BaicActivity{
 							
 				}
 				if(count>=3){
-					moreBtn = new Button(this);
-					moreBtn.setWidth(android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
-					moreBtn.setBackgroundResource(R.drawable.item_mid);
-					moreBtn.setTextColor(0XFF444242);
-					moreBtn.setText("更  多");
-					//moreBtn.setLayoutParams(lp);
+				
+					LinearLayout more = (LinearLayout)getLayoutInflater().inflate(R.layout.more_button, null);
+					Button moreBtn = (Button) more.getChildAt(0);
 					moreBtn.setOnClickListener(new OnClickListener() {
 
 						@Override
@@ -137,7 +128,7 @@ public class InformationQueryActivity extends BaicActivity{
 						}
 					});
 					
-					parentLayout.addView(moreBtn, buttonlep);
+					parentLayout.addView(more, buttonlep);
 				}
 				
 				
@@ -164,9 +155,7 @@ public class InformationQueryActivity extends BaicActivity{
 		buttonlep = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.FILL_PARENT,
 				LinearLayout.LayoutParams.WRAP_CONTENT);
-
-		buttonlep.leftMargin = 14;
-		buttonlep.rightMargin = 14;
+		
 		searchEdit = (SearchEditText) findViewById(R.id.et_search_searchtxt);
 	}
 

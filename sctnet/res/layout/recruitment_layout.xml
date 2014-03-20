@@ -18,7 +18,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/search_bg"
-            android:focusable="false"
             android:gravity="center_vertical"
             android:hint="@string/homeactivityhint"
             android:paddingLeft="35dip"

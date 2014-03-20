@@ -10,6 +10,7 @@ public class Constant {
 
 	public static String ServerURL = "http://60.172.228.219:9099/scgenuis/";// 测试环境
 	public static String ServerImageURL = "http://www.weeqii.com/booking/main!getImage";// 图片地址
+	public static String DocUrl = "http://www.scrc168.com/";//下载文档的地址
 
 	public static String packageName = "com.sctn.sctnet";// 工程的包名
 	public static String jobSeekerType = "1";// 求职者类型
@@ -79,4 +80,15 @@ public class Constant {
 	public static final int SELECT_CITY_REQUEST_CODE = 26;
 	public static final int SELECT_RESIDENCE_REQUEST_CODE = 27;
 	public static final int SELECT_HABITAT_REQUEST_CODE = 28;
+	
+	// 剪切图片的比例 及 长宽
+	public static final int IMAGE_CROP_WIDTH_SCALE = 5;
+	public static final int IMAGE_CROP_HIGHT_SCALE = 4;
+	public static final int IMAGE_CROP_WIDTH = 5 * 80;
+	public static final int IMAGE_CROP_HIGHT = 4 * 80;
+	public static final int IMAGE_REQUEST_CODE = 0;// 本地图片请求码
+	public static final int CAMERA_REQUEST_CODE = 1;// 调用照相机
+	public static final int CAOP_RESULT_REQUEST_CODE = 2;// 剪辑结果码
+	public static final int UPLAOD_RESULT_REQUEST_CODE = 3;// 上传结果码
+
 }

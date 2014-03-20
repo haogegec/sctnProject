@@ -31,6 +31,7 @@ import com.baidu.mapapi.MapActivity;
 import com.baidu.mapapi.MapController;
 import com.baidu.mapapi.MapView;
 import com.baidu.mapapi.Overlay;
+import com.baidu.mapapi.PoiOverlay;
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.map.MyMapOverlay;
 
@@ -57,6 +58,7 @@ public class CompanyLocationActivity extends MapActivity implements LocationList
 	private MKLocationManager mLocationManager = null;
 	private boolean isLoadAdrr = true;
 	private MKSearch mMKSearch;
+	private String detailAddress;//详细地址
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -68,6 +70,9 @@ public class CompanyLocationActivity extends MapActivity implements LocationList
 		mLatitude = mIntent.getIntExtra("latitude", 0);
 		mLongitude = mIntent.getIntExtra("longitude", 0);
 		name = mIntent.getStringExtra("name");
+		Bundle bundle = mIntent.getExtras();
+		detailAddress = bundle.getString("detailAddress");
+		
 		mapView = (MapView) findViewById(R.id.map_view);
 		desText = (TextView) this.findViewById(R.id.map_bubbleText);
 		lost_tips = getResources().getString(R.string.load_tips);
@@ -112,13 +117,14 @@ public class CompanyLocationActivity extends MapActivity implements LocationList
 		// 实例化搜索地址类
 		mMKSearch = new MKSearch();
 		// 初始化搜索地址实例
-		mMKSearch.init(mapManager, new MySearchListener());
-		mLocationManager = mapManager.getLocationManager();
-		// 注册位置更新事件
-		mLocationManager.requestLocationUpdates(this);
-		// 使用GPS定位
-		mLocationManager
-				.enableProvider((int) MKLocationManager.MK_GPS_PROVIDER);
+		mMKSearch.geocode(detailAddress, "成都");
+//		mMKSearch.init(mapManager, new MySearchListener());
+//		mLocationManager = mapManager.getLocationManager();
+//		// 注册位置更新事件
+//		mLocationManager.requestLocationUpdates(this);
+//		// 使用GPS定位
+//		mLocationManager
+//				.enableProvider((int) MKLocationManager.MK_GPS_PROVIDER);
 	}
 
 	@Override
@@ -280,6 +286,14 @@ public class CompanyLocationActivity extends MapActivity implements LocationList
 		 *            错误号（0表示正确返回）
 		 */
 		public void onGetPoiResult(MKPoiResult result, int type, int iError) {
+			
+			if(result == null){
+				return;
+			}
+			PoiOverlay overlay = new PoiOverlay(CompanyLocationActivity.this,mapView);
+			overlay.setData(result.getAllPoi());
+			mapView.getOverlays().add(overlay);
+			mapView.invalidate();
 		}
 
 		/**

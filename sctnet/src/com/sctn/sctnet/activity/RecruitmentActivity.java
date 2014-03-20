@@ -169,10 +169,10 @@ public class RecruitmentActivity extends BaicActivity{
 					for (int j = 0; j < count; j++) {
 
 						Map<String, Object> item = new HashMap<String, Object>();
-						item.put("recruitment_type", resultJsonArray.getJSONObject(i).get("holdclassid"));
-						item.put("recruitment_name", resultJsonArray.getJSONObject(i).get("siterecruitmentname"));
-						item.put("recruitment_time",resultJsonArray.getJSONObject(i).get("holddate"));
-						item.put("recruitment_id", resultJsonArray.getJSONObject(i).get("id"));
+						item.put("recruitment_type", resultJsonArray.getJSONObject(j).get("holdclassid"));
+						item.put("recruitment_name", resultJsonArray.getJSONObject(j).get("siterecruitmentname"));
+						item.put("recruitment_time",resultJsonArray.getJSONObject(j).get("holddate"));
+						item.put("recruitment_id", resultJsonArray.getJSONObject(j).get("id"));
 
 						items.add(item);
 					}

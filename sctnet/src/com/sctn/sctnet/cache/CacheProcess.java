@@ -17,21 +17,31 @@ public class CacheProcess{
 	 * @param context
 	 * @param list
 	 */
-	public void initJobSearchLogInSharedPreferences(Context context,List<Map<String,String>> list){
+	public void initJobSearchLogInSharedPreferences(Context context,Map<String,String> map){
 		
 		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
 		SharedPreferences.Editor editor= sp.edit();
-		editor.putInt("listSize",list.size()); 
-
-		    for(int i=0;i<list.size();i++) {
-		    	
-	    		editor.remove("list_" + i+"condition");
-		    	editor.putString("list_"+ i+"condition", list.get(i).get("condition"));
-		    	
-		    	editor.remove("list_" + i+"count");
-		    	editor.putString("list_"+ i+"count", list.get(i).get("count"));
-		   		    	  
-		    }
+		
+		for(int i=4;i>0;i--) {			
+	    	editor.putString("list_"+(i-1)+"area", sp.getString("list_" + i+"area", ""));
+	    	editor.putString("list_"+(i-1)+"JobsClass", sp.getString("list_" + i+"JobsClass", ""));
+	    	editor.putString("list_"+(i-1)+"NeedProfession", sp.getString("list_" + i+"NeedProfession", ""));
+	    	
+	    	editor.putString("list_"+(i-1)+"areaName", sp.getString("list_" + i+"areaName", ""));
+	    	editor.putString("list_"+(i-1)+"JobsClassName", sp.getString("list_" + i+"JobsClassName", ""));
+	    	editor.putString("list_"+(i-1)+"NeedProfessionName", sp.getString("list_" + i+"NeedProfessionName", ""));
+	    	
+	    	editor.putString("list_"+(i-1)+"count", sp.getString("list_" + i+"count", ""));
+	    }
+		editor.putString("list_"+4+"area", map.get("area"));
+    	editor.putString("list_"+4+"JobsClass", map.get("JobsClass"));
+    	editor.putString("list_"+4+"NeedProfession",  map.get("NeedProfession"));
+    	
+    	editor.putString("list_"+4+"areaName", map.get("areaName"));
+    	editor.putString("list_"+4+"JobsClassName", map.get("JobsClassName"));
+    	editor.putString("list_"+4+"NeedProfessionName", map.get("NeedProfessionName"));
+    	
+    	editor.putString("list_"+4+"count", map.get("count"));
         editor.commit();
 	}
 	
@@ -39,13 +49,22 @@ public class CacheProcess{
 		
 		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
 		List<Map<String,String>> list = new ArrayList<Map<String,String>>();
-		int size = sp.getInt("listSize", 0);  
-
-	    for(int i=0;i<size;i++) {
+	    
+	    for(int i=0;i<5;i++) {
 	    	Map<String,String> map = new HashMap<String,String>();
-	    	map.put("condition", sp.getString("list_" + i+"condition", ""));
+	    	map.put("area", sp.getString("list_" + i+"area", ""));
+	    	map.put("JobsClass", sp.getString("list_" + i+"JobsClass", ""));
+	    	map.put("NeedProfession", sp.getString("list_" + i+"NeedProfession", ""));
+	    	
+	    	map.put("areaName", sp.getString("list_" + i+"areaName", ""));
+	    	map.put("JobsClassName", sp.getString("list_" + i+"JobsClassName", ""));
+	    	map.put("NeedProfessionName", sp.getString("list_" + i+"NeedProfessionName", ""));
+	    	
 	    	map.put("count", sp.getString("list_" + i+"count", ""));
-	    	list.add(map);  
+	    	if(!sp.getString("list_" + i+"area", "").equals("")){
+	    		list.add(map);  
+	    	}
+	    	
 	    }
 	    return list;
 	}

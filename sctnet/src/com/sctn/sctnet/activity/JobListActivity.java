@@ -1,5 +1,7 @@
 package com.sctn.sctnet.activity;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -13,7 +15,11 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
@@ -33,6 +39,7 @@ import android.widget.Toast;
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.Utils.SharePreferencesUtils;
 import com.sctn.sctnet.Utils.StringUtil;
+import com.sctn.sctnet.cache.CacheProcess;
 import com.sctn.sctnet.contants.Constant;
 import com.sctn.sctnet.entity.LoginInfo;
 
@@ -44,12 +51,15 @@ import com.sctn.sctnet.entity.LoginInfo;
  */
 public class JobListActivity extends BaicActivity {
 
+	//定义图片存放的地址
+	public static String TEST_IMAGE;
 	private MyAdapter jobListAdapter;
 	private ListView jobList;
 	private List<Map<String, Object>> items = new ArrayList<Map<String, Object>>();
 
 	Map<Integer, Object> jobIdAndCompanyIdMaps = new HashMap<Integer, Object>();// 记录选中的checkbox的jobId和companyId，申请职位时用到
 	Map<Integer, Object> jobIdMaps = new HashMap<Integer, Object>();// 记录选中的checkbox的jobId,收藏职位时用到
+	Map<Integer, Object> jobShareMaps = new HashMap<Integer, Object>();// 记录选中的checkbox的jobId,分享职位时用到
 	Map<Integer, Boolean> checkBoxState = new HashMap<Integer, Boolean>();// 记录checkbox的状态
 
 	private Button btn_apply;// 申请
@@ -64,13 +74,20 @@ public class JobListActivity extends BaicActivity {
 	private String workRegion;
 	private String jobsClass;
 	private String needProfession;
+	
+	private String workRegionName;
+	private String jobsClassName;
+	private String needProfessionName;
 	// 返回数据
 	private int total;// 总条数
 	private String result;// 服务端返回的json字符串
 
 	private String jobIdAndCompanyId;// 职位搜索结果中，可以同时选择多个职位进行申请（格式：jobId1-companyId1|jobId2-companyId2|jobId3-companyId3|......）
 	private String jobId;// 职位搜索结果中，可以同时选择多个职位进行收藏（格式：jobId1|jobId2|jobId3|......）
+	private String jobShare;//职位分享，可以同时选择多个职位进行分享（格式：company开始招聘job|company开始招聘job|company开始招聘job|......）
 
+	private CacheProcess cacheProcess;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -81,12 +98,49 @@ public class JobListActivity extends BaicActivity {
 		workRegion = bundle.getString("areaId");
 		jobsClass = bundle.getString("industryTypeId");
 		needProfession = bundle.getString("positionTypeId");
-
+		
+		workRegionName = bundle.getString("areaName");
+		jobsClassName = bundle.getString("industryTypeName");
+		needProfessionName = bundle.getString("positionTypeName");
+		
+		cacheProcess = new CacheProcess();
+		
+		//初始化ShareSDK
+	//	AbstractWeibo.initSDK(this);
+		initImagePath();
 		initAllView();
 		reigesterAllEvent();
 		requestDataThread(0);// 第一次请求数据
 	}
 
+	/**
+	 * 初始化分享的图片
+	 */
+	private void initImagePath() {
+		try {//判断SD卡中是否存在此文件夹
+			if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
+					&& Environment.getExternalStorageDirectory().exists()) {
+				TEST_IMAGE = Environment.getExternalStorageDirectory().getAbsolutePath() + "/pic.png";
+			}
+			else {
+				TEST_IMAGE = getApplication().getFilesDir().getAbsolutePath() + "/pic.png";
+			}
+			File file = new File(TEST_IMAGE);
+			//判断图片是否存此文件夹中
+			if (!file.exists()) {
+				file.createNewFile();
+				Bitmap pic = BitmapFactory.decodeResource(getResources(), R.drawable.logo);
+				FileOutputStream fos = new FileOutputStream(file);
+				pic.compress(CompressFormat.JPEG, 100, fos);
+				fos.flush();
+				fos.close();
+			}
+		} catch(Throwable t) {
+			t.printStackTrace();
+			TEST_IMAGE = null;
+		}
+	}
+	
 	/**
 	 * 第一次请求数据初始化页面
 	 */
@@ -188,13 +242,44 @@ public class JobListActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View v) {
-				// Toast.makeText(getApplicationContext(), "分享",
-				// Toast.LENGTH_LONG).show();
+				
+//				if (jobShareMaps.size() == 0) {
+//					Toast.makeText(getApplicationContext(), "请选择职位分享", Toast.LENGTH_LONG).show();
+//				} else {
+					for (Map.Entry<Integer, Object> entry : jobShareMaps.entrySet()) {
+						
+						if (jobShare.length() == 0) {
+							jobShare = entry.getValue().toString();
+						} else {
+							jobShare += "|" + entry.getValue().toString();
+						}
+					}
+				//	showGrid(false);
+				}
+				
 
-			}
+//			}
 		});
 
 	}
+	
+//	/**
+//	 * 使用快捷分享完成图文分享
+//	 */
+//	private void showGrid(boolean silent) {
+//		Intent i = new Intent(this, ShareAllGird.class);
+//		// 分享时Notification的图标
+//		i.putExtra("notif_icon", R.drawable.ic_launcher);
+//		// 分享时Notification的标题
+//		i.putExtra("notif_title", this.getString(R.string.app_name));
+//		// text是分享文本，所有平台都需要这个字段
+//		i.putExtra("text","欢迎是用shareSDK");
+//		
+//
+//		// 是否直接分享
+//		i.putExtra("silent", silent);
+//		this.startActivity(i);
+//	}
 
 	/**
 	 * 在子线程与远端服务器交互，请求数据
@@ -319,6 +404,7 @@ public class JobListActivity extends BaicActivity {
 			params.add(new BasicNameValuePair("WorkRegion", workRegion));
 			params.add(new BasicNameValuePair("JobsClass", jobsClass));
 			params.add(new BasicNameValuePair("NeedProfession", needProfession));
+			params.add(new BasicNameValuePair("key", ""));
 
 			result = getPostHttpContent(url, params);
 
@@ -340,14 +426,26 @@ public class JobListActivity extends BaicActivity {
 			if (responseJsonObject.getInt("resultCode") == 0) {// 获得响应结果
 
 				JSONArray resultJsonArray = responseJsonObject.getJSONArray("result");
-
+				
 				if (resultJsonArray == null || resultJsonArray.length() == 0) {
 					String err = StringUtil.getAppException4MOS("没有您要搜索的结果");
 					JobListActivity.this.sendExceptionMsg(err);
+					total = 0;
 					return;
 				}
 
-				total = responseJsonObject.getInt("total");// 总数
+				total = responseJsonObject.getInt("resultCount");// 总数
+				if(i==0){
+					HashMap<String,String> map = new HashMap<String,String>();
+					map.put("area", workRegion);
+					map.put("JobsClass", jobsClass);
+					map.put("NeedProfession", needProfession);
+					map.put("areaName", workRegionName);
+					map.put("JobsClassName", jobsClassName);
+					map.put("NeedProfessionName", needProfessionName);
+					map.put("count", total+"");
+					cacheProcess.initJobSearchLogInSharedPreferences(JobListActivity.this, map);
+				}
 				if (resultJsonArray.length() > 15) {
 					count = 15;
 				} else {
@@ -532,10 +630,12 @@ public class JobListActivity extends BaicActivity {
 						checkBoxState.put(position, isChecked);
 						jobIdAndCompanyIdMaps.put(position, list.get(position).get("jobsid") + "-" + list.get(position).get("companyid"));
 						jobIdMaps.put(position, list.get(position).get("jobsid"));
+						jobShareMaps.put(position, list.get(position).get("companyname")+"正在招聘"+list.get(position).get("jobName"));
 					} else {
 						checkBoxState.remove(position);
 						jobIdAndCompanyIdMaps.remove(position);
 						jobIdMaps.remove(position);
+						jobShareMaps.remove(position);
 					}
 				}
 			});
@@ -587,5 +687,10 @@ public class JobListActivity extends BaicActivity {
 			}
 		}
 	}
-
+	
+	protected void onDestroy() {
+		//结束ShareSDK的统计功能并释放资源
+	//	AbstractWeibo.stopSDK(this);
+		super.onDestroy();
+	}
 }

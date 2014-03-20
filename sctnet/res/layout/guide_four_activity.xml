@@ -8,7 +8,7 @@
         android:id="@+id/btn_guide_start"
         android:layout_width="200dp"
         android:layout_height="40dp"
-        android:background="@drawable/btn_guide_start"
+        android:background="@drawable/guide_btn_bg"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="40dp" 
