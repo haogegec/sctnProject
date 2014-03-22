@@ -5,41 +5,26 @@
     android:background="@color/background"
      >
     
-           <RelativeLayout
-             android:id="@+id/home_activity_search"
-             android:layout_width="wrap_content"  
-             android:layout_height="wrap_content"  
-             android:layout_margin="20dip"
-              >
-
-           <EditText 
-             android:id="@+id/search_edit_bg"
-             android:layout_width="fill_parent"
-	         android:layout_height="wrap_content" 
-             android:background="@drawable/search_bg"
-             android:hint="@string/homeactivityhint"
-             android:gravity="center_vertical"
-              android:paddingLeft="35dip"
-              android:singleLine="true"
-               android:imeOptions="actionSearch"  
-               />  
-               
-              <ImageView 
-	        android:id="@+id/search_bar"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content" 
-	        android:layout_marginLeft="10dip"
-	        android:layout_centerVertical="true"
-	        android:layout_alignLeft="@+id/search_edit_bg"  
-	        android:background="@drawable/search_bar"
-        /> 
-         </RelativeLayout>
-    
+           <com.sctn.sctnet.view.SearchEditText
+            android:id="@+id/et_search_searchtxt"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/search_edittext_bg"
+            android:drawableLeft="@drawable/search_img_bg_selected"
+            android:drawableRight="@drawable/search_cancel"
+            android:hint="@string/search_hint"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:singleLine="true"
+            android:textColor="#555"
+            android:textColorHint="#999"
+            android:textSize="15dp" 
+            />
          <RelativeLayout
         android:id="@+id/search_title_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/home_activity_search"
+        android:layout_below="@+id/et_search_searchtxt"
          >
 
         <LinearLayout
@@ -56,7 +41,7 @@
                 android:gravity="center"
                 android:layout_weight="1"
                 android:text="职位名"
-                android:textColor="#ca202b"
+                android:textColor="@color/white"
                 android:textSize="16.0dip" />
 
             <TextView
@@ -67,7 +52,7 @@
                 android:gravity="center"
                    android:layout_weight="1"
                 android:text="公司名"
-                android:textColor="#000000"
+                android:textColor="@color/white"
                 android:textSize="16.0dip" />
 
             <TextView
@@ -78,7 +63,7 @@
                 android:gravity="center"
                 android:layout_weight="1"
                 android:text="全文"
-                android:textColor="#000000"
+                android:textColor="@color/white"
                 android:textSize="16.0dip" />
 
         </LinearLayout>

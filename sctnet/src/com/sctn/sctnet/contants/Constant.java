@@ -98,4 +98,9 @@ public class Constant {
 	public static final int HEALTH = 33;
 	public static final int COMPUTER_LEVEL = 34;
 	
+	//职位搜索按照类型来查询
+	public static final String TYPE_JOB_NAME = "1";//按照职位名称搜索
+	public static final String TYPE_COMPANY_NAME = "2";//按照公司名称搜索
+	public static final String TYPE_FULL_TEXT = "3";//按照全文搜索
+	
 }

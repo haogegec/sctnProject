@@ -62,7 +62,7 @@ public class ResumeManageActivity extends BaicActivity {
 	private TextView resumeFinishStatusValue;
 	private TextView resumePublicValue;
 
-	private AsyncBitmapLoader asyncBitmapLoader;// 异步加载图片
+	private AsyncBitmapLoader asyncBitmapLoader = new AsyncBitmapLoader();// 异步加载图片
 
 	private long userId;// 用户唯一标识
 
@@ -132,7 +132,7 @@ public class ResumeManageActivity extends BaicActivity {
 		resumeFinishStatusValue = (TextView) findViewById(R.id.resumeFinishStatusValue);
 		resumePublicValue = (TextView) findViewById(R.id.resumeIsPublicText);
 		userId = SharePreferencesUtils.getSharedlongData("userId");
-		Bitmap bitmap = new AsyncBitmapLoader().loadBitmap(myPhoto, userId+"", userId+"", true, 120, 120, new ImageCallBack() {
+		Bitmap bitmap = asyncBitmapLoader.loadBitmap(myPhoto, userId+"", userId+"", true, 120, 120, new ImageCallBack() {
 			@Override
 			public void imageLoad(ImageView imageView, Bitmap bitmap) {
 				myPhoto.setImageBitmap(bitmap);
@@ -210,6 +210,7 @@ public class ResumeManageActivity extends BaicActivity {
 			public void onClick(View arg0) {
 
 				// 刷新简历thread
+				refreshTread();
 
 			}
 
@@ -222,7 +223,7 @@ public class ResumeManageActivity extends BaicActivity {
 
 				refreshImg.setPressed(true);
 				// 刷新简历thread
-
+				refreshTread();
 			}
 
 		});
@@ -760,6 +761,14 @@ public class ResumeManageActivity extends BaicActivity {
 				Toast.makeText(getApplicationContext(), "操作失败",
 						Toast.LENGTH_SHORT).show();
 				break;
+			case 7:
+				Toast.makeText(getApplicationContext(), "刷新成功，您的简历会更好的被猎头发现了！",
+						Toast.LENGTH_SHORT).show();
+				break;
+			case 8:
+				Toast.makeText(getApplicationContext(), "刷新失败，再试试吧",
+						Toast.LENGTH_SHORT).show();
+				break;
 
 			}
 			closeProcessDialog();
@@ -878,6 +887,62 @@ public class ResumeManageActivity extends BaicActivity {
 	/**
 	 * 在子线程与远端服务器交互，请求数据
 	 */
+	private void refreshTread() {
+		showProcessDialog(false);
+		Thread mThread = new Thread(new Runnable() {// 启动新的线程，
+					@Override
+					public void run() {
+						refreshData();
+					}
+				});
+		mThread.start();
+	}
+	
+	private void refreshData(){
+		
+		String url = "appPersonInfo!topResume.app";
+
+		Message msg = new Message();
+		try {
+
+			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
+			params.add(new BasicNameValuePair("Userid",userId+""));
+
+			result = getPostHttpContent(url, params);
+
+			if (StringUtil.isExcetionInfo(result)) {
+				ResumeManageActivity.this.sendExceptionMsg(result);
+				return;
+			}
+
+			if (StringUtil.isBlank(result)) {
+
+				String err = StringUtil.getAppException4MOS("未获得服务端反应");
+				ResumeManageActivity.this.sendExceptionMsg(err);
+				return;
+			}
+
+			JSONObject responseJsonObject = null;// 返回结果存放在该json对象中
+
+			// JSON的解析过程
+			responseJsonObject = new JSONObject(result);
+			if (responseJsonObject.getInt("resultCode") == 0) {// 获得响应结果
+				msg.what = 7;
+				handler.sendMessage(msg);
+			}else{
+				msg.what = 8;
+				handler.sendMessage(msg);
+			}
+		}catch (JSONException e) {
+			String err = StringUtil.getAppException4MOS("解析json出错！");
+			this.sendExceptionMsg(err);
+		}		
+
+	}
+	
+	/**
+	 * 在子线程与远端服务器交互，请求数据
+	 */
 	private void displayOrNotTread() {
 		showProcessDialog(false);
 		Thread mThread = new Thread(new Runnable() {// 启动新的线程，
@@ -930,5 +995,4 @@ public class ResumeManageActivity extends BaicActivity {
 		}		
 
 	}
-	
 }

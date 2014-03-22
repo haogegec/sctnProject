@@ -17,9 +17,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.Utils.StringUtil;
@@ -236,7 +238,20 @@ public class RecruitmentSearchResultActivity extends BaicActivity{
 
 	@Override
 	protected void reigesterAllEvent() {
-		
+		recruitmentListView.setOnItemClickListener(new OnItemClickListener(){
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+					long arg3) {
+				Intent intent = new Intent(RecruitmentSearchResultActivity.this,RecruitmentCompanyListActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putString("recruitmentId", items.get(position).get("recruitment_id").toString());
+				intent.putExtras(bundle);
+				startActivity(intent);
+				
+			}
+			
+		});
 		
 	}
 

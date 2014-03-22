@@ -308,6 +308,14 @@
             android:screenOrientation="portrait" >
         </activity> 
         <activity
+            android:name=".activity.RecruitmentCompanyListActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.RecruitmentCompanyDetailActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name=".activity.DownLoadListActivity"
             android:screenOrientation="portrait" >
         </activity>

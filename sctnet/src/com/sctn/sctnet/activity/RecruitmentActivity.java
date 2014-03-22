@@ -82,9 +82,13 @@ public class RecruitmentActivity extends BaicActivity{
 		recruitmentListView.setOnItemClickListener(new OnItemClickListener(){
 
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
-				// TODO Auto-generated method stub
+				Intent intent = new Intent(RecruitmentActivity.this,RecruitmentCompanyListActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putString("recruitmentId", items.get(position).get("recruitment_id").toString());
+				intent.putExtras(bundle);
+				startActivity(intent);
 				
 			}
 			

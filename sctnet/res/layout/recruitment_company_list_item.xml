@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/order_query_list_item_bg"
+    android:paddingTop="10dip"
+    android:paddingBottom="10dip"
+    android:paddingLeft="20dip"
+    android:paddingRight="20dip"
+    android:layout_marginTop="10dip"
+    android:layout_marginBottom="10dip"
+     >
+ 
+        <TextView
+            android:id="@+id/company_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:paddingLeft="15dip"
+            android:paddingTop="10dip"
+            android:paddingBottom="5dip"
+            android:textColor="#FF000000"
+            android:textStyle="bold" 
+              android:text="公司名称："
+           />
+
+        <TextView
+            android:id="@+id/company_name_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/company_name"
+            android:layout_alignBottom="@+id/company_name"
+            android:paddingTop="5dip"
+            android:paddingBottom="5dip"
+            android:textColor="#FF000000"
+            android:textStyle="bold"
+              />
+        
+		<!-- 第二行 -->
+		<!-- 联系人姓名 -->
+        <TextView	
+            android:id="@+id/contact_name"
+            android:layout_width="wrap_content"	
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/company_name"
+            android:gravity="center"
+            android:paddingLeft="15dip"
+            android:paddingTop="10dip"
+            android:paddingBottom="5dip"
+            android:text="联系人："
+            android:textColor="#FF666666"
+           />
+          <TextView
+            android:id="@+id/contact_name_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/contact_name"
+            android:layout_alignTop="@+id/contact_name"
+            android:paddingTop="5dip"
+            android:paddingBottom="5dip"
+            android:textColor="#FF666666"
+              />
+          
+          
+          
+        <!-- 第三行 -->
+		<!-- 联系方式 -->
+        <TextView
+            android:id="@+id/contact_way"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+              android:layout_below="@+id/contact_name"
+             android:paddingLeft="15dip"
+            android:paddingTop="5dip"
+                android:textColor="#FF666666"
+            android:paddingBottom="5dip"
+             android:text="联系方式："
+            />
+        <TextView
+            android:id="@+id/contact_way_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/contact_way"
+            android:layout_alignBottom="@+id/contact_way"
+            android:gravity="center"
+            android:paddingTop="5dip"
+                android:textColor="#FF666666"
+            android:paddingBottom="5dip"
+            android:textStyle="bold"
+            
+           />
+
+		<!-- 第四行 -->
+	<!--  邮箱 -->
+          <TextView
+            android:id="@+id/email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+              android:layout_below="@+id/contact_way"
+             android:paddingLeft="15dip"
+                 android:textColor="#FF666666"
+            android:paddingTop="5dip"
+            android:paddingBottom="5dip"
+            android:text="邮箱："
+            />
+
+        <TextView
+            android:id="@+id/email_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+             android:layout_toRightOf="@+id/email"
+            android:layout_alignBottom="@+id/email"
+            android:gravity="center"
+            android:paddingTop="5dip"
+            android:textColor="#FF666666"
+            android:paddingBottom="5dip"
+            />
+         <!-- 第六行 -->
+		<!--  地址 -->
+          <TextView
+            android:id="@+id/company_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+                android:textColor="#FF666666"
+              android:layout_below="@+id/email"
+             android:paddingLeft="15dip"
+            android:paddingTop="5dip"
+            android:paddingBottom="5dip"
+             android:text="地址: "
+            />
+        <TextView
+            android:id="@+id/company_address_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/company_address"
+            android:layout_alignTop="@+id/company_address"
+            android:paddingTop="5dip"
+            android:textColor="#FF666666"
+            android:paddingBottom="5dip"
+           
+            />
+      		<!-- 第五行 -->
+	<!--  公司注册时间 -->
+          <TextView
+            android:id="@+id/register_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+                android:textColor="#FF666666"
+              android:layout_below="@+id/company_address"
+             android:paddingLeft="15dip"
+            android:paddingTop="5dip"
+            android:paddingBottom="5dip"
+             android:text="注册时间："
+            />
+
+        <TextView
+            android:id="@+id/register_time_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+                android:textColor="#FF666666"
+             android:layout_toRightOf="@+id/register_time"
+            android:layout_alignBottom="@+id/register_time"
+            android:gravity="center"
+            android:paddingTop="5dip"
+            android:paddingBottom="5dip"
+            />
+                
+       <TextView
+            android:id="@+id/company_website"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+                android:textColor="#FF666666"
+              android:layout_below="@+id/register_time"
+             android:paddingLeft="15dip"
+            android:paddingTop="5dip"
+            android:paddingBottom="5dip"
+             android:text="公司官网："
+            />
+
+        <TextView
+            android:id="@+id/company_website_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+                android:textColor="#FF666666"
+             android:layout_toRightOf="@+id/company_website"
+            android:layout_alignBottom="@+id/company_website"
+            android:gravity="center"
+            android:paddingTop="5dip"
+            android:paddingBottom="5dip"
+            />
+   <TextView
+            android:id="@+id/postal_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+                android:textColor="#FF666666"
+              android:layout_below="@+id/company_website"
+             android:paddingLeft="15dip"
+            android:paddingTop="5dip"
+            android:paddingBottom="5dip"
+             android:text="邮政编码："
+            />
+
+        <TextView
+            android:id="@+id/postal_code_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+                android:textColor="#FF666666"
+             android:layout_toRightOf="@+id/postal_code"
+            android:layout_alignBottom="@+id/postal_code"
+            android:gravity="center"
+            android:paddingTop="5dip"
+            android:paddingBottom="5dip"
+            />
+</RelativeLayout>

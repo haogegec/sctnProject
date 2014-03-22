@@ -87,7 +87,9 @@ public class JobListActivity extends BaicActivity {
 	private String jobShare;//职位分享，可以同时选择多个职位进行分享（格式：company开始招聘job|company开始招聘job|company开始招聘job|......）
 
 	private CacheProcess cacheProcess;
-	
+	private String whichUrl = "";
+	private String type;
+	private String key;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -95,13 +97,20 @@ public class JobListActivity extends BaicActivity {
 		setTitleBar("共" + 0 + "个职位", View.VISIBLE, View.GONE);
 		Intent intent = this.getIntent();
 		Bundle bundle = intent.getExtras();
-		workRegion = bundle.getString("areaId");
-		jobsClass = bundle.getString("industryTypeId");
-		needProfession = bundle.getString("positionTypeId");
+		if(bundle.getString("whichActivity")!=null){
+			whichUrl = "workSearchActivity";
+			type = bundle.getString("type");
+			key = bundle.getString("key");
+		}else{
+			workRegion = bundle.getString("areaId");
+			jobsClass = bundle.getString("industryTypeId");
+			needProfession = bundle.getString("positionTypeId");
+			
+			workRegionName = bundle.getString("areaName");
+			jobsClassName = bundle.getString("industryTypeName");
+			needProfessionName = bundle.getString("positionTypeName");
+		}
 		
-		workRegionName = bundle.getString("areaName");
-		jobsClassName = bundle.getString("industryTypeName");
-		needProfessionName = bundle.getString("positionTypeName");
 		
 		cacheProcess = new CacheProcess();
 		
@@ -391,20 +400,29 @@ public class JobListActivity extends BaicActivity {
 	}
 
 	private void requestData(int i) {
-
-		String url = "appPostSearch.app";
+		
+		
+		String url;
 
 		Message msg = new Message();
 		try {
-
+			
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-
-			params.add(new BasicNameValuePair("pageNo", pageNo + ""));
-			params.add(new BasicNameValuePair("pageSize", pageSize + ""));
-			params.add(new BasicNameValuePair("WorkRegion", workRegion));
-			params.add(new BasicNameValuePair("JobsClass", jobsClass));
-			params.add(new BasicNameValuePair("NeedProfession", needProfession));
-			params.add(new BasicNameValuePair("key", ""));
+			if(whichUrl.equals("workSearchActivity")){
+				url = "appPostSearch!queryKey.app";
+				params.add(new BasicNameValuePair("pageNo", pageNo + ""));
+				params.add(new BasicNameValuePair("pageSize", pageSize + ""));
+				params.add(new BasicNameValuePair("type", type));
+				params.add(new BasicNameValuePair("key", key));
+			}else{
+				url = "appPostSearch.app";
+				params.add(new BasicNameValuePair("pageNo", pageNo + ""));
+				params.add(new BasicNameValuePair("pageSize", pageSize + ""));
+				params.add(new BasicNameValuePair("WorkRegion", workRegion));
+				params.add(new BasicNameValuePair("JobsClass", jobsClass));
+				params.add(new BasicNameValuePair("NeedProfession", needProfession));
+				params.add(new BasicNameValuePair("key", ""));
+			}
 
 			result = getPostHttpContent(url, params);
 

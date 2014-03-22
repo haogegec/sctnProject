@@ -132,6 +132,7 @@
     <string name="recentRecruiment">近期招聘</string>
     <string name="load_tips">正在地址加载...</string>
     <string name="RecruitmentActivityTitle">现场招聘会</string>
+    <string name="RecruitmentCompanyListActivityTitle">公司列表</string>
     
     <!-- 档案查询 -->
     <string name="ArchivesQueryActivityTitle">档案查询</string>

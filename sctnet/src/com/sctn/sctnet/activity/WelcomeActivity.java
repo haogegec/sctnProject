@@ -44,8 +44,8 @@ public class WelcomeActivity extends InstrumentedActivity {
 		isFirstLode();
 		init();
 		
-		Toast.makeText(getApplicationContext(), JPushInterface.getRegistrationID(this), Toast.LENGTH_LONG).show();
-		System.out.println("ID = "+JPushInterface.getRegistrationID(this));
+//		Toast.makeText(getApplicationContext(), JPushInterface.getRegistrationID(this), Toast.LENGTH_LONG).show();
+//		System.out.println("ID = "+JPushInterface.getRegistrationID(this));
 	}
 
 	/**

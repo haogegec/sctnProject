@@ -17,13 +17,16 @@ import android.view.View.OnKeyListener;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
 import com.sctn.sctnet.R;
+import com.sctn.sctnet.contants.Constant;
 
 /**
  * @author wanghaoc 首页关键字职位搜索
@@ -35,9 +38,8 @@ public class WorkSearchActivity extends Activity {
 	private ArrayList<TextView> pageTitles = new ArrayList<TextView>();
 	private ImageView cursor;// 动画图片
 	private int currIndex = 0;// 当前页卡编号
-	private Animation animation = null;
 	private EditText search_edit;
-	private int i=0;
+	private String type;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -52,33 +54,35 @@ public class WorkSearchActivity extends Activity {
 		// 获取手机屏幕的宽度
 		getScreenWidth();
 		initPageTitles();
-		initImageView();
+		// 初始化页卡标题下面的橘色条
+		cursor = (ImageView) findViewById(R.id.cursor);
+		Bitmap bmp = Bitmap
+				.createBitmap(perSpacing, 5, Bitmap.Config.ARGB_8888);
+		Canvas canvas = new Canvas(bmp);
+		canvas.drawColor(0xFFef8700);
+		cursor.setImageBitmap(bmp);
 		// 初始化Edit编辑框
-		search_edit = (EditText) findViewById(R.id.search_edit_bg);
+		search_edit = (EditText) findViewById(R.id.et_search_searchtxt);
 	}
 
 	protected void reigesterAllEvent() {
 		setPageTitleOnClickListener();
-		search_edit.setOnKeyListener(new OnKeyListener() {
-			// 输入完后按键盘上的搜索键【回车键改为了搜索键】
-			public boolean onKey(View v, int keyCode, KeyEvent event) {
-				if (keyCode == KeyEvent.KEYCODE_ENTER) {// 修改回车键功能
-					// 先隐藏键盘
-//					((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))
-//							.hideSoftInputFromWindow(WorkSearchActivity.this
-//									.getCurrentFocus().getWindowToken(),
-//									InputMethodManager.HIDE_NOT_ALWAYS);
-
-					// 跳转页面
-					Intent intent = new Intent(WorkSearchActivity.this,
-							SearchResultActivity.class);
-					startActivity(intent);
-					
-				}
-				return false;
-			}
-
-		});
+		search_edit.setOnEditorActionListener(new OnEditorActionListener() { 
+            
+           @Override
+           public boolean onEditorAction(TextView v, int actionId, KeyEvent event) { 
+               if (actionId == EditorInfo.IME_ACTION_DONE||actionId == KeyEvent.KEYCODE_ENTER||actionId == 0) { 
+            	   Intent intent = new Intent(WorkSearchActivity.this,JobListActivity.class);
+            	   Bundle bundle = new Bundle();
+            	   bundle.putString("type", type);
+            	   bundle.putString("key", search_edit.getText().toString());
+            	   bundle.putString("whichActivity", "WorkSearchActivity");
+            	   intent.putExtras(bundle);
+				   startActivity(intent);
+               } 
+               return false; 
+           } 
+       });
 	}
 
 	/**
@@ -107,40 +111,48 @@ public class WorkSearchActivity extends Activity {
 			case 0:
 				if (currIndex == 1) {
 					// 从2到1
-					moveOnetoLeft(perSpacing);
-
+					cursor.setPadding(cursor.getPaddingLeft() - perSpacing,
+							cursor.getPaddingTop(), cursor.getPaddingRight(),
+							cursor.getPaddingBottom());
+		
 				} else if (currIndex == 2) {
-					// 从3到1
-					moveTwoToLeft(perSpacing);
+					cursor.setPadding(cursor.getPaddingLeft() - perSpacing*2,
+							cursor.getPaddingTop(), cursor.getPaddingRight(),
+							cursor.getPaddingBottom());
+
 				}
-				currIndex = index;
+				type = Constant.TYPE_JOB_NAME;
 				break;
 			case 1:
 				// 从1 到 2 页面
 				if (currIndex == 0) {
-					moveOneToRight(perSpacing);
+					cursor.setPadding(cursor.getPaddingLeft() + perSpacing,
+							cursor.getPaddingTop(), cursor.getPaddingRight(),
+							cursor.getPaddingBottom());
 				} else if (currIndex == 2) {
 					// 从3到2
-					moveOnetoLeft(perSpacing);
+					cursor.setPadding(cursor.getPaddingLeft() - perSpacing,
+							cursor.getPaddingTop(), cursor.getPaddingRight(),
+							cursor.getPaddingBottom());
 				}
-				currIndex = index;
+				type = Constant.TYPE_COMPANY_NAME;
 				break;
 			case 2:
 				// 从1到3
 				if (currIndex == 0) {
-					moveTwoToRight(perSpacing);
+					cursor.setPadding(cursor.getPaddingLeft() + perSpacing*2,
+							cursor.getPaddingTop(), cursor.getPaddingRight(),
+							cursor.getPaddingBottom());
 				} else if (currIndex == 1) {
 					// 从 2 到3
-					moveOneToRight(perSpacing);
+					cursor.setPadding(cursor.getPaddingLeft() + perSpacing,
+							cursor.getPaddingTop(), cursor.getPaddingRight(),
+							cursor.getPaddingBottom());
 				}
-				currIndex = index;
+				type = Constant.TYPE_FULL_TEXT;
 				break;
 			}
-			// setPageTitlesColor(arg0);
-			// currIndex = arg0;
-			animation.setFillAfter(true);// True:图片停在动画结束位置
-			animation.setDuration(300);
-			cursor.startAnimation(animation);
+			currIndex = index;
 		};
 	}
 
@@ -155,7 +167,7 @@ public class WorkSearchActivity extends Activity {
 	}
 
 	/**
-	 * 获取屏幕宽度/4
+	 * 获取屏幕宽度/3
 	 */
 	private int getScreenWidth() {
 		DisplayMetrics dm = new DisplayMetrics();
@@ -165,106 +177,5 @@ public class WorkSearchActivity extends Activity {
 		return perSpacing;
 	}
 
-	/**
-	 * 初始化动画，生成cursor图片
-	 */
-	private void initImageView() {
-		cursor = (ImageView) findViewById(R.id.cursor);
-		getScreenWidth();
-		Bitmap bmp = Bitmap
-				.createBitmap(perSpacing, 5, Bitmap.Config.ARGB_8888);
-		Canvas canvas = new Canvas(bmp);
-		canvas.drawColor(0xFFBC1E28);
-		cursor.setImageBitmap(bmp);
-		setCursorPosition();
-	}
-
-	/**
-	 * 设置cursor初始位置
-	 */
-	private void setCursorPosition() {
-		Matrix matrix = new Matrix();
-		matrix.postTranslate(0, 0);
-		cursor.setImageMatrix(matrix);// 设置动画初始位置
-	}
-
-	/**
-	 * @param one
-	 *            向左移动一个单位
-	 */
-	private void moveOnetoLeft(int one) {
-		if (pageTitles.get(currIndex).getLeft() > one * 5 / 2) {
-			animation = new TranslateAnimation(3 * one, 2 * one, 0, 0);
-		} else if ((pageTitles.get(currIndex).getLeft() > one * 3 / 2)
-				&& (pageTitles.get(currIndex).getLeft() < one * 5 / 2)) {
-			animation = new TranslateAnimation(2 * one, one, 0, 0);
-		} else if ((pageTitles.get(currIndex).getLeft() > one / 2)
-				&& (pageTitles.get(currIndex).getLeft() < one * 3 / 2)) {
-			animation = new TranslateAnimation(one, 0, 0, 0);
-		} else if (pageTitles.get(currIndex).getLeft() < one / 2) {
-			LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) pageTitles
-					.get(0).getLayoutParams();
-			params1.leftMargin = pageTitles.get(0).getLeft() + one;
-			pageTitles.get(0).setLayoutParams(params1);
-			animation = new TranslateAnimation(0, 0, 0, 0);
-		}
-
-	}
-
-	/**
-	 * @param one
-	 *            向左移动2个单位
-	 */
-	private void moveTwoToLeft(int one) {
-		if (pageTitles.get(currIndex).getLeft() > one * 5 / 2) {
-			animation = new TranslateAnimation(3 * one, one, 0, 0);
-		} else if ((pageTitles.get(currIndex).getLeft() > one * 3 / 2)
-				&& (pageTitles.get(currIndex).getLeft() < one * 5 / 2)) {
-			animation = new TranslateAnimation(2 * one, 0, 0, 0);
-		}
-	}
-
-	/**
-	 * @param one
-	 *            向右移2个单位
-	 */
-	private void moveTwoToRight(int one) {
-		if (pageTitles.get(currIndex).getLeft() > one * 5 / 2) {
-			LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) pageTitles
-					.get(0).getLayoutParams();
-			params1.leftMargin = pageTitles.get(0).getLeft() - one;
-			pageTitles.get(0).setLayoutParams(params1);
-			animation = new TranslateAnimation(3 * one, 3 * one, 0, 0);
-		} else if ((pageTitles.get(currIndex).getLeft() > one * 3 / 2)
-				&& (pageTitles.get(currIndex).getLeft() < one * 5 / 2)) {
-			animation = new TranslateAnimation(2 * one, 3 * one, 0, 0);
-		} else if ((pageTitles.get(currIndex).getLeft() > one / 2)
-				&& (pageTitles.get(currIndex).getLeft() < one * 3 / 2)) {
-			animation = new TranslateAnimation(one, 3 * one, 0, 0);
-		} else if (pageTitles.get(currIndex).getLeft() < one / 2) {
-			animation = new TranslateAnimation(0, 2 * one, 0, 0);
-		}
-	}
-
-	/**
-	 * @param one
-	 *            向右移动1个单位
-	 */
-	private void moveOneToRight(int one) {
-		if (pageTitles.get(currIndex).getLeft() > one * 5 / 2) {
-			LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) pageTitles
-					.get(0).getLayoutParams();
-			params1.leftMargin = pageTitles.get(0).getLeft() - one;
-			pageTitles.get(0).setLayoutParams(params1);
-			animation = new TranslateAnimation(3 * one, 3 * one, 0, 0);
-		} else if ((pageTitles.get(currIndex).getLeft() > one * 3 / 2)
-				&& (pageTitles.get(currIndex).getLeft() < one * 5 / 2)) {
-			animation = new TranslateAnimation(2 * one, 3 * one, 0, 0);
-		} else if ((pageTitles.get(currIndex).getLeft() > one / 2)
-				&& (pageTitles.get(currIndex).getLeft() < one * 3 / 2)) {
-			animation = new TranslateAnimation(one, 2 * one, 0, 0);
-		} else if (pageTitles.get(currIndex).getLeft() < one / 2) {
-			animation = new TranslateAnimation(0, one, 0, 0);
-		}
-	}
+	
 }
