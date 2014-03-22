@@ -132,7 +132,7 @@ public class ResumeManageActivity extends BaicActivity {
 		resumeFinishStatusValue = (TextView) findViewById(R.id.resumeFinishStatusValue);
 		resumePublicValue = (TextView) findViewById(R.id.resumeIsPublicText);
 		userId = SharePreferencesUtils.getSharedlongData("userId");
-		Bitmap bitmap = asyncBitmapLoader.loadBitmap(myPhoto, userId+"", userId+"", true, 120, 120, new ImageCallBack() {
+		Bitmap bitmap = new AsyncBitmapLoader().loadBitmap(myPhoto, userId+"", userId+"", true, 120, 120, new ImageCallBack() {
 			@Override
 			public void imageLoad(ImageView imageView, Bitmap bitmap) {
 				myPhoto.setImageBitmap(bitmap);

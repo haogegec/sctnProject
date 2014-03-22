@@ -90,5 +90,12 @@ public class Constant {
 	public static final int CAMERA_REQUEST_CODE = 1;// 调用照相机
 	public static final int CAOP_RESULT_REQUEST_CODE = 2;// 剪辑结果码
 	public static final int UPLAOD_RESULT_REQUEST_CODE = 3;// 上传结果码
-
+	
+	// 简历管理中的msg.what的值
+	public static final int PEOPLE = 30;
+	public static final int POLITICAL = 31;
+	public static final int MARITAL = 32;
+	public static final int HEALTH = 33;
+	public static final int COMPUTER_LEVEL = 34;
+	
 }

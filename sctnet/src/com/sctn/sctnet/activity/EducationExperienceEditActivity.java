@@ -68,6 +68,8 @@ public class EducationExperienceEditActivity extends BaicActivity {
 	private RelativeLayout computerlevel;
 	private TextView computerlevelValue;
 	private String computerlevelStr = "";// 微机水平
+	private String[] computerlevels;
+	private String[] computerlevelIds;
 
 	private RelativeLayout oneenglish;
 	private TextView oneenglishValue;// 第一 外语
@@ -100,8 +102,6 @@ public class EducationExperienceEditActivity extends BaicActivity {
 
 	private String[] degrees;// 学历
 	private String[] degreeIds;// 学历ID
-	
-	private String[] levelDialogText = {"一级","二级","三级","四级","五级"};
 
 	private String[] foreignLanguageIds;
 	private String[] foreignLanguage;
@@ -109,10 +109,10 @@ public class EducationExperienceEditActivity extends BaicActivity {
 	private String[] languageLevels;
 
 	private String firstLanguage;
-	private String firtLanguageLevel;
+	private String firstLanguageLevel;
 	private String firstLanguageId;
 	private String firstLanguageLevelId;
-	
+
 	private String secondLanguage;
 	private String secondLanguageLevel;
 	private String secondLanguageId;
@@ -218,30 +218,26 @@ public class EducationExperienceEditActivity extends BaicActivity {
 			@Override
 			public void onClick(View arg0) {
 
-				builder.setTitle("请选择微机水平");
-				builder.setSingleChoiceItems(levelDialogText, 0, new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						computerlevelValue.setText(levelDialogText[which]);
-						dialog.dismiss();
-					}
-
-				});
-				dialog = builder.create();
-				dialog.show();
+				showProcessDialog(false);
+				Thread mThread = new Thread(new Runnable() {// 启动新的线程，
+							@Override
+							public void run() {
+								initComputerLevelThread();
+							}
+						});
+				mThread.start();
 
 			}
 
 		});
-		
+
 		oneenglish.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				initForeignLanguage();
 			}
-			
+
 		});
 
 		oneenglishlevel.setOnClickListener(new ImageView.OnClickListener() {
@@ -249,28 +245,24 @@ public class EducationExperienceEditActivity extends BaicActivity {
 			@Override
 			public void onClick(View arg0) {
 
-				builder.setTitle("请选择学历");
-				builder.setSingleChoiceItems(levelDialogText, 0, new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						oneenglishlevelValue.setText(levelDialogText[which]);
-						dialog.dismiss();
-					}
-
-				});
-				dialog = builder.create();
-				dialog.show();
+				showProcessDialog(false);
+				Thread mThread = new Thread(new Runnable() {// 启动新的线程，
+							@Override
+							public void run() {
+								initLanguageLevelThread();
+							}
+						});
+				mThread.start();
 
 			}
 
 		});
-		
+
 		twoenglish.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				builder.setTitle("请选择您的第一外语");
+				builder.setTitle("请选择您的第二外语");
 				builder.setSingleChoiceItems(foreignLanguage, 0, new DialogInterface.OnClickListener() {
 
 					@Override
@@ -285,7 +277,7 @@ public class EducationExperienceEditActivity extends BaicActivity {
 				dialog = builder.create();
 				dialog.show();
 			}
-			
+
 		});
 
 		twoenglishlevel.setOnClickListener(new ImageView.OnClickListener() {
@@ -293,12 +285,14 @@ public class EducationExperienceEditActivity extends BaicActivity {
 			@Override
 			public void onClick(View arg0) {
 
-				builder.setTitle("请选择学历");
-				builder.setSingleChoiceItems(levelDialogText, 0, new DialogInterface.OnClickListener() {
+				builder.setTitle("请选择您的外语能力");
+				builder.setSingleChoiceItems(languageLevels, 0, new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						twoenglishlevelValue.setText(levelDialogText[which]);
+						twoenglishlevelValue.setText(languageLevels[which]);
+						secondLanguageLevelId = languageLevelIds[which];
+						secondLanguageLevel = languageLevels[which];
 						dialog.dismiss();
 					}
 
@@ -321,7 +315,7 @@ public class EducationExperienceEditActivity extends BaicActivity {
 				});
 		mThread.start();
 	}
-	
+
 	private void initLanguageThread() {
 		String url = "appCmbShow.app";
 		Message msg = new Message();
@@ -365,7 +359,7 @@ public class EducationExperienceEditActivity extends BaicActivity {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void initForeignLanguage() {
 		builder.setTitle("请选择您的第一外语");
 		builder.setSingleChoiceItems(foreignLanguage, 0, new DialogInterface.OnClickListener() {
@@ -382,7 +376,7 @@ public class EducationExperienceEditActivity extends BaicActivity {
 		dialog = builder.create();
 		dialog.show();
 	}
-	
+
 	/**
 	 * 请求数据，获取学历
 	 */
@@ -434,6 +428,99 @@ public class EducationExperienceEditActivity extends BaicActivity {
 		}
 	}
 
+	private void initComputerLevelThread() {
+		String url = "appCmbShow.app";
+		Message msg = new Message();
+
+		try {
+
+			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
+			params.add(new BasicNameValuePair("type", "18"));
+			params.add(new BasicNameValuePair("key", "1"));
+			result = getPostHttpContent(url, params);
+
+			if (StringUtil.isExcetionInfo(result)) {
+				sendExceptionMsg(result);
+				return;
+			}
+
+			JSONObject responseJsonObject = new JSONObject(result);
+
+			if (responseJsonObject.getInt("resultcode") == 0) {// 获得响应结果
+
+				JSONObject resultJsonObject = responseJsonObject.getJSONObject("result");
+				Iterator it = resultJsonObject.keys();
+				computerlevelIds = new String[resultJsonObject.length()];
+				computerlevels = new String[resultJsonObject.length()];
+				int i = 0;
+				while (it.hasNext()) {
+					String key = (String) it.next();
+					String value = resultJsonObject.getString(key);
+					computerlevelIds[i] = key;
+					computerlevels[i] = value;
+					i++;
+				}
+
+				msg.what = Constant.COMPUTER_LEVEL;
+				handler.sendMessage(msg);
+			} else {
+				String errorResult = (String) responseJsonObject.get("result");
+				String err = StringUtil.getAppException4MOS(errorResult);
+				sendExceptionMsg(err);
+			}
+
+		} catch (JSONException e) {
+			String err = StringUtil.getAppException4MOS("解析json出错！");
+			sendExceptionMsg(err);
+		}
+	}
+	
+	private void initLanguageLevelThread() {
+
+		String url = "appCmbShow.app";
+		Message msg = new Message();
+
+		try {
+			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
+			params.add(new BasicNameValuePair("type", "7"));
+			params.add(new BasicNameValuePair("key", "1"));
+			result = getPostHttpContent(url, params);
+
+			if (StringUtil.isExcetionInfo(result)) {
+				sendExceptionMsg(result);
+				return;
+			}
+
+			JSONObject responseJsonObject = new JSONObject(result);
+
+			if (responseJsonObject.getInt("resultcode") == 0) {// 获得响应结果
+
+				JSONObject resultJsonObject = responseJsonObject.getJSONObject("result");
+				Iterator it = resultJsonObject.keys();
+				languageLevelIds = new String[resultJsonObject.length()];
+				languageLevels = new String[resultJsonObject.length()];
+				int i = 0;
+				while (it.hasNext()) {
+					String key = (String) it.next();
+					String value = resultJsonObject.getString(key);
+					languageLevelIds[i] = key;
+					languageLevels[i] = value;
+					i++;
+				}
+				msg.what = Constant.LANGUAGE_LEVEL;
+				handler.sendMessage(msg);
+			} else {
+				String errorResult = (String) responseJsonObject.get("result");
+				String err = StringUtil.getAppException4MOS(errorResult);
+				EducationExperienceEditActivity.this.sendExceptionMsg(err);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
 	// 处理线程发送的消息
 	private Handler handler = new Handler() {
 
@@ -443,13 +530,20 @@ public class EducationExperienceEditActivity extends BaicActivity {
 				initDegree();
 				break;
 			case Constant.FIRST_FOREIGN_LANGUAGE:
-//				 initForeignLanguage();
+				// initForeignLanguage();
 				break;
+
+			case Constant.LANGUAGE_LEVEL:
+				initLanguageLevel();
+				break;
+				
+			case Constant.COMPUTER_LEVEL:
+				initComputerLevel();
 			}
 			closeProcessDialog();
 		}
 	};
-	
+
 	/**
 	 * 请求完数据，更新界面的数据
 	 */
@@ -470,8 +564,41 @@ public class EducationExperienceEditActivity extends BaicActivity {
 		dialog = builder.create();
 		dialog.show();
 	}
-
 	
+	private void initComputerLevel() {
+
+		builder.setTitle("请选择微机水平");
+		builder.setSingleChoiceItems(computerlevels, 0, new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				computerlevelValue.setText(computerlevels[which]);
+				computerlevelStr = computerlevelIds[which];
+				dialog.dismiss();
+			}
+
+		});
+		dialog = builder.create();
+		dialog.show();
+	}
+	
+	private void initLanguageLevel() {
+		builder.setTitle("请选择您的外语能力");
+		builder.setSingleChoiceItems(languageLevels, 0, new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				oneenglishlevelValue.setText(languageLevels[which]);
+				firstLanguageLevelId = languageLevelIds[which];
+				firstLanguageLevel = languageLevels[which];
+				dialog.dismiss();
+			}
+
+		});
+		dialog = builder.create();
+		dialog.show();
+	}
+
 	private OnDateSetListener myDateSetListener = new OnDateSetListener() {
 		@Override
 		public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {

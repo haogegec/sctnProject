@@ -66,12 +66,16 @@ public class BasicInfoEditActivity extends BaicActivity {
 	private String birthdayDate;
 
 	private RelativeLayout people;
-	private TextView peopleValue;
-	private String peopleStr = "";// 民族
+	private TextView peopleValue;// 民族
+	private String peopleStr = "";
+	private String[] peoples;
+	private String[] peopleIds;
 
 	private RelativeLayout political;
 	private TextView politicalValue;
 	private String politicalStr = "";// 政治面貌
+	private String[] politicals;
+	private String[] politicalIds;
 
 	private EditText heighValue;
 	private String heighStr = "";// 身高
@@ -79,10 +83,14 @@ public class BasicInfoEditActivity extends BaicActivity {
 	private RelativeLayout maritalStatus;
 	private TextView maritalStatusValue;
 	private String maritalStatusStr = "";// 婚姻状况
+	private String[] maritalStatuses;
+	private String[] maritalStatusIds;
 
 	private RelativeLayout healthStatus;
 	private TextView healthStatusValue;
 	private String healthStatusStr = "";// 健康状况
+	private String[] healthStatuses;
+	private String[] healthStatusIds;
 
 	private RelativeLayout accountCity;
 	private TextView accountCityValue;// 户口所在地
@@ -127,11 +135,6 @@ public class BasicInfoEditActivity extends BaicActivity {
 	private int mDay = currDay;
 	private StringBuffer dateStringBuilder = new StringBuffer();
 
-	private String[] peopleDialogText = { "汉族", "少数民族" };// 民族
-	private String[] politicalDialogText = { "群众", "团员", "党员" };// 政治面貌
-	private String[] maritalStatusDialogText = { "未婚", "已婚", "离婚" };// 婚姻状况
-	private String[] healthStatusDialogText = { "健康", "亚健康", "残疾" };// 健康状况
-	
 	private String result;// 服务端返回的结果
 	private long userId;
 
@@ -205,6 +208,7 @@ public class BasicInfoEditActivity extends BaicActivity {
 			}
 		});
 
+		// 籍贯
 		orgin.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -216,6 +220,7 @@ public class BasicInfoEditActivity extends BaicActivity {
 
 		});
 
+		// 出生日期
 		birthday.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -229,94 +234,55 @@ public class BasicInfoEditActivity extends BaicActivity {
 
 		});
 
+		// 民族
 		people.setOnClickListener(new ImageView.OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
-
-				builder.setTitle("请选择您的民族");
-				builder.setSingleChoiceItems(peopleDialogText, 0, new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						peopleValue.setText(peopleDialogText[which]);
-						dialog.dismiss();
-					}
-
-				});
-				dialog = builder.create();
-				dialog.show();
+				
+				requestPeopleThread();
 
 			}
 
 		});
 
+		// 政治面貌
 		political.setOnClickListener(new ImageView.OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
 
-				builder.setTitle("请选择您的政治面貌");
-				builder.setSingleChoiceItems(politicalDialogText, 0, new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						politicalValue.setText(politicalDialogText[which]);
-						dialog.dismiss();
-					}
-
-				});
-				dialog = builder.create();
-				dialog.show();
-
+				requestPoliticalThread();
+				
 			}
 
 		});
 
+		// 婚姻状况
 		maritalStatus.setOnClickListener(new ImageView.OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
 
-				builder.setTitle("请选择您的婚姻状况");
-				builder.setSingleChoiceItems(maritalStatusDialogText, 0, new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						maritalStatusValue.setText(maritalStatusDialogText[which]);
-						dialog.dismiss();
-					}
-
-				});
-				dialog = builder.create();
-				dialog.show();
-
+				requestMaritalThread();
+				
 			}
 
 		});
 
+		// 健康状况
 		healthStatus.setOnClickListener(new ImageView.OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
 
-				builder.setTitle("请选择您的民族");
-				builder.setSingleChoiceItems(healthStatusDialogText, 0, new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						healthStatusValue.setText(healthStatusDialogText[which]);
-						dialog.dismiss();
-					}
-
-				});
-				dialog = builder.create();
-				dialog.show();
+				requestHealthThread();
 
 			}
 
 		});
 
+		// 户口所在地
 		accountCity.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -328,6 +294,7 @@ public class BasicInfoEditActivity extends BaicActivity {
 
 		});
 
+		// 居住地
 		currentCity.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -411,6 +378,56 @@ public class BasicInfoEditActivity extends BaicActivity {
 		mThread.start();
 	}
 	
+	private void requestPeopleThread(){
+		showProcessDialog(false);
+		Thread mThread = new Thread(new Runnable() {// 启动新的线程，
+					@Override
+					public void run() {
+						requestPeople();
+					}
+				});
+		mThread.start();
+	}
+	
+	private void requestPoliticalThread(){
+		showProcessDialog(false);
+		Thread mThread = new Thread(new Runnable(){
+
+			@Override
+			public void run() {
+				requestPolitical();
+			}
+			
+		});
+		mThread.start();
+	}
+	
+	private void requestMaritalThread(){
+		showProcessDialog(false);
+		Thread mThread = new Thread(new Runnable(){
+
+			@Override
+			public void run() {
+				requestMarital();
+			}
+			
+		});
+		mThread.start();
+	}
+	
+	private void requestHealthThread(){
+		showProcessDialog(false);
+		Thread mThread = new Thread(new Runnable(){
+
+			@Override
+			public void run() {
+				requestHealth();
+			}
+			
+		});
+		mThread.start();
+	}
+	
 	private void requestData() {
 
 		String url = "appCmbShow.app";
@@ -458,6 +475,199 @@ public class BasicInfoEditActivity extends BaicActivity {
 		msg.what = 00;
 		handler.sendMessage(msg);
 	}
+	
+	private void requestPeople() {
+
+		String url = "appCmbShow.app";
+
+		Message msg = new Message();
+		List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
+		params.add(new BasicNameValuePair("type", "14"));
+		params.add(new BasicNameValuePair("key", "1"));
+		result = getPostHttpContent(url, params);
+
+		if (StringUtil.isExcetionInfo(result)) {
+			sendExceptionMsg(result);
+			return;
+		}
+
+		if (StringUtil.isBlank(result)) {
+			result = StringUtil.getAppException4MOS("未获得服务器响应结果！");
+			sendExceptionMsg(result);
+		}
+		
+		JSONObject responseJsonObject = JSONObject.parseObject(result);
+		if (responseJsonObject.get("resultcode").toString().equals("0")) {
+
+			JSONObject json = responseJsonObject.getJSONObject("result");
+			Set<Entry<String, Object>> set = json.entrySet();
+			Iterator<Entry<String, Object>> iter = set.iterator();
+			peoples = new String[set.size()];
+			peopleIds = new String[set.size()];
+			int i = 0;
+			while (iter.hasNext()) {
+				Map<String, String> map = new HashMap<String, String>();
+				Entry obj = iter.next();
+				map.put("id", (String) obj.getKey());
+				map.put("value", (String) obj.getValue());
+				peoples[i] = (String) obj.getValue();
+				peopleIds[i] = (String) obj.getKey();
+				i++;
+			}
+			msg.what = Constant.PEOPLE;
+			handler.sendMessage(msg);
+		} else {
+			String errorResult = (String) responseJsonObject.get("result");
+			String err = StringUtil.getAppException4MOS(errorResult);
+			sendExceptionMsg(err);
+		}
+		
+	}
+	
+	private void requestPolitical() {
+
+		String url = "appCmbShow.app";
+
+		Message msg = new Message();
+		List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
+		params.add(new BasicNameValuePair("type", "15"));
+		params.add(new BasicNameValuePair("key", "1"));
+		result = getPostHttpContent(url, params);
+
+		if (StringUtil.isExcetionInfo(result)) {
+			sendExceptionMsg(result);
+			return;
+		}
+
+		if (StringUtil.isBlank(result)) {
+			result = StringUtil.getAppException4MOS("未获得服务器响应结果！");
+			sendExceptionMsg(result);
+		}
+		
+		JSONObject responseJsonObject = JSONObject.parseObject(result);
+		if (responseJsonObject.get("resultcode").toString().equals("0")) {
+
+			JSONObject json = responseJsonObject.getJSONObject("result");
+			Set<Entry<String, Object>> set = json.entrySet();
+			Iterator<Entry<String, Object>> iter = set.iterator();
+			politicals = new String[set.size()];
+			politicalIds = new String[set.size()];
+			int i = 0;
+			while (iter.hasNext()) {
+				Map<String, String> map = new HashMap<String, String>();
+				Entry obj = iter.next();
+				map.put("id", (String) obj.getKey());
+				map.put("value", (String) obj.getValue());
+				politicals[i] = (String) obj.getValue();
+				politicalIds[i] = (String) obj.getKey();
+				i++;
+			}
+			msg.what = Constant.POLITICAL;
+			handler.sendMessage(msg);
+		} else {
+			String errorResult = (String) responseJsonObject.get("result");
+			String err = StringUtil.getAppException4MOS(errorResult);
+			sendExceptionMsg(err);
+		}
+		
+	}
+	
+	private void requestMarital() {
+
+		String url = "appCmbShow.app";
+
+		Message msg = new Message();
+		List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
+		params.add(new BasicNameValuePair("type", "16"));
+		params.add(new BasicNameValuePair("key", "1"));
+		result = getPostHttpContent(url, params);
+
+		if (StringUtil.isExcetionInfo(result)) {
+			sendExceptionMsg(result);
+			return;
+		}
+
+		if (StringUtil.isBlank(result)) {
+			result = StringUtil.getAppException4MOS("未获得服务器响应结果！");
+			sendExceptionMsg(result);
+		}
+		
+		JSONObject responseJsonObject = JSONObject.parseObject(result);
+		if (responseJsonObject.get("resultcode").toString().equals("0")) {
+
+			JSONObject json = responseJsonObject.getJSONObject("result");
+			Set<Entry<String, Object>> set = json.entrySet();
+			Iterator<Entry<String, Object>> iter = set.iterator();
+			maritalStatuses = new String[set.size()];
+			maritalStatusIds = new String[set.size()];
+			int i = 0;
+			while (iter.hasNext()) {
+				Map<String, String> map = new HashMap<String, String>();
+				Entry obj = iter.next();
+				map.put("id", (String) obj.getKey());
+				map.put("value", (String) obj.getValue());
+				maritalStatuses[i] = (String) obj.getValue();
+				maritalStatusIds[i] = (String) obj.getKey();
+				i++;
+			}
+			msg.what = Constant.MARITAL;
+			handler.sendMessage(msg);
+		} else {
+			String errorResult = (String) responseJsonObject.get("result");
+			String err = StringUtil.getAppException4MOS(errorResult);
+			sendExceptionMsg(err);
+		}
+		
+	}
+	
+	
+	private void requestHealth() {
+
+		String url = "appCmbShow.app";
+
+		Message msg = new Message();
+		List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
+		params.add(new BasicNameValuePair("type", "17"));
+		params.add(new BasicNameValuePair("key", "1"));
+		result = getPostHttpContent(url, params);
+
+		if (StringUtil.isExcetionInfo(result)) {
+			sendExceptionMsg(result);
+			return;
+		}
+
+		if (StringUtil.isBlank(result)) {
+			result = StringUtil.getAppException4MOS("未获得服务器响应结果！");
+			sendExceptionMsg(result);
+		}
+		
+		JSONObject responseJsonObject = JSONObject.parseObject(result);
+		if (responseJsonObject.get("resultcode").toString().equals("0")) {
+
+			JSONObject json = responseJsonObject.getJSONObject("result");
+			Set<Entry<String, Object>> set = json.entrySet();
+			Iterator<Entry<String, Object>> iter = set.iterator();
+			healthStatuses = new String[set.size()];
+			healthStatusIds = new String[set.size()];
+			int i = 0;
+			while (iter.hasNext()) {
+				Map<String, String> map = new HashMap<String, String>();
+				Entry obj = iter.next();
+				map.put("id", (String) obj.getKey());
+				map.put("value", (String) obj.getValue());
+				healthStatuses[i] = (String) obj.getValue();
+				healthStatusIds[i] = (String) obj.getKey();
+				i++;
+			}
+			msg.what = Constant.HEALTH;
+			handler.sendMessage(msg);
+		} else {
+			String errorResult = (String) responseJsonObject.get("result");
+			String err = StringUtil.getAppException4MOS(errorResult);
+			sendExceptionMsg(err);
+		}
+		
+	}
 
 	// 处理线程发送的消息
 	private Handler handler = new Handler() {
@@ -465,13 +675,97 @@ public class BasicInfoEditActivity extends BaicActivity {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case 00:
-				
 				Toast.makeText(getApplicationContext(), "保存成功", Toast.LENGTH_SHORT).show();
 				finish();
 				break;
+				
+			case Constant.PEOPLE:
+				initPeople();
+				break;
+				
+			case Constant.POLITICAL:
+				initPolitical();
+				break;
+				
+			case Constant.MARITAL:
+				initMarital();
+				break;
+				
+			case Constant.HEALTH:
+				initHealth();
+				break;
+				
+				
 			}
+			
+			
+			
 			closeProcessDialog();
 		}
 	};
+	
+	private void initPeople(){
+		builder.setTitle("请选择您的民族");
+		builder.setSingleChoiceItems(peoples, 0, new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				peopleValue.setText(peoples[which]);
+				peopleStr = peopleIds[which];
+				dialog.dismiss();
+			}
+
+		});
+		dialog = builder.create();
+		dialog.show();
+	}
+	
+	private void initPolitical(){
+		builder.setTitle("请选择您的政治面貌");
+		builder.setSingleChoiceItems(politicals, 0, new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				politicalValue.setText(politicals[which]);
+				politicalStr = politicalIds[which];
+				dialog.dismiss();
+			}
+
+		});
+		dialog = builder.create();
+		dialog.show();
+	}
+	
+	private void initMarital(){
+		builder.setTitle("请选择您的婚姻状况");
+		builder.setSingleChoiceItems(maritalStatuses, 0, new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				maritalStatusValue.setText(maritalStatuses[which]);
+				maritalStatusStr = maritalStatusIds[which];
+				dialog.dismiss();
+			}
+
+		});
+		dialog = builder.create();
+		dialog.show();
+	}
+	
+	private void initHealth(){
+		builder.setTitle("请选择您的健康状况");
+		builder.setSingleChoiceItems(healthStatuses, 0, new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				healthStatusValue.setText(healthStatuses[which]);
+				healthStatusStr = healthStatusIds[which];
+				dialog.dismiss();
+			}
+
+		});
+		dialog = builder.create();
+		dialog.show();
+	}
 
 }
