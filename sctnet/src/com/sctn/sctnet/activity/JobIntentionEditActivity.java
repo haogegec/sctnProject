@@ -289,7 +289,7 @@ public class JobIntentionEditActivity extends BaicActivity {
 		Message msg = new Message();
      
 		List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-		params.add(new BasicNameValuePair("Userid", "100020"));
+		params.add(new BasicNameValuePair("Userid", userId+""));
 		if(!cityId.equals("")){
 			params.add(new BasicNameValuePair("WorkRegion", cityId));
 		}

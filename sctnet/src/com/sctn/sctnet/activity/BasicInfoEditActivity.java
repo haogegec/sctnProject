@@ -531,7 +531,7 @@ public class BasicInfoEditActivity extends BaicActivity {
 		Message msg = new Message();
      
 		List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-		params.add(new BasicNameValuePair("Userid", "100020"));
+		params.add(new BasicNameValuePair("Userid", userId+""));
 		params.add(new BasicNameValuePair("TrueName", nameValue.getText().toString()));
 		params.add(new BasicNameValuePair("Birthplace",origin_cityId));
 		params.add(new BasicNameValuePair("AccountCity",account_cityId));
