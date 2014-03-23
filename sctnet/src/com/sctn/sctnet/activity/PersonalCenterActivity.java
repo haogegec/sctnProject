@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -137,13 +138,26 @@ public class PersonalCenterActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View v) {
-				// 将本地保存的登录信息清空
-				LoginInfo.logOut();
-				// ->直接跳转到 HomeActivity(设置成单例) 同时清空栈中 HomeActivity 之前的 Activity
-				Toast.makeText(PersonalCenterActivity.this, "退出成功", Toast.LENGTH_SHORT).show();
-				Intent intent = new Intent(PersonalCenterActivity.this, HomeActivity.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // 利用ClearTop标志
-				startActivity(intent);
+				
+				new  AlertDialog.Builder(PersonalCenterActivity.this)   
+				.setTitle("提示" )  
+				.setMessage("确定要注销吗？" )  
+				.setPositiveButton("确定" ,  new android.content.DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// 将本地保存的登录信息清空
+						LoginInfo.logOut();
+						// ->直接跳转到 HomeActivity(设置成单例) 同时清空栈中 HomeActivity 之前的 Activity
+						Toast.makeText(PersonalCenterActivity.this, "注销成功", Toast.LENGTH_SHORT).show();
+						Intent intent = new Intent(PersonalCenterActivity.this, HomeActivity.class);
+						intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // 利用ClearTop标志
+						startActivity(intent);
+					}
+				} )  
+				.setNegativeButton("取消" , null)  
+				.show();  
+				
+				
 			}
 		});
 		
@@ -289,6 +303,7 @@ public class PersonalCenterActivity extends BaicActivity {
 
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
 			params.add(new BasicNameValuePair("Userid", userId+""));
+//			params.add(new BasicNameValuePair("Userid", 217294+""));
 			result = getPostHttpContent(url, params);
 
 			if (StringUtil.isExcetionInfo(result)) {

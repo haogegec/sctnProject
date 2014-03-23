@@ -1,6 +1,7 @@
 package com.sctn.sctnet.activity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,7 +16,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +46,9 @@ import com.sctn.sctnet.httpConnect.AsyncBitmapLoader.ImageCallBack;
  * 
  */
 public class ResumeManageActivity extends BaicActivity {
+
+	private RelativeLayout layout;
+	private RelativeLayout layout1;
 
 	private ImageView resumePreviewImg;
 	private ImageView modifyImg;
@@ -73,7 +77,7 @@ public class ResumeManageActivity extends BaicActivity {
 	private ResumeInfo resumeInfo;// 简历表所对应的类
 
 	private String finishStatus;// 简历完成度
-	
+
 	private CameraUtil cameraUtil;
 	private Bitmap myPhotoBitmap;
 
@@ -92,7 +96,8 @@ public class ResumeManageActivity extends BaicActivity {
 	private ArrayList<HashMap<String, String>> contactList = new ArrayList<HashMap<String, String>>();// 联系方式
 
 	private ArrayList<ArrayList<HashMap<String, String>>> dataList = new ArrayList<ArrayList<HashMap<String, String>>>();
-	private float i=0;
+	private float i = 0;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -109,7 +114,9 @@ public class ResumeManageActivity extends BaicActivity {
 
 	@Override
 	protected void initAllView() {
-		
+		layout = (RelativeLayout) findViewById(R.id.relativeLayout);
+		layout1 = (RelativeLayout) findViewById(R.id.relativeLayout1);
+
 		myPhoto = (ImageView) findViewById(R.id.myPhoto);
 
 		resumePreviewImg = (ImageView) findViewById(R.id.resumePreview);
@@ -132,24 +139,25 @@ public class ResumeManageActivity extends BaicActivity {
 		resumeFinishStatusValue = (TextView) findViewById(R.id.resumeFinishStatusValue);
 		resumePublicValue = (TextView) findViewById(R.id.resumeIsPublicText);
 		userId = SharePreferencesUtils.getSharedlongData("userId");
-		Bitmap bitmap = asyncBitmapLoader.loadBitmap(myPhoto, userId+"", userId+"", true, 120, 120, new ImageCallBack() {
+		Bitmap bitmap = asyncBitmapLoader.loadBitmap(myPhoto, userId + "", userId + "", true, 120, 120, new ImageCallBack() {
 			@Override
 			public void imageLoad(ImageView imageView, Bitmap bitmap) {
 				myPhoto.setImageBitmap(bitmap);
-//				if (bitmap != null) {
-//					user.setAvatarBitmap(bitmap);
-//				}
+				// if (bitmap != null) {
+				// user.setAvatarBitmap(bitmap);
+				// }
 			}
 		});
 		if (bitmap != null) {
 			myPhoto.setImageBitmap(bitmap);
-			
+
 		}
 	}
 
 	@Override
 	protected void reigesterAllEvent() {
 
+		// 简历预览
 		resumePreviewImg.setOnClickListener(new ImageView.OnClickListener() {
 
 			@Override
@@ -163,6 +171,8 @@ public class ResumeManageActivity extends BaicActivity {
 			}
 
 		});
+
+		// 修改
 		modifyImg.setOnClickListener(new ImageView.OnClickListener() {
 
 			@Override
@@ -172,6 +182,7 @@ public class ResumeManageActivity extends BaicActivity {
 			}
 
 		});
+		// 修改
 		modifyBtn.setOnClickListener(new Button.OnClickListener() {
 
 			@Override
@@ -183,6 +194,7 @@ public class ResumeManageActivity extends BaicActivity {
 
 		});
 
+		// 删除
 		deleteImg.setOnClickListener(new ImageView.OnClickListener() {
 
 			@Override
@@ -193,6 +205,7 @@ public class ResumeManageActivity extends BaicActivity {
 
 		});
 
+		// 删除
 		deleteBtn.setOnClickListener(new Button.OnClickListener() {
 
 			@Override
@@ -204,6 +217,7 @@ public class ResumeManageActivity extends BaicActivity {
 
 		});
 
+		// 刷新
 		refreshImg.setOnClickListener(new ImageView.OnClickListener() {
 
 			@Override
@@ -216,6 +230,7 @@ public class ResumeManageActivity extends BaicActivity {
 
 		});
 
+		// 刷新
 		refreshBtn.setOnClickListener(new Button.OnClickListener() {
 
 			@Override
@@ -228,6 +243,7 @@ public class ResumeManageActivity extends BaicActivity {
 
 		});
 
+		// 公开
 		isPublicImg.setOnClickListener(new ImageView.OnClickListener() {
 
 			@Override
@@ -239,6 +255,7 @@ public class ResumeManageActivity extends BaicActivity {
 
 		});
 
+		// 公开
 		isPublicBtn.setOnClickListener(new Button.OnClickListener() {
 
 			@Override
@@ -251,12 +268,13 @@ public class ResumeManageActivity extends BaicActivity {
 			}
 
 		});
-		
-		myPhoto.setOnClickListener(new OnClickListener(){
+
+		// 头像
+		myPhoto.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				
+
 				cameraUtil = new CameraUtil(ResumeManageActivity.this, new CameraCallBack() {
 					@Override
 					public void cropResult(Context context, Intent data) {
@@ -266,7 +284,7 @@ public class ResumeManageActivity extends BaicActivity {
 							myPhoto.setImageBitmap(myPhotoBitmap);
 							updateUserInfo();
 						}
-						
+
 					}
 
 					@Override
@@ -277,21 +295,29 @@ public class ResumeManageActivity extends BaicActivity {
 				});
 				cameraUtil.showUplaodImageDialog();
 			}
-				
-			});
+
+		});
 
 		// 注销
 		super.titleRightButton.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				// 将本地保存的登录信息清空
-				LoginInfo.logOut();
-				// ->直接跳转到HomeActivity 同时清空栈中 HomeActivity 之前的 Activity
-				Toast.makeText(ResumeManageActivity.this, "退出成功", Toast.LENGTH_SHORT).show();
-				Intent intent = new Intent(ResumeManageActivity.this, HomeActivity.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // 利用ClearTop标志
-				startActivity(intent);
+
+				new AlertDialog.Builder(ResumeManageActivity.this).setTitle("提示").setMessage("确定要注销吗？").setPositiveButton("确定", new android.content.DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// 将本地保存的登录信息清空
+						LoginInfo.logOut();
+						// ->直接跳转到 HomeActivity(设置成单例) 同时清空栈中 HomeActivity 之前的
+						// Activity
+						Toast.makeText(ResumeManageActivity.this, "注销成功", Toast.LENGTH_SHORT).show();
+						Intent intent = new Intent(ResumeManageActivity.this, HomeActivity.class);
+						intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // 利用ClearTop标志
+						startActivity(intent);
+					}
+				}).setNegativeButton("取消", null).show();
+
 			}
 		});
 
@@ -310,6 +336,7 @@ public class ResumeManageActivity extends BaicActivity {
 				});
 		mThread.start();
 	}
+
 	/**
 	 * 在子线程与远端服务器交互，请求数据
 	 */
@@ -323,16 +350,16 @@ public class ResumeManageActivity extends BaicActivity {
 				});
 		mThread.start();
 	}
-	
-	private void updateData(){
+
+	private void updateData() {
 		String url = "appPersonCenter!saveFileImage.app";
 
 		Message msg = new Message();
 		try {
 
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-			params.add(new BasicNameValuePair("Userid",userId+""));
-			params.add(new BasicNameValuePair("byteimage",BitMapUtil.bitMap2Base64Encode(myPhotoBitmap)));
+			params.add(new BasicNameValuePair("Userid", userId + ""));
+			params.add(new BasicNameValuePair("byteimage", BitMapUtil.bitMap2Base64Encode(myPhotoBitmap)));
 
 			result = getPostHttpContent(url, params);
 
@@ -356,7 +383,7 @@ public class ResumeManageActivity extends BaicActivity {
 				msg.what = 2;
 				handler.sendMessage(msg);
 			}
-		}catch (JSONException e) {
+		} catch (JSONException e) {
 			String err = StringUtil.getAppException4MOS("解析json出错！");
 			ResumeManageActivity.this.sendExceptionMsg(err);
 		}
@@ -373,16 +400,17 @@ public class ResumeManageActivity extends BaicActivity {
 		try {
 
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-			params.add(new BasicNameValuePair("Userid",userId+""));
-
+			params.add(new BasicNameValuePair("Userid", userId + ""));
+			// params.add(new BasicNameValuePair("Userid",100020+""));
 			result = getPostHttpContent(url, params);
-
+			// JSON的解析过程
+			JSONObject responseJsonObject = new JSONObject(result);
 			if (StringUtil.isExcetionInfo(result)) {
 				ResumeManageActivity.this.sendExceptionMsg(result);
 				return;
 			}
 
-			if (StringUtil.isBlank(result)) {// 说明该用户没有创建简历
+			if (StringUtil.isBlank(responseJsonObject.getString("result"))) {// 说明该用户没有创建简历
 
 				msg.what = 1;
 				handler.sendMessage(msg);
@@ -390,43 +418,40 @@ public class ResumeManageActivity extends BaicActivity {
 				return;
 			}
 
-			JSONObject responseJsonObject = null;// 返回结果存放在该json对象中
-
-			// JSON的解析过程
-			responseJsonObject = new JSONObject(result);
 			if (responseJsonObject.getInt("resultCode") == 0) {// 获得响应结果
 
 				JSONObject resultJsonObject = responseJsonObject.getJSONObject("result");
 
-				String accountCity = resultJsonObject.getString("accountcity");
+				String accountCity = resultJsonObject.getString("cityname");// 户口所在地，accountcity是编号
 				String address = resultJsonObject.getString("address");
-				String adminpost = resultJsonObject.getString("adminpost");
-				String aidprofession = resultJsonObject.getString("aidprofession");
+				String adminpost = resultJsonObject.getString("adminpost");// 当前从事职位
+				String aidprofession = resultJsonObject.getString("aidprofessionname");// 辅助专业,aidprofession是编号
 				String birthday = resultJsonObject.getString("birthday");
-				String birthplace = resultJsonObject.getString("birthplace");
-				String cardid = resultJsonObject.getString("cardid");
+				String birthplace = resultJsonObject.getString("birthplacename");// 籍贯
+				String cardid = resultJsonObject.getString("cardid");// 身份证号
 				String companyname = resultJsonObject.getString("companyname");
-				String computerlevel = resultJsonObject.getString("computerlevel");
+				String computerlevel = resultJsonObject.getString("computerlevelname");// 微机水平，computerlevel是编号
 				String contactsname = resultJsonObject.getString("contactsname");
 				String contactsphone = resultJsonObject.getString("contactsphone");
 				String currentcity = resultJsonObject.getString("currentcity");
-				String currentprofessional = resultJsonObject.getString("currentprofessional");
+				String currentprofessional = resultJsonObject.getString("currentprofessionalname");// 当前从事行业，currentprofessional是编号
 				String degree = resultJsonObject.getString("degree");
 				String degreecert = resultJsonObject.getString("degreecert");
 				String drivecode = resultJsonObject.getString("drivecode");
-				String education = resultJsonObject.getString("education");
+				String education = resultJsonObject.getString("educationname");// 学历，education是编号
 				String email = resultJsonObject.getString("email");
 				String graduatedcode = resultJsonObject.getString("graduatedcode");
-				String graduateddate = resultJsonObject.getString("graduateddate");
+				String graduateddate = resultJsonObject.getString("graduateddate");// 需要格式化
 				String graduatedschool = resultJsonObject.getString("graduatedschool");
-				String healthstate = resultJsonObject.getString("healthstate");
-				String marriagestate = resultJsonObject.getString("marriagestate");
-				String oneenglish = resultJsonObject.getString("oneenglish");
-				String onelevel = resultJsonObject.getString("onelevel");
-				String people = resultJsonObject.getString("people");
-				String political = resultJsonObject.getString("political");
+				String healthstate = resultJsonObject.getString("health");// healthstate
+																			// 是编号
+				String marriagestate = resultJsonObject.getString("marriage");// 婚姻状况，marriagestate是编号
+				String oneenglish = resultJsonObject.getString("oneengname");// oneenglish是编号
+				String onelevel = resultJsonObject.getString("onelevelname");// onelevel是编号
+				String people = resultJsonObject.getString("peopletype");// 民族,people是编号
+				String political = resultJsonObject.getString("politicalname");// 政治面貌，political是编号
 				String postalcode = resultJsonObject.getString("postalcode");
-				String profession = resultJsonObject.getString("profession");
+				String profession = resultJsonObject.getString("professionname");// 专业，profession是编号
 				String qqmsn = resultJsonObject.getString("qqmsn");
 				String reccontent = resultJsonObject.getString("reccontent");
 				String resume = resultJsonObject.getString("resume");
@@ -434,8 +459,8 @@ public class ResumeManageActivity extends BaicActivity {
 				String specialtycontent = resultJsonObject.getString("specialtycontent");
 				String technology = resultJsonObject.getString("technology");
 				String truename = resultJsonObject.getString("truename");
-				String twoenglish = resultJsonObject.getString("twoenglish");
-				String twolevel = resultJsonObject.getString("twolevel");
+				String twoenglish = resultJsonObject.getString("twoenglishname");// twoengligh是编号
+				String twolevel = resultJsonObject.getString("twolevelname");// twolevel是编号
 				long useheight = resultJsonObject.getLong("useheight");
 				String usephone = resultJsonObject.getString("usephone");
 				long workexperience = resultJsonObject.getLong("workexperience");
@@ -568,9 +593,9 @@ public class ResumeManageActivity extends BaicActivity {
 					personalExperienceMap.put("推荐自己", reccontent);
 					i++;
 				}
-				 if(StringUtil.isBlank(resume)){
-				    personalExperienceMap.put("个人经历", resume);
-				 }
+				if (StringUtil.isBlank(resume)) {
+					personalExperienceMap.put("个人经历", resume);
+				}
 
 				if (!StringUtil.isBlank(sex)) {
 					basicInfoMap.put("性别", sex);
@@ -734,40 +759,36 @@ public class ResumeManageActivity extends BaicActivity {
 			}
 				break;
 			case 2:
-				Toast.makeText(getApplicationContext(), "上传成功",
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "上传成功", Toast.LENGTH_SHORT).show();
 				break;
-			case 3:{
-				Toast.makeText(getApplicationContext(), "删除成功",
-						Toast.LENGTH_SHORT).show();
+			case 3: {
+				Toast.makeText(getApplicationContext(), "删除成功", Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent(ResumeManageActivity.this, ResumeCreateActivity.class);
 				startActivity(intent);
 				finish();
-			}break;
-			case 4:
-				Toast.makeText(getApplicationContext(), "删除失败",
-						Toast.LENGTH_SHORT).show();
+			}
 				break;
-			case 5:{
-				if("隐藏".equals(isPublicBtn.getText().toString())){
+			case 4:
+				Toast.makeText(getApplicationContext(), "删除失败", Toast.LENGTH_SHORT).show();
+				break;
+			case 5: {
+				if ("隐藏".equals(isPublicBtn.getText().toString())) {
 					isPublicImg.setImageResource(R.drawable.resume_is_public_bg);
 					isPublicBtn.setText("公开");
-				}else{
+				} else {
 					isPublicImg.setImageResource(R.drawable.resume_is_secret_bg);
 					isPublicBtn.setText("隐藏");
 				}
-			}break;
+			}
+				break;
 			case 6:
-				Toast.makeText(getApplicationContext(), "操作失败",
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "操作失败", Toast.LENGTH_SHORT).show();
 				break;
 			case 7:
-				Toast.makeText(getApplicationContext(), "刷新成功，您的简历会更好的被猎头发现了！",
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "刷新成功，您的简历会更好的被猎头发现了！", Toast.LENGTH_SHORT).show();
 				break;
 			case 8:
-				Toast.makeText(getApplicationContext(), "刷新失败，再试试吧",
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "刷新失败，再试试吧", Toast.LENGTH_SHORT).show();
 				break;
 
 			}
@@ -782,7 +803,7 @@ public class ResumeManageActivity extends BaicActivity {
 
 		resumeNameValue.setText("我的简历");
 		resumeUpdateValue.setText(resumeInfo.getUpresumetime());
-		finishStatus = (i/41)*100+"%";
+		finishStatus = (i / 41) * 100 + "%";
 		resumeFinishStatusValue.setText(finishStatus);
 		resumePublicValue.setText(resumeInfo.getIshide() + "");
 
@@ -794,6 +815,8 @@ public class ResumeManageActivity extends BaicActivity {
 			isPublicBtn.setText("公开");
 		}
 
+		layout.setVisibility(View.VISIBLE);
+		layout1.setVisibility(View.VISIBLE);
 	}
 
 	// 跳转到简历修改界面
@@ -828,6 +851,7 @@ public class ResumeManageActivity extends BaicActivity {
 
 		builder.create().show();
 	}
+
 	/**
 	 * 在子线程与远端服务器交互，请求数据
 	 */
@@ -841,15 +865,15 @@ public class ResumeManageActivity extends BaicActivity {
 				});
 		mThread.start();
 	}
-	
-	private void deleteData(){
+
+	private void deleteData() {
 		String url = "appRegister!deleteResume.app";
 
 		Message msg = new Message();
 		try {
 
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-			params.add(new BasicNameValuePair("Userid",userId+""));
+			params.add(new BasicNameValuePair("Userid", userId + ""));
 
 			result = getPostHttpContent(url, params);
 
@@ -859,7 +883,7 @@ public class ResumeManageActivity extends BaicActivity {
 			}
 
 			if (StringUtil.isBlank(result)) {
-				
+
 				String err = StringUtil.getAppException4MOS("未获得服务端反应");
 				ResumeManageActivity.this.sendExceptionMsg(err);
 
@@ -873,17 +897,17 @@ public class ResumeManageActivity extends BaicActivity {
 			if (responseJsonObject.getInt("resultCode") == 0) {// 获得响应结果
 				msg.what = 3;
 				handler.sendMessage(msg);
-			}else{
+			} else {
 				msg.what = 4;
 				handler.sendMessage(msg);
 			}
-		}catch (JSONException e) {
+		} catch (JSONException e) {
 			String err = StringUtil.getAppException4MOS("解析json出错！");
 			this.sendExceptionMsg(err);
-		}		
+		}
 
 	}
-	
+
 	/**
 	 * 在子线程与远端服务器交互，请求数据
 	 */
@@ -897,17 +921,17 @@ public class ResumeManageActivity extends BaicActivity {
 				});
 		mThread.start();
 	}
-	
-	private void refreshData(){
-		
+
+	private void refreshData() {
+
 		String url = "appPersonInfo!topResume.app";
 
 		Message msg = new Message();
 		try {
 
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-			params.add(new BasicNameValuePair("Userid",userId+""));
-
+			params.add(new BasicNameValuePair("Userid", userId + ""));
+			// params.add(new BasicNameValuePair("Userid",100020+""));
 			result = getPostHttpContent(url, params);
 
 			if (StringUtil.isExcetionInfo(result)) {
@@ -929,17 +953,17 @@ public class ResumeManageActivity extends BaicActivity {
 			if (responseJsonObject.getInt("resultCode") == 0) {// 获得响应结果
 				msg.what = 7;
 				handler.sendMessage(msg);
-			}else{
+			} else {
 				msg.what = 8;
 				handler.sendMessage(msg);
 			}
-		}catch (JSONException e) {
+		} catch (JSONException e) {
 			String err = StringUtil.getAppException4MOS("解析json出错！");
 			this.sendExceptionMsg(err);
-		}		
+		}
 
 	}
-	
+
 	/**
 	 * 在子线程与远端服务器交互，请求数据
 	 */
@@ -953,17 +977,18 @@ public class ResumeManageActivity extends BaicActivity {
 				});
 		mThread.start();
 	}
-	
-	private void displayOrNotData(){
-		
+
+	private void displayOrNotData() {
+
 		String url = "appRegister!displayorNotResume.app";
 
 		Message msg = new Message();
 		try {
 
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-			params.add(new BasicNameValuePair("Userid",userId+""));
-
+			params.add(new BasicNameValuePair("Userid", userId + ""));
+			// params.add(new BasicNameValuePair("Userid",100020+""));
+			params.add(new BasicNameValuePair("IsResumeHide", "1"));// 1是显示，0是隐藏
 			result = getPostHttpContent(url, params);
 
 			if (StringUtil.isExcetionInfo(result)) {
@@ -985,14 +1010,14 @@ public class ResumeManageActivity extends BaicActivity {
 			if (responseJsonObject.getInt("resultCode") == 0) {// 获得响应结果
 				msg.what = 5;
 				handler.sendMessage(msg);
-			}else{
+			} else {
 				msg.what = 6;
 				handler.sendMessage(msg);
 			}
-		}catch (JSONException e) {
+		} catch (JSONException e) {
 			String err = StringUtil.getAppException4MOS("解析json出错！");
 			this.sendExceptionMsg(err);
-		}		
+		}
 
 	}
 }

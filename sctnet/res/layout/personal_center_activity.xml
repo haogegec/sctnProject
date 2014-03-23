@@ -36,6 +36,7 @@
                     android:layout_marginTop="10dp"
                     android:paddingRight="3dp"
                     android:text="@string/userName"
+                    android:textColor="@color/lightBlack"
                     android:textSize="16dp" />
 
                 <TextView
@@ -44,7 +45,9 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/userNameLabel"
                     android:layout_alignTop="@+id/userNameLabel"
-                    android:layout_toRightOf="@+id/userNameLabel" />
+                    android:layout_toRightOf="@+id/userNameLabel"
+                    android:textColor="@color/blue"
+                    android:textSize="16dp" />
             </RelativeLayout>
 
             <RelativeLayout

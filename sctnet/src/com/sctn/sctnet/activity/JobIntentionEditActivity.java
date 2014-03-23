@@ -49,6 +49,8 @@ public class JobIntentionEditActivity extends BaicActivity {
 	private TextView workStateValue;
 	private String workStateStr = "";// 工作性质
 	private String workStateId = "";
+	private String[] workStates;
+	private String[] workStateIds;
 
 	private RelativeLayout workmanner;
 	private TextView workmannerValue;
@@ -63,15 +65,14 @@ public class JobIntentionEditActivity extends BaicActivity {
 	private RelativeLayout wage;
 	private TextView wageValue;
 	private String wageStr = "";// 薪资范围
-	private String wageId="";
+	private String wageId = "";
+	private String[] wages;
+	private String[] wageIds;
 
 	private EditText housewhereValue;
 	private String housewhereStr = "";// 住房要求
-
-	private String[] workStateDialogText = { "全职", "兼职" };// 工作性质
 	private String[] companyTypes;// 企业类型
 	private String[] companyTypeIds;// 企业类型ID
-	private String[] wageDialogText = { "面议", "1500以下", "1500-1999", "2000-2999", "3000-3999", "4000-4999", "5000以上" };// 薪资范围
 
 	private Builder builder;
 	private Dialog dialog;// 弹出框
@@ -79,8 +80,9 @@ public class JobIntentionEditActivity extends BaicActivity {
 	private String result;// 服务端返回的结果
 
 	private long userId;
-	
+
 	private HashMap<String, String> jobIntentionMap;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -93,16 +95,16 @@ public class JobIntentionEditActivity extends BaicActivity {
 		reigesterAllEvent();
 	}
 
-	private void initBundle(){
+	private void initBundle() {
 		Intent intent = this.getIntent();
 		Bundle bundle = intent.getExtras();
 		userId = SharePreferencesUtils.getSharedlongData("userId");
-		if(bundle!=null&&bundle.getSerializable("jobIntentionList")!=null){
+		if (bundle != null && bundle.getSerializable("jobIntentionList") != null) {
 			List<HashMap<String, String>> jobIntentionList = (List<HashMap<String, String>>) bundle.getSerializable("jobIntentionList");
 			jobIntentionMap = jobIntentionList.get(0);
 		}
 	}
-	
+
 	@Override
 	protected void initAllView() {
 
@@ -124,34 +126,34 @@ public class JobIntentionEditActivity extends BaicActivity {
 		housewhereValue = (EditText) findViewById(R.id.housewhere_value);
 
 		builder = new AlertDialog.Builder(JobIntentionEditActivity.this);
-		
-		 if(jobIntentionMap!=null&&jobIntentionMap.size()!=0){
-				
-				if(jobIntentionMap.containsKey("工作地区")){
-					workAreaStr = jobIntentionMap.get("工作地区");
-					workAreaValue.setText(workAreaStr);
-				}
-				if(jobIntentionMap.containsKey("工作性质")){
-					workStateStr = jobIntentionMap.get("工作性质");
-					workStateValue.setText(workStateStr);
-				}
-				if(jobIntentionMap.containsKey("行业")){
-					industry = jobIntentionMap.get("行业");
-					workmannerValue.setText(industry);
-				}
-                if(jobIntentionMap.containsKey("企业类型")){
-                	companyTypeStr = jobIntentionMap.get("企业类型");
-                	companyTypeValue.setText(companyTypeStr);
-				}
-                if(jobIntentionMap.containsKey("薪水范围")){
-                	wageStr = jobIntentionMap.get("薪水范围");
-                	wageValue.setText(wageStr);
-				}
-                if(jobIntentionMap.containsKey("住房要求")){
-                	housewhereStr = jobIntentionMap.get("住房要求");
-                	housewhereValue.setText(housewhereStr);
-				}
-	        }
+
+		if (jobIntentionMap != null && jobIntentionMap.size() != 0) {
+
+			if (jobIntentionMap.containsKey("工作地区")) {
+				workAreaStr = jobIntentionMap.get("工作地区");
+				workAreaValue.setText(workAreaStr);
+			}
+			if (jobIntentionMap.containsKey("工作性质")) {
+				workStateStr = jobIntentionMap.get("工作性质");
+				workStateValue.setText(workStateStr);
+			}
+			if (jobIntentionMap.containsKey("行业")) {
+				industry = jobIntentionMap.get("行业");
+				workmannerValue.setText(industry);
+			}
+			if (jobIntentionMap.containsKey("企业类型")) {
+				companyTypeStr = jobIntentionMap.get("企业类型");
+				companyTypeValue.setText(companyTypeStr);
+			}
+			if (jobIntentionMap.containsKey("薪水范围")) {
+				wageStr = jobIntentionMap.get("薪水范围");
+				wageValue.setText(wageStr);
+			}
+			if (jobIntentionMap.containsKey("住房要求")) {
+				housewhereStr = jobIntentionMap.get("住房要求");
+				housewhereValue.setText(housewhereStr);
+			}
+		}
 
 	}
 
@@ -178,18 +180,14 @@ public class JobIntentionEditActivity extends BaicActivity {
 			@Override
 			public void onClick(View arg0) {
 
-				builder.setTitle("请选择工作性质");
-				builder.setSingleChoiceItems(workStateDialogText, 0, new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						workStateValue.setText(workStateDialogText[which]);
-						dialog.dismiss();
-					}
-
-				});
-				dialog = builder.create();
-				dialog.show();
+				showProcessDialog(false);
+				Thread mThread = new Thread(new Runnable() {// 启动新的线程，
+							@Override
+							public void run() {
+								initWorkStateThread();
+							}
+						});
+				mThread.start();
 
 			}
 
@@ -231,18 +229,14 @@ public class JobIntentionEditActivity extends BaicActivity {
 			@Override
 			public void onClick(View arg0) {
 
-				builder.setTitle("请选择薪资范围");
-				builder.setSingleChoiceItems(wageDialogText, 0, new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						wageValue.setText(wageDialogText[which]);
-						dialog.dismiss();
-					}
-
-				});
-				dialog = builder.create();
-				dialog.show();
+				showProcessDialog(false);
+				Thread mThread = new Thread(new Runnable() {// 启动新的线程，
+							@Override
+							public void run() {
+								initWageThread();
+							}
+						});
+				mThread.start();
 
 			}
 
@@ -253,13 +247,11 @@ public class JobIntentionEditActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View v) {
-			
-				if(workAreaStr.equals(workAreaValue.getText().toString())&&workStateStr.equals(workStateValue.getText().toString())
-						&&industry.equals(workmannerValue.getText().toString())&&companyTypeStr.equals(companyTypeValue.getText().toString())
-						&&wageStr.equals(wageValue.getText().toString())&&housewhereStr.equals(housewhereValue.getText().toString())){
-					
+
+				if (workAreaStr.equals(workAreaValue.getText().toString()) && workStateStr.equals(workStateValue.getText().toString()) && industry.equals(workmannerValue.getText().toString()) && companyTypeStr.equals(companyTypeValue.getText().toString()) && wageStr.equals(wageValue.getText().toString()) && housewhereStr.equals(housewhereValue.getText().toString())) {
+
 					Toast.makeText(getApplicationContext(), "请编辑之后再保存吧~~", Toast.LENGTH_SHORT).show();
-				}else{
+				} else {
 					requestDataThread();
 				}
 			}
@@ -267,6 +259,7 @@ public class JobIntentionEditActivity extends BaicActivity {
 		});
 
 	}
+
 	/**
 	 * 请求数据线程
 	 * 
@@ -281,35 +274,35 @@ public class JobIntentionEditActivity extends BaicActivity {
 				});
 		mThread.start();
 	}
-	
+
 	private void requestData() {
 
 		String url = "appPersonInfo!modify.app";
 
 		Message msg = new Message();
-     
+
 		List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-		params.add(new BasicNameValuePair("Userid", userId+""));
-		if(!cityId.equals("")){
+		params.add(new BasicNameValuePair("Userid", userId + ""));
+		if (!cityId.equals("")) {
 			params.add(new BasicNameValuePair("WorkRegion", cityId));
 		}
-		if(!workStateId.equals("")){
-			params.add(new BasicNameValuePair("JobsState",workStateId));
+		if (!workStateId.equals("")) {
+			params.add(new BasicNameValuePair("JobsState", workStateId));
 		}
-		if(!industryId.equals("")){
-			params.add(new BasicNameValuePair("WorkManner",industryId));
+		if (!industryId.equals("")) {
+			params.add(new BasicNameValuePair("WorkManner", industryId));
 		}
-		if(!companyTypeId.equals("")){
-			params.add(new BasicNameValuePair("CompanyType",companyTypeId));
+		if (!companyTypeId.equals("")) {
+			params.add(new BasicNameValuePair("CompanyType", companyTypeId));
 		}
-		if(!wageId.equals("")){
-			params.add(new BasicNameValuePair("Wage",wageId));
+		if (!wageId.equals("")) {
+			params.add(new BasicNameValuePair("Wage", wageId));
 		}
-		
-		params.add(new BasicNameValuePair("HouseWhere",housewhereStr));
-				
-		params.add(new BasicNameValuePair("modifytype", "1"));//保存到求职意向表中
-		
+
+		params.add(new BasicNameValuePair("HouseWhere", housewhereStr));
+
+		params.add(new BasicNameValuePair("modifytype", "1"));// 保存到求职意向表中
+
 		result = getPostHttpContent(url, params);
 
 		if (StringUtil.isExcetionInfo(result)) {
@@ -322,7 +315,7 @@ public class JobIntentionEditActivity extends BaicActivity {
 			sendExceptionMsg(result);
 			return;
 		}
-		
+
 		JSONObject responseJsonObject;
 		try {
 			responseJsonObject = new JSONObject(result);
@@ -334,12 +327,12 @@ public class JobIntentionEditActivity extends BaicActivity {
 				String err = StringUtil.getAppException4MOS(errorResult);
 				sendExceptionMsg(err);
 			}
-			
+
 		} catch (JSONException e) {
 			String err = StringUtil.getAppException4MOS("解析json出错！");
 			JobIntentionEditActivity.this.sendExceptionMsg(err);
 		}
-		
+
 	}
 
 	private void initCompanyTypeThread() {
@@ -388,6 +381,98 @@ public class JobIntentionEditActivity extends BaicActivity {
 		}
 	}
 
+	private void initWorkStateThread() {
+		String url = "appCmbShow.app";
+		Message msg = new Message();
+
+		try {
+
+			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
+			params.add(new BasicNameValuePair("type", "19"));
+			params.add(new BasicNameValuePair("key", "1"));
+			result = getPostHttpContent(url, params);
+
+			if (StringUtil.isExcetionInfo(result)) {
+				sendExceptionMsg(result);
+				return;
+			}
+
+			JSONObject responseJsonObject = new JSONObject(result);
+
+			if (responseJsonObject.getInt("resultcode") == 0) {// 获得响应结果
+
+				JSONObject resultJsonObject = responseJsonObject.getJSONObject("result");
+				Iterator it = resultJsonObject.keys();
+				workStates = new String[resultJsonObject.length()];
+				workStateIds = new String[resultJsonObject.length()];
+				int i = 0;
+				while (it.hasNext()) {
+					String key = (String) it.next();
+					String value = resultJsonObject.getString(key);
+					workStateIds[i] = key;
+					workStates[i] = value;
+					i++;
+				}
+				msg.what = Constant.WORK_STATE;
+				handler.sendMessage(msg);
+			} else {
+				String errorResult = (String) responseJsonObject.get("result");
+				String err = StringUtil.getAppException4MOS(errorResult);
+				sendExceptionMsg(err);
+			}
+
+		} catch (JSONException e) {
+			String err = StringUtil.getAppException4MOS("解析json出错！");
+			sendExceptionMsg(err);
+		}
+	}
+
+	private void initWageThread() {
+		String url = "appCmbShow.app";
+		Message msg = new Message();
+
+		try {
+
+			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
+			params.add(new BasicNameValuePair("type", "20"));
+			params.add(new BasicNameValuePair("key", "1"));
+			result = getPostHttpContent(url, params);
+
+			if (StringUtil.isExcetionInfo(result)) {
+				sendExceptionMsg(result);
+				return;
+			}
+
+			JSONObject responseJsonObject = new JSONObject(result);
+
+			if (responseJsonObject.getInt("resultcode") == 0) {// 获得响应结果
+
+				JSONObject resultJsonObject = responseJsonObject.getJSONObject("result");
+				Iterator it = resultJsonObject.keys();
+				wages = new String[resultJsonObject.length()];
+				wageIds = new String[resultJsonObject.length()];
+				int i = 0;
+				while (it.hasNext()) {
+					String key = (String) it.next();
+					String value = resultJsonObject.getString(key);
+					wageIds[i] = key;
+					wages[i] = value;
+					i++;
+				}
+				msg.what = Constant.WAGE_RANGE;
+				handler.sendMessage(msg);
+			} else {
+				String errorResult = (String) responseJsonObject.get("result");
+				String err = StringUtil.getAppException4MOS(errorResult);
+				sendExceptionMsg(err);
+			}
+
+		} catch (JSONException e) {
+			String err = StringUtil.getAppException4MOS("解析json出错！");
+			sendExceptionMsg(err);
+		}
+	}
+
 	// 处理线程发送的消息
 	private Handler handler = new Handler() {
 
@@ -398,13 +483,22 @@ public class JobIntentionEditActivity extends BaicActivity {
 				initProperty();
 				closeProcessDialog();
 				break;
+
+			case Constant.WORK_STATE:
+				initWorkState();
+				closeProcessDialog();
+				break;
+
+			case Constant.WAGE_RANGE:
+				initWage();
+				closeProcessDialog();
+				break;
 			case 00:
 				Toast.makeText(getApplicationContext(), "保存成功", Toast.LENGTH_SHORT).show();
 				finish();
 				break;
 			}
-			
-			
+
 		}
 	};
 
@@ -425,6 +519,38 @@ public class JobIntentionEditActivity extends BaicActivity {
 		dialog.show();
 	}
 
+	private void initWage() {
+		builder.setTitle("请选择薪资范围");
+		builder.setSingleChoiceItems(wages, 0, new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				wageValue.setText(wages[which]);
+				wageStr = wageIds[which];
+				dialog.dismiss();
+			}
+
+		});
+		dialog = builder.create();
+		dialog.show();
+	}
+
+	private void initWorkState(){
+		builder.setTitle("请选择工作性质");
+		builder.setSingleChoiceItems(workStates, 0, new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				workStateValue.setText(workStates[which]);
+				workStateStr = workStateIds[which];
+				dialog.dismiss();
+			}
+
+		});
+		dialog = builder.create();
+		dialog.show();
+	}
+	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {

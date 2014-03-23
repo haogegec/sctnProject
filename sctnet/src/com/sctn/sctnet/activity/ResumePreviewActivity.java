@@ -107,13 +107,13 @@ public class ResumePreviewActivity extends BaicActivity{
 				childData.add(getListItem(map));
 			}
 			if(dataList.get(4).get(0).size()!=0){
-				groupTitle.add("求职意向");
+				groupTitle.add("联系方式");
 				
 				HashMap<String,String> map = dataList.get(4).get(0);				
 				childData.add(getListItem(map));
 			}
 			if(dataList.get(5).get(0).size()!=0){
-				groupTitle.add("联系方式");
+				groupTitle.add("求职意向");
 				
 				HashMap<String,String> map = dataList.get(5).get(0);				
 				childData.add(getListItem(map));

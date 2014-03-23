@@ -1,12 +1,16 @@
 package com.sctn.sctnet.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.sctn.sctnet.R;
+import com.sctn.sctnet.entity.LoginInfo;
 
 /**
  * 更多界面
@@ -22,8 +26,8 @@ public class MoreActivity extends BaicActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.more_activity);
-		setTitleBar(getString(R.string.moreActivityTitle), View.VISIBLE, View.VISIBLE);
-		super.setTitleRightButtonImg(R.drawable.login_btn_bg);
+		setTitleBar(getString(R.string.moreActivityTitle), View.VISIBLE, View.GONE);
+		
 		initAllView();
 		reigesterAllEvent();
 	}
@@ -37,7 +41,7 @@ public class MoreActivity extends BaicActivity {
 
 	@Override
 	protected void reigesterAllEvent() {
-
+		
 		// 用户反馈
 		rl_feedback.setOnClickListener(new OnClickListener() {
 
