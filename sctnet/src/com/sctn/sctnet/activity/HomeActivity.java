@@ -80,14 +80,14 @@ public class HomeActivity extends BaicActivity {
 			@Override
 			public void onClick(View v) {
 
-				if (LoginInfo.isLogin()) {
+//				if (LoginInfo.isLogin()) {
 					Intent intent = new Intent(HomeActivity.this, ResumeManageActivity.class);
 					startActivity(intent);
-				} else {
-					Toast.makeText(getApplicationContext(), "请先登录", Toast.LENGTH_SHORT).show();
-					Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-					startActivityForResult(intent, Constant.LOGIN_RESUME_MANAGE_ACTIVITY);
-				}
+//				} else {
+//					Toast.makeText(getApplicationContext(), "请先登录", Toast.LENGTH_SHORT).show();
+//					Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+//					startActivityForResult(intent, Constant.LOGIN_RESUME_MANAGE_ACTIVITY);
+//				}
 			}
 		});
 

@@ -373,7 +373,7 @@ public class ResumeManageActivity extends BaicActivity {
 		try {
 
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-			params.add(new BasicNameValuePair("Userid",userId+""));
+			params.add(new BasicNameValuePair("Userid","100020"));
 
 			result = getPostHttpContent(url, params);
 
@@ -568,9 +568,9 @@ public class ResumeManageActivity extends BaicActivity {
 					personalExperienceMap.put("推荐自己", reccontent);
 					i++;
 				}
-				// if(StringUtil.isBlank(resume)){
-				// personalExperienceMap.put("介绍自己", resume);
-				// }
+				 if(StringUtil.isBlank(resume)){
+				    personalExperienceMap.put("个人经历", resume);
+				 }
 
 				if (!StringUtil.isBlank(sex)) {
 					basicInfoMap.put("性别", sex);

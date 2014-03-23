@@ -59,6 +59,8 @@ public class BasicInfoEditActivity extends BaicActivity {
 	private String origin_provinceId;
 	private String origin_city;
 	private String origin_cityId;
+	private String orginStr = "";
+	private String orginId = "";
 
 	private RelativeLayout birthday;
 	private TextView birthdayValue;
@@ -68,12 +70,14 @@ public class BasicInfoEditActivity extends BaicActivity {
 	private RelativeLayout people;
 	private TextView peopleValue;// 民族
 	private String peopleStr = "";
+	private String peopleId = "";
 	private String[] peoples;
 	private String[] peopleIds;
 
 	private RelativeLayout political;
 	private TextView politicalValue;
 	private String politicalStr = "";// 政治面貌
+	private String politicalId = "";
 	private String[] politicals;
 	private String[] politicalIds;
 
@@ -83,12 +87,14 @@ public class BasicInfoEditActivity extends BaicActivity {
 	private RelativeLayout maritalStatus;
 	private TextView maritalStatusValue;
 	private String maritalStatusStr = "";// 婚姻状况
+	private String maritalStatusId = "";
 	private String[] maritalStatuses;
 	private String[] maritalStatusIds;
 
 	private RelativeLayout healthStatus;
 	private TextView healthStatusValue;
 	private String healthStatusStr = "";// 健康状况
+	private String healthStatusId = "";
 	private String[] healthStatuses;
 	private String[] healthStatusIds;
 
@@ -98,6 +104,7 @@ public class BasicInfoEditActivity extends BaicActivity {
 	private String account_provinceId;
 	private String account_city;
 	private String account_cityId;
+	private String accountCityStr = "";
 
 	private RelativeLayout currentCity;
 	private TextView currentCityValue;// 居住地
@@ -105,6 +112,7 @@ public class BasicInfoEditActivity extends BaicActivity {
 	private String current_provinceId;
 	private String current_city;
 	private String current_cityId;
+	private String currentCityStr = "";
 
 	private EditText cardIdValue;
 	private String cardIdStr = "";// 身份证号
@@ -137,6 +145,8 @@ public class BasicInfoEditActivity extends BaicActivity {
 
 	private String result;// 服务端返回的结果
 	private long userId;
+	
+	private HashMap<String, String> basicInfoMap;//基本信息
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -151,7 +161,13 @@ public class BasicInfoEditActivity extends BaicActivity {
 	}
 
 	protected void initIntent(){
+		Intent intent = this.getIntent();
+		Bundle bundle = intent.getExtras();
 		userId = SharePreferencesUtils.getSharedlongData("userId");
+		if(bundle!=null&&bundle.getSerializable("basicInfoList")!=null){
+			List<HashMap<String, String>> basicInfoList = (List<HashMap<String, String>>) bundle.getSerializable("basicInfoList");
+			basicInfoMap = basicInfoList.get(0);
+		}
 	}
 	
 	@Override
@@ -194,7 +210,75 @@ public class BasicInfoEditActivity extends BaicActivity {
 
 		addressValue = (EditText) findViewById(R.id.address_value);
 		builder = new AlertDialog.Builder(BasicInfoEditActivity.this);
+		
+		
 
+		if(basicInfoMap!=null&&basicInfoMap.size()!=0){
+			
+			if(basicInfoMap.containsKey("姓名")){
+				nameStr = basicInfoMap.get("姓名");
+				nameValue.setText(nameStr);
+			}
+			if(basicInfoMap.containsKey("籍贯")){
+				orginStr = basicInfoMap.get("籍贯");
+				orginValue.setText(orginStr);
+			}
+			if(basicInfoMap.containsKey("户口所在地")){
+				accountCityStr = basicInfoMap.get("户口所在地");
+				accountCityValue.setText(accountCityStr);
+			}
+			if(basicInfoMap.containsKey("地址")){
+	            addressStr = basicInfoMap.get("地址");
+				addressValue.setText(addressStr);
+			}
+			if(basicInfoMap.containsKey("出生日期")){
+				birthdayStr = basicInfoMap.get("出生日期");
+				birthdayValue.setText(birthdayStr);
+			}
+			if(basicInfoMap.containsKey("身份证号")){
+				cardIdStr = basicInfoMap.get("身份证号");
+				cardIdValue.setText(cardIdStr);
+			}
+           if(basicInfoMap.containsKey("当前城市")){
+        	   currentCityStr = basicInfoMap.get("当前城市");
+        	   currentCityValue.setText(currentCityStr);
+			}
+           if(basicInfoMap.containsKey("驾驶证号")){
+        	   driveCodeStr = basicInfoMap.get("驾驶证号");
+        	   driveCodeValue.setText(driveCodeStr);
+			}
+           if(basicInfoMap.containsKey("健康状况")){
+        	   healthStatusStr = basicInfoMap.get("健康状况");
+        	   healthStatusValue.setText(healthStatusStr);
+			}
+           if(basicInfoMap.containsKey("婚姻状况")){
+        	   maritalStatusStr = basicInfoMap.get("婚姻状况");
+        	   maritalStatusValue.setText(maritalStatusStr);
+			}
+           if(basicInfoMap.containsKey("民族")){
+        	   peopleStr = basicInfoMap.get("民族");
+        	   peopleValue.setText(peopleStr);
+			}
+           if(basicInfoMap.containsKey("政治面貌")){
+        	   politicalStr = basicInfoMap.get("政治面貌");
+        	   politicalValue.setText(politicalStr);
+			}
+           if(basicInfoMap.containsKey("性别")){
+			   if(basicInfoMap.get("性别").equals("0")){
+				   female.setSelected(true);
+				   sex = "0";
+			   }else{
+				   mail.setSelected(true);
+				   sex = "1";
+			   }
+        	   
+			}
+           if(basicInfoMap.containsKey("身高")){
+			   heighStr = basicInfoMap.get("身高");
+        	   heighValue.setText(heighStr);
+			}
+           
+		}
 	}
 
 	@Override
@@ -204,7 +288,19 @@ public class BasicInfoEditActivity extends BaicActivity {
 		super.titleRightButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				requestDataThread();
+
+	           if(nameStr.equals(nameValue.getText().toString())&&orginStr.equals(orginValue.getText().toString())&&accountCityStr.equals(accountCityValue.getText().toString())
+	        		   &&addressStr.equals(addressValue.getText().toString())&&birthdayStr.equals(birthdayValue.getText().toString())&&cardIdStr.equals(cardIdValue.getText().toString())
+	        		   &&currentCityStr.equals(currentCityValue.getText().toString())&&driveCodeStr.equals(driveCodeValue.getText().toString())&&healthStatusStr.equals(healthStatusValue.getText().toString())
+	        		   &&maritalStatusStr.equals(maritalStatusValue.getText().toString())&&peopleStr.equals(peopleValue.getText().toString())&&politicalStr.equals(politicalValue.getText().toString())
+	        		   &&heighStr.equals(heighValue.getText().toString())){
+	        	   
+	        	   Toast.makeText(getApplicationContext(), "请编辑之后再保存吧~~", Toast.LENGTH_SHORT).show();
+	        	   
+	           }else{
+	        	   requestDataThread();
+	           }
+				
 			}
 		});
 
@@ -430,50 +526,65 @@ public class BasicInfoEditActivity extends BaicActivity {
 	
 	private void requestData() {
 
-		String url = "appCmbShow.app";
+		String url = "appPersonInfo!modify.app";
 
 		Message msg = new Message();
-//		List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-//		params.add(new BasicNameValuePair("Userid", userId+""));
-//		result = getPostHttpContent(url, params);
-//
-//		if (StringUtil.isExcetionInfo(result)) {
-//			sendExceptionMsg(result);
-//			return;
-//		}
-//
-//		if (StringUtil.isBlank(result)) {
-//			result = StringUtil.getAppException4MOS("未获得服务器响应结果！");
-//			sendExceptionMsg(result);
-//		}
-//		
-//		JSONObject responseJsonObject = JSONObject.parseObject(result);
-//		if (responseJsonObject.get("resultcode").toString().equals("0")) {
-//
-//			JSONObject json = responseJsonObject.getJSONObject("result");
-//			Set<Entry<String, Object>> set = json.entrySet();
-//			Iterator<Entry<String, Object>> iter = set.iterator();
-//			provinces = new String[set.size()];
-//			provinceIds = new String[set.size()];
-//			int i = 0;
-//			while (iter.hasNext()) {
-//				Map<String, String> map = new HashMap<String, String>();
-//				Entry obj = iter.next();
-//				map.put("id", (String) obj.getKey());
-//				map.put("value", (String) obj.getValue());
-//				provinces[i] = (String) obj.getValue();
-//				provinceIds[i] = (String) obj.getKey();
-//				listItems.add(map);
-//				i++;
-//			}
-//			msg.what = 00;
-//		} else {
-//			String errorResult = (String) responseJsonObject.get("result");
-//			String err = StringUtil.getAppException4MOS(errorResult);
-//			sendExceptionMsg(err);
-//		}
-		msg.what = 00;
-		handler.sendMessage(msg);
+     
+		List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
+		params.add(new BasicNameValuePair("Userid", "100020"));
+		params.add(new BasicNameValuePair("TrueName", nameValue.getText().toString()));
+		params.add(new BasicNameValuePair("Birthplace",origin_cityId));
+		params.add(new BasicNameValuePair("AccountCity",account_cityId));
+		params.add(new BasicNameValuePair("Address", addressValue.getText().toString()));
+		params.add(new BasicNameValuePair("BirthDay", birthdayValue.getText().toString()));
+		params.add(new BasicNameValuePair("CardId", cardIdValue.getText().toString()));
+		params.add(new BasicNameValuePair("CurrentCity", currentCityValue.getText().toString()));
+		params.add(new BasicNameValuePair("DriveCode", driveCodeValue.getText().toString()));
+		if(!healthStatusId.equals("")){
+			params.add(new BasicNameValuePair("HealthState",healthStatusId));
+		}
+		if(!maritalStatusId.equals("")){
+			params.add(new BasicNameValuePair("MarriageState", maritalStatusId));
+		}
+		if(!peopleId.equals("")){
+			params.add(new BasicNameValuePair("People", peopleId));
+		}
+		if(!politicalId.equals("")){
+			params.add(new BasicNameValuePair("Political", politicalStr));
+		}
+		
+		if(female.isSelected()){
+			params.add(new BasicNameValuePair("Sex", "0"));
+		}else{
+			params.add(new BasicNameValuePair("Sex", "1"));
+		}
+		
+		params.add(new BasicNameValuePair("UseHeight", heighValue.getText().toString()));
+		params.add(new BasicNameValuePair("modifytype", "0"));//保存到简历表中
+		
+		result = getPostHttpContent(url, params);
+
+		if (StringUtil.isExcetionInfo(result)) {
+			sendExceptionMsg(result);
+			return;
+		}
+
+		if (StringUtil.isBlank(result)) {
+			result = StringUtil.getAppException4MOS("未获得服务器响应结果！");
+			sendExceptionMsg(result);
+			return;
+		}
+		
+		JSONObject responseJsonObject = JSONObject.parseObject(result);
+		if (responseJsonObject.get("resultCode").toString().equals("0")) {
+			msg.what = 00;
+			handler.sendMessage(msg);
+		} else {
+			String errorResult = (String) responseJsonObject.get("result");
+			String err = StringUtil.getAppException4MOS(errorResult);
+			sendExceptionMsg(err);
+		}
+		
 	}
 	
 	private void requestPeople() {
@@ -711,7 +822,7 @@ public class BasicInfoEditActivity extends BaicActivity {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				peopleValue.setText(peoples[which]);
-				peopleStr = peopleIds[which];
+				peopleId = peopleIds[which];
 				dialog.dismiss();
 			}
 
@@ -727,7 +838,7 @@ public class BasicInfoEditActivity extends BaicActivity {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				politicalValue.setText(politicals[which]);
-				politicalStr = politicalIds[which];
+				politicalId = politicalIds[which];
 				dialog.dismiss();
 			}
 
@@ -743,7 +854,7 @@ public class BasicInfoEditActivity extends BaicActivity {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				maritalStatusValue.setText(maritalStatuses[which]);
-				maritalStatusStr = maritalStatusIds[which];
+				maritalStatusId = maritalStatusIds[which];
 				dialog.dismiss();
 			}
 
@@ -759,7 +870,7 @@ public class BasicInfoEditActivity extends BaicActivity {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				healthStatusValue.setText(healthStatuses[which]);
-				healthStatusStr = healthStatusIds[which];
+				healthStatusId = healthStatusIds[which];
 				dialog.dismiss();
 			}
 

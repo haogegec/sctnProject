@@ -59,8 +59,10 @@
     <string name="ResumeCreateActivityTitle">创建简历</string>
     <string name="reccontent">推荐自己：</string>
     <string name="specialtyContent">特长：</string>
-    <string name="reccontent_hint">请输入推荐的内容（不超过200个字）</string>
-    <string name="specialtyContent_hint">请输入您的特长（不超过200个字）</string>
+    <string name="personalResume">个人经历：</string>
+    <string name="reccontent_hint">请输入推荐的内容（不超过255个字）</string>
+    <string name="specialtyContent_hint">请输入您的特长（不超过255个字）</string>
+    <string name="personalResume_hint">请输入您的个人经历（不超过3500个字）</string>
     <string name="work_performance_hint">请输入您的工作经验（不超过5000个字）</string>
 
     <!-- 办事指南 -->

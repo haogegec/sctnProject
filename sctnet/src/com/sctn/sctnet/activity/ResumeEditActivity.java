@@ -97,6 +97,9 @@ public class ResumeEditActivity extends BaicActivity{
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(ResumeEditActivity.this,BasicInfoEditActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putSerializable("basicInfoList", dataList.get(0));
+				intent.putExtras(bundle);
 				startActivity(intent);				
 			}
 			
@@ -108,6 +111,9 @@ public class ResumeEditActivity extends BaicActivity{
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(ResumeEditActivity.this,PersonalProfileEditActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putSerializable("personalExperienceList", dataList.get(1));
+				intent.putExtras(bundle);
 				startActivity(intent);				
 			}
 			
@@ -119,6 +125,9 @@ public class ResumeEditActivity extends BaicActivity{
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(ResumeEditActivity.this,JobIntentionEditActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putSerializable("jobIntentionList", dataList.get(5));
+				intent.putExtras(bundle);
 				startActivity(intent);				
 			}
 			
