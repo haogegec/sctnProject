@@ -373,7 +373,7 @@ public class ResumeManageActivity extends BaicActivity {
 		try {
 
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-			params.add(new BasicNameValuePair("Userid","100020"));
+			params.add(new BasicNameValuePair("Userid",userId+""));
 
 			result = getPostHttpContent(url, params);
 
