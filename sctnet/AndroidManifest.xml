@@ -301,6 +301,7 @@
         </activity>
         <activity
             android:name=".activity.RecruitmentActivity"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
             android:screenOrientation="portrait" >
         </activity> 
         <activity

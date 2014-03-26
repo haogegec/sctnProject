@@ -91,6 +91,10 @@ public class JobListActivity extends BaicActivity {
 	private String whichUrl = "";
 	private String type;
 	private String key;
+	
+	private int itemCount; // 当前窗口可见项总数   
+	private int visibleLastIndex = 0;//最后的可视项索引 
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -172,7 +176,7 @@ public class JobListActivity extends BaicActivity {
 		}
 		jobListAdapter.notifyDataSetChanged();
 		jobList.setAdapter(jobListAdapter);
-		jobList.setSelection((pageNo - 1) * pageSize);
+		jobList.setSelection(visibleLastIndex - itemCount + 1);
 	}
 
 	@Override

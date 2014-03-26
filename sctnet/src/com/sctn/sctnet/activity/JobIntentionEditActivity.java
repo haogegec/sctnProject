@@ -1,5 +1,6 @@
 package com.sctn.sctnet.activity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -60,7 +61,9 @@ public class JobIntentionEditActivity extends BaicActivity {
 	private RelativeLayout companyType;
 	private TextView companyTypeValue;
 	private String companyTypeStr = "";// 企业类型
-	private String companyTypeId;
+	private String companyTypeId = "";
+	private String[] companyTypes;// 企业类型
+	private String[] companyTypeIds;// 企业类型ID
 
 	private RelativeLayout wage;
 	private TextView wageValue;
@@ -71,8 +74,7 @@ public class JobIntentionEditActivity extends BaicActivity {
 
 	private EditText housewhereValue;
 	private String housewhereStr = "";// 住房要求
-	private String[] companyTypes;// 企业类型
-	private String[] companyTypeIds;// 企业类型ID
+	
 
 	private Builder builder;
 	private Dialog dialog;// 弹出框
@@ -83,6 +85,8 @@ public class JobIntentionEditActivity extends BaicActivity {
 
 	private HashMap<String, String> jobIntentionMap;
 
+	private ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
+	private HashMap<String, String> newPersonalExperienceMap = new HashMap<String, String>();//基本信息
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -282,7 +286,8 @@ public class JobIntentionEditActivity extends BaicActivity {
 		Message msg = new Message();
 
 		List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-		params.add(new BasicNameValuePair("Userid", userId + ""));
+		//params.add(new BasicNameValuePair("Userid", userId + ""));
+		params.add(new BasicNameValuePair("Userid",100020+""));
 		if (!cityId.equals("")) {
 			params.add(new BasicNameValuePair("WorkRegion", cityId));
 		}
@@ -299,12 +304,20 @@ public class JobIntentionEditActivity extends BaicActivity {
 			params.add(new BasicNameValuePair("Wage", wageId));
 		}
 
-		params.add(new BasicNameValuePair("HouseWhere", housewhereStr));
+		params.add(new BasicNameValuePair("HouseSubsidy", housewhereStr));
 
 		params.add(new BasicNameValuePair("modifytype", "1"));// 保存到求职意向表中
 
 		result = getPostHttpContent(url, params);
 
+		newPersonalExperienceMap.put("工作地区", workAreaValue.getText().toString());
+		newPersonalExperienceMap.put("工作性质", workStateValue.getText().toString());
+		newPersonalExperienceMap.put("行业", workmannerValue.getText().toString());
+		newPersonalExperienceMap.put("企业类型", companyTypeValue.getText().toString());
+		newPersonalExperienceMap.put("薪水范围", wageValue.getText().toString());
+		newPersonalExperienceMap.put("住房要求", housewhereValue.getText().toString());
+		list.add(newPersonalExperienceMap);
+		
 		if (StringUtil.isExcetionInfo(result)) {
 			sendExceptionMsg(result);
 			return;
@@ -495,6 +508,10 @@ public class JobIntentionEditActivity extends BaicActivity {
 				break;
 			case 00:
 				Toast.makeText(getApplicationContext(), "保存成功", Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent();
+				Bundle bundle = new Bundle();
+				bundle.putSerializable("list", list);
+				setResult(RESULT_OK, intent);
 				finish();
 				break;
 			}
@@ -509,7 +526,6 @@ public class JobIntentionEditActivity extends BaicActivity {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				companyTypeValue.setText(companyTypes[which]);
-				companyTypeStr = companyTypes[which];
 				companyTypeId = companyTypeIds[which];
 				dialog.dismiss();
 			}
@@ -526,7 +542,7 @@ public class JobIntentionEditActivity extends BaicActivity {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				wageValue.setText(wages[which]);
-				wageStr = wageIds[which];
+				wageId = wageIds[which];
 				dialog.dismiss();
 			}
 
@@ -542,7 +558,7 @@ public class JobIntentionEditActivity extends BaicActivity {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				workStateValue.setText(workStates[which]);
-				workStateStr = workStateIds[which];
+				workStateId = workStateIds[which];
 				dialog.dismiss();
 			}
 
@@ -561,12 +577,14 @@ public class JobIntentionEditActivity extends BaicActivity {
 				city = data.getStringExtra("city");
 				cityId = data.getStringExtra("cityId");
 				workAreaValue.setText(province + "  " + city);
+				
 				break;
 
 			case Constant.CURRENT_INDUSTRY_REQUEST_CODE:
 				industry = data.getStringExtra("currentIndustry");
 				industryId = data.getStringExtra("currentIndustryId");
 				workmannerValue.setText(industry);
+
 				break;
 			}
 		}

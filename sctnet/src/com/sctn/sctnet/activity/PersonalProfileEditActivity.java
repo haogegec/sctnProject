@@ -1,5 +1,6 @@
 package com.sctn.sctnet.activity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -42,6 +43,8 @@ public class PersonalProfileEditActivity extends BaicActivity{
 	
 	private HashMap<String, String> personalExperienceMap;//基本信息
 	
+	private ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
+	private HashMap<String, String> newPersonalExperienceMap = new HashMap<String, String>();//基本信息
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -131,7 +134,8 @@ public class PersonalProfileEditActivity extends BaicActivity{
 		Message msg = new Message();
      
 		List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-		params.add(new BasicNameValuePair("Userid", userId+""));
+		//params.add(new BasicNameValuePair("Userid", userId+""));
+		params.add(new BasicNameValuePair("Userid",100020+""));
 		params.add(new BasicNameValuePair("RecContent", reccontentEdit.getText().toString()));
 		params.add(new BasicNameValuePair("SpecialtyContent",specialtyContentEdit.getText().toString()));
 		params.add(new BasicNameValuePair("Resume",personalResumeEdit.getText().toString()));
@@ -140,6 +144,11 @@ public class PersonalProfileEditActivity extends BaicActivity{
 		
 		result = getPostHttpContent(url, params);
 
+		newPersonalExperienceMap.put("推荐自己", reccontentEdit.getText().toString());
+		newPersonalExperienceMap.put("特长", specialtyContentEdit.getText().toString());
+		newPersonalExperienceMap.put("个人经历", personalResumeEdit.getText().toString());
+		list.add(newPersonalExperienceMap);
+		
 		if (StringUtil.isExcetionInfo(result)) {
 			sendExceptionMsg(result);
 			return;
@@ -169,6 +178,10 @@ public class PersonalProfileEditActivity extends BaicActivity{
 				switch (msg.what) {
 				case 00:
 					Toast.makeText(getApplicationContext(), "保存成功", Toast.LENGTH_SHORT).show();
+					Intent intent = new Intent();
+					Bundle bundle = new Bundle();
+					bundle.putSerializable("list", list);
+					setResult(RESULT_OK, intent);
 					finish();
 					break;
 				}

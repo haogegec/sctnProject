@@ -20,7 +20,6 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.EditText;
@@ -51,6 +50,9 @@ public class RecruitmentActivity extends BaicActivity{
 	// 返回数据
 	private int total;// 总条数
 	private String result;// 服务端返回的json字符串
+	
+	private int itemCount; // 当前窗口可见项总数   
+	private int visibleLastIndex = 0;//最后的可视项索引 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -72,6 +74,7 @@ public class RecruitmentActivity extends BaicActivity{
 				R.layout.recruitment_item,
 				new String[] { "recruitment_type","recruitment_name","recruitment_time" },
 				new int[] { R.id.recruitment_type,R.id.recruitment_name,R.id.recruitment_time });
+	//	recruitmentListView.addFooterView(footViewBar);// 添加list底部更多按钮
 		recruitmentListView.setAdapter(recruitmentListAdapter);
 		recruitmentListView.setOnScrollListener(listener);
 		
@@ -226,10 +229,12 @@ public class RecruitmentActivity extends BaicActivity{
 		 */
 		private void initUI() {
 			
+			// 必须在setAdapter之前把head和Footer设置好
 			if (total > pageSize * pageNo) {
 				recruitmentListView.addFooterView(footViewBar);// 添加list底部更多按钮
 			}
 			recruitmentListView.setAdapter(recruitmentListAdapter);
+			
 		}
 
 		/**
@@ -242,7 +247,7 @@ public class RecruitmentActivity extends BaicActivity{
 			}
 			recruitmentListAdapter.notifyDataSetChanged();
 			recruitmentListView.setAdapter(recruitmentListAdapter);
-			recruitmentListView.setSelection((pageNo - 1) * pageSize);
+			recruitmentListView.setSelection(visibleLastIndex - itemCount + 1);
 		}
 
 
@@ -251,17 +256,20 @@ public class RecruitmentActivity extends BaicActivity{
 		@Override
 		public void onScroll(AbsListView view, int firstVisibleItem,
 				int visibleItemCount, int totalItemCount) {
+			
+			itemCount = visibleItemCount;  
+	        visibleLastIndex = firstVisibleItem + visibleItemCount - 1;  
 		}
 
 		@Override
 		public void onScrollStateChanged(AbsListView view, int scrollState) {
 
-			if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
-				if(view.getLastVisiblePosition() == recruitmentListAdapter.getCount()){
-					pageNo++;
-					requestDataThread(1);// 滑动list请求数据
-				} 
+			if ((view.getLastVisiblePosition() == recruitmentListAdapter.getCount())&&(total > pageSize * pageNo)) {
+				pageNo++;
+				requestDataThread(1);// 滑动list请求数据
 			}
+			
+
 		}
 	};
 }

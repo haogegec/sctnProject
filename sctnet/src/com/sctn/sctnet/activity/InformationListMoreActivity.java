@@ -50,7 +50,10 @@ public class InformationListMoreActivity extends BaicActivity {
 	// 返回数据
 	private int total;// 总条数
 	private String result;// 服务端返回的json字符串
+	private int selected;//滑动list时定位滑动条的位置
 
+	private int itemCount; // 当前窗口可见项总数   
+	private int visibleLastIndex = 0;//最后的可视项索引 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -104,7 +107,7 @@ public class InformationListMoreActivity extends BaicActivity {
 
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
 
-			params.add(new BasicNameValuePair("pageNo", pageNo + ""));
+			params.add(new BasicNameValuePair("page", pageNo + ""));
 			params.add(new BasicNameValuePair("pageSize", pageSize + ""));
 			if(!StringUtil.isBlank(cid)){
 				params.add(new BasicNameValuePair("cid", cid));
@@ -201,11 +204,11 @@ public class InformationListMoreActivity extends BaicActivity {
 	 */
 	private void initUI() {
 		
-		informationList.setAdapter(informationListAdapter);
-
 		if (total > pageSize * pageNo) {
 			informationList.addFooterView(footViewBar);// 添加list底部更多按钮
 		}
+		
+		informationList.setAdapter(informationListAdapter);
 		
 	}
 
@@ -216,10 +219,11 @@ public class InformationListMoreActivity extends BaicActivity {
 
 		if (total <= pageSize * pageNo) {
 			informationList.removeFooterView(footViewBar);// 添加list底部更多按钮
-		}
+		}		
+	//	informationListAdapter.getDataList.addAll(items);    
 		informationListAdapter.notifyDataSetChanged();
 		informationList.setAdapter(informationListAdapter);
-		informationList.setSelection((pageNo - 1) * 10-5);
+		informationList.setSelection(visibleLastIndex - itemCount + 1);
 	}
 
 	private AbsListView.OnScrollListener listener = new AbsListView.OnScrollListener() {
@@ -227,16 +231,25 @@ public class InformationListMoreActivity extends BaicActivity {
 		@Override
 		public void onScroll(AbsListView view, int firstVisibleItem,
 				int visibleItemCount, int totalItemCount) {
+			itemCount = visibleItemCount;  
+	        visibleLastIndex = firstVisibleItem + visibleItemCount - 1; 
 		}
 
 		@Override
 		public void onScrollStateChanged(AbsListView view, int scrollState) {
 
-			if (view.getLastVisiblePosition() == view.getCount() - 1) {
-				pageNo++;
-				requestDataThread(1);// 滑动list请求数据
+			selected =  informationList.getLastVisiblePosition();  
+			if ((view.getLastVisiblePosition() == view.getCount() - 1)&&(total > pageSize * pageNo)) {
+				
+						pageNo++;
+						requestDataThread(1);// 滑动list请求数据
+				
 			}
 			
+//			if ((view.getLastVisiblePosition() == informationListAdapter.getCount())&&(total > pageSize * pageNo)) {
+//				pageNo++;
+//				requestDataThread(1);// 滑动list请求数据
+//			}		
 
 		}
 	};

@@ -1,5 +1,6 @@
 package com.sctn.sctnet.activity;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -58,7 +59,7 @@ public class BasicInfoEditActivity extends BaicActivity {
 	private String origin_province;
 	private String origin_provinceId;
 	private String origin_city;
-	private String origin_cityId;
+	private String origin_cityId = "";
 	private String orginStr = "";
 	private String orginId = "";
 
@@ -148,6 +149,8 @@ public class BasicInfoEditActivity extends BaicActivity {
 	
 	private HashMap<String, String> basicInfoMap;//基本信息
 
+	private ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
+	private HashMap<String, String> newBasicInfoMap = new HashMap<String, String>();//基本信息
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -531,10 +534,9 @@ public class BasicInfoEditActivity extends BaicActivity {
 		Message msg = new Message();
      
 		List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-		params.add(new BasicNameValuePair("Userid", userId+""));
+		//params.add(new BasicNameValuePair("Userid", userId+""));
+		params.add(new BasicNameValuePair("Userid",100020+""));
 		params.add(new BasicNameValuePair("TrueName", nameValue.getText().toString()));
-		params.add(new BasicNameValuePair("Birthplace",origin_cityId));
-		params.add(new BasicNameValuePair("AccountCity",account_cityId));
 		params.add(new BasicNameValuePair("Address", addressValue.getText().toString()));
 		params.add(new BasicNameValuePair("BirthDay", birthdayValue.getText().toString()));
 		params.add(new BasicNameValuePair("CardId", cardIdValue.getText().toString()));
@@ -558,12 +560,38 @@ public class BasicInfoEditActivity extends BaicActivity {
 		}else{
 			params.add(new BasicNameValuePair("Sex", "1"));
 		}
-		
+		if(!StringUtil.isBlank(origin_cityId)){
+			params.add(new BasicNameValuePair("Birthplace",origin_cityId));
+		}
+		if(!StringUtil.isBlank(account_cityId)){
+			params.add(new BasicNameValuePair("AccountCity",account_cityId));
+		}
 		params.add(new BasicNameValuePair("UseHeight", heighValue.getText().toString()));
 		params.add(new BasicNameValuePair("modifytype", "0"));//保存到简历表中
 		
 		result = getPostHttpContent(url, params);
 
+      
+		newBasicInfoMap.put("姓名", nameValue.getText().toString());
+		newBasicInfoMap.put("籍贯", orginValue.getText().toString());
+		newBasicInfoMap.put("户口所在地", accountCityValue.getText().toString());
+		newBasicInfoMap.put("地址", addressValue.getText().toString());
+		newBasicInfoMap.put("出生日期", birthdayValue.getText().toString());
+		newBasicInfoMap.put("身份证号", cardIdValue.getText().toString());
+		newBasicInfoMap.put("当前城市", currentCityValue.getText().toString());
+		newBasicInfoMap.put("驾驶证号", driveCodeValue.getText().toString());
+		newBasicInfoMap.put("健康状况", healthStatusValue.getText().toString());
+		newBasicInfoMap.put("婚姻状况", maritalStatusValue.getText().toString());
+		newBasicInfoMap.put("民族", peopleValue.getText().toString());
+		newBasicInfoMap.put("政治面貌", politicalValue.getText().toString());
+		if(female.isSelected()){
+			newBasicInfoMap.put("性别", "0");
+		}else{
+			newBasicInfoMap.put("性别", "1");
+		}
+		newBasicInfoMap.put("身高", heighValue.getText().toString());
+		
+		list.add(newBasicInfoMap);
 		if (StringUtil.isExcetionInfo(result)) {
 			sendExceptionMsg(result);
 			return;
@@ -787,6 +815,10 @@ public class BasicInfoEditActivity extends BaicActivity {
 			switch (msg.what) {
 			case 00:
 				Toast.makeText(getApplicationContext(), "保存成功", Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent();
+				Bundle bundle = new Bundle();
+				bundle.putSerializable("list", list);
+				setResult(RESULT_OK, intent);
 				finish();
 				break;
 				

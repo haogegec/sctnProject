@@ -40,6 +40,10 @@ public class ArchivesListActivity extends BaicActivity{
 	// 返回数据
 	private int total;// 总条数
 	private String result;// 服务端返回的json字符串
+	
+	private int itemCount; // 当前窗口可见项总数   
+	private int visibleLastIndex = 0;//最后的可视项索引 
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -220,7 +224,7 @@ public class ArchivesListActivity extends BaicActivity{
 			}
 			archivesListAdapter.notifyDataSetChanged();
 			archivesListView.setAdapter(archivesListAdapter);
-			archivesListView.setSelection((pageNo - 1) * 10-5);
+			archivesListView.setSelection(visibleLastIndex - itemCount + 1);
 		}
 
 
@@ -229,6 +233,8 @@ public class ArchivesListActivity extends BaicActivity{
 		@Override
 		public void onScroll(AbsListView view, int firstVisibleItem,
 				int visibleItemCount, int totalItemCount) {
+			itemCount = visibleItemCount;  
+	        visibleLastIndex = firstVisibleItem + visibleItemCount - 1; 
 		}
 
 		@Override

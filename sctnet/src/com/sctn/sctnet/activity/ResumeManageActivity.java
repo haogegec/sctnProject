@@ -400,8 +400,8 @@ public class ResumeManageActivity extends BaicActivity {
 		try {
 
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-			params.add(new BasicNameValuePair("Userid", userId + ""));
-			// params.add(new BasicNameValuePair("Userid",100020+""));
+		//	params.add(new BasicNameValuePair("Userid", userId + ""));
+			 params.add(new BasicNameValuePair("Userid",100020+""));
 			result = getPostHttpContent(url, params);
 			// JSON的解析过程
 			JSONObject responseJsonObject = new JSONObject(result);
@@ -422,9 +422,9 @@ public class ResumeManageActivity extends BaicActivity {
 
 				JSONObject resultJsonObject = responseJsonObject.getJSONObject("result");
 
-				String accountCity = resultJsonObject.getString("cityname");// 户口所在地，accountcity是编号
+				String accountCity = resultJsonObject.getString("accountcityname");// 户口所在地，accountcity是编号
 				String address = resultJsonObject.getString("address");
-				String adminpost = resultJsonObject.getString("adminpost");// 当前从事职位
+				String adminpost = resultJsonObject.getString("adminpostname");// 当前从事职位
 				String aidprofession = resultJsonObject.getString("aidprofessionname");// 辅助专业,aidprofession是编号
 				String birthday = resultJsonObject.getString("birthday");
 				String birthplace = resultJsonObject.getString("birthplacename");// 籍贯
@@ -443,12 +443,12 @@ public class ResumeManageActivity extends BaicActivity {
 				String graduatedcode = resultJsonObject.getString("graduatedcode");
 				String graduateddate = resultJsonObject.getString("graduateddate");// 需要格式化
 				String graduatedschool = resultJsonObject.getString("graduatedschool");
-				String healthstate = resultJsonObject.getString("health");// healthstate
+				String healthstate = resultJsonObject.getString("healthstatename");// healthstate
 																			// 是编号
-				String marriagestate = resultJsonObject.getString("marriage");// 婚姻状况，marriagestate是编号
-				String oneenglish = resultJsonObject.getString("oneengname");// oneenglish是编号
+				String marriagestate = resultJsonObject.getString("marriagestatename");// 婚姻状况，marriagestate是编号
+				String oneenglish = resultJsonObject.getString("oneenglishname");// oneenglish是编号
 				String onelevel = resultJsonObject.getString("onelevelname");// onelevel是编号
-				String people = resultJsonObject.getString("peopletype");// 民族,people是编号
+				String people = resultJsonObject.getString("peoplename");// 民族,people是编号
 				String political = resultJsonObject.getString("politicalname");// 政治面貌，political是编号
 				String postalcode = resultJsonObject.getString("postalcode");
 				String profession = resultJsonObject.getString("professionname");// 专业，profession是编号
@@ -466,6 +466,37 @@ public class ResumeManageActivity extends BaicActivity {
 				long workexperience = resultJsonObject.getLong("workexperience");
 				String workperformance = resultJsonObject.getString("workperformance");
 
+				String housesubsidy = resultJsonObject.getString("housesubsidy");
+				String jobsstate = resultJsonObject.getString("jobsstate");
+				String companytype = resultJsonObject.getString("companytype");
+				String wagename = resultJsonObject.getString("wagename");
+				String workmannername = resultJsonObject.getString("workmannername");
+				String workregionname = resultJsonObject.getString("workregionname");
+				
+				if (!StringUtil.isBlank(housesubsidy)) {
+					jobIntentionMap.put("住房要求", housesubsidy);
+					i++;
+				}
+				if (!StringUtil.isBlank(jobsstate)) {
+					jobIntentionMap.put("工作性质", jobsstate);
+					i++;
+				}
+				if (!StringUtil.isBlank(companytype)) {
+					jobIntentionMap.put("企业类型", companytype);
+					i++;
+				}
+				if (!StringUtil.isBlank(wagename)) {
+					jobIntentionMap.put("薪酬范围", wagename);
+					i++;
+				}
+				if (!StringUtil.isBlank(workmannername)) {
+					jobIntentionMap.put("行业", workmannername);
+					i++;
+				}
+				if (!StringUtil.isBlank(workregionname)) {
+					jobIntentionMap.put("工作地区", workregionname);
+					i++;
+				}
 				if (!StringUtil.isBlank(birthplace)) {
 					basicInfoMap.put("籍贯", birthplace);
 					i++;
@@ -598,7 +629,12 @@ public class ResumeManageActivity extends BaicActivity {
 				}
 
 				if (!StringUtil.isBlank(sex)) {
-					basicInfoMap.put("性别", sex);
+					if(sex.equals("0")){
+						basicInfoMap.put("性别", "女");
+					}else{
+						basicInfoMap.put("性别", "男");
+					}
+					
 					i++;
 				}
 				if (!StringUtil.isBlank(specialtycontent)) {
@@ -803,7 +839,7 @@ public class ResumeManageActivity extends BaicActivity {
 
 		resumeNameValue.setText("我的简历");
 		resumeUpdateValue.setText(resumeInfo.getUpresumetime());
-		finishStatus = (i / 41) * 100 + "%";
+		finishStatus = (i / 47) * 100 + "%";
 		resumeFinishStatusValue.setText(finishStatus);
 		resumePublicValue.setText(resumeInfo.getIshide() + "");
 
@@ -1007,7 +1043,7 @@ public class ResumeManageActivity extends BaicActivity {
 
 			// JSON的解析过程
 			responseJsonObject = new JSONObject(result);
-			if (responseJsonObject.getInt("resultcode") == 0) {// 获得响应结果
+			if (responseJsonObject.getInt("resultCode") == 0) {// 获得响应结果
 				msg.what = 5;
 				handler.sendMessage(msg);
 			} else {

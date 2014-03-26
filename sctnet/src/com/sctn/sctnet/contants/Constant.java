@@ -80,6 +80,7 @@ public class Constant {
 	public static final int SELECT_CITY_REQUEST_CODE = 26;
 	public static final int SELECT_RESIDENCE_REQUEST_CODE = 27;
 	public static final int SELECT_HABITAT_REQUEST_CODE = 28;
+	public static final int WORKPERFORMANCE_REQUEST_CODE = 29;// 选择目前担任的职务请求码
 	
 	// 剪切图片的比例 及 长宽
 	public static final int IMAGE_CROP_WIDTH_SCALE = 5;

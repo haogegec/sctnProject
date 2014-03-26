@@ -1,6 +1,8 @@
 package com.sctn.sctnet.activity;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,6 +18,7 @@ import android.app.Dialog;
 import android.app.AlertDialog.Builder;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -29,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sctn.sctnet.R;
+import com.sctn.sctnet.Utils.SharePreferencesUtils;
 import com.sctn.sctnet.Utils.StringUtil;
 import com.sctn.sctnet.contants.Constant;
 
@@ -68,6 +72,7 @@ public class EducationExperienceEditActivity extends BaicActivity {
 	private RelativeLayout computerlevel;
 	private TextView computerlevelValue;
 	private String computerlevelStr = "";// 微机水平
+	private String computerlevelId = "";
 	private String[] computerlevels;
 	private String[] computerlevelIds;
 
@@ -108,21 +113,27 @@ public class EducationExperienceEditActivity extends BaicActivity {
 	private String[] languageLevelIds;
 	private String[] languageLevels;
 
-	private String firstLanguage;
-	private String firstLanguageLevel;
-	private String firstLanguageId;
-	private String firstLanguageLevelId;
+	private String firstLanguage = "";
+	private String firstLanguageLevel = "";
+	private String firstLanguageId = "";
+	private String firstLanguageLevelId = "";
 
-	private String secondLanguage;
-	private String secondLanguageLevel;
-	private String secondLanguageId;
-	private String secondLanguageLevelId;
+	private String secondLanguage = "";
+	private String secondLanguageLevel = "";
+	private String secondLanguageId = "";
+	private String secondLanguageLevelId = "";
 
 	private Builder builder;
 	private Dialog dialog;// 弹出框
 
 	private String result;// 服务端返回的结果
 
+	private long userId;
+	
+	private HashMap<String, String> educationExperienceMap;//基本信息
+	
+	private ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
+	private HashMap<String, String> newEducationExperienceMap = new HashMap<String, String>();//基本信息
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -130,11 +141,22 @@ public class EducationExperienceEditActivity extends BaicActivity {
 		setTitleBar(getString(R.string.EducationExperienceEditActivityTitle), View.VISIBLE, View.VISIBLE);
 		super.setTitleRightButtonImg(R.drawable.queding);
 
+		initIntent();
 		initAllView();
 		reigesterAllEvent();
 		initForeignLanguageThread();
 	}
 
+	protected void initIntent(){
+		Intent intent = this.getIntent();
+		Bundle bundle = intent.getExtras();
+		userId = SharePreferencesUtils.getSharedlongData("userId");
+		if(bundle!=null&&bundle.getSerializable("educationExperienceList")!=null){
+			List<HashMap<String, String>> basicInfoList = (List<HashMap<String, String>>) bundle.getSerializable("educationExperienceList");
+			educationExperienceMap = basicInfoList.get(0);
+		}
+	}
+	
 	@Override
 	protected void initAllView() {
 
@@ -174,11 +196,92 @@ public class EducationExperienceEditActivity extends BaicActivity {
 		twoenglishlevelValue = (TextView) findViewById(R.id.twoenglishlevel_value);
 
 		builder = new AlertDialog.Builder(EducationExperienceEditActivity.this);
+		
+        if(educationExperienceMap!=null&&educationExperienceMap.size()!=0){
+			
+			if(educationExperienceMap.containsKey("辅助专业")){
+				aidprofessionStr = educationExperienceMap.get("辅助专业");
+				aidprofessionValue.setText(aidprofessionStr);
+			}
+			if(educationExperienceMap.containsKey("微机水平")){
+				computerlevelStr = educationExperienceMap.get("微机水平");
+				computerlevelValue.setText(computerlevelStr);
+			}
+			if(educationExperienceMap.containsKey("学位")){
+				degreeStr = educationExperienceMap.get("学位");
+				degreeValue.setText(degreeStr);
+			}
+			if(educationExperienceMap.containsKey("学位证号")){
+				degreecertStr = educationExperienceMap.get("学位证号");
+	            degreecertValue.setText(degreecertStr);
+			}
+			if(educationExperienceMap.containsKey("学历")){
+				degree = educationExperienceMap.get("学历");
+				educationValue.setText(degree);
+			}
+			if(educationExperienceMap.containsKey("毕业证号")){
+				graduatedcodeStr = educationExperienceMap.get("毕业证号");
+				graduatedcodeValue.setText(graduatedcodeStr);
+			}
+           if(educationExperienceMap.containsKey("毕业日期")){
+        	   graduateddateStr = educationExperienceMap.get("毕业日期");
+        	   graduateddateValue.setText(graduateddateStr);
+			}
+           if(educationExperienceMap.containsKey("毕业学校")){
+        	   graduatedschoolStr = educationExperienceMap.get("毕业学校");
+        	   graduatedschoolValue.setText(graduatedschoolStr);
+			}
+           if(educationExperienceMap.containsKey("第一外语")){
+        	   firstLanguage = educationExperienceMap.get("第一外语");
+        	   oneenglishValue.setText(firstLanguage);
+			}
+           if(educationExperienceMap.containsKey("第一外语水平")){
+        	   firstLanguageLevel = educationExperienceMap.get("第一外语水平");
+        	   oneenglishlevelValue.setText(firstLanguageLevel);
+			}
+           if(educationExperienceMap.containsKey("第二外语")){
+        	   secondLanguage = educationExperienceMap.get("第二外语");
+        	   twoenglishValue.setText(secondLanguage);
+			}
+           if(educationExperienceMap.containsKey("第二外语水平")){
+        	   secondLanguageLevel = educationExperienceMap.get("第二外语水平");
+        	   twoenglishlevelValue.setText(secondLanguageLevel);
+			}
+           if(educationExperienceMap.containsKey("专业")){
+        	   professionStr = educationExperienceMap.get("专业");
+        	   professionValue.setText(professionStr);
+			}
+           if(educationExperienceMap.containsKey("专业职称")){
+        	   technologyStr = educationExperienceMap.get("专业职称");
+        	   technologyValue.setText(technologyStr);
+			}
+ 
+		}
 
 	}
 
 	@Override
 	protected void reigesterAllEvent() {
+
+		// 确定按钮
+				super.titleRightButton.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+
+			           if(aidprofessionStr.equals(aidprofessionValue.getText().toString())&&computerlevelStr.equals(computerlevelValue.getText().toString())&&degreeStr.equals(degreeValue.getText().toString())
+			        		   &&degreecertStr.equals(degreecertValue.getText().toString())&&degree.equals(educationValue.getText().toString())&&graduatedcodeStr.equals(graduatedcodeValue.getText().toString())
+			        		   &&graduateddateStr.equals(graduateddateValue.getText().toString())&&graduatedschoolStr.equals(graduatedschoolValue.getText().toString())&&firstLanguage.equals(oneenglishValue.getText().toString())
+			        		   &&firstLanguageLevel.equals(oneenglishlevelValue.getText().toString())&&secondLanguage.equals(twoenglishValue.getText().toString())&&secondLanguageLevel.equals(twoenglishlevelValue.getText().toString())
+			        		   &&professionStr.equals(professionValue.getText().toString())&&technologyStr.equals(technologyValue.getText().toString())){
+			        	   
+			        	   Toast.makeText(getApplicationContext(), "请编辑之后再保存吧~~", Toast.LENGTH_SHORT).show();
+			        	   
+			           }else{
+			        	   requestDataThread();
+			           }
+						
+					}
+				});
 
 		graduateddate.setOnClickListener(new OnClickListener() {
 
@@ -539,6 +642,11 @@ public class EducationExperienceEditActivity extends BaicActivity {
 				
 			case Constant.COMPUTER_LEVEL:
 				initComputerLevel();
+				break;
+			case 00:
+				Toast.makeText(getApplicationContext(), "保存成功", Toast.LENGTH_SHORT).show();
+				finish();
+				break;
 			}
 			closeProcessDialog();
 		}
@@ -573,7 +681,7 @@ public class EducationExperienceEditActivity extends BaicActivity {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				computerlevelValue.setText(computerlevels[which]);
-				computerlevelStr = computerlevelIds[which];
+				computerlevelId = computerlevelIds[which];
 				dialog.dismiss();
 			}
 
@@ -618,6 +726,104 @@ public class EducationExperienceEditActivity extends BaicActivity {
 		graduateddateDate = dateStringBuilder.toString();
 		graduateddateValue.setText(graduateddateDate);
 		dateStringBuilder = new StringBuffer();
+	}
+	
+	/**
+	 * 请求数据线程
+	 * 
+	 */
+	private void requestDataThread() {
+		showProcessDialog(false);
+		Thread mThread = new Thread(new Runnable() {// 启动新的线程，
+					@Override
+					public void run() {
+						requestData();
+					}
+				});
+		mThread.start();
+	}
+	private void requestData() {
+
+		String url = "appPersonInfo!modify.app";
+
+		Message msg = new Message();
+
+		List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
+		//params.add(new BasicNameValuePair("Userid", userId+""));
+		params.add(new BasicNameValuePair("Userid",100020+""));
+		params.add(new BasicNameValuePair("GraduatedSchool", graduatedschoolValue.getText().toString()));
+		params.add(new BasicNameValuePair("profession",professionValue.getText().toString()));
+		params.add(new BasicNameValuePair("Aidprofession",aidprofessionValue.getText().toString()));
+		params.add(new BasicNameValuePair("Technology", technologyValue.getText().toString()));
+		params.add(new BasicNameValuePair("GraduatedDate", graduateddateValue.getText().toString()));
+		params.add(new BasicNameValuePair("DegreeCert", degreecertValue.getText().toString()));
+		params.add(new BasicNameValuePair("Degree", degreeValue.getText().toString()));
+		if(!firstLanguageId.equals("")){
+			params.add(new BasicNameValuePair("Oneenglish", firstLanguageId));
+		}
+		if(!secondLanguageId.equals("")){
+
+			params.add(new BasicNameValuePair("Twoenglish",secondLanguageId));
+		}
+		if(!firstLanguageLevelId.equals("")){
+			params.add(new BasicNameValuePair("OneLevel", firstLanguageLevelId));
+		}
+		if(!secondLanguageLevelId.equals("")){
+			params.add(new BasicNameValuePair("TwoLevel", secondLanguageLevelId));
+		}
+		if(!computerlevelId.equals("")){
+			params.add(new BasicNameValuePair("ComputerLevel", computerlevelId));
+		}
+		if(!degreeId.equals("")){
+			params.add(new BasicNameValuePair("Education", degreeId));
+		}
+		
+		params.add(new BasicNameValuePair("modifytype", "0"));//保存到简历表中
+		
+		result = getPostHttpContent(url, params);
+		newEducationExperienceMap.put("辅助专业", aidprofessionValue.getText().toString());
+		newEducationExperienceMap.put("微机水平", computerlevelValue.getText().toString());
+		newEducationExperienceMap.put("学位", degreeValue.getText().toString());
+		newEducationExperienceMap.put("学位证号", degreecertValue.getText().toString());
+		newEducationExperienceMap.put("学历", educationValue.getText().toString());
+		newEducationExperienceMap.put("毕业证号", graduatedcodeValue.getText().toString());
+		newEducationExperienceMap.put("毕业日期", graduateddateValue.getText().toString());
+		newEducationExperienceMap.put("毕业学校", graduatedschoolValue.getText().toString());
+		newEducationExperienceMap.put("第一外语", oneenglishValue.getText().toString());
+		newEducationExperienceMap.put("第一外语水平", oneenglishlevelValue.getText().toString());
+		newEducationExperienceMap.put("第一外语水平", oneenglishlevelValue.getText().toString());
+		newEducationExperienceMap.put("第二外语", twoenglishValue.getText().toString());
+		newEducationExperienceMap.put("专业", professionValue.getText().toString());
+		newEducationExperienceMap.put("专业职称", technologyValue.getText().toString());
+        list.add(newEducationExperienceMap);
+		if (StringUtil.isExcetionInfo(result)) {
+			sendExceptionMsg(result);
+			return;
+		}
+
+		if (StringUtil.isBlank(result)) {
+			result = StringUtil.getAppException4MOS("未获得服务器响应结果！");
+			sendExceptionMsg(result);
+			return;
+		}
+		
+		JSONObject responseJsonObject;
+		try {
+			responseJsonObject = new JSONObject(result);
+			if (responseJsonObject.get("resultCode").toString().equals("0")) {
+				msg.what = 00;
+				handler.sendMessage(msg);
+			} else {
+				String errorResult = (String) responseJsonObject.get("result");
+				String err = StringUtil.getAppException4MOS(errorResult);
+				sendExceptionMsg(err);
+			}
+		} catch (JSONException e) {
+			String err = StringUtil.getAppException4MOS("解析json出错！");
+			sendExceptionMsg(err);
+		}
+		
+		
 	}
 
 }
