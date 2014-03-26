@@ -79,7 +79,7 @@ public class RecruitmentCompanyListActivity extends BaicActivity{
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
 
 			params.add(new BasicNameValuePair("RecruitmentID", recruitmentId));
-			
+//			params.add(new BasicNameValuePair("RecruitmentID", 801+""));
 			result = getPostHttpContent(url, params);
 
 			if (StringUtil.isExcetionInfo(result)) {
@@ -110,7 +110,7 @@ public class RecruitmentCompanyListActivity extends BaicActivity{
 					item.put(key[2],resultJsonArray.getJSONObject(j).get("phone"));
 					item.put(key[3], resultJsonArray.getJSONObject(j).get("e_mail"));
 					item.put(key[4], resultJsonArray.getJSONObject(j).get("address"));
-					item.put(key[5], resultJsonArray.getJSONObject(j).get("registertime"));
+					item.put(key[5], resultJsonArray.getJSONObject(j).get("registertime").toString().substring(0,10));
 					item.put(key[6], resultJsonArray.getJSONObject(j).get("websites"));
 					item.put(key[7], resultJsonArray.getJSONObject(j).get("postalcode"));
 					item.put(key[8], resultJsonArray.getJSONObject(j).get("companyinfo"));

@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.EditText;
@@ -175,8 +176,8 @@ public class RecruitmentActivity extends BaicActivity{
 						Map<String, Object> item = new HashMap<String, Object>();
 						item.put("recruitment_type", resultJsonArray.getJSONObject(j).get("holdclassid"));
 						item.put("recruitment_name", resultJsonArray.getJSONObject(j).get("siterecruitmentname"));
-						item.put("recruitment_time",resultJsonArray.getJSONObject(j).get("holddate"));
-						item.put("recruitment_id", resultJsonArray.getJSONObject(j).get("id"));
+						item.put("recruitment_time",resultJsonArray.getJSONObject(j).get("holddate").toString().substring(0,10));
+						item.put("recruitment_id", resultJsonArray.getJSONObject(j).get("recruitmentid"));
 
 						items.add(item);
 					}
@@ -225,12 +226,10 @@ public class RecruitmentActivity extends BaicActivity{
 		 */
 		private void initUI() {
 			
-			recruitmentListView.setAdapter(recruitmentListAdapter);
-
 			if (total > pageSize * pageNo) {
 				recruitmentListView.addFooterView(footViewBar);// 添加list底部更多按钮
 			}
-			
+			recruitmentListView.setAdapter(recruitmentListAdapter);
 		}
 
 		/**
@@ -243,7 +242,7 @@ public class RecruitmentActivity extends BaicActivity{
 			}
 			recruitmentListAdapter.notifyDataSetChanged();
 			recruitmentListView.setAdapter(recruitmentListAdapter);
-			recruitmentListView.setSelection((pageNo - 1) * 10-5);
+			recruitmentListView.setSelection((pageNo - 1) * pageSize);
 		}
 
 
@@ -257,12 +256,12 @@ public class RecruitmentActivity extends BaicActivity{
 		@Override
 		public void onScrollStateChanged(AbsListView view, int scrollState) {
 
-			if (view.getLastVisiblePosition() == view.getCount() - 1) {
-				pageNo++;
-				requestDataThread(1);// 滑动list请求数据
+			if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
+				if(view.getLastVisiblePosition() == recruitmentListAdapter.getCount()){
+					pageNo++;
+					requestDataThread(1);// 滑动list请求数据
+				} 
 			}
-			
-
 		}
 	};
 }

@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.Utils.SharePreferencesUtils;
 import com.sctn.sctnet.Utils.StringUtil;
+import com.sctn.sctnet.cache.CacheProcess;
 import com.sctn.sctnet.entity.LoginInfo;
 import com.sctn.sctnet.view.ItemView;
 
@@ -35,7 +36,7 @@ public class PersonalCenterActivity extends BaicActivity {
 
 	private ItemView itemView1, itemView2, itemView3, itemView4, itemView5;
 	private TextView postAppCount,postCollCount;// 职位申请记录，职位收藏记录
-//	private CacheProcess cacheProcess;// 缓存数据
+	private CacheProcess cacheProcess;// 缓存数据
 	private long userId;// 用户唯一标识
 	private String result;// 服务端返回结果数据
 	private ImageView postAppImage;// 职位申请记录控件
@@ -56,9 +57,9 @@ public class PersonalCenterActivity extends BaicActivity {
 		setContentView(R.layout.personal_center_activity);
 		setTitleBar(getString(R.string.personalActivityTitle), View.VISIBLE, View.VISIBLE);
 		super.setTitleRightButtonImg(R.drawable.log_off_bg);
-//		cacheProcess = new CacheProcess();
-//		userId = cacheProcess.getLongCacheValueInSharedPreferences(this, "userId");
-		userId = SharePreferencesUtils.getSharedlongData("userId");
+		cacheProcess = new CacheProcess();
+		userId = cacheProcess.getLongCacheValueInSharedPreferences(this, "userId");
+//		userId = SharePreferencesUtils.getSharedlongData("userId");
 		userName = SharePreferencesUtils.getSharedStringData("userName");
 		
 		initAllView();
@@ -166,11 +167,20 @@ public class PersonalCenterActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(PersonalCenterActivity.this, ReadMyResumeActivity.class);
-				Bundle bundle = new Bundle();
-				bundle.putString("flag", "readMyResume");
-				intent.putExtras(bundle);
-				startActivity(intent);
+				
+				if("0".equals(company)){
+					new  AlertDialog.Builder(PersonalCenterActivity.this)    
+					.setTitle("友情提示")
+					.setMessage("近期还没有公司关注你的简历，刷新简历可以引起更多注意哦！" )  
+	                .setPositiveButton("确定" ,  null)  
+	                .show();  
+				} else {
+					Intent intent = new Intent(PersonalCenterActivity.this, ReadMyResumeActivity.class);
+					Bundle bundle = new Bundle();
+					bundle.putString("flag", "readMyResume");
+					intent.putExtras(bundle);
+					startActivity(intent);
+				}
 			}
 
 		});
@@ -225,11 +235,19 @@ public class PersonalCenterActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(PersonalCenterActivity.this, ReadMyResumeActivity.class);
-				Bundle bundle = new Bundle();
-				bundle.putString("flag", "interviewInvitation");
-				intent.putExtras(bundle);
-				startActivity(intent);
+				if("0".equals(invite)){
+					new  AlertDialog.Builder(PersonalCenterActivity.this)    
+					.setTitle("友情提示")
+					.setMessage("还没有公司向你发送过面试邀请，完善简历可以吸引更多的公司哦！" )  
+	                .setPositiveButton("确定" ,  null)  
+	                .show();  
+				} else {
+					Intent intent = new Intent(PersonalCenterActivity.this, ReadMyResumeActivity.class);
+					Bundle bundle = new Bundle();
+					bundle.putString("flag", "interviewInvitation");
+					intent.putExtras(bundle);
+					startActivity(intent);
+				}
 			}
 
 		});
@@ -239,8 +257,9 @@ public class PersonalCenterActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View v) {
-				if(StringUtil.isBlank(post) || "0".equals(post)){
-					new  AlertDialog.Builder(PersonalCenterActivity.this)    
+				if(StringUtil.isBlank(resume) || "0".equals(resume)){
+					new  AlertDialog.Builder(PersonalCenterActivity.this)   
+					.setTitle("友情提示")
 					.setMessage("您近期没有申请过职位，您可以去“职位搜索”看看自己感兴趣的职位哦！" )  
 	                .setPositiveButton("确定" ,  null)  
 	                .show();  
@@ -260,7 +279,7 @@ public class PersonalCenterActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View v) {
-				if(StringUtil.isBlank(resume) || "0".equals(resume)){
+				if(StringUtil.isBlank(post) || "0".equals(post)){
 					new  AlertDialog.Builder(PersonalCenterActivity.this)
 					.setTitle("友情提示")
 					.setMessage("您没有收藏过任何职位，您可以去“职位搜索”看看自己感兴趣的职位哦！" )  
@@ -360,8 +379,8 @@ public class PersonalCenterActivity extends BaicActivity {
 		username.setText(userName);
 		itemView1.setValue("共"+company+"条");
 		itemView5.setValue("共"+invite+"条");
-		postAppCount.setText(post);
-		postCollCount.setText(resume);
+		postAppCount.setText(resume);
+		postCollCount.setText(post);
 		
 	}
 	

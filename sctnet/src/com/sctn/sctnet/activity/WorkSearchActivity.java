@@ -39,7 +39,7 @@ public class WorkSearchActivity extends Activity {
 	private ImageView cursor;// 动画图片
 	private int currIndex = 0;// 当前页卡编号
 	private EditText search_edit;
-	private String type;
+	private String type = Constant.TYPE_JOB_NAME;// 默认选择职位名
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

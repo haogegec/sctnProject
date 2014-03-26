@@ -120,9 +120,8 @@ public class MyAppliedJobActivity extends BaicActivity {
 
 		try {
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-			params.add(new BasicNameValuePair("Userid", "217294"));// params.add(new
-																	// BasicNameValuePair("Userid",
-																	// userId));
+//			params.add(new BasicNameValuePair("Userid", "217294"));
+			params.add(new BasicNameValuePair("Userid",userId+""));
 			result = getPostHttpContent(url, params);
 
 			if (StringUtil.isExcetionInfo(result)) {
@@ -185,9 +184,8 @@ public class MyAppliedJobActivity extends BaicActivity {
 
 		try {
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-			params.add(new BasicNameValuePair("Userid", "197244"));// params.add(new
-																	// BasicNameValuePair("Userid",
-																	// userId));
+//			params.add(new BasicNameValuePair("Userid", "197244"));
+			params.add(new BasicNameValuePair("Userid",userId+""));
 			result = getPostHttpContent(url, params);
 
 			if (StringUtil.isExcetionInfo(result)) {

@@ -40,7 +40,7 @@ public class InformationQueryActivity extends BaicActivity{
 	private int pageNo=0;
 	private String bigTitleId;
 	private String title;
-	private String id;
+//	private String id;
 	private String searchStr;
 	//服务端返回结果
 	private String result;
@@ -86,7 +86,7 @@ public class InformationQueryActivity extends BaicActivity{
 				for(int j=0;j<3;j++) {
 					LinearLayout ll = (LinearLayout)getLayoutInflater().inflate(R.layout.itemview_layout, null);
 	
-					id = dataJsonArray.getJSONObject(j).getString("id");
+					final String id = dataJsonArray.getJSONObject(j).getString("id");
 					ItemView itemView = (ItemView)ll.getChildAt(0);
 					itemView.setBackground(R.drawable.item_mid_bg);
 					itemView.setIconImageViewResource(R.drawable.home_btn_normal);

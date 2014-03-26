@@ -1007,7 +1007,7 @@ public class ResumeManageActivity extends BaicActivity {
 
 			// JSON的解析过程
 			responseJsonObject = new JSONObject(result);
-			if (responseJsonObject.getInt("resultCode") == 0) {// 获得响应结果
+			if (responseJsonObject.getInt("resultcode") == 0) {// 获得响应结果
 				msg.what = 5;
 				handler.sendMessage(msg);
 			} else {

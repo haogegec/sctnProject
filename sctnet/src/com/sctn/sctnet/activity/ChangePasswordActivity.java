@@ -72,8 +72,8 @@ public class ChangePasswordActivity extends BaicActivity {
 		// 取出登录时本地保存的用户ID、用户名和密码
 		sp_userId = SharePreferencesUtils.getSharedlongData("userId");
 		sp_username = SharePreferencesUtils.getSharedStringData("userName");
-		// sp_password = SharePreferencesUtils.getSharedStringData("password");
-		sp_password = "123456";
+		sp_password = SharePreferencesUtils.getSharedStringData("password");
+//		sp_password = "123456";
 	}
 
 	@Override
@@ -148,9 +148,7 @@ public class ChangePasswordActivity extends BaicActivity {
 		try {
 			// Userid;userPwd;userTxtPwd
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-			params.add(new BasicNameValuePair("Userid", "217294"));// params.add(new
-																	// BasicNameValuePair("Userid",
-																	// sp_userId);
+			params.add(new BasicNameValuePair("Userid",sp_userId+""));
 			params.add(new BasicNameValuePair("userPwd", newPassword));
 			params.add(new BasicNameValuePair("userTxtPwd", newMD5Password));
 			response = getPostHttpContent(url, params);

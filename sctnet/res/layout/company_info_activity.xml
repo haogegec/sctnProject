@@ -2,78 +2,84 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/background"
-    android:id="@+id/rl_layout"
-    android:visibility="invisible" >
+    android:background="@color/background" >
 
-    <LinearLayout
-        android:id="@+id/companyInfo_tab_title"
+    <RelativeLayout
+        android:id="@+id/rl_layout"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white" >
+        android:layout_height="fill_parent"
+        android:background="@color/background"
+        android:visibility="invisible" >
 
-        <!-- 公司简介 -->
+        <LinearLayout
+            android:id="@+id/companyInfo_tab_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white" >
 
-        <TextView
-            android:id="@+id/company_profile_title"
-            android:layout_width="wrap_content"
-            android:layout_height="45dip"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:background="@color/white"
-            android:gravity="center"
-            android:text="@string/companyProfile"
-            android:textColor="@color/blue"
-            android:textSize="16.0dip" />
+            <!-- 公司简介 -->
 
-        <!-- 附近 -->
+            <TextView
+                android:id="@+id/company_profile_title"
+                android:layout_width="wrap_content"
+                android:layout_height="45dip"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="center"
+                android:text="@string/companyProfile"
+                android:textColor="@color/blue"
+                android:textSize="16.0dip" />
 
-        <TextView
-            android:id="@+id/job_description_title"
-            android:layout_width="wrap_content"
-            android:layout_height="45dip"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:background="@color/background"
-            android:gravity="center"
-            android:text="@string/jobDescription"
-            android:textColor="@color/lightBlack"
-            android:textSize="16.0dip" />
-    </LinearLayout>
+            <!-- 附近 -->
 
-    <!-- 左右滚动控件 总体布局文件 -->
+            <TextView
+                android:id="@+id/job_description_title"
+                android:layout_width="wrap_content"
+                android:layout_height="45dip"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@color/background"
+                android:gravity="center"
+                android:text="@string/jobDescription"
+                android:textColor="@color/lightBlack"
+                android:textSize="16.0dip" />
+        </LinearLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vp_company_info"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/companyInfo_tab_title"
-        android:layout_gravity="center"
-        android:layout_marginBottom="40dp"
-        android:background="#ffffff"
-        android:flipInterval="30"
-        android:persistentDrawingCache="animation" />
+        <!-- 左右滚动控件 总体布局文件 -->
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vp_company_info2"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/companyInfo_tab_title"
-        android:layout_gravity="center"
-        android:background="#ffffff"
-        android:flipInterval="30"
-        android:persistentDrawingCache="animation"
-        android:visibility="gone" />
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_company_info"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/companyInfo_tab_title"
+            android:layout_gravity="center"
+            android:layout_marginBottom="40dp"
+            android:background="#ffffff"
+            android:flipInterval="30"
+            android:persistentDrawingCache="animation" />
 
-    <LinearLayout
-        android:id="@+id/footbar_layout_ly"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:visibility="visible" >
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_company_info2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/companyInfo_tab_title"
+            android:layout_gravity="center"
+            android:background="#ffffff"
+            android:flipInterval="30"
+            android:persistentDrawingCache="animation"
+            android:visibility="gone" />
 
-        <include layout="@layout/footbar_layout" >
-        </include>
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/footbar_layout_ly"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:visibility="visible" >
+
+            <include layout="@layout/footbar_layout" >
+            </include>
+        </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

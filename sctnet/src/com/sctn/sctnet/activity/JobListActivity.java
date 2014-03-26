@@ -31,6 +31,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -200,8 +201,8 @@ public class JobListActivity extends BaicActivity {
 						Toast.makeText(getApplicationContext(), "请选择职位", Toast.LENGTH_LONG).show();
 					} else {
 						for (Map.Entry<Integer, Object> entry : jobIdAndCompanyIdMaps.entrySet()) {
-							Toast.makeText(getApplicationContext(), "申请的JOB_ID-COMPANY_ID：" + entry.getValue(), Toast.LENGTH_LONG).show();
-							if (jobIdAndCompanyId.length() == 0) {
+//							Toast.makeText(getApplicationContext(), "申请的JOB_ID-COMPANY_ID：" + entry.getValue(), Toast.LENGTH_LONG).show();
+							if (StringUtil.isBlank(jobIdAndCompanyId)) {
 								jobIdAndCompanyId = entry.getValue().toString();
 							} else {
 								jobIdAndCompanyId += "|" + entry.getValue().toString();
@@ -307,7 +308,15 @@ public class JobListActivity extends BaicActivity {
 	// 职位申请
 	protected void apply() {
 
-		String url = "appPersonCenter!userSendRusume.app";
+		String url = "";
+		
+		String[] temp = jobIdAndCompanyId.split("|");
+		if(temp.length == 1){
+			url = "appPersonCenter!userSendRusume.app";
+		} else if(temp.length > 1){
+			url = "appPersonCenter!batSendRusume.app";
+		}
+		
 		Message msg = new Message();
 
 		try {
@@ -410,13 +419,13 @@ public class JobListActivity extends BaicActivity {
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
 			if(whichUrl.equals("workSearchActivity")){
 				url = "appPostSearch!queryKey.app";
-				params.add(new BasicNameValuePair("pageNo", pageNo + ""));
+				params.add(new BasicNameValuePair("page", pageNo + ""));
 				params.add(new BasicNameValuePair("pageSize", pageSize + ""));
 				params.add(new BasicNameValuePair("type", type));
 				params.add(new BasicNameValuePair("key", key));
 			}else{
 				url = "appPostSearch.app";
-				params.add(new BasicNameValuePair("pageNo", pageNo + ""));
+				params.add(new BasicNameValuePair("page", pageNo + ""));
 				params.add(new BasicNameValuePair("pageSize", pageSize + ""));
 				params.add(new BasicNameValuePair("WorkRegion", workRegion));
 				params.add(new BasicNameValuePair("JobsClass", jobsClass));
@@ -475,29 +484,29 @@ public class JobListActivity extends BaicActivity {
 					item.put("companyid", resultJsonArray.getJSONObject(j).get("companyid"));// 公司id
 					item.put("companyname", resultJsonArray.getJSONObject(j).get("companyname"));// 公司
 					item.put("jobsid", resultJsonArray.getJSONObject(j).get("jobsid"));// 职位ID
-					item.put("jobsName", resultJsonArray.getJSONObject(j).get("jobsName"));// 职位
-					item.put("clickNum", resultJsonArray.getJSONObject(j).get("clickNum"));// 点击次数
-					item.put("computerLevel", resultJsonArray.getJSONObject(j).get("computerLevel"));// 计算机能力
+					item.put("jobsName", resultJsonArray.getJSONObject(j).get("jobsname"));// 职位
+					item.put("clickNum", resultJsonArray.getJSONObject(j).get("clicknum"));// 点击次数
+					item.put("computerLevel", resultJsonArray.getJSONObject(j).get("computerlevel"));// 计算机能力
 					item.put("description", resultJsonArray.getJSONObject(j).get("description"));// 工作描述
 					item.put("english", resultJsonArray.getJSONObject(j).get("english"));// 语种
-					item.put("houseWhere", resultJsonArray.getJSONObject(j).get("houseWhere"));// 是否提供住宿
-					item.put("jobsClass", resultJsonArray.getJSONObject(j).get("jobsClass"));// 职位类别
-					item.put("jobsNumber", resultJsonArray.getJSONObject(j).get("jobsNumber"));// 招聘人数
+					item.put("houseWhere", resultJsonArray.getJSONObject(j).get("housewhere"));// 是否提供住宿
+					item.put("jobsClass", resultJsonArray.getJSONObject(j).get("jobsclass"));// 职位类别
+					item.put("jobsNumber", resultJsonArray.getJSONObject(j).get("jobsnumber"));// 招聘人数
 					item.put("jobsstate", resultJsonArray.getJSONObject(j).get("jobsstate"));// 职位状态
-					item.put("monthlySalary", resultJsonArray.getJSONObject(j).get("monthlySalary"));// 月薪
-					item.put("needAge", resultJsonArray.getJSONObject(j).get("needAge"));// 最小年纪
-					item.put("needEducation", resultJsonArray.getJSONObject(j).get("needEducation"));// 学历
-					item.put("needHeight", resultJsonArray.getJSONObject(j).get("needHeight"));// 身高
-					item.put("needProfession", resultJsonArray.getJSONObject(j).get("needProfession"));// 专业
-					item.put("needWorkExperience", resultJsonArray.getJSONObject(j).get("needWorkExperience"));// 职位状态
+					item.put("monthlySalary", resultJsonArray.getJSONObject(j).get("monthlysalary"));// 月薪
+					item.put("needAge", resultJsonArray.getJSONObject(j).get("needages"));// 最小年纪
+					item.put("needEducation", resultJsonArray.getJSONObject(j).get("neededucation"));// 学历
+					item.put("needHeight", resultJsonArray.getJSONObject(j).get("needheight"));// 身高
+					item.put("needProfession", resultJsonArray.getJSONObject(j).get("needprofession"));// 专业
+					item.put("needWorkExperience", resultJsonArray.getJSONObject(j).get("needworkexperience"));// 职位状态
 					item.put("political", resultJsonArray.getJSONObject(j).get("political"));// 政治面貌
-					item.put("postTime", resultJsonArray.getJSONObject(j).get("postTime"));// 发布时间
+					item.put("postTime", resultJsonArray.getJSONObject(j).get("posttime"));// 发布时间
 					item.put("rid", resultJsonArray.getJSONObject(j).get("rid"));
 					item.put("sex", resultJsonArray.getJSONObject(j).get("sex"));// 性别
 					item.put("titles", resultJsonArray.getJSONObject(j).get("titles"));// 技术
-					item.put("validityTime", resultJsonArray.getJSONObject(j).get("validityTime"));// 有效时间
-					item.put("workManner", resultJsonArray.getJSONObject(j).get("workManner"));// 工作方式
-					item.put("workRegion", resultJsonArray.getJSONObject(j).get("workRegion"));// 工作地区
+					item.put("validityTime", resultJsonArray.getJSONObject(j).get("validitytime"));// 有效时间
+					item.put("workManner", resultJsonArray.getJSONObject(j).get("workmanner"));// 工作方式
+					item.put("workRegion", resultJsonArray.getJSONObject(j).get("workregionname"));// 工作地区,workregion是编号
 					items.add(item);
 				}
 				if (i == 0) {
@@ -539,6 +548,7 @@ public class JobListActivity extends BaicActivity {
 				Toast.makeText(getApplicationContext(), "收藏成功", Toast.LENGTH_SHORT).show();
 				break;
 			}
+			closeProcessDialog();
 		}
 	};
 
@@ -551,8 +561,12 @@ public class JobListActivity extends BaicActivity {
 		@Override
 		public void onScrollStateChanged(AbsListView view, int scrollState) {
 
-			pageNo++;
-			requestDataThread(1);// 滑动list请求数据
+			if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
+				if(view.getLastVisiblePosition() == jobListAdapter.getCount()){
+					pageNo++;
+					requestDataThread(1);// 滑动list请求数据
+				}
+			}
 
 		}
 	};
@@ -633,7 +647,8 @@ public class JobListActivity extends BaicActivity {
 
 			// final int sequenceId =
 			// (Integer)list.get(position).get("sequenceId");
-			jobName.setText(list.get(position).get("jobName").toString());
+			final String jobsid = list.get(position).get("jobsid").toString();
+			jobName.setText(list.get(position).get("jobsName").toString());
 			company.setText(list.get(position).get("companyname").toString());
 			degree.setText(list.get(position).get("needEducation").toString());
 			// workingYears.setText(list.get(position).get("workingYears").toString());
@@ -646,9 +661,9 @@ public class JobListActivity extends BaicActivity {
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 					if (isChecked) {
 						checkBoxState.put(position, isChecked);
-						jobIdAndCompanyIdMaps.put(position, list.get(position).get("jobsid") + "-" + list.get(position).get("companyid"));
-						jobIdMaps.put(position, list.get(position).get("jobsid"));
-						jobShareMaps.put(position, list.get(position).get("companyname")+"正在招聘"+list.get(position).get("jobName"));
+						jobIdAndCompanyIdMaps.put(position, jobsid + "-" + list.get(position).get("companyid"));
+						jobIdMaps.put(position, jobsid);
+						jobShareMaps.put(position, list.get(position).get("companyname")+"正在招聘"+list.get(position).get("jobsName"));
 					} else {
 						checkBoxState.remove(position);
 						jobIdAndCompanyIdMaps.remove(position);

@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.Utils.StringUtil;
+import com.sctn.sctnet.cache.CacheProcess;
 
 /**
  * 《谁看了我的简历》界面
@@ -40,6 +41,7 @@ public class ReadMyResumeActivity extends BaicActivity {
 	private long userId;
 	private String flag;
 	private String result;// 服务器返回的结果
+	private CacheProcess cacheProcess;// 缓存数据
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +72,8 @@ public class ReadMyResumeActivity extends BaicActivity {
 	@Override
 	protected void initAllView() {
 		lv_company = (ListView) findViewById(R.id.lv_company);
+		cacheProcess = new CacheProcess();
+		userId = cacheProcess.getLongCacheValueInSharedPreferences(this, "userId");
 		
 	}
 
@@ -124,16 +128,17 @@ public class ReadMyResumeActivity extends BaicActivity {
 		
 		try {
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-//			userId = SharePreferencesUtils.getSharedlongData("userId");
-//			params.add(new BasicNameValuePair("Userid", userId));
-			params.add(new BasicNameValuePair("Userid", "217294"));
+			params.add(new BasicNameValuePair("Userid", userId+""));
+//			params.add(new BasicNameValuePair("Userid", "217294"));
 			result = getPostHttpContent(url, params);
 			System.out.println(result);
 			if (StringUtil.isExcetionInfo(result)) {
 				ReadMyResumeActivity.this.sendExceptionMsg(result);
 				return;
 			}
-
+			
+			
+			
 			JSONArray responseJsonArray = new JSONArray(result);
 			if(responseJsonArray != null && responseJsonArray.length() > 0){
 				JSONObject jObject = responseJsonArray.optJSONObject(0);
@@ -183,9 +188,8 @@ public class ReadMyResumeActivity extends BaicActivity {
 		
 		try {
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-//			userId = SharePreferencesUtils.getSharedlongData("userId");
-//			params.add(new BasicNameValuePair("Userid", userId));
-			params.add(new BasicNameValuePair("Userid", "217294"));
+			params.add(new BasicNameValuePair("Userid", userId+""));
+//			params.add(new BasicNameValuePair("Userid", "217294"));
 			result = getPostHttpContent(url, params);
 			if (StringUtil.isExcetionInfo(result)) {
 				ReadMyResumeActivity.this.sendExceptionMsg(result);

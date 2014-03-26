@@ -403,37 +403,33 @@ public class CompanyInfoActivity extends BaicActivity {
 				return;
 			}
 
-			JSONArray responseJsonArray = new JSONArray(result);// 返回结果存放在该json对象中
-			if (responseJsonArray != null && responseJsonArray.length() > 0) {
-				JSONObject jObject = responseJsonArray.optJSONObject(0);
-				if ("0".equals(jObject.getString("resultcode"))) {
-					JSONArray companyList = jObject.getJSONArray("result");// 长度必须是1
-					JSONObject companyInfo = companyList.optJSONObject(0);
+			JSONObject responseJsonObject = new JSONObject(result);// 返回结果存放在该json对象中
+			if ("0".equals(responseJsonObject.getString("resultcode"))) {
+				JSONArray companyList = responseJsonObject.getJSONArray("result");// 长度必须是1
+				JSONObject companyInfo = companyList.optJSONObject(0);
 
-					companyName = companyInfo.getString("companyname");
-					companyIndustry = companyInfo.getString("companyindustry");
-					companyType = companyInfo.getString("companytype");
-					companyScale = companyInfo.getString("companyscale");
-					companyAddress = companyInfo.getString("companyaddress");
-					companyIntro = companyInfo.getString("companyinfo");
-					companyContacts = companyInfo.getString("contactsname");
-					// companyPhone = companyInfo.getString("");
-					companyEmail = companyInfo.getString("companyemail");
-					companyWebsite = companyInfo.getString("companywebsite");
-					workingArea = companyInfo.getString("workregion");
-					releaseTime = companyInfo.getString("posttime").substring(0,10);
-					jobName = companyInfo.getString("jobsname");
-					jobDetail = companyInfo.getString("description");
+				companyName = companyInfo.getString("companyname");
+				companyIndustry = companyInfo.getString("companyindustry");
+				companyType = companyInfo.getString("companytype");
+				companyScale = companyInfo.getString("companyscale");
+				companyAddress = companyInfo.getString("companyaddress");
+				companyIntro = companyInfo.getString("companyinfo");
+				companyContacts = companyInfo.getString("contactsname");
+				// companyPhone = companyInfo.getString("");
+				companyEmail = companyInfo.getString("companyemail");
+				companyWebsite = companyInfo.getString("companywebsite");
+				workingArea = companyInfo.getString("workregionname");
+				releaseTime = companyInfo.getString("posttime").substring(0,10);
+				jobName = companyInfo.getString("jobsname");
+				jobDetail = companyInfo.getString("description");
 
-					msg.what = 0;
-					handler.sendMessage(msg);
+				msg.what = 0;
+				handler.sendMessage(msg);
 
-				} else {
-					String errorResult = jObject.getString("result");
-					String err = StringUtil.getAppException4MOS(errorResult);
-					CompanyInfoActivity.this.sendExceptionMsg(err);
-				}
-
+			} else {
+				String errorResult = responseJsonObject.getString("result");
+				String err = StringUtil.getAppException4MOS(errorResult);
+				CompanyInfoActivity.this.sendExceptionMsg(err);
 			}
 
 		} catch (JSONException e) {
