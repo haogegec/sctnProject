@@ -72,7 +72,7 @@ public class HomeActivity extends BaicActivity {
 					Toast.makeText(getApplicationContext(), "注销成功！可以用其他账户登录哟~~", Toast.LENGTH_SHORT).show();
 				}else{
 					Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-					startActivity(intent);
+					startActivityForResult(intent,Constant.LOGIN_REQUEST_CONDE);
 				}
 				
 			}
@@ -208,6 +208,12 @@ public class HomeActivity extends BaicActivity {
 			case Constant.LOGIN_SALARY_SURVEY_ACTIVITY: {
 				Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
 				startActivity(new Intent(HomeActivity.this, SalarySurveyActivity.class));
+				break;
+			}
+			case Constant.LOGIN_REQUEST_CONDE: {
+				setTitleRightButtonImg(R.drawable.log_off_bg);
+				Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
+				
 				break;
 			}
 

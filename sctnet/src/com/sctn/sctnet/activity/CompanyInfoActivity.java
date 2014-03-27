@@ -421,7 +421,13 @@ public class CompanyInfoActivity extends BaicActivity {
 				companyEmail = companyInfo.getString("companyemail");
 				companyWebsite = companyInfo.getString("companywebsite");
 				workingArea = companyInfo.getString("workregionname");
-				releaseTime = companyInfo.getString("posttime").substring(0,10);
+				
+				if(!StringUtil.isBlank(companyInfo.getString("posttime"))){
+					releaseTime = companyInfo.getString("posttime").substring(0,10);
+				}else{
+					releaseTime = companyInfo.getString("posttime");
+				}
+
 				jobName = companyInfo.getString("jobsname");
 				jobDetail = companyInfo.getString("description");
 
