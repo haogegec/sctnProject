@@ -61,7 +61,7 @@ public class EducationExperienceEditActivity extends BaicActivity {
 	private String degreecertStr = "";// 学位证号
 
 	private RelativeLayout profession;
-	private EditText professionValue;
+	private TextView professionValue;
 	private String professionStr = "";// 专业
 	private String professionId = "";
 
@@ -69,7 +69,7 @@ public class EducationExperienceEditActivity extends BaicActivity {
 	private String technologyStr = "";// 专业职称
 
 	private RelativeLayout aidprofession;
-	private EditText aidprofessionValue;
+	private TextView aidprofessionValue;
 	private String aidprofessionStr = "";// 辅助专业
 	private String aidprofessionId = "";
 
@@ -179,12 +179,12 @@ public class EducationExperienceEditActivity extends BaicActivity {
 		degreecertValue = (EditText) findViewById(R.id.degreecert_value);
 
 		profession = (RelativeLayout) findViewById(R.id.profession);
-		professionValue = (EditText) findViewById(R.id.profession_value);
+		professionValue = (TextView) findViewById(R.id.profession_value);
 
 		technologyValue = (EditText) findViewById(R.id.technology_value);
 
 		aidprofession = (RelativeLayout) findViewById(R.id.aidprofession);
-		aidprofessionValue = (EditText) findViewById(R.id.aidprofession_value);
+		aidprofessionValue = (TextView) findViewById(R.id.aidprofession_value);
 
 		computerlevel = (RelativeLayout) findViewById(R.id.computerlevel);
 		computerlevelValue = (TextView) findViewById(R.id.computerlevel_value);
@@ -327,19 +327,19 @@ public class EducationExperienceEditActivity extends BaicActivity {
 
 				Intent intent = new Intent(EducationExperienceEditActivity.this, SelectCurrentIndustryActivity.class);
 				intent.putExtra("flag", "education");
-				startActivityForResult(intent, 0);
+				startActivityForResult(intent, 1);
 
 			}
 
 		});
-		profession.setOnClickListener(new ImageView.OnClickListener() {
+		aidprofession.setOnClickListener(new ImageView.OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
 
 				Intent intent = new Intent(EducationExperienceEditActivity.this, SelectCurrentIndustryActivity.class);
 				intent.putExtra("flag", "education");
-				startActivityForResult(intent, 1);
+				startActivityForResult(intent, 2);
 
 			}
 
@@ -870,15 +870,15 @@ public class EducationExperienceEditActivity extends BaicActivity {
 		if (resultCode == RESULT_OK) {
 			switch (requestCode) {
 			case 1:
-				professionStr = data.getStringExtra("currentIndustry");
+			//	professionStr = data.getStringExtra("currentIndustry");
 				professionId = data.getStringExtra("currentIndustryId");
-				professionValue.setText(professionStr);
+				professionValue.setText(data.getStringExtra("currentIndustry"));
 				break;
 
 			case 2:
-				aidprofessionStr = data.getStringExtra("currentIndustry");
+			//	aidprofessionStr = data.getStringExtra("currentIndustry");
 				aidprofessionId = data.getStringExtra("currentIndustryId");
-				aidprofessionValue.setText(aidprofessionStr);
+				aidprofessionValue.setText(data.getStringExtra("currentIndustry"));
 
 				break;
 			}
