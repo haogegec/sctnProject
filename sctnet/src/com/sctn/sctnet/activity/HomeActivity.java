@@ -41,7 +41,12 @@ public class HomeActivity extends BaicActivity {
 
 	@Override
 	protected void initAllView() {
-		super.setTitleRightButtonImg(R.drawable.login_btn_bg);
+		if(LoginInfo.isLogin()){
+			super.setTitleRightButtonImg(R.drawable.log_off_bg);
+		}else{
+			super.setTitleRightButtonImg(R.drawable.login_btn_bg);
+		}
+		
 		search_edit = (EditText) findViewById(R.id.search_edit_bg);
 		resume_manage_click = (ImageView) findViewById(R.id.resume_manage_img);
 		job_search_click = (ImageView) findViewById(R.id.job_search_img);
@@ -61,8 +66,15 @@ public class HomeActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-				startActivity(intent);
+				if(LoginInfo.isLogin()){
+					LoginInfo.logOut();
+					setTitleRightButtonImg(R.drawable.login_btn_bg);
+					Toast.makeText(getApplicationContext(), "注销成功！可以用其他账户登录哟~~", Toast.LENGTH_SHORT).show();
+				}else{
+					Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+					startActivity(intent);
+				}
+				
 			}
 		});
 
