@@ -26,11 +26,10 @@
 
         <TextView
             android:id="@+id/company_name"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="2dp"
-            android:singleLine="true"
-            android:text="公司名称"
+            android:text="公司名称公司名称公司名称公司名称公司名称公司名称公司名称"
             android:textColor="@color/lightBlack"
             android:textSize="13dp" />
 
@@ -63,7 +62,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_toLeftOf="@+id/arrow"
-            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
             android:visibility="visible"
             >
             
@@ -86,7 +86,7 @@
             android:text="回复状态"
             android:textColor="@color/lightBlack"
             android:textSize="13dp"
-            android:visibility="visible"
+            android:visibility="visible" 
              />
             
         </LinearLayout>
@@ -96,7 +96,8 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_toLeftOf="@+id/arrow"
-            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
             android:padding="2dp"
             android:src="@drawable/star_selected"
             android:visibility="gone"

@@ -52,7 +52,7 @@ import com.sctn.sctnet.entity.LoginInfo;
  */
 public class JobListActivity extends BaicActivity {
 
-	//定义图片存放的地址
+	// 定义图片存放的地址
 	public static String TEST_IMAGE;
 	private MyAdapter jobListAdapter;
 	private ListView jobList;
@@ -75,7 +75,7 @@ public class JobListActivity extends BaicActivity {
 	private String workRegion;
 	private String jobsClass;
 	private String needProfession;
-	
+
 	private String workRegionName;
 	private String jobsClassName;
 	private String needProfessionName;
@@ -85,16 +85,16 @@ public class JobListActivity extends BaicActivity {
 
 	private String jobIdAndCompanyId;// 职位搜索结果中，可以同时选择多个职位进行申请（格式：jobId1-companyId1|jobId2-companyId2|jobId3-companyId3|......）
 	private String jobId;// 职位搜索结果中，可以同时选择多个职位进行收藏（格式：jobId1|jobId2|jobId3|......）
-	private String jobShare;//职位分享，可以同时选择多个职位进行分享（格式：company开始招聘job|company开始招聘job|company开始招聘job|......）
+	private String jobShare;// 职位分享，可以同时选择多个职位进行分享（格式：company开始招聘job|company开始招聘job|company开始招聘job|......）
 
 	private CacheProcess cacheProcess;
 	private String whichUrl = "";
 	private String type;
 	private String key;
-	
-	private int itemCount; // 当前窗口可见项总数   
-	private int visibleLastIndex = 0;//最后的可视项索引 
-	
+
+	private int itemCount; // 当前窗口可见项总数
+	private int visibleLastIndex = 0;// 最后的可视项索引
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -102,25 +102,24 @@ public class JobListActivity extends BaicActivity {
 		setTitleBar("共" + total + "个职位", View.VISIBLE, View.GONE);
 		Intent intent = this.getIntent();
 		Bundle bundle = intent.getExtras();
-		if(bundle.getString("whichActivity")!=null){
+		if (bundle.getString("whichActivity") != null) {
 			whichUrl = "workSearchActivity";
 			type = bundle.getString("type");
 			key = bundle.getString("key");
-		}else{
+		} else {
 			workRegion = bundle.getString("areaId");
 			jobsClass = bundle.getString("industryTypeId");
 			needProfession = bundle.getString("positionTypeId");
-			
+
 			workRegionName = bundle.getString("areaName");
 			jobsClassName = bundle.getString("industryTypeName");
 			needProfessionName = bundle.getString("positionTypeName");
 		}
-		
-		
+
 		cacheProcess = new CacheProcess();
-		
-		//初始化ShareSDK
-	//	AbstractWeibo.initSDK(this);
+
+		// 初始化ShareSDK
+		// AbstractWeibo.initSDK(this);
 		initImagePath();
 		initAllView();
 		reigesterAllEvent();
@@ -131,16 +130,14 @@ public class JobListActivity extends BaicActivity {
 	 * 初始化分享的图片
 	 */
 	private void initImagePath() {
-		try {//判断SD卡中是否存在此文件夹
-			if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
-					&& Environment.getExternalStorageDirectory().exists()) {
+		try {// 判断SD卡中是否存在此文件夹
+			if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) && Environment.getExternalStorageDirectory().exists()) {
 				TEST_IMAGE = Environment.getExternalStorageDirectory().getAbsolutePath() + "/pic.png";
-			}
-			else {
+			} else {
 				TEST_IMAGE = getApplication().getFilesDir().getAbsolutePath() + "/pic.png";
 			}
 			File file = new File(TEST_IMAGE);
-			//判断图片是否存此文件夹中
+			// 判断图片是否存此文件夹中
 			if (!file.exists()) {
 				file.createNewFile();
 				Bitmap pic = BitmapFactory.decodeResource(getResources(), R.drawable.logo);
@@ -149,17 +146,17 @@ public class JobListActivity extends BaicActivity {
 				fos.flush();
 				fos.close();
 			}
-		} catch(Throwable t) {
+		} catch (Throwable t) {
 			t.printStackTrace();
 			TEST_IMAGE = null;
 		}
 	}
-	
+
 	/**
 	 * 第一次请求数据初始化页面
 	 */
 	private void initUI() {
-	//	setTitleBar("共" + total + "个职位", View.VISIBLE, View.GONE);
+		// setTitleBar("共" + total + "个职位", View.VISIBLE, View.GONE);
 		super.getTitleTextView().setText("共" + total + "个职位");
 		if (total > pageSize * pageNo) {
 			jobList.addFooterView(footViewBar);// 添加list底部更多按钮
@@ -206,7 +203,9 @@ public class JobListActivity extends BaicActivity {
 						Toast.makeText(getApplicationContext(), "请选择职位", Toast.LENGTH_LONG).show();
 					} else {
 						for (Map.Entry<Integer, Object> entry : jobIdAndCompanyIdMaps.entrySet()) {
-//							Toast.makeText(getApplicationContext(), "申请的JOB_ID-COMPANY_ID：" + entry.getValue(), Toast.LENGTH_LONG).show();
+							// Toast.makeText(getApplicationContext(),
+							// "申请的JOB_ID-COMPANY_ID：" + entry.getValue(),
+							// Toast.LENGTH_LONG).show();
 							if (StringUtil.isBlank(jobIdAndCompanyId)) {
 								jobIdAndCompanyId = entry.getValue().toString();
 							} else {
@@ -234,8 +233,10 @@ public class JobListActivity extends BaicActivity {
 						Toast.makeText(getApplicationContext(), "请选择职位", Toast.LENGTH_LONG).show();
 					} else {
 						for (Map.Entry<Integer, Object> entry : jobIdMaps.entrySet()) {
-							Toast.makeText(getApplicationContext(), "申请的 JOB_ID：" + entry.getValue(), Toast.LENGTH_LONG).show();
-							if (jobId.length() == 0) {
+							// Toast.makeText(getApplicationContext(),
+							// "申请的 JOB_ID：" + entry.getValue(),
+							// Toast.LENGTH_LONG).show();
+							if (StringUtil.isBlank(jobId)) {
 								jobId = entry.getValue().toString();
 							} else {
 								jobId += "|" + entry.getValue().toString();
@@ -257,44 +258,44 @@ public class JobListActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View v) {
-				
-//				if (jobShareMaps.size() == 0) {
-//					Toast.makeText(getApplicationContext(), "请选择职位分享", Toast.LENGTH_LONG).show();
-//				} else {
-					for (Map.Entry<Integer, Object> entry : jobShareMaps.entrySet()) {
-						
-						if (jobShare.length() == 0) {
-							jobShare = entry.getValue().toString();
-						} else {
-							jobShare += "|" + entry.getValue().toString();
-						}
-					}
-				//	showGrid(false);
-				}
-				
 
-//			}
+				// if (jobShareMaps.size() == 0) {
+				// Toast.makeText(getApplicationContext(), "请选择职位分享",
+				// Toast.LENGTH_LONG).show();
+				// } else {
+				for (Map.Entry<Integer, Object> entry : jobShareMaps.entrySet()) {
+
+					if (jobShare.length() == 0) {
+						jobShare = entry.getValue().toString();
+					} else {
+						jobShare += "|" + entry.getValue().toString();
+					}
+				}
+				// showGrid(false);
+			}
+
+			// }
 		});
 
 	}
-	
-//	/**
-//	 * 使用快捷分享完成图文分享
-//	 */
-//	private void showGrid(boolean silent) {
-//		Intent i = new Intent(this, ShareAllGird.class);
-//		// 分享时Notification的图标
-//		i.putExtra("notif_icon", R.drawable.ic_launcher);
-//		// 分享时Notification的标题
-//		i.putExtra("notif_title", this.getString(R.string.app_name));
-//		// text是分享文本，所有平台都需要这个字段
-//		i.putExtra("text","欢迎是用shareSDK");
-//		
-//
-//		// 是否直接分享
-//		i.putExtra("silent", silent);
-//		this.startActivity(i);
-//	}
+
+	// /**
+	// * 使用快捷分享完成图文分享
+	// */
+	// private void showGrid(boolean silent) {
+	// Intent i = new Intent(this, ShareAllGird.class);
+	// // 分享时Notification的图标
+	// i.putExtra("notif_icon", R.drawable.ic_launcher);
+	// // 分享时Notification的标题
+	// i.putExtra("notif_title", this.getString(R.string.app_name));
+	// // text是分享文本，所有平台都需要这个字段
+	// i.putExtra("text","欢迎是用shareSDK");
+	//
+	//
+	// // 是否直接分享
+	// i.putExtra("silent", silent);
+	// this.startActivity(i);
+	// }
 
 	/**
 	 * 在子线程与远端服务器交互，请求数据
@@ -314,21 +315,25 @@ public class JobListActivity extends BaicActivity {
 	protected void apply() {
 
 		String url = "";
-		
-		String[] temp = jobIdAndCompanyId.split("|");
-		if(temp.length == 1){
-			url = "appPersonCenter!userSendRusume.app";
-		} else if(temp.length > 1){
-			url = "appPersonCenter!batSendRusume.app";
-		}
-		
+
 		Message msg = new Message();
 
 		try {
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
 			long userId = SharePreferencesUtils.getSharedlongData("userId");
 			params.add(new BasicNameValuePair("Userid", userId + ""));
-			params.add(new BasicNameValuePair("jobsidAndCompanyid", jobIdAndCompanyId));
+
+			if (-1 == jobIdAndCompanyId.indexOf("|")) {
+
+				String[] temp = jobIdAndCompanyId.split("-");
+
+				url = "appPersonCenter!userSendRusume.app";
+				params.add(new BasicNameValuePair("Companyid", temp[1]));
+				params.add(new BasicNameValuePair("jobsid", temp[0]));
+			} else {
+				url = "appPersonCenter!batSendRusume.app";
+				params.add(new BasicNameValuePair("batRusumes", jobIdAndCompanyId));
+			}
 			result = getPostHttpContent(url, params);
 
 			if (StringUtil.isExcetionInfo(result)) {
@@ -341,6 +346,11 @@ public class JobListActivity extends BaicActivity {
 
 				msg.what = Constant.APPLY_SUCCESS;
 				handler.sendMessage(msg);
+			} else {
+				String errorResult = responseJsonObject.getString("result");
+				String err = StringUtil.getAppException4MOS(errorResult);
+				sendExceptionMsg(err);
+
 			}
 
 		} catch (Exception e) {
@@ -366,14 +376,22 @@ public class JobListActivity extends BaicActivity {
 	// 职位收藏
 	protected void collect() {
 
-		String url = "appPersonCenter!insertUserJobInfo.app";
+		String url = "";
+
 		Message msg = new Message();
 
 		try {
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
 			long userId = SharePreferencesUtils.getSharedlongData("userId");
 			params.add(new BasicNameValuePair("Userid", userId + ""));
-			params.add(new BasicNameValuePair("jobsid", jobId));
+			if (-1 == jobId.indexOf("|")) {
+				url = "appPersonCenter!insertUserJobInfo.app";
+				params.add(new BasicNameValuePair("jobsid", jobId));
+			} else {
+				url = "appPersonCenter!batUserJobInfo.app";
+				params.add(new BasicNameValuePair("batJobs", jobId));
+			}
+
 			result = getPostHttpContent(url, params);
 
 			if (StringUtil.isExcetionInfo(result)) {
@@ -385,6 +403,10 @@ public class JobListActivity extends BaicActivity {
 			if ("0".equals(responseJsonObject.getString("resultcode"))) {// 表示职位收藏成功
 				msg.what = Constant.COLLECT_SUCCESS;
 				handler.sendMessage(msg);
+			} else {
+				String errorResult = responseJsonObject.getString("result");
+				String err = StringUtil.getAppException4MOS(errorResult);
+				sendExceptionMsg(err);
 			}
 
 		} catch (Exception e) {
@@ -414,21 +436,20 @@ public class JobListActivity extends BaicActivity {
 	}
 
 	private void requestData(int i) {
-		
-		
+
 		String url;
 
 		Message msg = new Message();
 		try {
-			
+
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-			if(whichUrl.equals("workSearchActivity")){
+			if (whichUrl.equals("workSearchActivity")) {
 				url = "appPostSearch!queryKey.app";
 				params.add(new BasicNameValuePair("page", pageNo + ""));
 				params.add(new BasicNameValuePair("pageSize", pageSize + ""));
 				params.add(new BasicNameValuePair("type", type));
 				params.add(new BasicNameValuePair("key", key));
-			}else{
+			} else {
 				url = "appPostSearch.app";
 				params.add(new BasicNameValuePair("page", pageNo + ""));
 				params.add(new BasicNameValuePair("pageSize", pageSize + ""));
@@ -458,7 +479,7 @@ public class JobListActivity extends BaicActivity {
 			if (responseJsonObject.getInt("resultCode") == 0) {// 获得响应结果
 
 				JSONArray resultJsonArray = responseJsonObject.getJSONArray("result");
-				
+
 				if (resultJsonArray == null || resultJsonArray.length() == 0) {
 					String err = StringUtil.getAppException4MOS("没有您要搜索的结果");
 					JobListActivity.this.sendExceptionMsg(err);
@@ -467,15 +488,15 @@ public class JobListActivity extends BaicActivity {
 				}
 
 				total = responseJsonObject.getInt("resultCount");// 总数
-				if(i==0){
-					HashMap<String,String> map = new HashMap<String,String>();
+				if (i == 0) {
+					HashMap<String, String> map = new HashMap<String, String>();
 					map.put("area", workRegion);
 					map.put("JobsClass", jobsClass);
 					map.put("NeedProfession", needProfession);
 					map.put("areaName", workRegionName);
 					map.put("JobsClassName", jobsClassName);
 					map.put("NeedProfessionName", needProfessionName);
-					map.put("count", total+"");
+					map.put("count", total + "");
 					cacheProcess.initJobSearchLogInSharedPreferences(JobListActivity.this, map);
 				}
 				if (resultJsonArray.length() > 15) {
@@ -561,13 +582,16 @@ public class JobListActivity extends BaicActivity {
 
 		@Override
 		public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+			itemCount = visibleItemCount;
+			visibleLastIndex = firstVisibleItem + visibleItemCount - 1;
+
 		}
 
 		@Override
 		public void onScrollStateChanged(AbsListView view, int scrollState) {
 
 			if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
-				if(view.getLastVisiblePosition() == jobListAdapter.getCount()){
+				if (view.getLastVisiblePosition() == jobListAdapter.getCount()) {
 					pageNo++;
 					requestDataThread(1);// 滑动list请求数据
 				}
@@ -668,7 +692,7 @@ public class JobListActivity extends BaicActivity {
 						checkBoxState.put(position, isChecked);
 						jobIdAndCompanyIdMaps.put(position, jobsid + "-" + list.get(position).get("companyid"));
 						jobIdMaps.put(position, jobsid);
-						jobShareMaps.put(position, list.get(position).get("companyname")+"正在招聘"+list.get(position).get("jobsName"));
+						jobShareMaps.put(position, list.get(position).get("companyname") + "正在招聘" + list.get(position).get("jobsName"));
 					} else {
 						checkBoxState.remove(position);
 						jobIdAndCompanyIdMaps.remove(position);
@@ -725,10 +749,10 @@ public class JobListActivity extends BaicActivity {
 			}
 		}
 	}
-	
+
 	protected void onDestroy() {
-		//结束ShareSDK的统计功能并释放资源
-	//	AbstractWeibo.stopSDK(this);
+		// 结束ShareSDK的统计功能并释放资源
+		// AbstractWeibo.stopSDK(this);
 		super.onDestroy();
 	}
 }

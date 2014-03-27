@@ -60,6 +60,7 @@ public class RecruitmentCompanyListActivity extends BaicActivity{
 	 */
 	private void requestDataThread() {
 
+		showProcessDialog(false);
 		Thread mThread = new Thread(new Runnable() {// 启动新的线程，
 					@Override
 					public void run() {
@@ -145,6 +146,7 @@ public class RecruitmentCompanyListActivity extends BaicActivity{
 
 				break;
 			}
+			closeProcessDialog();
 
 		}
 	};

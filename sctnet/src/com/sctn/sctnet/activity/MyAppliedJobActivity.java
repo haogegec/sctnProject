@@ -40,6 +40,7 @@ public class MyAppliedJobActivity extends BaicActivity {
 
 	private ListView lv_company;
 	private List<Map<String, Object>> listItems = new ArrayList<Map<String, Object>>();
+	private MyAdapter adapter;
 
 	private String flag;// 判断点击的是职位申请记录还是职位收藏记录
 	private CacheProcess cacheProcess;// 缓存数据
@@ -139,7 +140,7 @@ public class MyAppliedJobActivity extends BaicActivity {
 
 					JSONArray applyList = jObject.getJSONArray("result");
 					for (int i = 0; i < applyList.length(); i++) {
-						JSONObject applyInfo = applyList.optJSONObject(0);
+						JSONObject applyInfo = applyList.optJSONObject(i);
 						String jobsid = applyInfo.getString("jobsid");// 职位ID
 						String jobsname = applyInfo.getString("jobsname");// 职位名称
 						String companyid = applyInfo.getString("companyid");// 公司ID
@@ -198,19 +199,16 @@ public class MyAppliedJobActivity extends BaicActivity {
 			// JSON的解析过程
 			responseJsonArray = new JSONArray(result);
 			if (responseJsonArray != null && responseJsonArray.length() != 0) {
-				JSONObject jObject = responseJsonArray.optJSONObject(0);
-				if (0 == jObject.getInt("resultcode")) {// 获得响应结果
-
-					JSONArray applyList = jObject.getJSONArray("result");
-					for (int i = 0; i < applyList.length(); i++) {
-						JSONObject applyInfo = applyList.optJSONObject(0);
+				
+					for (int i = 0; i < responseJsonArray.length(); i++) {
+						JSONObject applyInfo = responseJsonArray.optJSONObject(i);
 
 						String jobsid = applyInfo.getString("jobsid");// 职位ID
 						String companyid = applyInfo.getString("companyid");// 公司ID
 						String companyname = applyInfo.getString("companyname");// 公司名称
 						String collecttime = applyInfo.getString("adddate");// 收藏时间
 
-						String jobsclass = applyInfo.getString("jobsclass");// 职位行业
+						String jobsclass = applyInfo.getString("jobsclassname");// 职位行业
 						String jobsname = applyInfo.getString("jobsname");// 职位名称
 						String workregion = applyInfo.getString("workregion");// 工作地区
 						String needprofession = applyInfo.getString("needprofession");// 专业要求：计算机专业OR不限专业等等
@@ -241,11 +239,11 @@ public class MyAppliedJobActivity extends BaicActivity {
 					msg.what = 0;
 					handler.sendMessage(msg);
 				} else {
-					String errorResult = (String) jObject.get("result");
+//					String errorResult = (String) responseJsonArray.get("result");
+					String errorResult = "查询有误";
 					String err = StringUtil.getAppException4MOS(errorResult);
 					MyAppliedJobActivity.this.sendExceptionMsg(err);
 				}
-			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -271,8 +269,9 @@ public class MyAppliedJobActivity extends BaicActivity {
 	 * 请求完数据，适配器里添加数据
 	 */
 	private void setMyAdapter() {
-		lv_company.setAdapter(new MyAdapter(this, listItems, R.layout.my_applied_job_item));
-
+		adapter = new MyAdapter(this, listItems, R.layout.my_applied_job_item);
+		adapter.notifyDataSetChanged();
+		lv_company.setAdapter(adapter);
 	}
 
 	// 自定义适配器
