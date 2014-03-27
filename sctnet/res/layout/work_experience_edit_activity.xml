@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
-        
+      <!--   
         <LinearLayout
             android:id="@+id/companyname"
             android:layout_width="fill_parent"
@@ -42,6 +42,7 @@
                 android:paddingRight="10dp"
                 android:text="" />
         </LinearLayout>
+        --> 
         <RelativeLayout
             android:id="@+id/currentprofessional"
             android:layout_width="fill_parent"

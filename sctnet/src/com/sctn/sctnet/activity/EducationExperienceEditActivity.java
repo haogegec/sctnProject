@@ -645,6 +645,11 @@ public class EducationExperienceEditActivity extends BaicActivity {
 				break;
 			case 00:
 				Toast.makeText(getApplicationContext(), "保存成功", Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent();
+				Bundle bundle = new Bundle();
+				bundle.putSerializable("list", list);
+				intent.putExtras(bundle);
+				setResult(RESULT_OK, intent);
 				finish();
 				break;
 			}

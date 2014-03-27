@@ -552,7 +552,7 @@ public class BasicInfoEditActivity extends BaicActivity {
 			params.add(new BasicNameValuePair("People", peopleId));
 		}
 		if(!politicalId.equals("")){
-			params.add(new BasicNameValuePair("Political", politicalStr));
+			params.add(new BasicNameValuePair("Political", politicalId));
 		}
 		
 		if(female.isSelected()){
@@ -818,6 +818,7 @@ public class BasicInfoEditActivity extends BaicActivity {
 				Intent intent = new Intent();
 				Bundle bundle = new Bundle();
 				bundle.putSerializable("list", list);
+				intent.putExtras(bundle);
 				setResult(RESULT_OK, intent);
 				finish();
 				break;

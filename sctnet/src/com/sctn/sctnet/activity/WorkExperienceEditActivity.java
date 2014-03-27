@@ -83,7 +83,7 @@ public class WorkExperienceEditActivity extends BaicActivity{
 	@Override
 	protected void initAllView() {
 		
-		companynameValue = (EditText) findViewById(R.id.companyname_value);
+	//	companynameValue = (EditText) findViewById(R.id.companyname_value);
 		
 		currentprofessional = (RelativeLayout) findViewById(R.id.currentprofessional);
 		currentprofessionalValue = (TextView) findViewById(R.id.currentprofessional_value);
@@ -102,10 +102,10 @@ public class WorkExperienceEditActivity extends BaicActivity{
 				job = workExperienceMap.get("当前从事职业");
 				adminpostValue.setText(job);
 			}
-			if(workExperienceMap.containsKey("当前公司")){
-				companynameStr = workExperienceMap.get("当前公司");
-				companynameValue.setText(companynameStr);
-			}
+//			if(workExperienceMap.containsKey("当前公司")){
+//				companynameStr = workExperienceMap.get("当前公司");
+//				companynameValue.setText(companynameStr);
+//			}
 			if(workExperienceMap.containsKey("当前从事行业")){
 				currentIndustry = workExperienceMap.get("当前从事行业");
 				currentprofessionalValue.setText(currentIndustry);
@@ -168,7 +168,7 @@ public class WorkExperienceEditActivity extends BaicActivity{
 			@Override
 			public void onClick(View v) {
 
-	           if(job.equals(adminpostValue.getText().toString())&&companynameStr.equals(companynameValue.getText().toString())&&currentIndustry.equals(currentprofessionalValue.getText().toString())
+	           if(job.equals(adminpostValue.getText().toString())&&currentIndustry.equals(currentprofessionalValue.getText().toString())
 	        		   &&workexperienceValueStr.equals(workexperienceValue.getText().toString())&&workperformanceStr.equals(workperformanceValue.getText().toString())){
 	        	   
 	        	   Toast.makeText(getApplicationContext(), "请编辑之后再保存吧~~", Toast.LENGTH_SHORT).show();
@@ -221,7 +221,7 @@ public class WorkExperienceEditActivity extends BaicActivity{
 		result = getPostHttpContent(url, params);
 
 		newWorkExperienceMap.put("当前从事职业", adminpostValue.getText().toString());
-		newWorkExperienceMap.put("当前公司", companynameValue.getText().toString());
+	//	newWorkExperienceMap.put("当前公司", companynameValue.getText().toString());
 		newWorkExperienceMap.put("当前从事行业", currentprofessionalValue.getText().toString());
 		newWorkExperienceMap.put("工作年限", workexperienceValue.getText().toString());
 		newWorkExperienceMap.put("工作业绩", workperformanceValue.getText().toString());
@@ -267,6 +267,7 @@ public class WorkExperienceEditActivity extends BaicActivity{
 					Intent intent = new Intent();
 					Bundle bundle = new Bundle();
 					bundle.putSerializable("list", list);
+					intent.putExtras(bundle);
 					setResult(RESULT_OK, intent);
 					finish();
 					break;

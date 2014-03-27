@@ -46,7 +46,7 @@ public class WorkDirectionActivity extends BaicActivity {
 		super.setTitleRightButtonImg(R.drawable.login_btn_bg);
 		initAllView();
 		reigesterAllEvent();
-		initThread();
+	//	initThread();
 	}
 
 	@Override

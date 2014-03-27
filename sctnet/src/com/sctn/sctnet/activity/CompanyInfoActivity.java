@@ -318,7 +318,9 @@ public class CompanyInfoActivity extends BaicActivity {
 			@Override
 			public void onClick(View arg0) {
 				Intent intent = new Intent(CompanyInfoActivity.this,CompanyLocationActivity.class);
-				
+				Bundle bundle = new Bundle();
+				bundle.putString("detailAddress", tv_companyAddress.getText().toString());
+				intent.putExtras(bundle);
 				startActivity(intent);
 			}
 			

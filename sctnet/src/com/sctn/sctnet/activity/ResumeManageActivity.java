@@ -624,8 +624,9 @@ public class ResumeManageActivity extends BaicActivity {
 					personalExperienceMap.put("推荐自己", reccontent);
 					i++;
 				}
-				if (StringUtil.isBlank(resume)) {
+				if (!StringUtil.isBlank(resume)) {
 					personalExperienceMap.put("个人经历", resume);
+					i++;
 				}
 
 				if (!StringUtil.isBlank(sex)) {

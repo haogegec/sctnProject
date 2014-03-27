@@ -65,14 +65,14 @@ public class CompanyLocationActivity extends MapActivity implements LocationList
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.company_location_activity);
-		initMap();
+		
 		mIntent = getIntent();
 		mLatitude = mIntent.getIntExtra("latitude", 0);
 		mLongitude = mIntent.getIntExtra("longitude", 0);
 		name = mIntent.getStringExtra("name");
 		Bundle bundle = mIntent.getExtras();
 		detailAddress = bundle.getString("detailAddress");
-		
+		initMap();
 		mapView = (MapView) findViewById(R.id.map_view);
 		desText = (TextView) this.findViewById(R.id.map_bubbleText);
 		lost_tips = getResources().getString(R.string.load_tips);

@@ -181,6 +181,7 @@ public class PersonalProfileEditActivity extends BaicActivity{
 					Intent intent = new Intent();
 					Bundle bundle = new Bundle();
 					bundle.putSerializable("list", list);
+					intent.putExtras(bundle);
 					setResult(RESULT_OK, intent);
 					finish();
 					break;
