@@ -80,7 +80,7 @@ public class JobListActivity extends BaicActivity {
 	private String jobsClassName;
 	private String needProfessionName;
 	// 返回数据
-	private int total;// 总条数
+	private int total = 0;// 总条数
 	private String result;// 服务端返回的json字符串
 
 	private String jobIdAndCompanyId;// 职位搜索结果中，可以同时选择多个职位进行申请（格式：jobId1-companyId1|jobId2-companyId2|jobId3-companyId3|......）
@@ -99,7 +99,7 @@ public class JobListActivity extends BaicActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.job_list_activity);
-		setTitleBar("共" + 0 + "个职位", View.VISIBLE, View.GONE);
+		setTitleBar("共" + total + "个职位", View.VISIBLE, View.GONE);
 		Intent intent = this.getIntent();
 		Bundle bundle = intent.getExtras();
 		if(bundle.getString("whichActivity")!=null){
@@ -159,7 +159,8 @@ public class JobListActivity extends BaicActivity {
 	 * 第一次请求数据初始化页面
 	 */
 	private void initUI() {
-		setTitleBar("共" + total + "个职位", View.VISIBLE, View.GONE);
+	//	setTitleBar("共" + total + "个职位", View.VISIBLE, View.GONE);
+		super.getTitleTextView().setText("共" + total + "个职位");
 		if (total > pageSize * pageNo) {
 			jobList.addFooterView(footViewBar);// 添加list底部更多按钮
 		}

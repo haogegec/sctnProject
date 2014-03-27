@@ -162,8 +162,8 @@ public class ContactWayEditActivity extends BaicActivity{
 		Message msg = new Message();
      
 		List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-		//params.add(new BasicNameValuePair("Userid", userId+""));
-		params.add(new BasicNameValuePair("Userid",100020+""));
+		params.add(new BasicNameValuePair("Userid", userId+""));
+		//params.add(new BasicNameValuePair("Userid",100020+""));
 		params.add(new BasicNameValuePair("ContactsName", contactsnameValue.getText().toString()));
 		params.add(new BasicNameValuePair("ContactsPhone",contactsphoneValue.getText().toString()));
 		params.add(new BasicNameValuePair("email",emailValue.getText().toString()));

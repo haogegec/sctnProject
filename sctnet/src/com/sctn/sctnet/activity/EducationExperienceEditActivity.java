@@ -60,14 +60,18 @@ public class EducationExperienceEditActivity extends BaicActivity {
 	private EditText degreecertValue;
 	private String degreecertStr = "";// 学位证号
 
+	private RelativeLayout profession;
 	private EditText professionValue;
 	private String professionStr = "";// 专业
+	private String professionId = "";
 
 	private EditText technologyValue;
 	private String technologyStr = "";// 专业职称
 
+	private RelativeLayout aidprofession;
 	private EditText aidprofessionValue;
 	private String aidprofessionStr = "";// 辅助专业
+	private String aidprofessionId = "";
 
 	private RelativeLayout computerlevel;
 	private TextView computerlevelValue;
@@ -174,10 +178,12 @@ public class EducationExperienceEditActivity extends BaicActivity {
 
 		degreecertValue = (EditText) findViewById(R.id.degreecert_value);
 
+		profession = (RelativeLayout) findViewById(R.id.profession);
 		professionValue = (EditText) findViewById(R.id.profession_value);
 
 		technologyValue = (EditText) findViewById(R.id.technology_value);
 
+		aidprofession = (RelativeLayout) findViewById(R.id.aidprofession);
 		aidprofessionValue = (EditText) findViewById(R.id.aidprofession_value);
 
 		computerlevel = (RelativeLayout) findViewById(R.id.computerlevel);
@@ -310,6 +316,30 @@ public class EducationExperienceEditActivity extends BaicActivity {
 							}
 						});
 				mThread.start();
+
+			}
+
+		});
+		profession.setOnClickListener(new ImageView.OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+
+				Intent intent = new Intent(EducationExperienceEditActivity.this, SelectCurrentIndustryActivity.class);
+				intent.putExtra("flag", "education");
+				startActivityForResult(intent, 0);
+
+			}
+
+		});
+		profession.setOnClickListener(new ImageView.OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+
+				Intent intent = new Intent(EducationExperienceEditActivity.this, SelectCurrentIndustryActivity.class);
+				intent.putExtra("flag", "education");
+				startActivityForResult(intent, 1);
 
 			}
 
@@ -754,11 +784,10 @@ public class EducationExperienceEditActivity extends BaicActivity {
 		Message msg = new Message();
 
 		List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-		//params.add(new BasicNameValuePair("Userid", userId+""));
-		params.add(new BasicNameValuePair("Userid",100020+""));
+		params.add(new BasicNameValuePair("Userid", userId+""));
+	//	params.add(new BasicNameValuePair("Userid",100020+""));
 		params.add(new BasicNameValuePair("GraduatedSchool", graduatedschoolValue.getText().toString()));
-		params.add(new BasicNameValuePair("profession",professionValue.getText().toString()));
-		params.add(new BasicNameValuePair("Aidprofession",aidprofessionValue.getText().toString()));
+		params.add(new BasicNameValuePair("GraduatedCode",graduatedcodeValue.getText().toString()));
 		params.add(new BasicNameValuePair("Technology", technologyValue.getText().toString()));
 		params.add(new BasicNameValuePair("GraduatedDate", graduateddateValue.getText().toString()));
 		params.add(new BasicNameValuePair("DegreeCert", degreecertValue.getText().toString()));
@@ -782,7 +811,12 @@ public class EducationExperienceEditActivity extends BaicActivity {
 		if(!degreeId.equals("")){
 			params.add(new BasicNameValuePair("Education", degreeId));
 		}
-		
+		if(!professionId.equals("")){
+			params.add(new BasicNameValuePair("profession",professionId));
+		}
+		if(!aidprofessionId.equals("")){
+			params.add(new BasicNameValuePair("Aidprofession",aidprofessionId));
+		}
 		params.add(new BasicNameValuePair("modifytype", "0"));//保存到简历表中
 		
 		result = getPostHttpContent(url, params);
@@ -829,6 +863,26 @@ public class EducationExperienceEditActivity extends BaicActivity {
 		}
 		
 		
+	}
+	
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			switch (requestCode) {
+			case 1:
+				professionStr = data.getStringExtra("currentIndustry");
+				professionId = data.getStringExtra("currentIndustryId");
+				professionValue.setText(professionStr);
+				break;
+
+			case 2:
+				aidprofessionStr = data.getStringExtra("currentIndustry");
+				aidprofessionId = data.getStringExtra("currentIndustryId");
+				aidprofessionValue.setText(aidprofessionStr);
+
+				break;
+			}
+		}
 	}
 
 }

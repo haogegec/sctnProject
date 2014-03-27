@@ -400,8 +400,8 @@ public class ResumeManageActivity extends BaicActivity {
 		try {
 
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-		//	params.add(new BasicNameValuePair("Userid", userId + ""));
-			 params.add(new BasicNameValuePair("Userid",100020+""));
+			params.add(new BasicNameValuePair("Userid", userId + ""));
+		//	 params.add(new BasicNameValuePair("Userid",100020+""));
 			result = getPostHttpContent(url, params);
 			// JSON的解析过程
 			JSONObject responseJsonObject = new JSONObject(result);

@@ -117,14 +117,15 @@ public class CompanyLocationActivity extends MapActivity implements LocationList
 		// 实例化搜索地址类
 		mMKSearch = new MKSearch();
 		// 初始化搜索地址实例
-		mMKSearch.geocode(detailAddress, "成都");
-//		mMKSearch.init(mapManager, new MySearchListener());
-//		mLocationManager = mapManager.getLocationManager();
-//		// 注册位置更新事件
-//		mLocationManager.requestLocationUpdates(this);
-//		// 使用GPS定位
-//		mLocationManager
-//				.enableProvider((int) MKLocationManager.MK_GPS_PROVIDER);
+		
+		mMKSearch.init(mapManager, new MySearchListener());
+//		mMKSearch.geocode("学知园", "北京");
+		mLocationManager = mapManager.getLocationManager();
+		// 注册位置更新事件
+		mLocationManager.requestLocationUpdates(this);
+		// 使用GPS定位
+		mLocationManager
+				.enableProvider((int) MKLocationManager.MK_GPS_PROVIDER);
 	}
 
 	@Override

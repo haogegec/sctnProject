@@ -5,33 +5,34 @@
     android:background="@color/background"
     android:orientation="vertical" >
 
-    <RelativeLayout
-        android:id="@+id/home_activity_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="20dip" >
+     <RelativeLayout
+             android:id="@+id/recruitment_search"
+             android:layout_width="wrap_content"  
+             android:layout_height="wrap_content"  
+             android:layout_margin="20dip"
+              >
 
-        <EditText
-            android:id="@+id/search_edit_bg"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/search_bg"
-            android:gravity="center_vertical"
-            android:hint="@string/homeactivityhint"
-            android:paddingLeft="35dip"
-            android:singleLine="true" />
-
-        <ImageView
-            android:id="@+id/search_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/search_edit_bg"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dip"
-            android:background="@drawable/search_bar" />
-    </RelativeLayout>
+           <EditText 
+             android:id="@+id/search_edit_bg"
+             android:layout_width="fill_parent"
+	         android:layout_height="wrap_content" 
+             android:background="@drawable/search_bg"
+             android:hint="@string/homeactivityhint"
+             android:gravity="center_vertical"
+              android:paddingLeft="35dip"
+              android:singleLine="true"
+               />  
+               
+              <ImageView 
+	        android:id="@+id/search_bar"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content" 
+	        android:layout_marginLeft="10dip"
+	        android:layout_centerVertical="true"
+	        android:layout_alignLeft="@+id/search_edit_bg"  
+	        android:background="@drawable/search_bar"
+        /> 
+         </RelativeLayout>
          <ListView
         android:id="@+id/recrumitment_list"   
         android:layout_width="fill_parent"

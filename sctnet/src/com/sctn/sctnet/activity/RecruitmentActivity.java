@@ -98,11 +98,11 @@ public class RecruitmentActivity extends BaicActivity{
 			
 		});
 		
-		searchEdit.setOnEditorActionListener(new OnEditorActionListener() { 
-            
-           @Override
-           public boolean onEditorAction(TextView v, int actionId, KeyEvent event) { 
-               if (actionId == EditorInfo.IME_ACTION_DONE||actionId == KeyEvent.KEYCODE_ENTER||actionId == 0) { 
+		searchEdit.setOnEditorActionListener(new OnEditorActionListener() {
+
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				if (actionId == EditorInfo.IME_ACTION_DONE || actionId == KeyEvent.KEYCODE_ENTER || actionId == 0||actionId == 5) {
             	   Intent intent = new Intent(RecruitmentActivity.this,RecruitmentSearchResultActivity.class);
 					Bundle bundle = new Bundle();
 					bundle.putString("searchStr", searchEdit.getText().toString());

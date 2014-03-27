@@ -50,9 +50,15 @@ public class SelectCurrentIndustryActivity extends BaicActivity {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.select_current_industry_listview);
-		super.setTitleBar("选择目前就职的行业", View.VISIBLE, View.GONE);
-
 		initIntent();
+		if(!StringUtil.isBlank(flag)&&flag.equals("education")){
+			super.setTitleBar("选择专业", View.VISIBLE, View.GONE);
+		}else{
+			super.setTitleBar("选择要就职的行业", View.VISIBLE, View.GONE);
+		}
+		
+
+		
 		initAllView();
 		reigesterAllEvent();
 		requestDataThread();
@@ -87,7 +93,9 @@ public class SelectCurrentIndustryActivity extends BaicActivity {
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
 			if("WorkExperienceEditActivity".equals(flag)){
 				params.add(new BasicNameValuePair("type", "3"));
-			} else {
+			}else if("education".equals(flag)){
+				params.add(new BasicNameValuePair("type", "21"));
+			}else {
 				params.add(new BasicNameValuePair("type", "9"));
 			}
 			params.add(new BasicNameValuePair("key", "1"));
@@ -163,6 +171,7 @@ public class SelectCurrentIndustryActivity extends BaicActivity {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+               
 				Intent intent = getIntent();
 				intent.putExtra("currentIndustry", currentIndustry[position]);
 				intent.putExtra("currentIndustryId", currentIndustryIds[position]);

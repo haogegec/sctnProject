@@ -42,6 +42,12 @@ public class ResumeEditActivity extends BaicActivity{
 		bundle = intent.getExtras();
 		if(bundle!=null){
 			dataList = (ArrayList<ArrayList<HashMap<String, String>>>) bundle.getSerializable("resumeInfo");
+			basicInfoList = dataList.get(0);
+			personalExperienceList = dataList.get(1);
+			workExperienceList = dataList.get(2);
+			educationExperienceList= dataList.get(3);
+			contactList = dataList.get(4);
+			jobIntentionList = dataList.get(5);
 		}
 		
 		initAllView();
@@ -100,12 +106,7 @@ public class ResumeEditActivity extends BaicActivity{
 		itemView5.setDetailImageViewResource(R.drawable.detail);
 		itemView5.setIconImageVisibility(View.GONE);
 		
-		basicInfoList = dataList.get(0);
-		personalExperienceList = dataList.get(1);
-		workExperienceList = dataList.get(2);
-		educationExperienceList= dataList.get(3);
-		contactList = dataList.get(4);
-		jobIntentionList = dataList.get(5);
+		
 		
 	}
 
