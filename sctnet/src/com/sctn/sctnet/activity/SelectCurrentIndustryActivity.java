@@ -54,7 +54,7 @@ public class SelectCurrentIndustryActivity extends BaicActivity {
 		if(!StringUtil.isBlank(flag)&&flag.equals("education")){
 			super.setTitleBar("选择专业", View.VISIBLE, View.GONE);
 		}else{
-			super.setTitleBar("选择要就职的行业", View.VISIBLE, View.GONE);
+			super.setTitleBar("选择目前就职的行业", View.VISIBLE, View.GONE);
 		}
 		
 

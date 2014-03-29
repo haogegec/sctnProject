@@ -42,7 +42,7 @@ public class WorkDirectionActivity extends BaicActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.work_direction_activity);
-		setTitleBar(getString(R.string.workDirectionActivityTitle), View.VISIBLE, View.VISIBLE);
+		setTitleBar(getString(R.string.workDirectionActivityTitle), View.VISIBLE, View.GONE);
 		super.setTitleRightButtonImg(R.drawable.login_btn_bg);
 		initAllView();
 		reigesterAllEvent();

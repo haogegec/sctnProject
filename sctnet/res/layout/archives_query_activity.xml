@@ -6,14 +6,6 @@
     android:background="@color/background"
     android:orientation="vertical" >
 
-    <LinearLayout
-        android:id="@+id/login_useless_layout"
-        android:layout_width="0px"
-        android:layout_height="0px"
-        android:focusable="true"
-        android:focusableInTouchMode="true" >
-    </LinearLayout>
-
     <RelativeLayout
         android:id="@+id/login_relative_layout1"
         android:layout_width="fill_parent"
@@ -60,7 +52,7 @@
             android:layout_height="55dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@drawable/item_selector"
+            android:background="@drawable/linear_layout"
             android:layout_below="@+id/true_name"
             android:gravity="center_vertical"
             android:orientation="horizontal" >
@@ -90,6 +82,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_alignParentRight="true"
+                android:paddingRight="10dp"
                 android:contentDescription="@null"
                 android:shadowColor="#ffffffff"
                 android:shadowDx="0.0"

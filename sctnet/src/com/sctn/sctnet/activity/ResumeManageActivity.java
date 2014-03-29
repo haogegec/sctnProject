@@ -137,7 +137,7 @@ public class ResumeManageActivity extends BaicActivity {
 		resumeNameValue = (TextView) findViewById(R.id.resumeName);
 		resumeUpdateValue = (TextView) findViewById(R.id.resumeUpdateValue);
 		resumeFinishStatusValue = (TextView) findViewById(R.id.resumeFinishStatusValue);
-		resumePublicValue = (TextView) findViewById(R.id.resumeIsPublicText);
+		resumePublicValue = (TextView) findViewById(R.id.resumePublicValue);
 		userId = SharePreferencesUtils.getSharedlongData("userId");
 		Bitmap bitmap = asyncBitmapLoader.loadBitmap(myPhoto, userId + "", userId + "", true, 120, 120, new ImageCallBack() {
 			@Override
@@ -839,17 +839,19 @@ public class ResumeManageActivity extends BaicActivity {
 	private void updateUI() {
 
 		resumeNameValue.setText("我的简历");
-		resumeUpdateValue.setText(resumeInfo.getUpresumetime());
-		finishStatus = (i / 47) * 100 + "%";
+		resumeUpdateValue.setText(resumeInfo.getUpresumetime().substring(0, 10));
+		finishStatus = (int)Math.round(i *100 / 47) + "%";
 		resumeFinishStatusValue.setText(finishStatus);
-		resumePublicValue.setText(resumeInfo.getIshide() + "");
+//		resumePublicValue.setText(resumeInfo.getIshide() + "");
 
 		if (resumeInfo.getIshide() == 0) {
 			isPublicImg.setImageResource(R.drawable.resume_is_secret_bg);
+			resumePublicValue.setText("隐藏");
 			isPublicBtn.setText("隐藏");
 		} else {
 			isPublicImg.setImageResource(R.drawable.resume_is_public_bg);
 			isPublicBtn.setText("公开");
+			resumePublicValue.setText("公开");
 		}
 
 		layout.setVisibility(View.VISIBLE);
@@ -1044,7 +1046,7 @@ public class ResumeManageActivity extends BaicActivity {
 
 			// JSON的解析过程
 			responseJsonObject = new JSONObject(result);
-			if (responseJsonObject.getInt("resultCode") == 0) {// 获得响应结果
+			if (responseJsonObject.getInt("resultcode") == 0) {// 获得响应结果
 				msg.what = 5;
 				handler.sendMessage(msg);
 			} else {

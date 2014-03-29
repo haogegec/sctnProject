@@ -267,6 +267,7 @@
                 android:layout_marginRight="10dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:singleLine="true"
                 android:text="" />
 
         </LinearLayout>

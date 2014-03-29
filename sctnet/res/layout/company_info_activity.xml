@@ -9,7 +9,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@color/background"
-        android:visibility="invisible" >
+        android:visibility="visible" >
 
         <LinearLayout
             android:id="@+id/companyInfo_tab_title"
@@ -17,6 +17,19 @@
             android:layout_height="wrap_content"
             android:background="@color/white" >
 
+            <!-- 职位描述 -->
+
+            <TextView
+                android:id="@+id/job_description_title"
+                android:layout_width="wrap_content"
+                android:layout_height="45dip"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="center"
+                android:text="@string/jobDescription"
+                android:textColor="@color/lightBlack"
+                android:textSize="16.0dip" />
             <!-- 公司简介 -->
 
             <TextView
@@ -25,24 +38,10 @@
                 android:layout_height="45dip"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:background="@color/white"
+                android:background="@color/background"
                 android:gravity="center"
                 android:text="@string/companyProfile"
                 android:textColor="@color/blue"
-                android:textSize="16.0dip" />
-
-            <!-- 附近 -->
-
-            <TextView
-                android:id="@+id/job_description_title"
-                android:layout_width="wrap_content"
-                android:layout_height="45dip"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:background="@color/background"
-                android:gravity="center"
-                android:text="@string/jobDescription"
-                android:textColor="@color/lightBlack"
                 android:textSize="16.0dip" />
         </LinearLayout>
 

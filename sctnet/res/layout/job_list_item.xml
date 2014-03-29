@@ -11,19 +11,17 @@
         android:id="@+id/rl_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
         android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true">
+        android:layout_centerVertical="true"
+        android:padding="10dp" >
 
-           <CheckBox 
-               android:id="@+id/checkbox"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:button="@drawable/common_checkbox"
-               />
-        
+        <CheckBox
+            android:id="@+id/checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/common_checkbox" />
     </RelativeLayout>
-    
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -50,8 +48,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-             >
+            android:layout_marginBottom="10dp" >
 
             <TextView
                 android:id="@+id/degree"
@@ -72,7 +69,8 @@
                 android:layout_toRightOf="@+id/degree"
                 android:text="|" />
 
-           <!--  <TextView
+            <!--
+            <TextView
                 android:id="@+id/workingYears"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -90,7 +88,8 @@
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="10dp"
                 android:layout_toRightOf="@+id/workingYears"
-                android:text="|" /> -->
+                android:text="|" />
+            -->
 
             <TextView
                 android:id="@+id/workplace"
@@ -100,6 +99,27 @@
                 android:layout_marginTop="10dp"
                 android:layout_toRightOf="@+id/divider1"
                 android:text="工作地区" />
+
+            <TextView
+                android:id="@+id/divider2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/workplace"
+                android:text="|" />
+
+            <TextView
+                android:id="@+id/release_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@id/divider2"
+                android:text="发布时间" />
         </RelativeLayout>
     </LinearLayout>
 
@@ -107,15 +127,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true">
-
-        <TextView
-            android:id="@+id/release_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@+id/arrow"
-            android:text="发布时间" />
+        android:layout_centerVertical="true" >
 
         <ImageView
             android:id="@+id/arrow"

@@ -38,8 +38,8 @@ public class InformationQueryActivity extends BaicActivity{
     private SearchEditText searchEdit;
 	private LinearLayout parentLayout;
 	private int pageNo=0;
-	private String bigTitleId;
-	private String title;
+//	private String bigTitleId;
+//	private String title;
 //	private String id;
 	private String searchStr;
 	//服务端返回结果
@@ -67,8 +67,8 @@ public class InformationQueryActivity extends BaicActivity{
 			for(int i=0;i<resultJsonArray.length();i++) {
 				
 				JSONArray dataJsonArray = resultJsonArray.getJSONObject(i).getJSONArray("list");					
-				title = resultJsonArray.getJSONObject(i).getString("colname");
-				bigTitleId = resultJsonArray.getJSONObject(i).getString("id");
+				final String title = resultJsonArray.getJSONObject(i).getString("colname");
+				final String bigTitleId = resultJsonArray.getJSONObject(i).getString("id");
 				LinearLayout l = (LinearLayout)getLayoutInflater().inflate(R.layout.information_big_item, null);
 				TextView titleText = (TextView) l.getChildAt(0);
 				if(i%2==0){

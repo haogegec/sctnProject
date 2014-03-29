@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
                 android:background="@null"
-                android:drawableLeft="@drawable/icon1"
+                android:drawableLeft="@drawable/user_name_img"
                 android:drawablePadding="10dp"
                 android:hint="@string/salarySurvey_username"
                 android:padding="10dp" />
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
                 android:background="@null"
-                android:drawableLeft="@drawable/icon1"
+                android:drawableLeft="@drawable/password_img"
                 android:drawablePadding="10dp"
                 android:hint="@string/salarySurvey_password"
                 android:inputType="textPassword"
