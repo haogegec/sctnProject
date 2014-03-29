@@ -44,7 +44,7 @@ public abstract class BaicActivity extends Activity {
 
 	public SctnAplication sctnApp;
 	private SharedPreferences sharedPreferences;
-	private ImageView titleLeftButton;// 标题栏左边按钮，默认图标为返回，背景为透明
+	protected ImageView titleLeftButton;// 标题栏左边按钮，默认图标为返回，背景为透明
 	private TextView titleTextView;// 标题栏居中标题
 	protected ImageView titleRightButton;// 标题栏右边文字，默认图标为刷新，背景为透明
 

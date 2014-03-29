@@ -1,13 +1,18 @@
 package com.sctn.sctnet.activity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.jsoup.helper.StringUtil;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.MarginLayoutParams;
@@ -17,10 +22,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.cache.CacheProcess;
 import com.sctn.sctnet.contants.Constant;
+import com.sctn.sctnet.sqlite.DBHelper;
 import com.sctn.sctnet.view.ItemView;
 
 /**
@@ -37,8 +42,6 @@ public class JobSearchActivity extends BaicActivity {
 	private ScrollView sv_scroll;
 	private LinearLayout search_history_layout;
 	private Button search_btn;
-	private List<Map<String, String>> listItems = new ArrayList<Map<String, String>>();
-	private CacheProcess cacheProcess;
 	
 	private String areaId="";
 	private String industryTypeId="";
@@ -46,61 +49,127 @@ public class JobSearchActivity extends BaicActivity {
 	
 	private List<Map> backIndustryType;
 	private List<Map> backPositionType;
+	
+	private SQLiteDatabase database;
+	
+	private List<Map<String, Object>> logData = new ArrayList<Map<String, Object>>();
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.job_search_activity);
 		setTitleBar(getString(R.string.jobsearchTitle), View.VISIBLE, View.GONE);
 		
-		cacheProcess = new CacheProcess();
-		listItems = cacheProcess.JobSearchLogInSharedPreferences(JobSearchActivity.this);
 		initAllView();
-		initIntent();
-		reigesterAllEvent();
-	}
-
-	protected void initIntent() {
 		
-		for(int i = 0; i < listItems.size(); i++){
-			RelativeLayout layout = (RelativeLayout)getLayoutInflater().inflate(R.layout.job_search_item, null);
-			
-			ItemView jobSearchLogItem = (ItemView) layout.findViewById(R.id.job_search_log_item);
-			jobSearchLogItem.setBackground(R.drawable.item_up_bg);
-			jobSearchLogItem.setIconImageViewResource(R.drawable.home_btn_normal);
-			jobSearchLogItem.setLabel(listItems.get(i).get("list_" + i+"areaName")+listItems.get(i).get("list_" + i+"JobsClassName")+listItems.get(i).get("list_" + i+"NeedProfessionName"));
-			jobSearchLogItem.setValue(listItems.get(i).get("count"));
-			jobSearchLogItem.setValueTextColor(getResources().getColor(R.color.blue));
-			jobSearchLogItem.setDetailImageViewResource(R.drawable.detail);
-			jobSearchLogItem.setIconImageVisibility(View.GONE);
-	
-			search_history_layout.addView(layout,i);
-			layout.setOnClickListener(new View.OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					
-					Intent intent = new Intent(JobSearchActivity.this,JobListActivity.class);
-					startActivity(intent);
-					
-				}
-			});
-		}
-		if(listItems.size()==0){
-			
-            RelativeLayout layout = (RelativeLayout)getLayoutInflater().inflate(R.layout.job_search_item, null);
-			
-			ItemView jobSearchLogItem = (ItemView) layout.findViewById(R.id.job_search_log_item);
-			jobSearchLogItem.setBackground(R.drawable.item_up_bg);
-			jobSearchLogItem.setIconImageViewResource(R.drawable.home_btn_normal);
-			jobSearchLogItem.setLabel("暂无搜素记录");
-			jobSearchLogItem.setValue("");
-			jobSearchLogItem.setDetailImageVisibility(View.GONE);
-			jobSearchLogItem.setIconImageVisibility(View.GONE);
-			search_history_layout.addView(layout,0);
-		}
-
+		reigesterAllEvent();
+		initLogThread();
 	}
 
+	protected void initLogThread() {
+		
+		//查询数据可能花费太多时间交给子线程去做，在Handler完成数据的显示
+		Thread mThread = new Thread(new Runnable() {// 启动新的线程，
+			@Override
+			public void run() {
+				initData();
+			}
+		});
+       mThread.start();
+		
+		
+
+	}
+	private void initData() {
+		
+		Message msg = new Message();
+		Cursor cursor = database.query("jobSearchLog", new String[] { "_id",
+				"workAreaName", "jobClassName","needProfessionName","workAreaId","jobClassId","needProfessionId","total" }, null, null, null, null, null);
+		while (cursor.moveToNext()) {
+             Map<String,Object> map = new HashMap<String,Object>(); 
+             map.put("workAreaName", cursor.getString(cursor.getColumnIndex("workAreaName")));
+             map.put("jobClassName", cursor.getString(cursor.getColumnIndex("jobClassName")));
+             map.put("needProfessionName", cursor.getString(cursor.getColumnIndex("needProfessionName")));
+             map.put("workAreaId", cursor.getString(cursor.getColumnIndex("workAreaId")));
+             map.put("jobClassId", cursor.getString(cursor.getColumnIndex("jobClassId")));
+             map.put("needProfessionId", cursor.getString(cursor.getColumnIndex("needProfessionId")));
+             map.put("total", cursor.getString(cursor.getColumnIndex("total")));
+             logData.add(map);
+		}
+		msg.what = 0;
+		handler.sendMessage(msg);
+
+	}
+	// 处理线程发送的消息
+	private Handler handler = new Handler() {
+
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case 0:
+				initUI();
+				break;
+			}
+		}
+	};
+	private void initUI(){
+		
+            int begin = 0;
+            int end = 0;
+            int index = 0;
+		    if(logData==null||logData.size()==0){
+		    	RelativeLayout layout = (RelativeLayout)getLayoutInflater().inflate(R.layout.job_search_item, null);
+				
+				ItemView jobSearchLogItem = (ItemView) layout.findViewById(R.id.job_search_log_item);
+				jobSearchLogItem.setBackground(R.drawable.item_up_bg);
+				jobSearchLogItem.setIconImageViewResource(R.drawable.home_btn_normal);
+				jobSearchLogItem.setLabel("暂无搜素记录");
+				jobSearchLogItem.setValue("");
+				jobSearchLogItem.setDetailImageVisibility(View.GONE);
+				jobSearchLogItem.setIconImageVisibility(View.GONE);
+				search_history_layout.addView(layout,0);
+		    }else{
+		    	if(logData.size()>=5){
+		    		begin = logData.size()-1;
+		    		end = logData.size()-5;
+		    	}else{
+		    		begin = logData.size()-1;
+		    		end = 0;
+		    	}
+		    	for(int i = begin; i >= end; i--){
+					RelativeLayout layout = (RelativeLayout)getLayoutInflater().inflate(R.layout.job_search_item, null);
+					final Map<String,Object> map = logData.get(i);
+					ItemView jobSearchLogItem = (ItemView) layout.findViewById(R.id.job_search_log_item);
+					jobSearchLogItem.setBackground(R.drawable.item_up_bg);
+					jobSearchLogItem.setIconImageViewResource(R.drawable.home_btn_normal);
+					jobSearchLogItem.setLabel(map.get("workAreaName")+"+"+map.get("jobClassName")+"+"+map.get("needProfessionName"));
+					jobSearchLogItem.setValue(map.get("total").toString());
+					jobSearchLogItem.setValueTextColor(getResources().getColor(R.color.blue));
+					jobSearchLogItem.setDetailImageViewResource(R.drawable.detail);
+					jobSearchLogItem.setIconImageVisibility(View.GONE);
+			        
+					search_history_layout.addView(layout,index++);
+					layout.setOnClickListener(new View.OnClickListener() {
+						
+						@Override
+						public void onClick(View v) {
+							
+							Intent intent = new Intent(JobSearchActivity.this,JobListActivity.class);
+							Bundle bundle = new Bundle();
+							bundle.putString("areaId", map.get("workAreaId").toString());
+							bundle.putString("industryTypeId",map.get("jobClassId").toString());
+							bundle.putString("positionTypeId",map.get("needProfessionId").toString());
+							bundle.putString("areaName", map.get("workAreaName").toString());
+							bundle.putString("industryTypeName", map.get("jobClassName").toString());
+							bundle.putString("positionTypeName", map.get("needProfessionName").toString());
+							intent.putExtras(bundle);
+							startActivity(intent);
+							finish();
+						}
+					});
+				}
+		    }
+            
+	}
 	@Override
 	protected void initAllView() {
 
@@ -133,6 +202,10 @@ public class JobSearchActivity extends BaicActivity {
 		search_btn = (Button) findViewById(R.id.search_btn);
 		sv_scroll = (ScrollView) findViewById(R.id.sv_scroll);
 		search_history_layout = (LinearLayout) findViewById(R.id.search_history_layout);
+		
+		//初始化本地数据库
+	    DBHelper dbHelper = new DBHelper(this,"jobSearchLog");
+        database = dbHelper.getWritableDatabase();
 	}
 
 	@Override
@@ -193,6 +266,7 @@ public class JobSearchActivity extends BaicActivity {
 				bundle.putString("positionTypeName", searchitemView3.getValue());
 				intent.putExtras(bundle);
 				startActivity(intent);
+				finish();
 				
 			}
 		});

@@ -46,7 +46,7 @@ public class Constant {
 
 	public static final int PROVINCE_TYPE = 1;// 请求省份类型id
 	public static final int CITY_TYPE = 2;// 请求市类型id
-	public static final int INDUSTRY_TYPE = 3;// 请求行业类型id
+	public static final int INDUSTRY_TYPE = 22;// 请求行业类型id
 	public static final int POSITION_TYPE = 4;// 请求职业类型id
 	public static final int POSITION_DETAIL_TYPE = 5;//请求详细职位类型id
 

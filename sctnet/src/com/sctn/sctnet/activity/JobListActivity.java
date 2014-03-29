@@ -13,8 +13,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
@@ -22,16 +25,17 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -40,9 +44,9 @@ import android.widget.Toast;
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.Utils.SharePreferencesUtils;
 import com.sctn.sctnet.Utils.StringUtil;
-import com.sctn.sctnet.cache.CacheProcess;
 import com.sctn.sctnet.contants.Constant;
 import com.sctn.sctnet.entity.LoginInfo;
+import com.sctn.sctnet.sqlite.DBHelper;
 
 /**
  * 职位搜索结果界面
@@ -92,12 +96,14 @@ public class JobListActivity extends BaicActivity {
 
 	private int itemCount; // 当前窗口可见项总数
 	private int visibleLastIndex = 0;// 最后的可视项索引
+	private SQLiteDatabase database;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.job_list_activity);
 		setTitleBar("共" + total + "个职位", View.VISIBLE, View.GONE);
+		
 		Intent intent = this.getIntent();
 		Bundle bundle = intent.getExtras();
 		if (bundle.getString("whichActivity") != null) {
@@ -114,6 +120,10 @@ public class JobListActivity extends BaicActivity {
 			needProfessionName = bundle.getString("positionTypeName");
 		}
 
+		//初始化本地数据库
+		DBHelper dbHelper = new DBHelper(this,"jobSearchLog");
+		database = dbHelper.getWritableDatabase();
+		
 		// 初始化ShareSDK
 		// AbstractWeibo.initSDK(this);
 		initImagePath();
@@ -122,6 +132,14 @@ public class JobListActivity extends BaicActivity {
 		requestDataThread(0);// 第一次请求数据
 	}
 
+	public Long getCount() {
+		  
+		  Cursor cursor = database.rawQuery("select count(*) from jobSearchLog",null);
+		  cursor.moveToFirst();
+		  Long count = cursor.getLong(0);
+		  cursor.close();
+		  return count;
+	}
 	/**
 	 * 初始化分享的图片
 	 */
@@ -272,9 +290,27 @@ public class JobListActivity extends BaicActivity {
 
 			// }
 		});
+		super.titleLeftButton.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(JobListActivity.this,JobSearchActivity.class);
+				startActivity(intent);
+				finish();				
+			}
+			
+		});
 
 	}
-
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (((keyCode == KeyEvent.KEYCODE_BACK) || (keyCode == KeyEvent.KEYCODE_HOME))
+				&& event.getRepeatCount() == 0) {
+			Intent intent = new Intent(JobListActivity.this,JobSearchActivity.class);
+			startActivity(intent);
+			finish();
+		}
+		return false;
+	}
 	// /**
 	// * 使用快捷分享完成图文分享
 	// */
@@ -463,7 +499,7 @@ public class JobListActivity extends BaicActivity {
 			}
 
 			if (StringUtil.isBlank(result)) {
-				result = StringUtil.getAppException4MOS("未获得服务器响应结果！");
+				result = StringUtil.getAppException4MOS("很遗憾，您要的信息未找到！");
 				JobListActivity.this.sendExceptionMsg(result);
 				return;
 			}
@@ -477,13 +513,32 @@ public class JobListActivity extends BaicActivity {
 				JSONArray resultJsonArray = responseJsonObject.getJSONArray("result");
 
 				if (resultJsonArray == null || resultJsonArray.length() == 0) {
-					String err = StringUtil.getAppException4MOS("没有您要搜索的结果");
+					String err = StringUtil.getAppException4MOS("很遗憾，您要的信息未找到！");
 					JobListActivity.this.sendExceptionMsg(err);
 					total = 0;
 					return;
 				}
-
+                
 				total = responseJsonObject.getInt("resultCount");// 总数
+				//将搜索记录保存到本地数据库中
+				String[] id = {String.valueOf(0)};
+				if(getCount()>5){
+					database.delete("jobSearchLog", "_id=?", id);
+				}
+				String[] arg = {workRegion,jobsClass,needProfession};
+				database.delete("jobSearchLog", "workAreaId=? and jobClassId=? and needProfessionId=?", arg);
+				ContentValues values = new ContentValues();
+				values.put("workAreaName", workRegionName);
+				values.put("jobClassName", jobsClassName);
+				values.put("needProfessionName", needProfessionName);
+				values.put("workAreaId", workRegion);
+				values.put("jobClassId", jobsClass);
+				values.put("needProfessionId", needProfession);
+				values.put("total", "约"+total+"个");
+								
+				database.insert("jobSearchLog", null, values);
+				
+				
 				if (resultJsonArray.length() > 15) {
 					count = 15;
 				} else {

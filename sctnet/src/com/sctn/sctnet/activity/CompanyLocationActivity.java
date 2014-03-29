@@ -13,10 +13,12 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.LinearLayout.LayoutParams;
 
 import com.baidu.mapapi.BMapManager;
 import com.baidu.mapapi.GeoPoint;
@@ -47,15 +49,15 @@ public class CompanyLocationActivity extends MapActivity {
 	private MapView mMapView = null;	// 地图View
 	private MKSearch mSearch = null;	// 搜索模块，也可去掉地图模块独立使用
 	private BMapManager mapManager;
-	private TextView desText;
-	
-	private ImageView image;
 	
 	private String city;//城市
 	private String detailAddress;//详细地址
 	
+	static GeoPoint point;
+	
 	protected void onCreate(Bundle savedInstanceState) {
 		
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.company_location_activity);
 
@@ -70,7 +72,6 @@ public class CompanyLocationActivity extends MapActivity {
         city = bundle.getString("city");
         detailAddress = bundle.getString("detailAddress");
   
-     	image = (ImageView) findViewById(R.id.point_image);
         mMapView = (MapView)findViewById(R.id.map_view);
         
         MapController mapController = mMapView.getController(); 
@@ -78,8 +79,6 @@ public class CompanyLocationActivity extends MapActivity {
         mMapView.setBuiltInZoomControls(true);
         mMapView.setDrawOverlayWhenZooming(true);
         
-        desText = (TextView) this.findViewById(R.id.map_bubbleText);
-        desText.setText("正在加载中...");
         // 初始化搜索模块，注册事件监听
         mSearch = new MKSearch();
         mSearch.init(mapManager, new MKSearchListener() {
@@ -89,23 +88,34 @@ public class CompanyLocationActivity extends MapActivity {
 			public void onGetAddrResult(MKAddrInfo res, int error) {
 				if (error != 0) {
 				//	String str = String.format("错误号：%d", error);
-					desText.setVisibility(View.GONE);
-					image.setVisibility(View.GONE);
+					
 					Toast.makeText(CompanyLocationActivity.this,"抱歉，未找到相关位置", Toast.LENGTH_LONG).show();
 					return;
 				}
-				image.setVisibility(View.GONE);
+				
 				mMapView.getController().animateTo(res.geoPt);
 					
 //				String strInfo = String.format("纬度：%f 经度：%f\r\n", res.geoPt.getLatitudeE6()/1e6, 
 //							res.geoPt.getLongitudeE6()/1e6);
-				desText.setText(detailAddress);
-			//	Toast.makeText(CompanyLocationActivity.this, strInfo, Toast.LENGTH_LONG).show();
+				
 				Drawable marker = getResources().getDrawable(R.drawable.point_start);  //得到需要标在地图上的资源
 				marker.setBounds(0, 0, marker.getIntrinsicWidth(), marker
 						.getIntrinsicHeight());   //为maker定义位置和边界
+				View mPopView = getLayoutInflater().inflate(R.layout.company_location_popwindow, null);
+				OverItemT overItemT = new OverItemT(marker, CompanyLocationActivity.this, res.geoPt, res.strAddr);
+				mMapView.addView(mPopView, new MapView.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, null, MapView.LayoutParams.TOP_LEFT));
+			    mPopView.setVisibility(View.GONE);
+			    TextView text = (TextView) mPopView.findViewById(R.id.address);
+			    text.setText(detailAddress);
+			    mMapView.updateViewLayout( mPopView,
+		                new MapView.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT,
+		                		point, MapView.LayoutParams.BOTTOM_CENTER));
+				mPopView.setVisibility(View.VISIBLE);
 				
 				mMapView.getOverlays().clear();
+				mMapView.getOverlays().add(overItemT);
+				
+				
 				mMapView.getOverlays().add(new OverItemT(marker, CompanyLocationActivity.this, res.geoPt, res.strAddr));
 				
 
@@ -223,7 +233,7 @@ public class CompanyLocationActivity extends MapActivity {
 
 		public OverItemT(Drawable marker, Context context, GeoPoint pt, String title) {
 			super(boundCenterBottom(marker));
-			
+			point = pt;
 			mGeoList.add(new OverlayItem(pt, title, null));
 
 			populate();
