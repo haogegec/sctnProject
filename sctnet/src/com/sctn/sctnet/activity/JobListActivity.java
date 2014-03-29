@@ -86,8 +86,6 @@ public class JobListActivity extends BaicActivity {
 	private String jobIdAndCompanyId;// 职位搜索结果中，可以同时选择多个职位进行申请（格式：jobId1-companyId1|jobId2-companyId2|jobId3-companyId3|......）
 	private String jobId;// 职位搜索结果中，可以同时选择多个职位进行收藏（格式：jobId1|jobId2|jobId3|......）
 	private String jobShare;// 职位分享，可以同时选择多个职位进行分享（格式：company开始招聘job|company开始招聘job|company开始招聘job|......）
-
-	private CacheProcess cacheProcess;
 	private String whichUrl = "";
 	private String type;
 	private String key;
@@ -115,8 +113,6 @@ public class JobListActivity extends BaicActivity {
 			jobsClassName = bundle.getString("industryTypeName");
 			needProfessionName = bundle.getString("positionTypeName");
 		}
-
-		cacheProcess = new CacheProcess();
 
 		// 初始化ShareSDK
 		// AbstractWeibo.initSDK(this);
@@ -488,17 +484,6 @@ public class JobListActivity extends BaicActivity {
 				}
 
 				total = responseJsonObject.getInt("resultCount");// 总数
-				if (i == 0) {
-					HashMap<String, String> map = new HashMap<String, String>();
-					map.put("area", workRegion);
-					map.put("JobsClass", jobsClass);
-					map.put("NeedProfession", needProfession);
-					map.put("areaName", workRegionName);
-					map.put("JobsClassName", jobsClassName);
-					map.put("NeedProfessionName", needProfessionName);
-					map.put("count", total + "");
-					cacheProcess.initJobSearchLogInSharedPreferences(JobListActivity.this, map);
-				}
 				if (resultJsonArray.length() > 15) {
 					count = 15;
 				} else {
@@ -713,6 +698,7 @@ public class JobListActivity extends BaicActivity {
 					bundle.putString("flag", "jobListActivity");
 					bundle.putString("jobId", list.get(position).get("jobsid").toString());
 					bundle.putString("companyId", list.get(position).get("companyid").toString());
+					bundle.putString("workRegionName", workRegionName);
 					intent.putExtras(bundle);
 					startActivity(intent);
 

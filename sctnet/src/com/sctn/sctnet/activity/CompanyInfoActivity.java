@@ -53,6 +53,7 @@ public class CompanyInfoActivity extends BaicActivity {
 	private String flag;// 标识：是从JobListActivity页面进来还是从ReadMyResumeActivity页面进来
 	private String jobId;
 	private String companyId;
+	private String workRegionName;//用来传送给地图，城市
 
 	private String result;// 服务端返回的结果
 
@@ -98,6 +99,7 @@ public class CompanyInfoActivity extends BaicActivity {
 		flag = bundle.getString("flag");
 		jobId = bundle.getString("jobId");
 		companyId = bundle.getString("companyId");
+		workRegionName = bundle.getString("workRegionName");
 	}
 
 	/**
@@ -288,6 +290,7 @@ public class CompanyInfoActivity extends BaicActivity {
 				Intent intent = new Intent(CompanyInfoActivity.this,CompanyLocationActivity.class);
 				Bundle bundle = new Bundle();
 				bundle.putString("detailAddress", tv_companyAddress.getText().toString());
+				bundle.putString("city", workRegionName);
 				intent.putExtras(bundle);
 				startActivity(intent);
 			}
@@ -320,6 +323,7 @@ public class CompanyInfoActivity extends BaicActivity {
 				Intent intent = new Intent(CompanyInfoActivity.this,CompanyLocationActivity.class);
 				Bundle bundle = new Bundle();
 				bundle.putString("detailAddress", tv_companyAddress.getText().toString());
+				bundle.putString("city", workRegionName);
 				intent.putExtras(bundle);
 				startActivity(intent);
 			}
@@ -421,13 +425,12 @@ public class CompanyInfoActivity extends BaicActivity {
 				companyEmail = companyInfo.getString("companyemail");
 				companyWebsite = companyInfo.getString("companywebsite");
 				workingArea = companyInfo.getString("workregionname");
-				
 				if(!StringUtil.isBlank(companyInfo.getString("posttime"))){
 					releaseTime = companyInfo.getString("posttime").substring(0,10);
 				}else{
 					releaseTime = companyInfo.getString("posttime");
 				}
-
+				
 				jobName = companyInfo.getString("jobsname");
 				jobDetail = companyInfo.getString("description");
 

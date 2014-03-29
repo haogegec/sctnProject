@@ -67,7 +67,7 @@ public class JobSearchActivity extends BaicActivity {
 			ItemView jobSearchLogItem = (ItemView) layout.findViewById(R.id.job_search_log_item);
 			jobSearchLogItem.setBackground(R.drawable.item_up_bg);
 			jobSearchLogItem.setIconImageViewResource(R.drawable.home_btn_normal);
-			jobSearchLogItem.setLabel(listItems.get(i).get("list_" + i+"areaName")+listItems.get(i).get("list_" + i+"JobsClass")+listItems.get(i).get("list_" + i+"NeedProfession"));
+			jobSearchLogItem.setLabel(listItems.get(i).get("list_" + i+"areaName")+listItems.get(i).get("list_" + i+"JobsClassName")+listItems.get(i).get("list_" + i+"NeedProfessionName"));
 			jobSearchLogItem.setValue(listItems.get(i).get("count"));
 			jobSearchLogItem.setValueTextColor(getResources().getColor(R.color.blue));
 			jobSearchLogItem.setDetailImageViewResource(R.drawable.detail);

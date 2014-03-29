@@ -11,7 +11,7 @@
         android:orientation="vertical" >
 
         <!-- 百度MapView控件 -->
-
+        <!--
         <com.baidu.mapapi.MapView
             android:id="@+id/map_view"
             android:layout_width="fill_parent"
@@ -19,6 +19,14 @@
             android:apiKey="0Mg_koWoyZUiYLfZxmPfp4LKInB5LqTnagYueaw"
             android:clickable="true"
             android:enabled="true" />
+
+        -->
+
+        <com.baidu.mapapi.MapView
+            android:id="@+id/map_view"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:clickable="true" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -50,7 +58,7 @@
             android:orientation="vertical" >
 
             <!-- 位置指标显示ImageView -->
-
+ 
             <ImageView
                 android:id="@+id/point_image"
                 android:layout_width="wrap_content"
@@ -58,6 +66,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="30dip"
                 android:src="@drawable/point_start" />
+                
         </LinearLayout>
     </FrameLayout>
 

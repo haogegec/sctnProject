@@ -1,26 +1,31 @@
 package com.sctn.sctnet.activity;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
+import android.content.Context;
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
+import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
-import android.view.Window;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.baidu.mapapi.BMapManager;
 import com.baidu.mapapi.GeoPoint;
-import com.baidu.mapapi.LocationListener;
+import com.baidu.mapapi.ItemizedOverlay;
 import com.baidu.mapapi.MKAddrInfo;
 import com.baidu.mapapi.MKBusLineResult;
 import com.baidu.mapapi.MKDrivingRouteResult;
-import com.baidu.mapapi.MKLocationManager;
+import com.baidu.mapapi.MKEvent;
+import com.baidu.mapapi.MKGeneralListener;
 import com.baidu.mapapi.MKPoiResult;
 import com.baidu.mapapi.MKSearch;
 import com.baidu.mapapi.MKSearchListener;
@@ -30,120 +35,181 @@ import com.baidu.mapapi.MKWalkingRouteResult;
 import com.baidu.mapapi.MapActivity;
 import com.baidu.mapapi.MapController;
 import com.baidu.mapapi.MapView;
-import com.baidu.mapapi.Overlay;
-import com.baidu.mapapi.PoiOverlay;
+import com.baidu.mapapi.OverlayItem;
 import com.sctn.sctnet.R;
-import com.sctn.sctnet.map.MyMapOverlay;
-
-public class CompanyLocationActivity extends MapActivity implements LocationListener {
-
-	private MapView mapView;
-	private MapController mMapCtrl;
-	private List<Overlay> mapOverlays;
-	public GeoPoint locPoint;
-	private MyMapOverlay mOverlay;
-	private TextView desText;
-	private String lost_tips;
-	private int point_X;
-	private int point_Y;
-
-	public final int MSG_VIEW_LONGPRESS = 10001;
-	public final int MSG_VIEW_ADDRESSNAME = 10002;
-	public final int MSG_GONE_ADDRESSNAME = 10003;
-	private Intent mIntent;
-	private int mLatitude;
-	private int mLongitude;
-	private String name;
+/**
+ * 用地图显示公司的位置
+ * @author xueweiwei
+ *
+ */
+public class CompanyLocationActivity extends MapActivity {
+	
+	private MapView mMapView = null;	// 地图View
+	private MKSearch mSearch = null;	// 搜索模块，也可去掉地图模块独立使用
 	private BMapManager mapManager;
-	private MKLocationManager mLocationManager = null;
-	private boolean isLoadAdrr = true;
-	private MKSearch mMKSearch;
+	private TextView desText;
+	
+	private ImageView image;
+	
+	private String city;//城市
 	private String detailAddress;//详细地址
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.company_location_activity);
+	
+	protected void onCreate(Bundle savedInstanceState) {
 		
-		mIntent = getIntent();
-		mLatitude = mIntent.getIntExtra("latitude", 0);
-		mLongitude = mIntent.getIntExtra("longitude", 0);
-		name = mIntent.getStringExtra("name");
-		Bundle bundle = mIntent.getExtras();
-		detailAddress = bundle.getString("detailAddress");
-		initMap();
-		mapView = (MapView) findViewById(R.id.map_view);
-		desText = (TextView) this.findViewById(R.id.map_bubbleText);
-		lost_tips = getResources().getString(R.string.load_tips);
-		if (mLatitude != 0 && mLongitude != 0) {
-			locPoint = new GeoPoint((int) (mLatitude * 1E6),
-					(int) (mLongitude * 1E6));
-			desText.setText(name);
-		}
-		mapView.setBuiltInZoomControls(true);
-		mapView.setClickable(true);
-		mMapCtrl = mapView.getController();
-		point_X = this.getWindowManager().getDefaultDisplay().getWidth() / 2;
-		point_Y = this.getWindowManager().getDefaultDisplay().getHeight() / 2;
-		mOverlay = new MyMapOverlay(point_X, point_Y) {
-			@Override
-			public void changePoint(GeoPoint newPoint, int type) {
-				if (type == 1) {
-					mHandler.sendEmptyMessage(MSG_GONE_ADDRESSNAME);
-				} else {
-					locPoint = newPoint;
-					mHandler.sendEmptyMessage(MSG_VIEW_LONGPRESS);
+		super.onCreate(savedInstanceState);
+        setContentView(R.layout.company_location_activity);
+
+     	mapManager = new BMapManager(getApplication());
+     	// init方法的第一个参数需填入申请的API Key
+     	mapManager.init("C66C0501D0280744759A6957C42543AE38F5D540", null);
+     // 如果使用地图SDK，请初始化地图Activity
+     	super.initMapActivity(mapManager);
+     	
+        Intent intent = this.getIntent();
+        Bundle bundle = intent.getExtras();
+        city = bundle.getString("city");
+        detailAddress = bundle.getString("detailAddress");
+  
+     	image = (ImageView) findViewById(R.id.point_image);
+        mMapView = (MapView)findViewById(R.id.map_view);
+        
+        MapController mapController = mMapView.getController(); 
+     	mapController.setZoom(18);// 设置缩放级别 
+        mMapView.setBuiltInZoomControls(true);
+        mMapView.setDrawOverlayWhenZooming(true);
+        
+        desText = (TextView) this.findViewById(R.id.map_bubbleText);
+        desText.setText("正在加载中...");
+        // 初始化搜索模块，注册事件监听
+        mSearch = new MKSearch();
+        mSearch.init(mapManager, new MKSearchListener() {
+            public void onGetPoiDetailSearchResult(int type, int error) {
+            }
+            
+			public void onGetAddrResult(MKAddrInfo res, int error) {
+				if (error != 0) {
+				//	String str = String.format("错误号：%d", error);
+					desText.setVisibility(View.GONE);
+					image.setVisibility(View.GONE);
+					Toast.makeText(CompanyLocationActivity.this,"抱歉，未找到相关位置", Toast.LENGTH_LONG).show();
+					return;
 				}
+				image.setVisibility(View.GONE);
+				mMapView.getController().animateTo(res.geoPt);
+					
+//				String strInfo = String.format("纬度：%f 经度：%f\r\n", res.geoPt.getLatitudeE6()/1e6, 
+//							res.geoPt.getLongitudeE6()/1e6);
+				desText.setText(detailAddress);
+			//	Toast.makeText(CompanyLocationActivity.this, strInfo, Toast.LENGTH_LONG).show();
+				Drawable marker = getResources().getDrawable(R.drawable.point_start);  //得到需要标在地图上的资源
+				marker.setBounds(0, 0, marker.getIntrinsicWidth(), marker
+						.getIntrinsicHeight());   //为maker定义位置和边界
+				
+				mMapView.getOverlays().clear();
+				mMapView.getOverlays().add(new OverItemT(marker, CompanyLocationActivity.this, res.geoPt, res.strAddr));
+				
 
 			}
+			public void onGetPoiResult(MKPoiResult res, int type, int error) {
+				if (error != 0 || res == null) {
+					Toast.makeText(CompanyLocationActivity.this, "解析失败", Toast.LENGTH_LONG).show();
+					return;
+				}
+				if (res != null && res.getCurrentNumPois() > 0) {
+					GeoPoint ptGeo = res.getAllPoi().get(0).pt;
+					// 移动地图到该点：
+					mMapView.getController().animateTo(ptGeo);
+					
+					String strInfo = String.format("纬度：%f 经度：%f\r\n", ptGeo.getLatitudeE6()/1e6, 
+							ptGeo.getLongitudeE6()/1e6);
+					strInfo += "\r\n附近有：";
+					for (int i = 0; i < res.getAllPoi().size(); i++) {
+						strInfo += (res.getAllPoi().get(i).name + ";");
+					}
+					Toast.makeText(CompanyLocationActivity.this, strInfo, Toast.LENGTH_LONG).show();
+				}
+			}
+			public void onGetDrivingRouteResult(MKDrivingRouteResult res,
+					int error) {
+			}
+			public void onGetTransitRouteResult(MKTransitRouteResult res,
+					int error) {
+			}
+			public void onGetWalkingRouteResult(MKWalkingRouteResult res,
+					int error) {
+			}
+			public void onGetBusDetailResult(MKBusLineResult result, int iError) {
+			}
+			public void onGetSuggestionResult(MKSuggestionResult res, int arg1) {
+				// TODO Auto-generated method stub
+				
+			}
+            public void onGetRGCShareUrlResult(String arg0, int arg1) {
+                // TODO Auto-generated method stub
+                
+            }
+
+        });
+        
+  
+  
+        
+        Thread mThread = new Thread(new Runnable() {// 启动新的线程，
+			public void run() {
+				requestData();
+			}
+		});
+        mThread.start();
+	}
+	
+	private void requestData() {
+		Message msg = new Message();
+		msg.what = 0;
+		handler.sendMessage(msg);
+	}
+	// 处理线程发送的消息
+		private Handler handler = new Handler() {
+
+			public void handleMessage(Message msg) {
+				switch (msg.what) {
+				case 0:
+					mSearch.geocode(detailAddress, city);
+					break;
+				}
+			}
 		};
-		mapOverlays = mapView.getOverlays();
-		if (mapOverlays.size() > 0) {
-			mapOverlays.clear();
-		}
-		mapOverlays.add(mOverlay);
-		mMapCtrl.setZoom(20);
-
-	}
-
-	private void initMap() {
-
-		// 初始化MapActivity
-		mapManager = new BMapManager(getApplication());
-		// init方法的第一个参数需填入申请的API Key
-		mapManager.init("C66C0501D0280744759A6957C42543AE38F5D540", null);
-		super.initMapActivity(mapManager);
-		// 实例化搜索地址类
-		mMKSearch = new MKSearch();
-		// 初始化搜索地址实例
+	
+	// 常用事件监听，用来处理通常的网络错误，授权验证错误等
+		static class MyGeneralListener implements MKGeneralListener {
 		
-		mMKSearch.init(mapManager, new MySearchListener());
-//		mMKSearch.geocode("学知园", "北京");
-		mLocationManager = mapManager.getLocationManager();
-		// 注册位置更新事件
-		mLocationManager.requestLocationUpdates(this);
-		// 使用GPS定位
-		mLocationManager
-				.enableProvider((int) MKLocationManager.MK_GPS_PROVIDER);
-	}
+			public void onGetNetworkState(int iError) {
+			//	Toast.makeText(BMapApiDemoApp.mDemoApp.getApplicationContext(), "网络连接异常处理", Toast.LENGTH_LONG).show();
+				
+			}
 
+		
+			public void onGetPermissionState(int iError) {
+				Log.d("MyGeneralListener", "onGetPermissionState error is "+ iError);
+				if (iError ==  MKEvent.ERROR_PERMISSION_DENIED) {
+					// 授权Key错误：
+			//		Toast.makeText(BMapApiDemoApp.mDemoApp.getApplicationContext(), "百度授权出错", Toast.LENGTH_LONG).show();
+					
+				}
+			}
+		}
+	@Override
+	protected void onPause() {
+		if (mapManager != null) {
+			mapManager.stop();
+		}
+		super.onPause();
+	}
 	@Override
 	protected void onResume() {
 		if (mapManager != null) {
 			mapManager.start();
 		}
 		super.onResume();
-
-	}
-
-	@Override
-	protected void onPause() {
-		isLoadAdrr = false;
-		if (mapManager != null) {
-			mapManager.stop();
-		}
-		super.onPause();
 	}
 
 	@Override
@@ -151,184 +217,32 @@ public class CompanyLocationActivity extends MapActivity implements LocationList
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	class OverItemT extends ItemizedOverlay<OverlayItem>{
+		private List<OverlayItem> mGeoList = new ArrayList<OverlayItem>();
 
-
-	/**
-	 * 通过经纬度获取地址
-	 * 
-	 * @param point
-	 * @return
-	 */
-	private String getLocationAddress(GeoPoint point) {
-		String add = "";
-		Geocoder geoCoder = new Geocoder(getBaseContext(), Locale.getDefault());
-		try {
-			List<Address> addresses = geoCoder.getFromLocation(
-					point.getLatitudeE6() / 1E6, point.getLongitudeE6() / 1E6,
-					1);
-			Address address = addresses.get(0);
-			int maxLine = address.getMaxAddressLineIndex();
-			if (maxLine >= 2) {
-				add = address.getAddressLine(1) + address.getAddressLine(2);
-			} else {
-				add = address.getAddressLine(1);
-			}
-		} catch (IOException e) {
-			add = "";
-			e.printStackTrace();
-		}
-		return add;
-	}
-
-
-	private Handler mHandler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-			case MSG_VIEW_LONGPRESS:// 处理长按时间返回位置信息
-			{
-				if (null == locPoint)
-					return;
-				mMKSearch.reverseGeocode(locPoint);
-				desText.setVisibility(View.VISIBLE);
-				desText.setText(lost_tips);
-				mMapCtrl.animateTo(locPoint);
-				mapView.invalidate();
-			}
-				break;
-			case MSG_VIEW_ADDRESSNAME:
-				desText.setText((String) msg.obj);
-				desText.setVisibility(View.VISIBLE);
-				break;
-			case MSG_GONE_ADDRESSNAME:
-				desText.setVisibility(View.GONE);
-				break;
-			}
-		}
-	};
-
-	// 关闭程序也关闭定位
-	@Override
-	protected void onDestroy() {
-		if (mapManager != null) {
-			mapManager.destroy();
-			mapManager = null;
-		}
-		super.onDestroy();
-	}
-
-	/**
-	 * 根据MyLocationOverlay配置的属性确定是否在地图上显示当前位置
-	 */
-	@Override
-	protected boolean isLocationDisplayed() {
-		return false;
-	}
-
-	/**
-	 * 当位置发生变化时触发此方法
-	 * 
-	 * @param location
-	 *            当前位置
-	 */
-	public void onLocationChanged(Location location) {
-		if (location != null) {
-			locPoint = new GeoPoint((int) (location.getLatitude()* 1E6),
-					(int) (location.getLongitude()* 1E6));
-			mHandler.sendEmptyMessage(MSG_VIEW_LONGPRESS);
-		}
-	}
-
-	/**
-	 * 内部类实现MKSearchListener接口,用于实现异步搜索服务
-	 * 
-	 * @author liufeng
-	 */
-	public class MySearchListener implements MKSearchListener {
-		/**
-		 * 根据经纬度搜索地址信息结果
-		 * 
-		 * @param result
-		 *            搜索结果
-		 * @param iError
-		 *            错误号（0表示正确返回）
-		 */
-		public void onGetAddrResult(MKAddrInfo result, int iError) {
-			if (result == null) {
-				return;
-			}
-			Message msg = new Message();
-			msg.what = MSG_VIEW_ADDRESSNAME;
-			msg.obj = result.strAddr;
-			mHandler.sendMessage(msg);
-
-		}
-
-		/**
-		 * 驾车路线搜索结果
-		 * 
-		 * @param result
-		 *            搜索结果
-		 * @param iError
-		 *            错误号（0表示正确返回）
-		 */
-		public void onGetDrivingRouteResult(MKDrivingRouteResult result,
-				int iError) {
-		}
-
-		/**
-		 * POI搜索结果（范围检索、城市POI检索、周边检索）
-		 * 
-		 * @param result
-		 *            搜索结果
-		 * @param type
-		 *            返回结果类型（11,12,21:poi列表 7:城市列表）
-		 * @param iError
-		 *            错误号（0表示正确返回）
-		 */
-		public void onGetPoiResult(MKPoiResult result, int type, int iError) {
+		public OverItemT(Drawable marker, Context context, GeoPoint pt, String title) {
+			super(boundCenterBottom(marker));
 			
-			if(result == null){
-				return;
-			}
-			PoiOverlay overlay = new PoiOverlay(CompanyLocationActivity.this,mapView);
-			overlay.setData(result.getAllPoi());
-			mapView.getOverlays().add(overlay);
-			mapView.invalidate();
+			mGeoList.add(new OverlayItem(pt, title, null));
+
+			populate();
 		}
 
-		/**
-		 * 公交换乘路线搜索结果
-		 * 
-		 * @param result
-		 *            搜索结果
-		 * @param iError
-		 *            错误号（0表示正确返回）
-		 */
-		public void onGetTransitRouteResult(MKTransitRouteResult result,
-				int iError) {
+		@Override
+		protected OverlayItem createItem(int i) {
+			return mGeoList.get(i);
 		}
 
-		/**
-		 * 步行路线搜索结果
-		 * 
-		 * @param result
-		 *            搜索结果
-		 * @param iError
-		 *            错误号（0表示正确返回）
-		 */
-		public void onGetWalkingRouteResult(MKWalkingRouteResult result,
-				int iError) {
+		@Override
+		public int size() {
+			return mGeoList.size();
 		}
 
-		public void onGetBusDetailResult(MKBusLineResult arg0, int arg1) {
-			// TODO Auto-generated method stub
-
-		}
-
-		public void onGetSuggestionResult(MKSuggestionResult arg0, int arg1) {
-			// TODO Auto-generated method stub
-
+		@Override
+		public boolean onSnapToItem(int i, int j, Point point, MapView mapview) {
+			Log.e("ItemizedOverlayDemo","enter onSnapToItem()!");
+			return false;
 		}
 	}
 
