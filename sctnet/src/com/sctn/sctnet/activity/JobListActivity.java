@@ -187,8 +187,8 @@ public class JobListActivity extends BaicActivity {
 			jobList.removeFooterView(footViewBar);// 添加list底部更多按钮
 		}
 		jobListAdapter.notifyDataSetChanged();
-		jobList.setAdapter(jobListAdapter);
-		jobList.setSelection(visibleLastIndex - itemCount + 1);
+//		jobList.setAdapter(jobListAdapter);
+//		jobList.setSelection(visibleLastIndex - itemCount + 1);
 	}
 
 	@Override
@@ -294,9 +294,16 @@ public class JobListActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(JobListActivity.this,JobSearchActivity.class);
-				startActivity(intent);
-				finish();				
+				
+				if(StringUtil.isBlank(whichUrl)){
+					Intent intent = new Intent(JobListActivity.this,JobSearchActivity.class);
+					startActivity(intent);
+				}else{
+					Intent intent = new Intent(JobListActivity.this,WorkSearchActivity.class);
+					startActivity(intent);
+				}
+				finish();
+				
 			}
 			
 		});
@@ -305,9 +312,15 @@ public class JobListActivity extends BaicActivity {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (((keyCode == KeyEvent.KEYCODE_BACK) || (keyCode == KeyEvent.KEYCODE_HOME))
 				&& event.getRepeatCount() == 0) {
-			Intent intent = new Intent(JobListActivity.this,JobSearchActivity.class);
-			startActivity(intent);
+			if(StringUtil.isBlank(whichUrl)){
+				Intent intent = new Intent(JobListActivity.this,JobSearchActivity.class);
+				startActivity(intent);
+			}else{
+				Intent intent = new Intent(JobListActivity.this,WorkSearchActivity.class);
+				startActivity(intent);
+			}
 			finish();
+
 		}
 		return false;
 	}

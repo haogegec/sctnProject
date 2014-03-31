@@ -223,8 +223,8 @@ public class ArchivesListActivity extends BaicActivity{
 				archivesListView.removeFooterView(footViewBar);// 添加list底部更多按钮
 			}
 			archivesListAdapter.notifyDataSetChanged();
-			archivesListView.setAdapter(archivesListAdapter);
-			archivesListView.setSelection(visibleLastIndex - itemCount + 1);
+//			archivesListView.setAdapter(archivesListAdapter);
+//			archivesListView.setSelection(visibleLastIndex - itemCount + 1);
 		}
 
 

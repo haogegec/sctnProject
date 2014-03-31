@@ -32,6 +32,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.text.TextUtils.TruncateAt;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
@@ -110,6 +111,10 @@ public abstract class BaicActivity extends Activity {
 		titleTextView = (TextView) findViewById(R.id.titlebar_text);
 		titleRightButton = (ImageView) findViewById(R.id.titlebar_img_btn_right);
 
+		titleTextView.setMaxEms(8);
+		titleTextView.setEllipsize(TruncateAt.END);
+		titleTextView.setSingleLine(true);
+		
 		setTitleText(titleText);
 		setTitleLeftButtonVisibility(leftButtonVisibility);
 		setTitleRightButtonVisibility(rightButtonVisibility);

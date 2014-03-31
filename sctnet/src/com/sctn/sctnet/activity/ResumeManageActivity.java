@@ -15,10 +15,13 @@ import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -60,6 +63,7 @@ public class ResumeManageActivity extends BaicActivity {
 	private ImageView isPublicImg;
 	private Button isPublicBtn;
 
+	private ImageView myHeadPhoto;
 	private ImageView myPhoto;
 	private TextView resumeNameValue;
 	private TextView resumeUpdateValue;
@@ -97,6 +101,8 @@ public class ResumeManageActivity extends BaicActivity {
 
 	private ArrayList<ArrayList<HashMap<String, String>>> dataList = new ArrayList<ArrayList<HashMap<String, String>>>();
 	private float i = 0;
+	
+	private SharedPreferences sharedPreferences;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +112,7 @@ public class ResumeManageActivity extends BaicActivity {
 		super.setTitleRightButtonImg(R.drawable.log_off_bg);
 		cacheProcess = new CacheProcess();
 		userId = cacheProcess.getLongCacheValueInSharedPreferences(this, "userId");
+		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		initAllView();
 		reigesterAllEvent();
 		initDataTread();
@@ -118,6 +125,7 @@ public class ResumeManageActivity extends BaicActivity {
 		layout1 = (RelativeLayout) findViewById(R.id.relativeLayout1);
 
 		myPhoto = (ImageView) findViewById(R.id.myPhoto);
+		myHeadPhoto = (ImageView) findViewById(R.id.myPhoto1);
 
 		resumePreviewImg = (ImageView) findViewById(R.id.resumePreview);
 
@@ -139,17 +147,17 @@ public class ResumeManageActivity extends BaicActivity {
 		resumeFinishStatusValue = (TextView) findViewById(R.id.resumeFinishStatusValue);
 		resumePublicValue = (TextView) findViewById(R.id.resumePublicValue);
 		userId = SharePreferencesUtils.getSharedlongData("userId");
-		Bitmap bitmap = asyncBitmapLoader.loadBitmap(myPhoto, userId + "", userId + "", true, 120, 120, new ImageCallBack() {
+		Bitmap bitmap = asyncBitmapLoader.loadBitmap(myHeadPhoto, userId + "", userId + "", true, 120, 120, new ImageCallBack() {
 			@Override
 			public void imageLoad(ImageView imageView, Bitmap bitmap) {
-				myPhoto.setImageBitmap(bitmap);
+				myHeadPhoto.setImageBitmap(bitmap);
 				// if (bitmap != null) {
 				// user.setAvatarBitmap(bitmap);
 				// }
 			}
 		});
 		if (bitmap != null) {
-			myPhoto.setImageBitmap(bitmap);
+			myHeadPhoto.setImageBitmap(bitmap);
 
 		}
 	}
@@ -281,7 +289,7 @@ public class ResumeManageActivity extends BaicActivity {
 						Bundle extras = data.getExtras();
 						if (extras != null) {
 							myPhotoBitmap = extras.getParcelable("data");
-							myPhoto.setImageBitmap(myPhotoBitmap);
+							myHeadPhoto.setImageBitmap(myPhotoBitmap);
 							updateUserInfo();
 						}
 
@@ -419,9 +427,14 @@ public class ResumeManageActivity extends BaicActivity {
 			}
 
 			if (responseJsonObject.getInt("resultCode") == 0) {// 获得响应结果
+				
+				Editor editor = sharedPreferences.edit();
+				
+				editor.putBoolean("hasResume", true);
+				editor.commit();
 
 				JSONObject resultJsonObject = responseJsonObject.getJSONObject("result");
-
+          
 				String accountCity = resultJsonObject.getString("accountcityname");// 户口所在地，accountcity是编号
 				String address = resultJsonObject.getString("address");
 				String adminpost = resultJsonObject.getString("adminpostname");// 当前从事职位
@@ -790,6 +803,10 @@ public class ResumeManageActivity extends BaicActivity {
 				updateUI();
 				break;
 			case 1: {
+				Editor editor = sharedPreferences.edit();
+				
+				editor.putBoolean("hasResume", false);
+				editor.commit();
 				Intent intent = new Intent(ResumeManageActivity.this, ResumeCreateActivity.class);
 				startActivity(intent);
 				finish();
@@ -799,6 +816,10 @@ public class ResumeManageActivity extends BaicActivity {
 				Toast.makeText(getApplicationContext(), "上传成功", Toast.LENGTH_SHORT).show();
 				break;
 			case 3: {
+                Editor editor = sharedPreferences.edit();
+				
+				editor.putBoolean("hasResume", false);
+				editor.commit();
 				Toast.makeText(getApplicationContext(), "删除成功", Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent(ResumeManageActivity.this, ResumeCreateActivity.class);
 				startActivity(intent);
@@ -865,6 +886,7 @@ public class ResumeManageActivity extends BaicActivity {
 		bundle.putSerializable("resumeInfo", dataList);
 		intent.putExtras(bundle);
 		startActivity(intent);
+		finish();
 	}
 
 	// 删除提示框
@@ -1058,5 +1080,10 @@ public class ResumeManageActivity extends BaicActivity {
 			this.sendExceptionMsg(err);
 		}
 
+	}
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		
+		cameraUtil.onActivityResult(requestCode, resultCode, data);
 	}
 }

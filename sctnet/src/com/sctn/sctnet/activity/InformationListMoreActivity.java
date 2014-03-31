@@ -222,8 +222,8 @@ public class InformationListMoreActivity extends BaicActivity {
 		}		
 	//	informationListAdapter.getDataList.addAll(items);    
 		informationListAdapter.notifyDataSetChanged();
-		informationList.setAdapter(informationListAdapter);
-		informationList.setSelection(visibleLastIndex - itemCount + 1);
+//		informationList.setAdapter(informationListAdapter);
+//		informationList.setSelection(visibleLastIndex - itemCount + 1);
 	}
 
 	private AbsListView.OnScrollListener listener = new AbsListView.OnScrollListener() {

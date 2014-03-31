@@ -9,14 +9,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:background="#ffffff"
+        android:background="@drawable/item_selector"
         android:orientation="vertical"
         android:padding="10dp" >
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/item_selector"
+            
             android:orientation="horizontal" >
 
             <LinearLayout
@@ -35,7 +35,8 @@
                     android:id="@+id/recruitment_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="5dp"
                     android:textColor="@color/blue"
                     android:textSize="16dp" />
             </LinearLayout>

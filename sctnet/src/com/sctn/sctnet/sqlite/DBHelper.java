@@ -19,23 +19,20 @@ public class DBHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		
-		String sql = "";
-		if("jobSearchLog".equals(whichTable)){
-			sql = "create table IF NOT EXISTS jobSearchLog (_id integer primary key autoincrement, workAreaName text," +
-					"jobClassName text,needProfessionName text,workAreaId text,jobClassId text,needProfessionId text,total text)";
-		}else{
-			sql = "create table IF NOT EXISTS searchLog (_id integer primary key autoincrement, key text,name text)";
-		}
-		
-		db.execSQL(sql);
 
+		String	sql = "create table IF NOT EXISTS jobSearchLog (_id integer primary key autoincrement, workAreaName text," +
+					"jobClassName text,needProfessionName text,workAreaId text,jobClassId text,needProfessionId text,total text);";
+		db.execSQL(sql);	
+			
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		// TODO Auto-generated method stub
-
+		
+		String	sql = "create table IF NOT EXISTS searchLog (_id integer primary key autoincrement, key text);";
+		
+		
+		db.execSQL(sql);
 	}
 
 }

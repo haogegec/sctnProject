@@ -96,6 +96,8 @@ public class JobSearchActivity extends BaicActivity {
              map.put("total", cursor.getString(cursor.getColumnIndex("total")));
              logData.add(map);
 		}
+		cursor.close();
+		//database.close();
 		msg.what = 0;
 		handler.sendMessage(msg);
 
@@ -163,7 +165,6 @@ public class JobSearchActivity extends BaicActivity {
 							bundle.putString("positionTypeName", map.get("needProfessionName").toString());
 							intent.putExtras(bundle);
 							startActivity(intent);
-							finish();
 						}
 					});
 				}

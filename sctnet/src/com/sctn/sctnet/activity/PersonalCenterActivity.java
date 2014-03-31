@@ -87,14 +87,14 @@ public class PersonalCenterActivity extends BaicActivity {
 		selfSubscribePushAuto = SharePreferencesUtils.getSharedBooleanData("selfSubscribePushAuto");
 		
 		itemView1.setBackground(R.drawable.item_up_bg);
-		itemView1.setIconImageViewResource(R.drawable.home_btn_normal);
+		itemView1.setIconImageViewResource(R.drawable.personal_readed);
 		itemView1.setLabel("谁看过我的简历");
 		itemView1.setLabelTextColor(getResources().getColor(R.color.blue));
 		itemView1.setDetailImageViewResource(R.drawable.detail);
 		itemView1.setIconImageVisibility(View.VISIBLE);
 
 		itemView2.setBackground(R.drawable.item_up_bg);
-		itemView2.setIconImageViewResource(R.drawable.home_btn_normal);
+		itemView2.setIconImageViewResource(R.drawable.personal_push);
 		itemView2.setLabel("职业信息自动推送");
 		itemView2.setLabelTextColor(getResources().getColor(R.color.blue));
 		if(jobInformationPushAuto){
@@ -102,9 +102,10 @@ public class PersonalCenterActivity extends BaicActivity {
 		} else {
 			itemView2.setDetailImageViewResource(R.drawable.set_off);
 		}
+		itemView2.setIconImageVisibility(View.VISIBLE);
 
 		itemView3.setBackground(R.drawable.item_up_bg);
-		itemView3.setIconImageViewResource(R.drawable.home_btn_normal);
+		itemView3.setIconImageViewResource(R.drawable.personal_customize);
 		itemView3.setLabel("中心自行定制信息内容推送");
 		itemView3.setLabelTextColor(getResources().getColor(R.color.blue));
 		if(selfSubscribePushAuto){
@@ -112,9 +113,10 @@ public class PersonalCenterActivity extends BaicActivity {
 		} else {
 			itemView3.setDetailImageViewResource(R.drawable.set_off);
 		}
+		itemView3.setIconImageVisibility(View.VISIBLE);
 
 		itemView4.setBackground(R.drawable.item_down_bg);
-		itemView4.setIconImageViewResource(R.drawable.home_btn_normal);
+		itemView4.setIconImageViewResource(R.drawable.password_img);
 		itemView4.setLabel("修改密码");
 		itemView4.setLabelTextColor(getResources().getColor(R.color.blue));
 		itemView4.setDetailImageViewResource(R.drawable.detail);
@@ -122,7 +124,7 @@ public class PersonalCenterActivity extends BaicActivity {
 		
 		
 		itemView5.setBackground(R.drawable.item_up_bg);
-		itemView5.setIconImageViewResource(R.drawable.home_btn_normal);
+		itemView5.setIconImageViewResource(R.drawable.personal_interview);
 		itemView5.setLabel("谁向我发送过面试邀请");
 		itemView5.setLabelTextColor(getResources().getColor(R.color.blue));
 		itemView5.setDetailImageViewResource(R.drawable.detail);

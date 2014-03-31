@@ -30,4 +30,11 @@ public class LoginInfo {
 		SharePreferencesUtils.setSharedBooleanData("isRememberPassword",false);
 		SharePreferencesUtils.setSharedBooleanData("isAutoLogin", false);
 	}
+	/**
+	 * 用来判断用户是否有简历
+	 * @return
+	 */
+	public static boolean hasResume() {
+		return SharePreferencesUtils.getSharedBooleanData("hasResume");
+	}
 }

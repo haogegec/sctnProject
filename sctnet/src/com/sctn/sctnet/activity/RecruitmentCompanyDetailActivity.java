@@ -26,6 +26,7 @@ public class RecruitmentCompanyDetailActivity extends BaicActivity{
 		Bundle bundle = intent.getExtras();
 		companyInfo = bundle.getString("companyInfo");
 		companyName = bundle.getString("companyName");
+		
 		setTitleBar(companyName, View.VISIBLE, View.GONE);
 		
 		initAllView();

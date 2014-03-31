@@ -9,7 +9,7 @@ package com.sctn.sctnet.contants;
 public class Constant {
 
 	public static String ServerURL = "http://60.172.228.219:9099/scgenuis/";// 测试环境
-	public static String ServerImageURL = "http://www.weeqii.com/booking/main!getImage";// 图片地址
+	public static String ServerImageURL = "http://www.scrc168.com/";// 图片地址
 	public static String DocUrl = "http://www.scrc168.com/";//下载文档的地址
 
 	public static String packageName = "com.sctn.sctnet";// 工程的包名
@@ -83,10 +83,10 @@ public class Constant {
 	public static final int WORKPERFORMANCE_REQUEST_CODE = 29;// 选择目前担任的职务请求码
 	
 	// 剪切图片的比例 及 长宽
-	public static final int IMAGE_CROP_WIDTH_SCALE = 5;
-	public static final int IMAGE_CROP_HIGHT_SCALE = 4;
-	public static final int IMAGE_CROP_WIDTH = 5 * 80;
-	public static final int IMAGE_CROP_HIGHT = 4 * 80;
+	public static final int IMAGE_CROP_WIDTH_SCALE = 1;
+	public static final int IMAGE_CROP_HIGHT_SCALE = 1;
+	public static final int IMAGE_CROP_WIDTH = 180;
+	public static final int IMAGE_CROP_HIGHT = 180;
 	public static final int IMAGE_REQUEST_CODE = 0;// 本地图片请求码
 	public static final int CAMERA_REQUEST_CODE = 1;// 调用照相机
 	public static final int CAOP_RESULT_REQUEST_CODE = 2;// 剪辑结果码
@@ -105,5 +105,7 @@ public class Constant {
 	public static final String TYPE_JOB_NAME = "1";//按照职位名称搜索
 	public static final String TYPE_COMPANY_NAME = "2";//按照公司名称搜索
 	public static final String TYPE_FULL_TEXT = "3";//按照全文搜索
+	
+	public static final int JOB_LIST = 11;//职位列表返回到职位搜索界面
 	
 }

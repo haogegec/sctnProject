@@ -196,8 +196,8 @@ public class RecruitmentSearchResultActivity extends BaicActivity{
 				recruitmentListView.removeFooterView(footViewBar);// 添加list底部更多按钮
 			}
 			recruitmentListAdapter.notifyDataSetChanged();
-			recruitmentListView.setAdapter(recruitmentListAdapter);
-			recruitmentListView.setSelection((pageNo - 1) * 10-5);
+//			recruitmentListView.setAdapter(recruitmentListAdapter);
+//			recruitmentListView.setSelection((pageNo - 1) * 10-5);
 		}
 
 

@@ -44,7 +44,7 @@ public class ResumeCreateActivity extends BaicActivity{
 				
 				Intent intent = new Intent(ResumeCreateActivity.this,ResumeEditActivity.class);
 				startActivity(intent);
-				
+				finish();
 			}
 			
 		});

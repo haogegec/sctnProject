@@ -6,10 +6,12 @@ import java.util.HashSet;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.sctn.sctnet.R;
+import com.sctn.sctnet.Utils.StringUtil;
 import com.sctn.sctnet.contants.Constant;
 import com.sctn.sctnet.entity.ResumeInfo;
 import com.sctn.sctnet.view.ItemView;
@@ -212,8 +214,27 @@ public class ResumeEditActivity extends BaicActivity{
 			}
 			
 		});
-	}
+		
+		super.getTitleLeftButton().setOnClickListener(new OnClickListener(){
 
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(ResumeEditActivity.this, ResumeManageActivity.class);
+				startActivity(intent);
+				finish();
+			}
+			
+		});
+	}
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (((keyCode == KeyEvent.KEYCODE_BACK) || (keyCode == KeyEvent.KEYCODE_HOME))
+				&& event.getRepeatCount() == 0) {
+			Intent intent = new Intent(ResumeEditActivity.this, ResumeManageActivity.class);
+			startActivity(intent);
+			finish();
+		}
+		return false;
+	}
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
