@@ -291,12 +291,18 @@ public class BasicInfoEditActivity extends BaicActivity {
 		super.titleRightButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
+				
+               String newSex = "";
+               if(female.isSelected()){
+            	   newSex = "0";
+               }else{
+            	   newSex = "1";
+               }
 	           if(nameStr.equals(nameValue.getText().toString())&&orginStr.equals(orginValue.getText().toString())&&accountCityStr.equals(accountCityValue.getText().toString())
 	        		   &&addressStr.equals(addressValue.getText().toString())&&birthdayStr.equals(birthdayValue.getText().toString())&&cardIdStr.equals(cardIdValue.getText().toString())
 	        		   &&currentCityStr.equals(currentCityValue.getText().toString())&&driveCodeStr.equals(driveCodeValue.getText().toString())&&healthStatusStr.equals(healthStatusValue.getText().toString())
 	        		   &&maritalStatusStr.equals(maritalStatusValue.getText().toString())&&peopleStr.equals(peopleValue.getText().toString())&&politicalStr.equals(politicalValue.getText().toString())
-	        		   &&heighStr.equals(heighValue.getText().toString())){
+	        		   &&heighStr.equals(heighValue.getText().toString())&&newSex.equals(sex)){
 	        	   
 	        	   Toast.makeText(getApplicationContext(), "请编辑之后再保存吧~~", Toast.LENGTH_SHORT).show();
 	        	   
