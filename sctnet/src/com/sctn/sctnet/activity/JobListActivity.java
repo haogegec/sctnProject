@@ -132,9 +132,9 @@ public class JobListActivity extends BaicActivity {
 		requestDataThread(0);// 第一次请求数据
 	}
 
-	public Long getCount() {
+	public Long getCount(String tableName) {
 		  
-		  Cursor cursor = database.rawQuery("select count(*) from jobSearchLog",null);
+		  Cursor cursor = database.rawQuery("select count(*) from "+tableName,null);
 		  cursor.moveToFirst();
 		  Long count = cursor.getLong(0);
 		  cursor.close();
@@ -535,21 +535,33 @@ public class JobListActivity extends BaicActivity {
 				total = responseJsonObject.getInt("resultCount");// 总数
 				//将搜索记录保存到本地数据库中
 				String[] id = {String.valueOf(0)};
-				if(getCount()>5){
-					database.delete("jobSearchLog", "_id=?", id);
+				if(StringUtil.isBlank(whichUrl)){
+					if(getCount("jobSearchLog")>5){
+						database.delete("jobSearchLog", "_id=?", id);
+					}
+					String[] arg = {workRegion,jobsClass,needProfession};
+					database.delete("jobSearchLog", "workAreaId=? and jobClassId=? and needProfessionId=?", arg);
+					ContentValues values = new ContentValues();
+					values.put("workAreaName", workRegionName);
+					values.put("jobClassName", jobsClassName);
+					values.put("needProfessionName", needProfessionName);
+					values.put("workAreaId", workRegion);
+					values.put("jobClassId", jobsClass);
+					values.put("needProfessionId", needProfession);
+					values.put("total", "约"+total+"个");
+									
+					database.insert("jobSearchLog", null, values);
+				}else{
+					if(getCount("searchLog")>5){
+						database.delete("searchLog", "_id=?", id);
+					}
+					String[] arg = {key};
+					database.delete("searchLog", "key=?", arg);
+					ContentValues values = new ContentValues();
+					values.put("key", key);
+					
+					database.insert("searchLog", null, values);
 				}
-				String[] arg = {workRegion,jobsClass,needProfession};
-				database.delete("jobSearchLog", "workAreaId=? and jobClassId=? and needProfessionId=?", arg);
-				ContentValues values = new ContentValues();
-				values.put("workAreaName", workRegionName);
-				values.put("jobClassName", jobsClassName);
-				values.put("needProfessionName", needProfessionName);
-				values.put("workAreaId", workRegion);
-				values.put("jobClassId", jobsClass);
-				values.put("needProfessionId", needProfession);
-				values.put("total", "约"+total+"个");
-								
-				database.insert("jobSearchLog", null, values);
 				
 				
 				if (resultJsonArray.length() > 15) {
