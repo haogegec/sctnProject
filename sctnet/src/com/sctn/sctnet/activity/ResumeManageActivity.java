@@ -1,7 +1,6 @@
 package com.sctn.sctnet.activity;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -101,7 +100,7 @@ public class ResumeManageActivity extends BaicActivity {
 
 	private ArrayList<ArrayList<HashMap<String, String>>> dataList = new ArrayList<ArrayList<HashMap<String, String>>>();
 	private float i = 0;
-	
+
 	private SharedPreferences sharedPreferences;
 
 	@Override
@@ -409,7 +408,7 @@ public class ResumeManageActivity extends BaicActivity {
 
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
 			params.add(new BasicNameValuePair("Userid", userId + ""));
-		//	 params.add(new BasicNameValuePair("Userid",100020+""));
+			// params.add(new BasicNameValuePair("Userid",100020+""));
 			result = getPostHttpContent(url, params);
 			// JSON的解析过程
 			JSONObject responseJsonObject = new JSONObject(result);
@@ -427,14 +426,14 @@ public class ResumeManageActivity extends BaicActivity {
 			}
 
 			if (responseJsonObject.getInt("resultCode") == 0) {// 获得响应结果
-				
+
 				Editor editor = sharedPreferences.edit();
-				
+
 				editor.putBoolean("hasResume", true);
 				editor.commit();
 
 				JSONObject resultJsonObject = responseJsonObject.getJSONObject("result");
-          
+
 				String accountCity = resultJsonObject.getString("accountcityname");// 户口所在地，accountcity是编号
 				String address = resultJsonObject.getString("address");
 				String adminpost = resultJsonObject.getString("adminpostname");// 当前从事职位
@@ -457,7 +456,7 @@ public class ResumeManageActivity extends BaicActivity {
 				String graduateddate = resultJsonObject.getString("graduateddate");// 需要格式化
 				String graduatedschool = resultJsonObject.getString("graduatedschool");
 				String healthstate = resultJsonObject.getString("healthstatename");// healthstate
-																			// 是编号
+				// 是编号
 				String marriagestate = resultJsonObject.getString("marriagestatename");// 婚姻状况，marriagestate是编号
 				String oneenglish = resultJsonObject.getString("oneenglishname");// oneenglish是编号
 				String onelevel = resultJsonObject.getString("onelevelname");// onelevel是编号
@@ -485,7 +484,7 @@ public class ResumeManageActivity extends BaicActivity {
 				String wagename = resultJsonObject.getString("wagename");
 				String workmannername = resultJsonObject.getString("workmannername");
 				String workregionname = resultJsonObject.getString("workregionname");
-				
+
 				if (!StringUtil.isBlank(housesubsidy)) {
 					jobIntentionMap.put("住房要求", housesubsidy);
 					i++;
@@ -643,12 +642,12 @@ public class ResumeManageActivity extends BaicActivity {
 				}
 
 				if (!StringUtil.isBlank(sex)) {
-					if(sex.equals("0")){
+					if (sex.equals("0")) {
 						basicInfoMap.put("性别", "女");
-					}else{
+					} else {
 						basicInfoMap.put("性别", "男");
 					}
-					
+
 					i++;
 				}
 				if (!StringUtil.isBlank(specialtycontent)) {
@@ -804,7 +803,7 @@ public class ResumeManageActivity extends BaicActivity {
 				break;
 			case 1: {
 				Editor editor = sharedPreferences.edit();
-				
+
 				editor.putBoolean("hasResume", false);
 				editor.commit();
 				Intent intent = new Intent(ResumeManageActivity.this, ResumeCreateActivity.class);
@@ -816,8 +815,8 @@ public class ResumeManageActivity extends BaicActivity {
 				Toast.makeText(getApplicationContext(), "上传成功", Toast.LENGTH_SHORT).show();
 				break;
 			case 3: {
-                Editor editor = sharedPreferences.edit();
-				
+				Editor editor = sharedPreferences.edit();
+
 				editor.putBoolean("hasResume", false);
 				editor.commit();
 				Toast.makeText(getApplicationContext(), "删除成功", Toast.LENGTH_SHORT).show();
@@ -861,18 +860,19 @@ public class ResumeManageActivity extends BaicActivity {
 
 		resumeNameValue.setText("我的简历");
 		resumeUpdateValue.setText(resumeInfo.getUpresumetime().substring(0, 10));
-		finishStatus = (int)Math.round(i *100 / 47) + "%";
+		finishStatus = (int) Math.round(i * 100 / 47) + "%";
 		resumeFinishStatusValue.setText(finishStatus);
-//		resumePublicValue.setText(resumeInfo.getIshide() + "");
+		// resumePublicValue.setText(resumeInfo.getIshide() + "");
 
 		if (resumeInfo.getIshide() == 0) {
 			isPublicImg.setImageResource(R.drawable.resume_is_secret_bg);
-			resumePublicValue.setText("隐藏");
+			resumePublicValue.setText("公开");
 			isPublicBtn.setText("隐藏");
 		} else {
 			isPublicImg.setImageResource(R.drawable.resume_is_public_bg);
+			resumePublicValue.setText("隐藏");
 			isPublicBtn.setText("公开");
-			resumePublicValue.setText("公开");
+
 		}
 
 		layout.setVisibility(View.VISIBLE);
@@ -1081,9 +1081,10 @@ public class ResumeManageActivity extends BaicActivity {
 		}
 
 	}
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		
+
 		cameraUtil.onActivityResult(requestCode, resultCode, data);
 	}
 }

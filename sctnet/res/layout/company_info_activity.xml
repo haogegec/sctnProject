@@ -9,7 +9,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@color/background"
-        android:visibility="visible" >
+        android:visibility="invisible" >
 
         <LinearLayout
             android:id="@+id/companyInfo_tab_title"

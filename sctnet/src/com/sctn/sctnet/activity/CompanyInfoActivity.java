@@ -1,6 +1,7 @@
 package com.sctn.sctnet.activity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,6 +26,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.Utils.SharePreferencesUtils;
@@ -59,13 +64,9 @@ public class CompanyInfoActivity extends BaicActivity {
 
 	private RelativeLayout rl_layout;
 	// 公司简介tab页的控件
-	private TextView tv_companyName, tv_companyIndustry, tv_companyType,
-			tv_companyScale, tv_companyAddress, tv_companyIntro,
-			tv_companyContacts, tv_companyEmail, tv_companyWebsite;
+	private TextView tv_companyName, tv_companyIndustry, tv_companyType, tv_companyScale, tv_companyAddress, tv_companyIntro, tv_companyContacts, tv_companyEmail, tv_companyWebsite;
 	// 职位描述tab页的控件
-	private TextView tv_companyName2, tv_companyIndustry2, tv_companyType2,
-			tv_companyScale2, tv_companyAddress2, tv_workingArea2,
-			tv_releaseTime2, tv_jobName2, tv_jobDetail2, tv_companyContacts2,
+	private TextView tv_companyName2, tv_companyIndustry2, tv_companyType2, tv_companyScale2, tv_companyAddress2, tv_workingArea2, tv_releaseTime2, tv_jobName2, tv_jobDetail2, tv_companyContacts2,
 			tv_companyEmail2, tv_companyWebsite2;
 
 	private String companyName;// 公司名称
@@ -90,6 +91,9 @@ public class CompanyInfoActivity extends BaicActivity {
 		setTitleBar(getString(R.string.companyProfile), View.VISIBLE, View.GONE);
 		super.setTitleRightButtonImg(R.drawable.login_btn_bg);
 
+		// 初始化Share SDK，一定要 重写 ondestroy（），停止SDK
+		ShareSDK.initSDK(this);
+
 		initIntent();
 		initTextView();
 		initAllView();
@@ -113,8 +117,8 @@ public class CompanyInfoActivity extends BaicActivity {
 		company_profile_title = (TextView) findViewById(R.id.company_profile_title);
 		job_description_title = (TextView) findViewById(R.id.job_description_title);
 
-		company_profile_title.setOnClickListener(new MyOnClickListener(0));
-		job_description_title.setOnClickListener(new MyOnClickListener(1));
+		job_description_title.setOnClickListener(new MyOnClickListener(0));
+		company_profile_title.setOnClickListener(new MyOnClickListener(1));
 	}
 
 	/**
@@ -149,6 +153,12 @@ public class CompanyInfoActivity extends BaicActivity {
 	}
 
 	@Override
+	protected void onDestroy() {
+		ShareSDK.stopSDK(this);
+		super.onDestroy();
+	}
+
+	@Override
 	protected void initAllView() {
 		rl_layout = (RelativeLayout) findViewById(R.id.rl_layout);
 		footbar = (LinearLayout) findViewById(R.id.footbar_layout_ly);
@@ -168,12 +178,9 @@ public class CompanyInfoActivity extends BaicActivity {
 				if (LoginInfo.isLogin()) {
 					applyThread();
 				} else {
-					Toast.makeText(getApplicationContext(), "请先登录",
-							Toast.LENGTH_SHORT).show();
-					Intent intent = new Intent(CompanyInfoActivity.this,
-							LoginActivity.class);
-					startActivityForResult(intent,
-							Constant.LOGIN_APPLY_JOB_ACTIVITY);
+					Toast.makeText(getApplicationContext(), "请先登录", Toast.LENGTH_SHORT).show();
+					Intent intent = new Intent(CompanyInfoActivity.this, LoginActivity.class);
+					startActivityForResult(intent, Constant.LOGIN_APPLY_JOB_ACTIVITY);
 				}
 			}
 		});
@@ -184,8 +191,13 @@ public class CompanyInfoActivity extends BaicActivity {
 			@Override
 			public void onClick(View v) {
 				// 这里得判断是否登录、没登录则跳转到登录页面
-
-				collectThread();
+				if (LoginInfo.isLogin()) {
+					collectThread();
+				} else {
+					Toast.makeText(getApplicationContext(), "请先登录", Toast.LENGTH_SHORT).show();
+					Intent intent = new Intent(CompanyInfoActivity.this, LoginActivity.class);
+					startActivityForResult(intent, Constant.LOGIN_COLLECT_JOB_ACTIVITY);
+				}
 			}
 		});
 
@@ -194,8 +206,29 @@ public class CompanyInfoActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(getApplicationContext(), "分享", Toast.LENGTH_LONG)
-						.show();
+
+				OnekeyShare oks = new OnekeyShare();
+				oks.setNotification(R.drawable.logo, getString(R.string.app_name));
+				oks.setText("我看到一个很不错的招聘信息，想告诉大家，有兴趣的可以看看哦~ \n\n公司名称："+companyName+"\n职位名称："+jobName+"\n职位详情："+jobDetail+"\n联系人及联系电话："+companyContacts+"\n电子邮箱："+companyEmail+"\n单位网址："+companyWebsite);
+				oks.show(getApplicationContext());
+				oks.setCallback(new PlatformActionListener() {
+
+					@Override
+					public void onError(Platform arg0, int arg1, Throwable arg2) {
+						handler.sendEmptyMessage(Constant.SHARE_ERROR);
+					}
+
+					@Override
+					public void onComplete(Platform arg0, int arg1, HashMap<String, Object> arg2) {
+						handler.sendEmptyMessage(Constant.SHARE_COMPLETE);
+					}
+
+					@Override
+					public void onCancel(Platform arg0, int arg1) {
+						handler.sendEmptyMessage(Constant.SHARE_CANCEL);
+					}
+
+				});
 			}
 		});
 
@@ -278,36 +311,25 @@ public class CompanyInfoActivity extends BaicActivity {
 	// 初始化公司简介
 	private void initCompanyInfoPage(View companyInfoPage) {
 
-		tv_companyName = (TextView) companyInfoPage
-				.findViewById(R.id.company_name);// 公司名称
-		tv_companyIndustry = (TextView) companyInfoPage
-				.findViewById(R.id.company_industry);// 公司所属行业
-		tv_companyType = (TextView) companyInfoPage
-				.findViewById(R.id.company_type);// 公司性质
-		tv_companyScale = (TextView) companyInfoPage
-				.findViewById(R.id.company_scale);// 公司规模
-		tv_companyAddress = (TextView) companyInfoPage
-				.findViewById(R.id.company_address);// 公司地址
-		tv_companyIntro = (TextView) companyInfoPage
-				.findViewById(R.id.company_intro);// 公司介绍
-		tv_companyContacts = (TextView) companyInfoPage
-				.findViewById(R.id.company_contacts);// 联系人及联系电话
+		tv_companyName = (TextView) companyInfoPage.findViewById(R.id.company_name);// 公司名称
+		tv_companyIndustry = (TextView) companyInfoPage.findViewById(R.id.company_industry);// 公司所属行业
+		tv_companyType = (TextView) companyInfoPage.findViewById(R.id.company_type);// 公司性质
+		tv_companyScale = (TextView) companyInfoPage.findViewById(R.id.company_scale);// 公司规模
+		tv_companyAddress = (TextView) companyInfoPage.findViewById(R.id.company_address);// 公司地址
+		tv_companyIntro = (TextView) companyInfoPage.findViewById(R.id.company_intro);// 公司介绍
+		tv_companyContacts = (TextView) companyInfoPage.findViewById(R.id.company_contacts);// 联系人及联系电话
 		// tv_companyPhone = (TextView)
 		// companyInfoPage.findViewById(R.id.company_phone);// 联系电话
-		tv_companyEmail = (TextView) companyInfoPage
-				.findViewById(R.id.company_email);// 电子邮箱
-		tv_companyWebsite = (TextView) companyInfoPage
-				.findViewById(R.id.company_website);// 公司网址
+		tv_companyEmail = (TextView) companyInfoPage.findViewById(R.id.company_email);// 电子邮箱
+		tv_companyWebsite = (TextView) companyInfoPage.findViewById(R.id.company_website);// 公司网址
 
 		tv_companyAddress.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
-				Intent intent = new Intent(CompanyInfoActivity.this,
-						CompanyLocationActivity.class);
+				Intent intent = new Intent(CompanyInfoActivity.this, CompanyLocationActivity.class);
 				Bundle bundle = new Bundle();
-				bundle.putString("detailAddress", tv_companyAddress.getText()
-						.toString());
+				bundle.putString("detailAddress", tv_companyAddress.getText().toString());
 				bundle.putString("city", workRegionName);
 				intent.putExtras(bundle);
 				startActivity(intent);
@@ -319,41 +341,28 @@ public class CompanyInfoActivity extends BaicActivity {
 	// 初始化职位描述
 	private void initJobDetailPage(View companyInfoPage) {
 
-		tv_companyName2 = (TextView) companyInfoPage
-				.findViewById(R.id.company_name);// 公司名称
-		tv_companyIndustry2 = (TextView) companyInfoPage
-				.findViewById(R.id.company_industry);// 公司所属行业
-		tv_companyType2 = (TextView) companyInfoPage
-				.findViewById(R.id.company_type);// 公司性质
-		tv_companyScale2 = (TextView) companyInfoPage
-				.findViewById(R.id.company_scale);// 公司规模
-		tv_workingArea2 = (TextView) companyInfoPage
-				.findViewById(R.id.working_area);// 工作地区
-		tv_releaseTime2 = (TextView) companyInfoPage
-				.findViewById(R.id.release_time);// 发布时间
+		tv_companyName2 = (TextView) companyInfoPage.findViewById(R.id.company_name);// 公司名称
+		tv_companyIndustry2 = (TextView) companyInfoPage.findViewById(R.id.company_industry);// 公司所属行业
+		tv_companyType2 = (TextView) companyInfoPage.findViewById(R.id.company_type);// 公司性质
+		tv_companyScale2 = (TextView) companyInfoPage.findViewById(R.id.company_scale);// 公司规模
+		tv_workingArea2 = (TextView) companyInfoPage.findViewById(R.id.working_area);// 工作地区
+		tv_releaseTime2 = (TextView) companyInfoPage.findViewById(R.id.release_time);// 发布时间
 		tv_jobName2 = (TextView) companyInfoPage.findViewById(R.id.job_name);// 职位名称
-		tv_jobDetail2 = (TextView) companyInfoPage
-				.findViewById(R.id.job_detail);// 职位详情
-		tv_companyAddress2 = (TextView) companyInfoPage
-				.findViewById(R.id.company_address);// 公司地址
-		tv_companyContacts2 = (TextView) companyInfoPage
-				.findViewById(R.id.company_contacts);// 联系人及联系电话
+		tv_jobDetail2 = (TextView) companyInfoPage.findViewById(R.id.job_detail);// 职位详情
+		tv_companyAddress2 = (TextView) companyInfoPage.findViewById(R.id.company_address);// 公司地址
+		tv_companyContacts2 = (TextView) companyInfoPage.findViewById(R.id.company_contacts);// 联系人及联系电话
 		// tv_companyPhone2 = (TextView)
 		// companyInfoPage.findViewById(R.id.company_phone);// 联系电话
-		tv_companyEmail2 = (TextView) companyInfoPage
-				.findViewById(R.id.company_email);// 电子邮箱
-		tv_companyWebsite2 = (TextView) companyInfoPage
-				.findViewById(R.id.company_website);// 公司网址
+		tv_companyEmail2 = (TextView) companyInfoPage.findViewById(R.id.company_email);// 电子邮箱
+		tv_companyWebsite2 = (TextView) companyInfoPage.findViewById(R.id.company_website);// 公司网址
 
 		tv_companyAddress2.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
-				Intent intent = new Intent(CompanyInfoActivity.this,
-						CompanyLocationActivity.class);
+				Intent intent = new Intent(CompanyInfoActivity.this, CompanyLocationActivity.class);
 				Bundle bundle = new Bundle();
-				bundle.putString("detailAddress", tv_companyAddress.getText()
-						.toString());
+				bundle.putString("detailAddress", tv_companyAddress.getText().toString());
 				bundle.putString("city", workRegionName);
 				intent.putExtras(bundle);
 				startActivity(intent);
@@ -390,24 +399,16 @@ public class CompanyInfoActivity extends BaicActivity {
 	 */
 	private void setPageTitlesColor(int titleIndex) {
 		if (titleIndex == 0) {
-			company_profile_title.setBackgroundColor(getResources().getColor(
-					R.color.background));
-			company_profile_title.setTextColor(getResources().getColor(
-					R.color.lightBlack));
-			job_description_title.setBackgroundColor(getResources().getColor(
-					R.color.white));
-			job_description_title.setTextColor(getResources().getColor(
-					R.color.blue));
+			company_profile_title.setBackgroundColor(getResources().getColor(R.color.background));
+			company_profile_title.setTextColor(getResources().getColor(R.color.lightBlack));
+			job_description_title.setBackgroundColor(getResources().getColor(R.color.white));
+			job_description_title.setTextColor(getResources().getColor(R.color.blue));
 		} else if (titleIndex == 1) {
-			company_profile_title.setBackgroundColor(getResources().getColor(
-					R.color.white));
-			company_profile_title.setTextColor(getResources().getColor(
-					R.color.blue));
-			job_description_title.setBackgroundColor(getResources().getColor(
-					R.color.background));
-			job_description_title.setTextColor(getResources().getColor(
-					R.color.lightBlack));
-			
+			company_profile_title.setBackgroundColor(getResources().getColor(R.color.white));
+			company_profile_title.setTextColor(getResources().getColor(R.color.blue));
+			job_description_title.setBackgroundColor(getResources().getColor(R.color.background));
+			job_description_title.setTextColor(getResources().getColor(R.color.lightBlack));
+
 		}
 	}
 
@@ -451,8 +452,7 @@ public class CompanyInfoActivity extends BaicActivity {
 
 			JSONObject responseJsonObject = new JSONObject(result);// 返回结果存放在该json对象中
 			if ("0".equals(responseJsonObject.getString("resultcode"))) {
-				JSONArray companyList = responseJsonObject
-						.getJSONArray("result");// 长度必须是1
+				JSONArray companyList = responseJsonObject.getJSONArray("result");// 长度必须是1
 				JSONObject companyInfo = companyList.optJSONObject(0);
 
 				companyName = companyInfo.getString("companyname");
@@ -468,8 +468,7 @@ public class CompanyInfoActivity extends BaicActivity {
 				workingArea = companyInfo.getString("workregionname");
 
 				if (!StringUtil.isBlank(companyInfo.getString("posttime"))) {
-					releaseTime = companyInfo.getString("posttime").substring(
-							0, 10);
+					releaseTime = companyInfo.getString("posttime").substring(0, 10);
 				} else {
 					releaseTime = companyInfo.getString("posttime");
 				}
@@ -620,17 +619,34 @@ public class CompanyInfoActivity extends BaicActivity {
 			switch (msg.what) {
 			case 0:
 				updateUI();
+				closeProcessDialog();
 				break;
 			case 1:
-				Toast.makeText(getApplicationContext(), "申请成功",
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "申请成功", Toast.LENGTH_SHORT).show();
+				closeProcessDialog();
 				break;
 			case 2:
-				Toast.makeText(getApplicationContext(), "收藏成功",
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "收藏成功", Toast.LENGTH_SHORT).show();
+				closeProcessDialog();
 				break;
+
+			case Constant.SHARE_COMPLETE:
+				Toast.makeText(getApplicationContext(), "分享成功", Toast.LENGTH_SHORT).show();
+				closeProcessDialog();
+				break;
+
+			case Constant.SHARE_CANCEL:
+				Toast.makeText(getApplicationContext(), "分享取消", Toast.LENGTH_SHORT).show();
+				closeProcessDialog();
+				break;
+
+			case Constant.SHARE_ERROR:
+				Toast.makeText(getApplicationContext(), "分享失败", Toast.LENGTH_SHORT).show();
+				closeProcessDialog();
+				break;
+
 			}
-			closeProcessDialog();
+
 		}
 	};
 
@@ -639,14 +655,12 @@ public class CompanyInfoActivity extends BaicActivity {
 		if (resultCode == RESULT_OK) {
 			switch (requestCode) {
 			case Constant.LOGIN_APPLY_JOB_ACTIVITY: {
-				Toast.makeText(getApplicationContext(), "登录成功",
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
 				applyThread();
 				break;
 			}
 			case Constant.LOGIN_COLLECT_JOB_ACTIVITY: {
-				Toast.makeText(getApplicationContext(), "登录成功",
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
 				collectThread();
 				break;
 			}

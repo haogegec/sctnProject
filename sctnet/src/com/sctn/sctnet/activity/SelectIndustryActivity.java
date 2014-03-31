@@ -171,9 +171,9 @@ public class SelectIndustryActivity extends BaicActivity {
 		headerView = getLayoutInflater().inflate(R.layout.pinned_header_listview_item_header, listView, false);
 		listView.setPinnedHeader(headerView);
 		pinnedAdapter = new PinnedAdapter(this, data);
+		pinnedAdapter.notifyDataSetChanged();
 		listView.setAdapter(pinnedAdapter);
 		listView.setOnScrollListener(pinnedAdapter);
-		pinnedAdapter.notifyDataSetChanged();
 	}
 
 	@Override

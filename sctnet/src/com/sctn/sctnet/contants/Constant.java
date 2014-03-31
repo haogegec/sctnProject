@@ -10,7 +10,7 @@ public class Constant {
 
 	public static String ServerURL = "http://60.172.228.219:9099/scgenuis/";// 测试环境
 	public static String ServerImageURL = "http://www.scrc168.com/";// 图片地址
-	public static String DocUrl = "http://www.scrc168.com/";//下载文档的地址
+	public static String DocUrl = "http://www.scrc168.com/";// 下载文档的地址
 
 	public static String packageName = "com.sctn.sctnet";// 工程的包名
 	public static String jobSeekerType = "1";// 求职者类型
@@ -28,17 +28,16 @@ public class Constant {
 	// 系统图片存放字段
 	public static final String SYS_IMAGE_DATA_STORE = "/mnt/sdcard/sctnet/"; // 图片存放地址
 
-
 	// 首页中的登录功能用到的请求码
 	public static final int LOGIN_REQUEST_CONDE = 1;
 	public static final int LOGIN_PERSONAL_CENTER_ACTIVITY = 10;
 	public static final int LOGIN_RESUME_MANAGE_ACTIVITY = 21;
 	public static final int LOGIN_SALARY_SURVEY_ACTIVITY = 22;
-	
+
 	// 职位申请时用到的请求码
 	public static final int LOGIN_APPLY_JOB_ACTIVITY = 23;
 	public static final int LOGIN_COLLECT_JOB_ACTIVITY = 24;
-	
+
 	public static final int PageSize = 15;// 每个列表页面一页显示的个数
 
 	public static final int REQUEST_TIMEOUT = 50 * 1000;// 设置请求超时50秒钟
@@ -48,7 +47,7 @@ public class Constant {
 	public static final int CITY_TYPE = 2;// 请求市类型id
 	public static final int INDUSTRY_TYPE = 22;// 请求行业类型id
 	public static final int POSITION_TYPE = 4;// 请求职业类型id
-	public static final int POSITION_DETAIL_TYPE = 5;//请求详细职位类型id
+	public static final int POSITION_DETAIL_TYPE = 5;// 请求详细职位类型id
 
 	// 薪酬调查页面获取后台数据时候用到的常量
 	public static final int DEGREE = 11;// 学位
@@ -67,21 +66,21 @@ public class Constant {
 	public static final String KEY_TITLE = "title";
 	public static final String KEY_MESSAGE = "message";
 	public static final String KEY_EXTRAS = "extras";
-	
+
 	// 登录页注册请求码
 	public static final int REGISTER_REQUEST_CODE = 0;
-	
+
 	// 职位申请、收藏成功时的msg.what的值
 	public static final int APPLY_SUCCESS = 101;
 	public static final int COLLECT_SUCCESS = 102;
-	
+
 	// 简历管理模块。选择籍贯。选择城市。户口所在地。居住地请求码
 	public static final int SELECT_NATIVE_PLACE_REQUEST_CODE = 25;
 	public static final int SELECT_CITY_REQUEST_CODE = 26;
 	public static final int SELECT_RESIDENCE_REQUEST_CODE = 27;
 	public static final int SELECT_HABITAT_REQUEST_CODE = 28;
 	public static final int WORKPERFORMANCE_REQUEST_CODE = 29;// 选择目前担任的职务请求码
-	
+
 	// 剪切图片的比例 及 长宽
 	public static final int IMAGE_CROP_WIDTH_SCALE = 1;
 	public static final int IMAGE_CROP_HIGHT_SCALE = 1;
@@ -91,7 +90,7 @@ public class Constant {
 	public static final int CAMERA_REQUEST_CODE = 1;// 调用照相机
 	public static final int CAOP_RESULT_REQUEST_CODE = 2;// 剪辑结果码
 	public static final int UPLAOD_RESULT_REQUEST_CODE = 3;// 上传结果码
-	
+
 	// 简历管理中的msg.what的值
 	public static final int PEOPLE = 30;
 	public static final int POLITICAL = 31;
@@ -100,12 +99,16 @@ public class Constant {
 	public static final int COMPUTER_LEVEL = 34;
 	public static final int WORK_STATE = 35;
 	public static final int WAGE_RANGE = 36;
-	
-	//职位搜索按照类型来查询
-	public static final String TYPE_JOB_NAME = "1";//按照职位名称搜索
-	public static final String TYPE_COMPANY_NAME = "2";//按照公司名称搜索
-	public static final String TYPE_FULL_TEXT = "3";//按照全文搜索
-	
-	public static final int JOB_LIST = 11;//职位列表返回到职位搜索界面
-	
+
+	// 职位搜索按照类型来查询
+	public static final String TYPE_JOB_NAME = "1";// 按照职位名称搜索
+	public static final String TYPE_COMPANY_NAME = "2";// 按照公司名称搜索
+	public static final String TYPE_FULL_TEXT = "3";// 按照全文搜索
+
+	public static final int JOB_LIST = 11;// 职位列表返回到职位搜索界面
+	// 分享后的返回码
+	public static final int SHARE_ERROR = 200;// 分享失败
+	public static final int SHARE_CANCEL = 201;// 分享取消
+	public static final int SHARE_COMPLETE = 202;// 分享成功
+
 }

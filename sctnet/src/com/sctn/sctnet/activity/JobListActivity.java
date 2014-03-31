@@ -586,7 +586,7 @@ public class JobListActivity extends BaicActivity {
 					item.put("jobsstate", resultJsonArray.getJSONObject(j).get("jobsstate"));// 职位状态
 					item.put("monthlySalary", resultJsonArray.getJSONObject(j).get("monthlysalary"));// 月薪
 					item.put("needAge", resultJsonArray.getJSONObject(j).get("needages"));// 最小年纪
-					item.put("needEducation", resultJsonArray.getJSONObject(j).get("neededucation"));// 学历
+					item.put("needEducation", resultJsonArray.getJSONObject(j).get("neededucationname"));// 学历
 					item.put("needHeight", resultJsonArray.getJSONObject(j).get("needheight"));// 身高
 					item.put("needProfession", resultJsonArray.getJSONObject(j).get("needprofession"));// 专业
 					item.put("needWorkExperience", resultJsonArray.getJSONObject(j).get("needworkexperience"));// 职位状态
@@ -595,7 +595,14 @@ public class JobListActivity extends BaicActivity {
 					item.put("rid", resultJsonArray.getJSONObject(j).get("rid"));
 					item.put("sex", resultJsonArray.getJSONObject(j).get("sex"));// 性别
 					item.put("titles", resultJsonArray.getJSONObject(j).get("titles"));// 技术
-					item.put("validityTime", resultJsonArray.getJSONObject(j).get("validitytime"));// 有效时间
+					if(StringUtil.isBlank(resultJsonArray.getJSONObject(j).get("validitytime").toString())){
+						if(resultJsonArray.getJSONObject(j).get("validitytime").toString().length() > 11){
+							item.put("validityTime", resultJsonArray.getJSONObject(j).get("validitytime").toString().substring(0,10));// 有效时间
+						}
+					} else {
+						item.put("validityTime", resultJsonArray.getJSONObject(j).get("validitytime"));// 有效时间
+					}
+					
 					item.put("workManner", resultJsonArray.getJSONObject(j).get("workmanner"));// 工作方式
 					item.put("workRegion", resultJsonArray.getJSONObject(j).get("workregionname"));// 工作地区,workregion是编号
 					items.add(item);
