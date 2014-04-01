@@ -24,14 +24,15 @@
             android:paddingBottom="15dp"
             android:paddingTop="20dp"
             android:src="@drawable/default_photo_bg" />
+
         <ImageView
             android:id="@+id/myPhoto1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="15dp"
-             />
+            android:layout_marginTop="35dp" />
+
         <TextView
             android:id="@+id/resumeName"
             android:layout_width="wrap_content"
@@ -61,9 +62,9 @@
             android:layout_alignBottom="@+id/resumeUpdate"
             android:layout_alignTop="@+id/resumeUpdate"
             android:layout_toRightOf="@+id/resumeUpdate"
-            android:textColor="@color/blue"
             android:paddingBottom="8dp"
-            android:paddingLeft="5dp" />
+            android:paddingLeft="5dp"
+            android:textColor="@color/blue" />
 
         <TextView
             android:id="@+id/resumeFinishStatus"
@@ -83,9 +84,9 @@
             android:layout_alignBottom="@+id/resumeFinishStatus"
             android:layout_alignTop="@+id/resumeFinishStatus"
             android:layout_toRightOf="@+id/resumeFinishStatus"
-            android:textColor="@color/blue"
             android:paddingBottom="8dp"
-            android:paddingLeft="5dp" />
+            android:paddingLeft="5dp"
+            android:textColor="@color/blue" />
 
         <TextView
             android:id="@+id/resumePublic"
@@ -105,9 +106,9 @@
             android:layout_alignBottom="@+id/resumePublic"
             android:layout_alignTop="@+id/resumePublic"
             android:layout_toRightOf="@+id/resumePublic"
-            android:textColor="@color/blue"
             android:paddingBottom="8dp"
-            android:paddingLeft="5dp" />
+            android:paddingLeft="5dp"
+            android:textColor="@color/blue" />
 
         <ImageView
             android:id="@+id/resumePreview"

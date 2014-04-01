@@ -16,7 +16,7 @@ import com.sctn.sctnet.contants.Constant;
 
 public class CameraUtil {
 
-	private String[] items = new String[]{"选择本地图片", "拍照"};
+	private String[] items = new String[] { "选择本地图片", "拍照" };
 
 	private String IMAGE_FILE_NAME = "sctnetTempImage.png";
 	private int zoomWidth;
@@ -51,20 +51,20 @@ public class CameraUtil {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				switch (which) {
-					case 0 :
-						Intent intentFromGallery = new Intent();
-						intentFromGallery.setType("image/*"); // 设置文件类型
-						intentFromGallery.setAction(Intent.ACTION_GET_CONTENT);
-						mActivity.startActivityForResult(intentFromGallery, Constant.IMAGE_REQUEST_CODE);
-						break;
-					case 1 :
-						Intent intentFromCapture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-						// 判断存储卡是否可以用，可用进行存储
-						if (SDCardUtil.IsSDCardExist()) {
-							intentFromCapture.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(), IMAGE_FILE_NAME)));
-						}
-						mActivity.startActivityForResult(intentFromCapture, Constant.CAMERA_REQUEST_CODE);
-						break;
+				case 0:
+					Intent intentFromGallery = new Intent();
+					intentFromGallery.setType("image/*"); // 设置文件类型
+					intentFromGallery.setAction(Intent.ACTION_GET_CONTENT);
+					mActivity.startActivityForResult(intentFromGallery, Constant.IMAGE_REQUEST_CODE);
+					break;
+				case 1:
+					Intent intentFromCapture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+					// 判断存储卡是否可以用，可用进行存储
+					if (SDCardUtil.IsSDCardExist()) {
+						intentFromCapture.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(), IMAGE_FILE_NAME)));
+					}
+					mActivity.startActivityForResult(intentFromCapture, Constant.CAMERA_REQUEST_CODE);
+					break;
 				}
 			}
 		}).setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -74,43 +74,43 @@ public class CameraUtil {
 			}
 		}).show();
 	}
+
 	/*
 	 * 相应结果码
 	 */
- 
-	
+
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == Activity.RESULT_CANCELED) {
 			return;
 		}
 		// 结果码不等于取消时候
 		switch (requestCode) {
-			case Constant.IMAGE_REQUEST_CODE :
-				startPhotoZoom(data.getData());
-				break;
-			case Constant.CAMERA_REQUEST_CODE :
-				if (SDCardUtil.IsSDCardExist()) {
-					File tempFile = new File(Environment.getExternalStorageDirectory() + "/" + IMAGE_FILE_NAME);
-					startPhotoZoom(Uri.fromFile(tempFile));
-				} else {
-					Toast.makeText(mActivity, "未找到存储卡，无法存储照片！", Toast.LENGTH_LONG).show();
-				}
+		case Constant.IMAGE_REQUEST_CODE:
+			startPhotoZoom(data.getData());
+			break;
+		case Constant.CAMERA_REQUEST_CODE:
+			if (SDCardUtil.IsSDCardExist()) {
+				File tempFile = new File(Environment.getExternalStorageDirectory() + "/sctnet/" + IMAGE_FILE_NAME);
+				startPhotoZoom(Uri.fromFile(tempFile));
+			} else {
+				Toast.makeText(mActivity, "未找到存储卡，无法存储照片！", Toast.LENGTH_LONG).show();
+			}
 
-				break;
-			case Constant.CAOP_RESULT_REQUEST_CODE :
-				if (data != null) {
-					if (cameraCallBack != null) {
-						cameraCallBack.cropResult(mActivity, data);
-					}
-				}
-				break;
-
-			case Constant.UPLAOD_RESULT_REQUEST_CODE :
-				Toast.makeText(mActivity, "上传成功", Toast.LENGTH_SHORT).show();
+			break;
+		case Constant.CAOP_RESULT_REQUEST_CODE:
+			if (data != null) {
 				if (cameraCallBack != null) {
-					cameraCallBack.upLoadImageResult(mActivity, data);
+					cameraCallBack.cropResult(mActivity, data);
 				}
-				break;
+			}
+			break;
+
+		case Constant.UPLAOD_RESULT_REQUEST_CODE:
+			Toast.makeText(mActivity, "上传成功", Toast.LENGTH_SHORT).show();
+			if (cameraCallBack != null) {
+				cameraCallBack.upLoadImageResult(mActivity, data);
+			}
+			break;
 		}
 	}
 
@@ -132,6 +132,7 @@ public class CameraUtil {
 		intent.putExtra("return-data", true);
 		mActivity.startActivityForResult(intent, Constant.CAOP_RESULT_REQUEST_CODE);// 截切图片相应结果
 	}
+
 	public int getZoomWidth() {
 		return zoomWidth;
 	}

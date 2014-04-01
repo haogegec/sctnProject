@@ -9,7 +9,8 @@ package com.sctn.sctnet.contants;
 public class Constant {
 
 	public static String ServerURL = "http://60.172.228.219:9099/scgenuis/";// 测试环境
-	public static String ServerImageURL = "http://www.scrc168.com/";// 图片地址
+//	public static String ServerImageURL = "http://www.scrc168.com/";// 图片地址
+	public static String ServerImageURL = "http://60.172.228.219:9099/scgenuis/uploadPath/";// 图片地址
 	public static String DocUrl = "http://www.scrc168.com/";// 下载文档的地址
 
 	public static String packageName = "com.sctn.sctnet";// 工程的包名
