@@ -595,14 +595,17 @@ public class JobListActivity extends BaicActivity {
 					item.put("rid", resultJsonArray.getJSONObject(j).get("rid"));
 					item.put("sex", resultJsonArray.getJSONObject(j).get("sex"));// 性别
 					item.put("titles", resultJsonArray.getJSONObject(j).get("titles"));// 技术
-					if(StringUtil.isBlank(resultJsonArray.getJSONObject(j).get("validitytime").toString())){
-						if(resultJsonArray.getJSONObject(j).get("validitytime").toString().length() > 11){
-							item.put("validityTime", resultJsonArray.getJSONObject(j).get("validitytime").toString().substring(0,10));// 有效时间
+					if(resultJsonArray.getJSONObject(j).get("validitytime")!=null && !"".equals(resultJsonArray.getJSONObject(j).get("validitytime").toString())){
+						if(StringUtil.isBlank(resultJsonArray.getJSONObject(j).get("validitytime").toString())){
+							if(resultJsonArray.getJSONObject(j).get("validitytime").toString().length() > 11){
+								item.put("validityTime", resultJsonArray.getJSONObject(j).get("validitytime").toString().substring(0,10));// 有效时间
+							}
+						} else {
+							item.put("validityTime", resultJsonArray.getJSONObject(j).get("validitytime"));// 有效时间
 						}
 					} else {
-						item.put("validityTime", resultJsonArray.getJSONObject(j).get("validitytime"));// 有效时间
+						item.put("validityTime", resultJsonArray.getJSONObject(j).get("validitytime"));
 					}
-					
 					item.put("workManner", resultJsonArray.getJSONObject(j).get("workmanner"));// 工作方式
 					item.put("workRegion", resultJsonArray.getJSONObject(j).get("workregionname"));// 工作地区,workregion是编号
 					items.add(item);
