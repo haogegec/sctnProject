@@ -38,6 +38,7 @@ public class Constant {
 	// 职位申请时用到的请求码
 	public static final int LOGIN_APPLY_JOB_ACTIVITY = 23;
 	public static final int LOGIN_COLLECT_JOB_ACTIVITY = 24;
+	public static final int LOGIN_SHARE_JOB_ACTIVITY = 40;
 
 	public static final int PageSize = 15;// 每个列表页面一页显示的个数
 

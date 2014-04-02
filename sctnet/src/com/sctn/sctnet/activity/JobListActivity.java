@@ -42,6 +42,9 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.Utils.SharePreferencesUtils;
@@ -105,7 +108,7 @@ public class JobListActivity extends BaicActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.job_list_activity);
 		setTitleBar("共" + total + "个职位", View.VISIBLE, View.GONE);
-		
+
 		Intent intent = this.getIntent();
 		Bundle bundle = intent.getExtras();
 		if (bundle.getString("whichActivity") != null) {
@@ -122,10 +125,10 @@ public class JobListActivity extends BaicActivity {
 			needProfessionName = bundle.getString("positionTypeName");
 		}
 
-		//初始化本地数据库
-		DBHelper dbHelper = new DBHelper(this,"jobSearchLog");
+		// 初始化本地数据库
+		DBHelper dbHelper = new DBHelper(this, "jobSearchLog");
 		database = dbHelper.getWritableDatabase();
-		
+
 		// 初始化ShareSDK
 		// AbstractWeibo.initSDK(this);
 		initImagePath();
@@ -135,13 +138,14 @@ public class JobListActivity extends BaicActivity {
 	}
 
 	public Long getCount(String tableName) {
-		  
-		  Cursor cursor = database.rawQuery("select count(*) from "+tableName,null);
-		  cursor.moveToFirst();
-		  Long count = cursor.getLong(0);
-		  cursor.close();
-		  return count;
+
+		Cursor cursor = database.rawQuery("select count(*) from " + tableName, null);
+		cursor.moveToFirst();
+		Long count = cursor.getLong(0);
+		cursor.close();
+		return count;
 	}
+
 	/**
 	 * 初始化分享的图片
 	 */
@@ -189,8 +193,8 @@ public class JobListActivity extends BaicActivity {
 			jobList.removeFooterView(footViewBar);// 添加list底部更多按钮
 		}
 		jobListAdapter.notifyDataSetChanged();
-//		jobList.setAdapter(jobListAdapter);
-//		jobList.setSelection(visibleLastIndex - itemCount + 1);
+		// jobList.setAdapter(jobListAdapter);
+		// jobList.setSelection(visibleLastIndex - itemCount + 1);
 	}
 
 	@Override
@@ -215,8 +219,8 @@ public class JobListActivity extends BaicActivity {
 			public void onClick(View v) {
 
 				if (LoginInfo.isLogin()) {
-					String userId = SharePreferencesUtils.getSharedlongData("userId")+"";
-					
+					String userId = SharePreferencesUtils.getSharedlongData("userId") + "";
+
 					if (LoginInfo.hasResume(userId)) {// 如果当前用户已经有简历
 						if (jobIdAndCompanyIdMaps.size() == 0) {
 							Toast.makeText(getApplicationContext(), "请选择职位", Toast.LENGTH_LONG).show();
@@ -232,16 +236,13 @@ public class JobListActivity extends BaicActivity {
 						}
 					} else {// 如果当前用户还没有创建简历，就跳到创建简历页面
 
-						new AlertDialog.Builder(JobListActivity.this)
-						.setTitle("友情提示").setMessage("您还没有创建简历，是否要创建简历？").setPositiveButton("是", 
-								new android.content.DialogInterface.OnClickListener() {
+						new AlertDialog.Builder(JobListActivity.this).setTitle("友情提示").setMessage("您还没有创建简历，是否要创建简历？").setPositiveButton("是", new android.content.DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
 								Intent intent = new Intent(JobListActivity.this, ResumeCreateActivity.class);
 								startActivity(intent);
 							}
-						})
-						.setNegativeButton("否", null).show();
+						}).setNegativeButton("否", null).show();
 					}
 				} else {
 					Toast.makeText(getApplicationContext(), "请先登录", Toast.LENGTH_SHORT).show();
@@ -288,50 +289,89 @@ public class JobListActivity extends BaicActivity {
 			@Override
 			public void onClick(View v) {
 
+				if (LoginInfo.isLogin()) {
+					if (jobShareMaps.size() == 0) {
+						Toast.makeText(getApplicationContext(), "请选择职位分享", Toast.LENGTH_LONG).show();
+					} else {
+						
+						for (Map.Entry<Integer, Object> entry : jobShareMaps.entrySet()) {
+
+							if (StringUtil.isBlank(jobShare)) {
+								jobShare = entry.getValue().toString();
+							} else {
+								jobShare += "\n\n\n" + entry.getValue().toString();
+							}
+						}
+						
+						
+						OnekeyShare oks = new OnekeyShare();
+						oks.setNotification(R.drawable.logo, getString(R.string.app_name));
+						oks.setText(jobShare);
+						oks.show(getApplicationContext());
+						oks.setCallback(new PlatformActionListener() {
+
+							@Override
+							public void onError(Platform arg0, int arg1, Throwable arg2) {
+								handler.sendEmptyMessage(Constant.SHARE_ERROR);
+							}
+
+							@Override
+							public void onComplete(Platform arg0, int arg1, HashMap<String, Object> arg2) {
+								handler.sendEmptyMessage(Constant.SHARE_COMPLETE);
+							}
+
+							@Override
+							public void onCancel(Platform arg0, int arg1) {
+								handler.sendEmptyMessage(Constant.SHARE_CANCEL);
+							}
+
+						});
+						
+						
+					}
+				} else {
+					Toast.makeText(getApplicationContext(), "请先登录", Toast.LENGTH_SHORT).show();
+					Intent intent = new Intent(JobListActivity.this, LoginActivity.class);
+					startActivityForResult(intent, Constant.LOGIN_SHARE_JOB_ACTIVITY);
+				}
+
 				// if (jobShareMaps.size() == 0) {
 				// Toast.makeText(getApplicationContext(), "请选择职位分享",
 				// Toast.LENGTH_LONG).show();
 				// } else {
-				for (Map.Entry<Integer, Object> entry : jobShareMaps.entrySet()) {
-
-					if (jobShare.length() == 0) {
-						jobShare = entry.getValue().toString();
-					} else {
-						jobShare += "|" + entry.getValue().toString();
-					}
-				}
+				
 				// showGrid(false);
 			}
 
 			// }
 		});
-		super.titleLeftButton.setOnClickListener(new OnClickListener(){
+		super.titleLeftButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				
-				if(StringUtil.isBlank(whichUrl)){
-					Intent intent = new Intent(JobListActivity.this,JobSearchActivity.class);
+
+				if (StringUtil.isBlank(whichUrl)) {
+					Intent intent = new Intent(JobListActivity.this, JobSearchActivity.class);
 					startActivity(intent);
-				}else{
-					Intent intent = new Intent(JobListActivity.this,WorkSearchActivity.class);
+				} else {
+					Intent intent = new Intent(JobListActivity.this, WorkSearchActivity.class);
 					startActivity(intent);
 				}
 				finish();
-				
+
 			}
-			
+
 		});
 
 	}
+
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (((keyCode == KeyEvent.KEYCODE_BACK) || (keyCode == KeyEvent.KEYCODE_HOME))
-				&& event.getRepeatCount() == 0) {
-			if(StringUtil.isBlank(whichUrl)){
-				Intent intent = new Intent(JobListActivity.this,JobSearchActivity.class);
+		if (((keyCode == KeyEvent.KEYCODE_BACK) || (keyCode == KeyEvent.KEYCODE_HOME)) && event.getRepeatCount() == 0) {
+			if (StringUtil.isBlank(whichUrl)) {
+				Intent intent = new Intent(JobListActivity.this, JobSearchActivity.class);
 				startActivity(intent);
-			}else{
-				Intent intent = new Intent(JobListActivity.this,WorkSearchActivity.class);
+			} else {
+				Intent intent = new Intent(JobListActivity.this, WorkSearchActivity.class);
 				startActivity(intent);
 			}
 			finish();
@@ -339,6 +379,7 @@ public class JobListActivity extends BaicActivity {
 		}
 		return false;
 	}
+
 	// /**
 	// * 使用快捷分享完成图文分享
 	// */
@@ -546,15 +587,15 @@ public class JobListActivity extends BaicActivity {
 					total = 0;
 					return;
 				}
-                
+
 				total = responseJsonObject.getInt("resultCount");// 总数
-				//将搜索记录保存到本地数据库中
-				String[] id = {String.valueOf(0)};
-				if(StringUtil.isBlank(whichUrl)){
-					if(getCount("jobSearchLog")>5){
+				// 将搜索记录保存到本地数据库中
+				String[] id = { String.valueOf(0) };
+				if (StringUtil.isBlank(whichUrl)) {
+					if (getCount("jobSearchLog") > 5) {
 						database.delete("jobSearchLog", "_id=?", id);
 					}
-					String[] arg = {workRegion,jobsClass,needProfession};
+					String[] arg = { workRegion, jobsClass, needProfession };
 					database.delete("jobSearchLog", "workAreaId=? and jobClassId=? and needProfessionId=?", arg);
 					ContentValues values = new ContentValues();
 					values.put("workAreaName", workRegionName);
@@ -563,22 +604,21 @@ public class JobListActivity extends BaicActivity {
 					values.put("workAreaId", workRegion);
 					values.put("jobClassId", jobsClass);
 					values.put("needProfessionId", needProfession);
-					values.put("total", "约"+total+"个");
-									
+					values.put("total", "约" + total + "个");
+
 					database.insert("jobSearchLog", null, values);
-				}else{
-					if(getCount("searchLog")>5){
+				} else {
+					if (getCount("searchLog") > 5) {
 						database.delete("searchLog", "_id=?", id);
 					}
-					String[] arg = {key};
+					String[] arg = { key };
 					database.delete("searchLog", "key=?", arg);
 					ContentValues values = new ContentValues();
 					values.put("key", key);
-					
+
 					database.insert("searchLog", null, values);
 				}
-				
-				
+
 				if (resultJsonArray.length() > 15) {
 					count = 15;
 				} else {
@@ -610,10 +650,10 @@ public class JobListActivity extends BaicActivity {
 					item.put("rid", resultJsonArray.getJSONObject(j).get("rid"));
 					item.put("sex", resultJsonArray.getJSONObject(j).get("sex"));// 性别
 					item.put("titles", resultJsonArray.getJSONObject(j).get("titles"));// 技术
-					if(resultJsonArray.getJSONObject(j).get("validitytime")!=null && !"".equals(resultJsonArray.getJSONObject(j).get("validitytime").toString())){
-						if(!StringUtil.isBlank(resultJsonArray.getJSONObject(j).get("validitytime").toString())){
-							if(resultJsonArray.getJSONObject(j).get("validitytime").toString().length() > 11){
-								item.put("validityTime", resultJsonArray.getJSONObject(j).get("validitytime").toString().substring(0,10));// 有效时间
+					if (resultJsonArray.getJSONObject(j).get("validitytime") != null && !"".equals(resultJsonArray.getJSONObject(j).get("validitytime").toString())) {
+						if (!StringUtil.isBlank(resultJsonArray.getJSONObject(j).get("validitytime").toString())) {
+							if (resultJsonArray.getJSONObject(j).get("validitytime").toString().length() > 11) {
+								item.put("validityTime", resultJsonArray.getJSONObject(j).get("validitytime").toString().substring(0, 10));// 有效时间
 							}
 						} else {
 							item.put("validityTime", resultJsonArray.getJSONObject(j).get("validitytime"));// 有效时间
@@ -663,6 +703,23 @@ public class JobListActivity extends BaicActivity {
 			case Constant.COLLECT_SUCCESS:
 				Toast.makeText(getApplicationContext(), "收藏成功", Toast.LENGTH_SHORT).show();
 				break;
+				
+			case Constant.SHARE_COMPLETE:
+				Toast.makeText(getApplicationContext(), "分享成功", Toast.LENGTH_SHORT).show();
+				closeProcessDialog();
+				break;
+
+			case Constant.SHARE_CANCEL:
+				Toast.makeText(getApplicationContext(), "分享取消", Toast.LENGTH_SHORT).show();
+				closeProcessDialog();
+				break;
+
+			case Constant.SHARE_ERROR:
+				Toast.makeText(getApplicationContext(), "分享失败", Toast.LENGTH_SHORT).show();
+				closeProcessDialog();
+				break;
+				
+				
 			}
 			closeProcessDialog();
 		}
@@ -783,6 +840,8 @@ public class JobListActivity extends BaicActivity {
 						jobIdAndCompanyIdMaps.put(position, jobsid + "-" + list.get(position).get("companyid"));
 						jobIdMaps.put(position, jobsid);
 						jobShareMaps.put(position, list.get(position).get("companyname") + "正在招聘" + list.get(position).get("jobsName"));
+					
+						jobShareMaps.put(position, "我看到一个很不错的招聘信息，想告诉大家，有兴趣的可以看看哦~ \n\n公司名称：" + list.get(position).get("companyname") + "\n职位名称：" + list.get(position).get("jobsname") + "\n职位详情：" + list.get(position).get("description") + "\n联系电话：" + list.get(position).get("phone") + "\n电子邮箱：" + list.get(position).get("companyemail"));
 					} else {
 						checkBoxState.remove(position);
 						jobIdAndCompanyIdMaps.remove(position);
@@ -829,14 +888,18 @@ public class JobListActivity extends BaicActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
 			switch (requestCode) {
-			case Constant.LOGIN_APPLY_JOB_ACTIVITY: {
+			case Constant.LOGIN_APPLY_JOB_ACTIVITY:
 				Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
 				break;
-			}
-			case Constant.LOGIN_COLLECT_JOB_ACTIVITY: {
+
+			case Constant.LOGIN_COLLECT_JOB_ACTIVITY:
 				Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
 				break;
-			}
+
+			case Constant.LOGIN_SHARE_JOB_ACTIVITY:
+				Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
+				break;
+
 			}
 		}
 	}
