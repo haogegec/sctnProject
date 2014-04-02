@@ -150,7 +150,13 @@
     <string name="soft_updating">正在更新</string>
     <string name="soft_update_cancel">取消</string>
     
-    
+    <!-- 消息订阅 -->
+    <string name="subscribe_name">订阅名称</string>
+	<string name="subscribe_name_hint">点击输入</string>
+	<string name="key_words">关键词</string>
+	<string name="key_words_hint">如:职位名称、公司名称、工作地点等</string>
+	<string name="subscribeActivityTitle">订阅</string>
+	    
     <!-- 分享用到的字符串 -->
     <string name="finish">完成</string>
     <string name="sharing">分享操作正在后台进行…</string>

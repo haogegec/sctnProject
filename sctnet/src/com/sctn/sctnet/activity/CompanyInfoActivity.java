@@ -233,7 +233,6 @@ public class CompanyInfoActivity extends BaicActivity {
 				oks.setNotification(R.drawable.logo, getString(R.string.app_name));
 				oks.setText("我看到一个很不错的招聘信息，想告诉大家，有兴趣的可以看看哦~ \n\n公司名称：" + companyName + "\n职位名称：" + jobName + "\n职位详情：" + jobDetail + "\n联系人及联系电话：" + companyContacts + "\n电子邮箱：" + companyEmail
 						+ "\n单位网址：" + companyWebsite);
-				oks.show(getApplicationContext());
 				oks.setCallback(new PlatformActionListener() {
 
 					@Override
@@ -252,6 +251,7 @@ public class CompanyInfoActivity extends BaicActivity {
 					}
 
 				});
+				oks.show(getApplicationContext());
 			}
 		});
 

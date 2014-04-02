@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center_horizontal"
+    android:background="@color/background"
+    android:orientation="vertical" >
+<LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/subscribe_name"
+        android:textColor="@color/blue"
+        android:textSize="16dp" />
+
+    <EditText
+        android:id="@+id/subscribe_name_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/subscribe_name"
+        android:hint="@string/subscribe_name_hint"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:textColor="#3B3B3B"
+        android:textSize="16dp" />
+
+    <com.sctn.sctnet.view.ItemView
+        android:id="@+id/push_set"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+  <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/key_words"
+        android:textColor="@color/blue"
+        android:textSize="16dp" />
+
+    <EditText
+        android:id="@+id/keywords_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/subscribe_name"
+        android:hint="@string/key_words_hint"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:textColor="#3B3B3B"
+        android:textSize="16dp" />
+
+</LinearLayout>
+</ScrollView>

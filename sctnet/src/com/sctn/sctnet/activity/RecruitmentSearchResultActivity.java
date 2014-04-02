@@ -179,12 +179,10 @@ public class RecruitmentSearchResultActivity extends BaicActivity{
 		 */
 		private void initUI() {
 			
-			recruitmentListView.setAdapter(recruitmentListAdapter);
-
 			if (total > pageSize * pageNo) {
 				recruitmentListView.addFooterView(footViewBar);// 添加list底部更多按钮
 			}
-			
+			recruitmentListView.setAdapter(recruitmentListAdapter);
 		}
 
 		/**

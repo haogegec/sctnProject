@@ -206,12 +206,12 @@ public class ArchivesListActivity extends BaicActivity{
 		 */
 		private void initUI() {
 			
-			archivesListView.setAdapter(archivesListAdapter);
-
+			
 			if (total > pageSize * pageNo) {
 				archivesListView.addFooterView(footViewBar);// 添加list底部更多按钮
 			}
-			
+			archivesListView.setAdapter(archivesListAdapter);
+
 		}
 
 		/**

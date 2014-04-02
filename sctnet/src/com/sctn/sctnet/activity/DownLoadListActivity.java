@@ -98,7 +98,7 @@ public class DownLoadListActivity extends BaicActivity{
 			case DOWNLOAD_FINISH:
 				// 
 				mDownloadDialog.dismiss();
-				Toast.makeText(DownLoadListActivity.this, "文件已下载到手机mnt/sdCard/Download/sctnet",
+				Toast.makeText(DownLoadListActivity.this, "文件已下载到手机mnt/sdCard/Download",
 						Toast.LENGTH_SHORT).show();
 				
 				break;
@@ -153,7 +153,10 @@ public class DownLoadListActivity extends BaicActivity{
 					long arg3) {
 				
 				String urlStr = Constant.DocUrl + items.get(position).get("filePath").toString();
-				urlStr = Constant.DocUrl + "upload/UploadFile/20063/200603141202267448.doc";
+				if(StringUtil.isBlank(items.get(position).get("filePath").toString())){
+					urlStr = Constant.DocUrl + "upload/UploadFile/20063/200603141202267448.doc";
+				}
+			
 				String fileName = items.get(position).get("fileName").toString();
 				fileName.substring(0, fileName.length()-4);
 				showDownloadDialog();
@@ -384,13 +387,11 @@ public class DownLoadListActivity extends BaicActivity{
 	 * 第一次请求数据初始化页面
 	 */
 	private void initUI() {
-		
-		downLoadListView.setAdapter(downLoadListAdapter);
 
 		if (total > pageSize * pageNo) {
 			downLoadListView.addFooterView(footViewBar);// 添加list底部更多按钮
 		}
-		
+		downLoadListView.setAdapter(downLoadListAdapter);
 	}
 
 	/**
@@ -402,8 +403,6 @@ public class DownLoadListActivity extends BaicActivity{
 			downLoadListView.removeFooterView(footViewBar);// 添加list底部更多按钮
 		}
 		downLoadListAdapter.notifyDataSetChanged();
-		downLoadListView.setAdapter(downLoadListAdapter);
-		downLoadListView.setSelection((pageNo - 1) * 10-5);
 	}
 
 	private AbsListView.OnScrollListener listener = new AbsListView.OnScrollListener() {

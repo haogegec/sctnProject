@@ -44,6 +44,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import com.sctn.sctnet.R;
@@ -109,6 +110,9 @@ public class JobListActivity extends BaicActivity {
 		setContentView(R.layout.job_list_activity);
 		setTitleBar("共" + total + "个职位", View.VISIBLE, View.GONE);
 
+		// 初始化Share SDK，一定要 重写 ondestroy（），停止SDK
+		ShareSDK.initSDK(this);
+		
 		Intent intent = this.getIntent();
 		Bundle bundle = intent.getExtras();
 		if (bundle.getString("whichActivity") != null) {
@@ -129,8 +133,6 @@ public class JobListActivity extends BaicActivity {
 		DBHelper dbHelper = new DBHelper(this, "jobSearchLog");
 		database = dbHelper.getWritableDatabase();
 
-		// 初始化ShareSDK
-		// AbstractWeibo.initSDK(this);
 		initImagePath();
 		initAllView();
 		reigesterAllEvent();
@@ -144,6 +146,12 @@ public class JobListActivity extends BaicActivity {
 		Long count = cursor.getLong(0);
 		cursor.close();
 		return count;
+	}
+	
+	@Override
+	protected void onDestroy() {
+		ShareSDK.stopSDK(this);
+		super.onDestroy();
 	}
 
 	/**
@@ -306,8 +314,7 @@ public class JobListActivity extends BaicActivity {
 						
 						OnekeyShare oks = new OnekeyShare();
 						oks.setNotification(R.drawable.logo, getString(R.string.app_name));
-						oks.setText(jobShare);
-						oks.show(getApplicationContext());
+						oks.setText("我看到一个很不错的招聘信息，想告诉大家，有兴趣的可以看看哦~ \n\n"+jobShare);
 						oks.setCallback(new PlatformActionListener() {
 
 							@Override
@@ -324,26 +331,16 @@ public class JobListActivity extends BaicActivity {
 							public void onCancel(Platform arg0, int arg1) {
 								handler.sendEmptyMessage(Constant.SHARE_CANCEL);
 							}
-
 						});
-						
-						
+						oks.show(getApplicationContext());
 					}
 				} else {
 					Toast.makeText(getApplicationContext(), "请先登录", Toast.LENGTH_SHORT).show();
 					Intent intent = new Intent(JobListActivity.this, LoginActivity.class);
 					startActivityForResult(intent, Constant.LOGIN_SHARE_JOB_ACTIVITY);
 				}
-
-				// if (jobShareMaps.size() == 0) {
-				// Toast.makeText(getApplicationContext(), "请选择职位分享",
-				// Toast.LENGTH_LONG).show();
-				// } else {
-				
-				// showGrid(false);
 			}
 
-			// }
 		});
 		super.titleLeftButton.setOnClickListener(new OnClickListener() {
 
@@ -663,6 +660,7 @@ public class JobListActivity extends BaicActivity {
 					}
 					item.put("workManner", resultJsonArray.getJSONObject(j).get("workmanner"));// 工作方式
 					item.put("workRegion", resultJsonArray.getJSONObject(j).get("workregionname"));// 工作地区,workregion是编号
+					item.put("contract", resultJsonArray.getJSONObject(j).get("phone"));
 					items.add(item);
 				}
 				if (i == 0) {
@@ -841,7 +839,7 @@ public class JobListActivity extends BaicActivity {
 						jobIdMaps.put(position, jobsid);
 						jobShareMaps.put(position, list.get(position).get("companyname") + "正在招聘" + list.get(position).get("jobsName"));
 					
-						jobShareMaps.put(position, "我看到一个很不错的招聘信息，想告诉大家，有兴趣的可以看看哦~ \n\n公司名称：" + list.get(position).get("companyname") + "\n职位名称：" + list.get(position).get("jobsname") + "\n职位详情：" + list.get(position).get("description") + "\n联系电话：" + list.get(position).get("phone") + "\n电子邮箱：" + list.get(position).get("companyemail"));
+						jobShareMaps.put(position, "公司名称：" + list.get(position).get("companyname") + "\n职位名称：" + list.get(position).get("jobsName") + "\n职位详情：" + list.get(position).get("description") + "\n联系电话：" + list.get(position).get("contract") );
 					} else {
 						checkBoxState.remove(position);
 						jobIdAndCompanyIdMaps.remove(position);
@@ -904,9 +902,4 @@ public class JobListActivity extends BaicActivity {
 		}
 	}
 
-	protected void onDestroy() {
-		// 结束ShareSDK的统计功能并释放资源
-		// AbstractWeibo.stopSDK(this);
-		super.onDestroy();
-	}
 }

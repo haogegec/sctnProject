@@ -829,7 +829,7 @@ public class ResumeManageActivity extends BaicActivity {
 			case 3: {
 				Editor editor = sharedPreferences.edit();
 
-				editor.putBoolean("hasResume", false);
+				editor.putBoolean(userId+"", false);
 				editor.commit();
 				Toast.makeText(getApplicationContext(), "删除成功", Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent(ResumeManageActivity.this, ResumeCreateActivity.class);
@@ -844,9 +844,11 @@ public class ResumeManageActivity extends BaicActivity {
 				if ("隐藏".equals(isPublicBtn.getText().toString())) {
 					isPublicImg.setImageResource(R.drawable.resume_is_public_bg);
 					isPublicBtn.setText("公开");
+	Toast.makeText(getApplicationContext(), "现在您的简历就只有您自己可以看到了~~", Toast.LENGTH_SHORT).show();
 				} else {
 					isPublicImg.setImageResource(R.drawable.resume_is_secret_bg);
 					isPublicBtn.setText("隐藏");
+					Toast.makeText(getApplicationContext(), "您的简历已公开，所有的猎头都可以看到哟~~", Toast.LENGTH_SHORT).show();
 				}
 			}
 				break;
