@@ -171,6 +171,10 @@ public class ContactWayEditActivity extends BaicActivity{
 		params.add(new BasicNameValuePair("QQMsn", qqmsnValue.getText().toString()));
 		params.add(new BasicNameValuePair("UsePhone", userphoneValue.getText().toString()));
 		
+		if(contactWayMap==null||!contactWayMap.containsKey("推荐自己")){
+			params.add(new BasicNameValuePair("RecContent", " "));
+		}
+		
 		params.add(new BasicNameValuePair("modifytype", "0"));//保存到简历表中
 		
 		result = getPostHttpContent(url, params);

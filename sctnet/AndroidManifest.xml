@@ -43,12 +43,6 @@
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
-    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" >
-    </uses-permission>
-    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" >
-    </uses-permission>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" >
-    </uses-permission>
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" >
     </uses-permission>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />

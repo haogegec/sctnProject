@@ -548,6 +548,10 @@ public class BasicInfoEditActivity extends BaicActivity {
 		params.add(new BasicNameValuePair("CardId", cardIdValue.getText().toString()));
 		params.add(new BasicNameValuePair("CurrentCity", currentCityValue.getText().toString()));
 		params.add(new BasicNameValuePair("DriveCode", driveCodeValue.getText().toString()));
+		if(basicInfoMap==null||!basicInfoMap.containsKey("推荐自己")){
+			params.add(new BasicNameValuePair("RecContent", " "));
+		}
+		
 		if(!healthStatusId.equals("")){
 			params.add(new BasicNameValuePair("HealthState",healthStatusId));
 		}

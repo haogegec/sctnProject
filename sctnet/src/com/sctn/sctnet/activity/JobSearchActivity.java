@@ -165,6 +165,7 @@ public class JobSearchActivity extends BaicActivity {
 							bundle.putString("positionTypeName", map.get("needProfessionName").toString());
 							intent.putExtras(bundle);
 							startActivity(intent);
+							finish();
 						}
 					});
 				}

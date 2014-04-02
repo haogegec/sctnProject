@@ -34,7 +34,7 @@ public class LoginInfo {
 	 * 用来判断用户是否有简历
 	 * @return
 	 */
-	public static boolean hasResume() {
-		return SharePreferencesUtils.getSharedBooleanData("hasResume");
+	public static boolean hasResume(String userId) {
+		return SharePreferencesUtils.getSharedBooleanData(userId);
 	}
 }

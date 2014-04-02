@@ -208,6 +208,10 @@ public class WorkExperienceEditActivity extends BaicActivity{
 		params.add(new BasicNameValuePair("WorkExperience",workexperienceValue.getText().toString()));
 		params.add(new BasicNameValuePair("WorkPerformance",workperformanceValue.getText().toString()));
 		
+		if(workExperienceMap==null||!workExperienceMap.containsKey("推荐自己")){
+			params.add(new BasicNameValuePair("RecContent", " "));
+		}
+		
 		if(!jobId.equals("")){
 			params.add(new BasicNameValuePair("AdminPost", jobId));
 		}

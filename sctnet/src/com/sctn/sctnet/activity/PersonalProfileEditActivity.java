@@ -136,7 +136,12 @@ public class PersonalProfileEditActivity extends BaicActivity{
 		List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
 		params.add(new BasicNameValuePair("Userid", userId+""));
 	//	params.add(new BasicNameValuePair("Userid",100020+""));
-		params.add(new BasicNameValuePair("RecContent", reccontentEdit.getText().toString()));
+		if(StringUtil.isBlank(reccontentEdit.getText().toString())){
+			params.add(new BasicNameValuePair("RecContent", " "));
+		}else{
+			params.add(new BasicNameValuePair("RecContent", reccontentEdit.getText().toString()));
+		}
+		
 		params.add(new BasicNameValuePair("SpecialtyContent",specialtyContentEdit.getText().toString()));
 		params.add(new BasicNameValuePair("Resume",personalResumeEdit.getText().toString()));
 		

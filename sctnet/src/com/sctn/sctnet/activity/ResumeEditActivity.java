@@ -121,7 +121,7 @@ public class ResumeEditActivity extends BaicActivity{
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(ResumeEditActivity.this,BasicInfoEditActivity.class);
-				if(dataList!=null&&dataList.size()!=0){
+				if(basicInfoList!=null&&basicInfoList.size()!=0){
 					Bundle bundle = new Bundle();
 					bundle.putSerializable("basicInfoList",basicInfoList);
 					intent.putExtras(bundle);
@@ -138,7 +138,7 @@ public class ResumeEditActivity extends BaicActivity{
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(ResumeEditActivity.this,PersonalProfileEditActivity.class);
-				if(dataList!=null&&dataList.size()!=0){
+				if(personalExperienceList!=null&&personalExperienceList.size()!=0){
 					Bundle bundle = new Bundle();
 					bundle.putSerializable("personalExperienceList", personalExperienceList);
 					intent.putExtras(bundle);
@@ -155,7 +155,7 @@ public class ResumeEditActivity extends BaicActivity{
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(ResumeEditActivity.this,JobIntentionEditActivity.class);
-				if(dataList!=null&&dataList.size()!=0){
+				if(jobIntentionList!=null&&jobIntentionList.size()!=0){
 					Bundle bundle = new Bundle();
 					bundle.putSerializable("jobIntentionList", jobIntentionList);
 					intent.putExtras(bundle);
@@ -172,7 +172,7 @@ public class ResumeEditActivity extends BaicActivity{
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(ResumeEditActivity.this,ContactWayEditActivity.class);
-				if(dataList!=null&&dataList.size()!=0){
+				if(contactList!=null&&contactList.size()!=0){
 					Bundle bundle = new Bundle();
 					bundle.putSerializable("contactWayList", contactList);
 					intent.putExtras(bundle);
@@ -189,7 +189,7 @@ public class ResumeEditActivity extends BaicActivity{
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(ResumeEditActivity.this,EducationExperienceEditActivity.class);
-				if(dataList!=null&&dataList.size()!=0){
+				if(educationExperienceList!=null&&educationExperienceList.size()!=0){
 					Bundle bundle = new Bundle();
 					bundle.putSerializable("educationExperienceList", educationExperienceList);
 					intent.putExtras(bundle);
@@ -205,7 +205,7 @@ public class ResumeEditActivity extends BaicActivity{
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(ResumeEditActivity.this,WorkExperienceEditActivity.class);
-				if(dataList!=null&&dataList.size()!=0){
+				if(workExperienceList!=null&&workExperienceList.size()!=0){
 					Bundle bundle = new Bundle();
 					bundle.putSerializable("workExperienceList", workExperienceList);
 					intent.putExtras(bundle);

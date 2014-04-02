@@ -13,8 +13,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -213,20 +215,33 @@ public class JobListActivity extends BaicActivity {
 			public void onClick(View v) {
 
 				if (LoginInfo.isLogin()) {
-					if (jobIdAndCompanyIdMaps.size() == 0) {
-						Toast.makeText(getApplicationContext(), "请选择职位", Toast.LENGTH_LONG).show();
-					} else {
-						for (Map.Entry<Integer, Object> entry : jobIdAndCompanyIdMaps.entrySet()) {
-							// Toast.makeText(getApplicationContext(),
-							// "申请的JOB_ID-COMPANY_ID：" + entry.getValue(),
-							// Toast.LENGTH_LONG).show();
-							if (StringUtil.isBlank(jobIdAndCompanyId)) {
-								jobIdAndCompanyId = entry.getValue().toString();
-							} else {
-								jobIdAndCompanyId += "|" + entry.getValue().toString();
+					String userId = SharePreferencesUtils.getSharedlongData("userId")+"";
+					
+					if (LoginInfo.hasResume(userId)) {// 如果当前用户已经有简历
+						if (jobIdAndCompanyIdMaps.size() == 0) {
+							Toast.makeText(getApplicationContext(), "请选择职位", Toast.LENGTH_LONG).show();
+						} else {
+							for (Map.Entry<Integer, Object> entry : jobIdAndCompanyIdMaps.entrySet()) {
+								if (StringUtil.isBlank(jobIdAndCompanyId)) {
+									jobIdAndCompanyId = entry.getValue().toString();
+								} else {
+									jobIdAndCompanyId += "|" + entry.getValue().toString();
+								}
 							}
+							applyThread();
 						}
-						applyThread();
+					} else {// 如果当前用户还没有创建简历，就跳到创建简历页面
+
+						new AlertDialog.Builder(JobListActivity.this)
+						.setTitle("友情提示").setMessage("您还没有创建简历，是否要创建简历？").setPositiveButton("是", 
+								new android.content.DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								Intent intent = new Intent(JobListActivity.this, ResumeCreateActivity.class);
+								startActivity(intent);
+							}
+						})
+						.setNegativeButton("否", null).show();
 					}
 				} else {
 					Toast.makeText(getApplicationContext(), "请先登录", Toast.LENGTH_SHORT).show();
@@ -596,7 +611,7 @@ public class JobListActivity extends BaicActivity {
 					item.put("sex", resultJsonArray.getJSONObject(j).get("sex"));// 性别
 					item.put("titles", resultJsonArray.getJSONObject(j).get("titles"));// 技术
 					if(resultJsonArray.getJSONObject(j).get("validitytime")!=null && !"".equals(resultJsonArray.getJSONObject(j).get("validitytime").toString())){
-						if(StringUtil.isBlank(resultJsonArray.getJSONObject(j).get("validitytime").toString())){
+						if(!StringUtil.isBlank(resultJsonArray.getJSONObject(j).get("validitytime").toString())){
 							if(resultJsonArray.getJSONObject(j).get("validitytime").toString().length() > 11){
 								item.put("validityTime", resultJsonArray.getJSONObject(j).get("validitytime").toString().substring(0,10));// 有效时间
 							}

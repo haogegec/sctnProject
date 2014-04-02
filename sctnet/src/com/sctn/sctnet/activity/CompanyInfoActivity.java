@@ -10,6 +10,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -65,10 +67,13 @@ public class CompanyInfoActivity extends BaicActivity {
 	private RelativeLayout rl_layout;
 	// 公司简介tab页的控件
 	private TextView tv_companyName, tv_companyIndustry, tv_companyType, tv_companyScale, tv_companyAddress, tv_companyIntro, tv_companyContacts, tv_companyEmail, tv_companyWebsite;
+	private LinearLayout ll_address;
+	
 	// 职位描述tab页的控件
 	private TextView tv_companyName2, tv_companyIndustry2, tv_companyType2, tv_companyScale2, tv_companyAddress2, tv_workingArea2, tv_releaseTime2, tv_jobName2, tv_jobDetail2, tv_companyContacts2,
 			tv_companyEmail2, tv_companyWebsite2;
-
+	private RelativeLayout rl_address;
+	
 	private String companyName;// 公司名称
 	private String companyIndustry;// 公司行业
 	private String companyType;// 公司性质
@@ -176,7 +181,24 @@ public class CompanyInfoActivity extends BaicActivity {
 			public void onClick(View v) {
 				// 这里得判断是否登录、没登录则跳转到登录页面
 				if (LoginInfo.isLogin()) {
-					applyThread();
+					
+					String userId = SharePreferencesUtils.getSharedlongData("userId")+"";
+					
+					if (LoginInfo.hasResume(userId)) {// 如果当前用户已经有简历
+						applyThread();
+					} else {// 如果当前用户还没有创建简历，就跳到创建简历页面
+
+						new AlertDialog.Builder(CompanyInfoActivity.this)
+						.setTitle("友情提示").setMessage("您还没有创建简历，是否要创建简历？").setPositiveButton("是", 
+								new android.content.DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								Intent intent = new Intent(CompanyInfoActivity.this, ResumeCreateActivity.class);
+								startActivity(intent);
+							}
+						})
+						.setNegativeButton("否", null).show();
+					}
 				} else {
 					Toast.makeText(getApplicationContext(), "请先登录", Toast.LENGTH_SHORT).show();
 					Intent intent = new Intent(CompanyInfoActivity.this, LoginActivity.class);
@@ -187,7 +209,7 @@ public class CompanyInfoActivity extends BaicActivity {
 
 		// 收藏
 		btn_collect.setOnClickListener(new View.OnClickListener() {
-
+			
 			@Override
 			public void onClick(View v) {
 				// 这里得判断是否登录、没登录则跳转到登录页面
@@ -209,7 +231,8 @@ public class CompanyInfoActivity extends BaicActivity {
 
 				OnekeyShare oks = new OnekeyShare();
 				oks.setNotification(R.drawable.logo, getString(R.string.app_name));
-				oks.setText("我看到一个很不错的招聘信息，想告诉大家，有兴趣的可以看看哦~ \n\n公司名称："+companyName+"\n职位名称："+jobName+"\n职位详情："+jobDetail+"\n联系人及联系电话："+companyContacts+"\n电子邮箱："+companyEmail+"\n单位网址："+companyWebsite);
+				oks.setText("我看到一个很不错的招聘信息，想告诉大家，有兴趣的可以看看哦~ \n\n公司名称：" + companyName + "\n职位名称：" + jobName + "\n职位详情：" + jobDetail + "\n联系人及联系电话：" + companyContacts + "\n电子邮箱：" + companyEmail
+						+ "\n单位网址：" + companyWebsite);
 				oks.show(getApplicationContext());
 				oks.setCallback(new PlatformActionListener() {
 
@@ -315,15 +338,15 @@ public class CompanyInfoActivity extends BaicActivity {
 		tv_companyIndustry = (TextView) companyInfoPage.findViewById(R.id.company_industry);// 公司所属行业
 		tv_companyType = (TextView) companyInfoPage.findViewById(R.id.company_type);// 公司性质
 		tv_companyScale = (TextView) companyInfoPage.findViewById(R.id.company_scale);// 公司规模
+		ll_address = (LinearLayout) companyInfoPage.findViewById(R.id.company_address_layout);// 包含公司地址和定位图标的layout
 		tv_companyAddress = (TextView) companyInfoPage.findViewById(R.id.company_address);// 公司地址
 		tv_companyIntro = (TextView) companyInfoPage.findViewById(R.id.company_intro);// 公司介绍
 		tv_companyContacts = (TextView) companyInfoPage.findViewById(R.id.company_contacts);// 联系人及联系电话
-		// tv_companyPhone = (TextView)
-		// companyInfoPage.findViewById(R.id.company_phone);// 联系电话
+		// tv_companyPhone = (TextView) companyInfoPage.findViewById(R.id.company_phone);// 联系电话
 		tv_companyEmail = (TextView) companyInfoPage.findViewById(R.id.company_email);// 电子邮箱
 		tv_companyWebsite = (TextView) companyInfoPage.findViewById(R.id.company_website);// 公司网址
 
-		tv_companyAddress.setOnClickListener(new OnClickListener() {
+		ll_address.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
@@ -349,14 +372,14 @@ public class CompanyInfoActivity extends BaicActivity {
 		tv_releaseTime2 = (TextView) companyInfoPage.findViewById(R.id.release_time);// 发布时间
 		tv_jobName2 = (TextView) companyInfoPage.findViewById(R.id.job_name);// 职位名称
 		tv_jobDetail2 = (TextView) companyInfoPage.findViewById(R.id.job_detail);// 职位详情
+		rl_address = (RelativeLayout) companyInfoPage.findViewById(R.id.company_address_layout);// 包含公司地址和定位图标的layout
 		tv_companyAddress2 = (TextView) companyInfoPage.findViewById(R.id.company_address);// 公司地址
 		tv_companyContacts2 = (TextView) companyInfoPage.findViewById(R.id.company_contacts);// 联系人及联系电话
-		// tv_companyPhone2 = (TextView)
-		// companyInfoPage.findViewById(R.id.company_phone);// 联系电话
+		// tv_companyPhone2 = (TextView) companyInfoPage.findViewById(R.id.company_phone);// 联系电话
 		tv_companyEmail2 = (TextView) companyInfoPage.findViewById(R.id.company_email);// 电子邮箱
 		tv_companyWebsite2 = (TextView) companyInfoPage.findViewById(R.id.company_website);// 公司网址
 
-		tv_companyAddress2.setOnClickListener(new OnClickListener() {
+		rl_address.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {

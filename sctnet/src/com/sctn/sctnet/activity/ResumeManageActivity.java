@@ -146,7 +146,7 @@ public class ResumeManageActivity extends BaicActivity {
 		resumeFinishStatusValue = (TextView) findViewById(R.id.resumeFinishStatusValue);
 		resumePublicValue = (TextView) findViewById(R.id.resumePublicValue);
 		userId = SharePreferencesUtils.getSharedlongData("userId");
-		Bitmap bitmap = asyncBitmapLoader.loadBitmap(myHeadPhoto, userId + "", userId + ".jpg", true, 120, 120, new ImageCallBack() {
+		Bitmap bitmap = asyncBitmapLoader.loadBitmap(myHeadPhoto, userId + ".jpg", userId + "", true, 180, 180, new ImageCallBack() {
 
 			@Override
 			public void imageLoad(ImageView imageView, Bitmap bitmap) {
@@ -427,14 +427,20 @@ public class ResumeManageActivity extends BaicActivity {
 			}
 
 			if (responseJsonObject.getInt("resultCode") == 0) {// 获得响应结果
-
-				Editor editor = sharedPreferences.edit();
-
-				editor.putBoolean("hasResume", true);
-				editor.commit();
+				
 
 				JSONObject resultJsonObject = responseJsonObject.getJSONObject("result");
 
+				if(resultJsonObject.getString("reccontent").equals("")&&resultJsonObject.getString("housesubsidy").equals("")){
+                	msg.what = 1;
+    				handler.sendMessage(msg);
+    				return;
+				}
+                Editor editor = sharedPreferences.edit();
+
+				editor.putBoolean(userId+"", true);
+				editor.commit();
+				
 				String accountCity = resultJsonObject.getString("accountcityname");// 户口所在地，accountcity是编号
 				String address = resultJsonObject.getString("address");
 				String adminpost = resultJsonObject.getString("adminpostname");// 当前从事职位
@@ -635,6 +641,10 @@ public class ResumeManageActivity extends BaicActivity {
 				}
 				if (!StringUtil.isBlank(reccontent)) {
 					personalExperienceMap.put("推荐自己", reccontent);
+					basicInfoMap.put("推荐自己", reccontent);
+					workExperienceMap.put("推荐自己", reccontent);
+					educationExperienceMap.put("推荐自己", reccontent);
+					contactMap.put("推荐自己", reccontent);
 					i++;
 				}
 				if (!StringUtil.isBlank(resume)) {
@@ -671,7 +681,7 @@ public class ResumeManageActivity extends BaicActivity {
 					educationExperienceMap.put("第二外语水平", twolevel);
 					i++;
 				}
-				if (!StringUtil.isBlank(useheight)) {
+				if (!StringUtil.isBlank(useheight)&&useheight!=0) {
 					basicInfoMap.put("身高", Long.toString(useheight));
 					i++;
 				}
@@ -679,7 +689,7 @@ public class ResumeManageActivity extends BaicActivity {
 					contactMap.put("本人手机号", usephone);
 					i++;
 				}
-				if (!StringUtil.isBlank(workexperience)) {
+				if (!StringUtil.isBlank(workexperience)&&workexperience!=0) {
 					workExperienceMap.put("工作年限", Long.toString(workexperience));
 					i++;
 				}
@@ -687,7 +697,8 @@ public class ResumeManageActivity extends BaicActivity {
 					workExperienceMap.put("工作业绩", workperformance);
 					i++;
 				}
-
+                
+				
 				basicInfoList.add(basicInfoMap);
 				personalExperienceList.add(personalExperienceMap);
 				workExperienceList.add(workExperienceMap);
@@ -860,7 +871,10 @@ public class ResumeManageActivity extends BaicActivity {
 	private void updateUI() {
 
 		resumeNameValue.setText("我的简历");
-		resumeUpdateValue.setText(resumeInfo.getUpresumetime().substring(0, 10));
+		if(resumeInfo!=null&&!StringUtil.isBlank(resumeInfo.getUpresumetime())){
+			resumeUpdateValue.setText(resumeInfo.getUpresumetime().substring(0, 10));
+		}
+		
 		finishStatus = (int) Math.round(i * 100 / 47) + "%";
 		resumeFinishStatusValue.setText(finishStatus);
 		// resumePublicValue.setText(resumeInfo.getIshide() + "");

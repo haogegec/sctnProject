@@ -304,7 +304,12 @@ public class JobIntentionEditActivity extends BaicActivity {
 			params.add(new BasicNameValuePair("Wage", wageId));
 		}
 
-		params.add(new BasicNameValuePair("HouseSubsidy", housewhereStr));
+		if(StringUtil.isBlank(housewhereValue.getText().toString())){
+			params.add(new BasicNameValuePair("HouseSubsidy", " "));
+		}else{
+			params.add(new BasicNameValuePair("HouseSubsidy", housewhereValue.getText().toString()));
+		}
+		
 
 		params.add(new BasicNameValuePair("modifytype", "1"));// 保存到求职意向表中
 

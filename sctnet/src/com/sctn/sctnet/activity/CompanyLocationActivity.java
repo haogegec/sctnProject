@@ -121,23 +121,23 @@ public class CompanyLocationActivity extends MapActivity {
 
 			}
 			public void onGetPoiResult(MKPoiResult res, int type, int error) {
-				if (error != 0 || res == null) {
-					Toast.makeText(CompanyLocationActivity.this, "解析失败", Toast.LENGTH_LONG).show();
-					return;
-				}
-				if (res != null && res.getCurrentNumPois() > 0) {
-					GeoPoint ptGeo = res.getAllPoi().get(0).pt;
-					// 移动地图到该点：
-					mMapView.getController().animateTo(ptGeo);
-					
-					String strInfo = String.format("纬度：%f 经度：%f\r\n", ptGeo.getLatitudeE6()/1e6, 
-							ptGeo.getLongitudeE6()/1e6);
-					strInfo += "\r\n附近有：";
-					for (int i = 0; i < res.getAllPoi().size(); i++) {
-						strInfo += (res.getAllPoi().get(i).name + ";");
-					}
-					Toast.makeText(CompanyLocationActivity.this, strInfo, Toast.LENGTH_LONG).show();
-				}
+//				if (error != 0 || res == null) {
+//					Toast.makeText(CompanyLocationActivity.this, "解析失败", Toast.LENGTH_LONG).show();
+//					return;
+//				}
+//				if (res != null && res.getCurrentNumPois() > 0) {
+//					GeoPoint ptGeo = res.getAllPoi().get(0).pt;
+//					// 移动地图到该点：
+//					mMapView.getController().animateTo(ptGeo);
+//					
+//					String strInfo = String.format("纬度：%f 经度：%f\r\n", ptGeo.getLatitudeE6()/1e6, 
+//							ptGeo.getLongitudeE6()/1e6);
+//					strInfo += "\r\n附近有：";
+//					for (int i = 0; i < res.getAllPoi().size(); i++) {
+//						strInfo += (res.getAllPoi().get(i).name + ";");
+//					}
+//					Toast.makeText(CompanyLocationActivity.this, strInfo, Toast.LENGTH_LONG).show();
+//				}
 			}
 			public void onGetDrivingRouteResult(MKDrivingRouteResult res,
 					int error) {

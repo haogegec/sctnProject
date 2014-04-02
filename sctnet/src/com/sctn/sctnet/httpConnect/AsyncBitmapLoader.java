@@ -125,7 +125,7 @@ public class AsyncBitmapLoader {
 			}
 		} else {
 			// 加上一个对本地缓存的查找
-			String bitmapName = imageName.substring(imageName.lastIndexOf("/") + 1);
+			String bitmapName = imageName;
 			// 如果内存卡能用
 			if (SDCardUtil.IsSDCardExist()) {
 				File cacheDir = new File(Constant.SYS_IMAGE_DATA_STORE);
@@ -175,7 +175,7 @@ public class AsyncBitmapLoader {
 				map.put("proportion", "true");
 				String parameter = new JSONObject(map).toString();// 构造参数
 
-				String serverUrl = Constant.ServerImageURL;
+				String serverUrl = Constant.ServerImageURL+imageName;
 				HttpPost post = new HttpPost(serverUrl);
 				post.addHeader("Content-Type", "image/jpg");
 				byte[] result = null;
