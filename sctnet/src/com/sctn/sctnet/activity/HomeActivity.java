@@ -196,16 +196,19 @@ public class HomeActivity extends BaicActivity {
 		if (resultCode == RESULT_OK) {
 			switch (requestCode) {
 			case Constant.LOGIN_PERSONAL_CENTER_ACTIVITY: {
+				setTitleRightButtonImg(R.drawable.log_off_bg);
 				Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
 				startActivity(new Intent(HomeActivity.this, PersonalCenterActivity.class));
 				break;
 			}
 			case Constant.LOGIN_RESUME_MANAGE_ACTIVITY: {
+				setTitleRightButtonImg(R.drawable.log_off_bg);
 				Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
 				startActivity(new Intent(HomeActivity.this, ResumeManageActivity.class));
 				break;
 			}
 			case Constant.LOGIN_SALARY_SURVEY_ACTIVITY: {
+				setTitleRightButtonImg(R.drawable.log_off_bg);
 				Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
 				startActivity(new Intent(HomeActivity.this, SalarySurveyActivity.class));
 				break;

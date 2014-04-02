@@ -176,6 +176,7 @@ public class ChangePasswordActivity extends BaicActivity {
 
 		public void handleMessage(Message msg) {
 			if(msg.what == 0){
+				SharePreferencesUtils.setSharedStringData("password", newPassword);
 				Toast.makeText(getApplicationContext(), "修改成功", Toast.LENGTH_SHORT).show();
 				finish();
 			}

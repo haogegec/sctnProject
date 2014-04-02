@@ -839,7 +839,7 @@ public class JobListActivity extends BaicActivity {
 						jobIdMaps.put(position, jobsid);
 						jobShareMaps.put(position, list.get(position).get("companyname") + "正在招聘" + list.get(position).get("jobsName"));
 					
-						jobShareMaps.put(position, "公司名称：" + list.get(position).get("companyname") + "\n职位名称：" + list.get(position).get("jobsName") + "\n职位详情：" + list.get(position).get("description") + "\n联系电话：" + list.get(position).get("contract") );
+						jobShareMaps.put(position, "公司名称：" + list.get(position).get("companyname") + "\n职位名称：" + list.get(position).get("jobsName") + "\n联系电话：" + list.get(position).get("contract") );
 					} else {
 						checkBoxState.remove(position);
 						jobIdAndCompanyIdMaps.remove(position);

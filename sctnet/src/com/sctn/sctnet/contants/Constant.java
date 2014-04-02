@@ -113,4 +113,9 @@ public class Constant {
 	public static final int SHARE_CANCEL = 201;// 分享取消
 	public static final int SHARE_COMPLETE = 202;// 分享成功
 
+	// 职业信息自动推送设置
+	public static final int AUTO_PUSH_SUCCESS = 210;
+	// 自定义推送内容设置
+	public static final int USER_DEFINED_PUSH_SUCCESS = 211;
+	
 }

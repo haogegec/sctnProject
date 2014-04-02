@@ -2,8 +2,10 @@ package com.sctn.sctnet.activity;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -13,16 +15,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 import com.sctn.sctnet.R;
+import com.sctn.sctnet.Utils.PhoneUtil;
 import com.sctn.sctnet.Utils.SharePreferencesUtils;
 import com.sctn.sctnet.Utils.StringUtil;
 import com.sctn.sctnet.cache.CacheProcess;
+import com.sctn.sctnet.contants.Constant;
 import com.sctn.sctnet.entity.LoginInfo;
 import com.sctn.sctnet.view.ItemView;
 
@@ -153,8 +160,9 @@ public class PersonalCenterActivity extends BaicActivity {
 						// ->直接跳转到 HomeActivity(设置成单例) 同时清空栈中 HomeActivity 之前的 Activity
 						Toast.makeText(PersonalCenterActivity.this, "注销成功", Toast.LENGTH_SHORT).show();
 						Intent intent = new Intent(PersonalCenterActivity.this, HomeActivity.class);
-						intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // 利用ClearTop标志
+//						intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // 利用ClearTop标志
 						startActivity(intent);
+						finish();
 					}
 				} )  
 				.setNegativeButton("取消" , null)  
@@ -192,14 +200,7 @@ public class PersonalCenterActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View v) {
-				jobInformationPushAuto = SharePreferencesUtils.getSharedBooleanData("jobInformationPushAuto");
-				if(jobInformationPushAuto){
-					itemView2.setDetailImageViewResource(R.drawable.set_off);
-					SharePreferencesUtils.setSharedBooleanData("jobInformationPushAuto",false);
-				} else {
-					itemView2.setDetailImageViewResource(R.drawable.set_on);
-					SharePreferencesUtils.setSharedBooleanData("jobInformationPushAuto",true);
-				}
+				autoPushThread();
 			}
 
 		});
@@ -209,14 +210,16 @@ public class PersonalCenterActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View v) {
-				selfSubscribePushAuto = SharePreferencesUtils.getSharedBooleanData("selfSubscribePushAuto");
-				if(selfSubscribePushAuto){
-					itemView3.setDetailImageViewResource(R.drawable.set_off);
-					SharePreferencesUtils.setSharedBooleanData("selfSubscribePushAuto",false);
-				} else {
-					itemView3.setDetailImageViewResource(R.drawable.set_on);
-					SharePreferencesUtils.setSharedBooleanData("selfSubscribePushAuto",true);
-				}
+//				selfSubscribePushAuto = SharePreferencesUtils.getSharedBooleanData("selfSubscribePushAuto");
+//				if(selfSubscribePushAuto){
+//					itemView3.setDetailImageViewResource(R.drawable.set_off);
+//					SharePreferencesUtils.setSharedBooleanData("selfSubscribePushAuto",false);
+//				} else {
+//					itemView3.setDetailImageViewResource(R.drawable.set_on);
+//					SharePreferencesUtils.setSharedBooleanData("selfSubscribePushAuto",true);
+//				}
+				Intent intent = new Intent(PersonalCenterActivity.this,SubscribeActivity.class);
+				startActivity(intent);
 			}
 
 		});
@@ -365,12 +368,27 @@ public class PersonalCenterActivity extends BaicActivity {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case 0:
-
 				updateUI();
+				closeProcessDialog();
+				break;
+				
+			case Constant.AUTO_PUSH_SUCCESS:
+				
+				JPushInterface.setAlias(PersonalCenterActivity.this, PhoneUtil.DEVICE_ID, mAliasCallback);
+				
+				
+				if(jobInformationPushAuto){
+					itemView2.setDetailImageViewResource(R.drawable.set_off);
+					SharePreferencesUtils.setSharedBooleanData("jobInformationPushAuto",false);
+				} else {
+					itemView2.setDetailImageViewResource(R.drawable.set_on);
+					SharePreferencesUtils.setSharedBooleanData("jobInformationPushAuto",true);
+				}
+				
 				break;
 
 			}
-			closeProcessDialog();
+			
 		}
 	};
 
@@ -385,5 +403,99 @@ public class PersonalCenterActivity extends BaicActivity {
 		postCollCount.setText(post);
 		
 	}
+	
+	/**
+	 * 在子线程与远端服务器交互，请求数据
+	 */
+	private void autoPushThread() {
+		Thread mThread = new Thread(new Runnable() {// 启动新的线程，
+					@Override
+					public void run() {
+						autoPush();
+					}
+				});
+		mThread.start();
+	}
+	
+	/**
+	 * 请求数据，并将返回结果显示在界面上
+	 */
+	private void autoPush() {
+
+		String url = "appMessageSend.app";
+
+		Message msg = new Message();
+		
+		jobInformationPushAuto = SharePreferencesUtils.getSharedBooleanData("jobInformationPushAuto");
+		
+		try {
+			
+			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
+			params.add(new BasicNameValuePair("DeviceId", PhoneUtil.DEVICE_ID));
+			params.add(new BasicNameValuePair("RegisterrationId", JPushInterface.getRegistrationID(getApplicationContext())));
+			params.add(new BasicNameValuePair("DeviceName", "默认设备名称"));
+			params.add(new BasicNameValuePair("DeviceModel", PhoneUtil.MODEL));
+			if(jobInformationPushAuto){
+				params.add(new BasicNameValuePair("AuthPush", "N"));
+			} else {
+				params.add(new BasicNameValuePair("AuthPush", "Y"));
+			}
+			params.add(new BasicNameValuePair("UserDefinedPush", "Y"));
+			params.add(new BasicNameValuePair("Tags", "AUTO_PUSH"));
+			
+			result = getPostHttpContent(url, params);
+
+			if (StringUtil.isExcetionInfo(result)) {
+				sendExceptionMsg(result);
+				return;
+			}
+
+			JSONObject responseJsonObject = new JSONObject(result);// 返回结果存放在该json对象中
+			if ("0".equals(responseJsonObject.getString("resultCode"))) {
+				msg.what = Constant.AUTO_PUSH_SUCCESS;
+				handler.sendMessage(msg);
+			} else {
+				String errorResult = responseJsonObject.getString("result");
+				String err = StringUtil.getAppException4MOS(errorResult);
+				sendExceptionMsg(err);
+			}
+
+		} catch (JSONException e) {
+			String err = StringUtil.getAppException4MOS("解析json出错！");
+			sendExceptionMsg(err);
+		}
+	}
+	
+	private final TagAliasCallback mAliasCallback = new TagAliasCallback() {
+
+		@Override
+		public void gotResult(int code, String alias, Set<String> tags) {
+			String logs;
+			switch (code) {
+			case 0:
+				logs = "Set tag and alias success";
+//				Log.i(TAG, logs);
+				break;
+
+			case 6002:
+				logs = "Failed to set alias and tags due to timeout. Try again after 60s.";
+//				Log.i(TAG, logs);
+				// if (ExampleUtil.isConnected(getApplicationContext())) {
+				// mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_ALIAS,
+				// alias), 1000 * 60);
+				// } else {
+				// Log.i(TAG, "No network");
+				// }
+				break;
+
+			default:
+				logs = "Failed with errorCode = " + code;
+//				Log.e(TAG, logs);
+			}
+
+			Toast.makeText(getApplicationContext(), logs, Toast.LENGTH_LONG).show();
+		}
+
+	};
 	
 }

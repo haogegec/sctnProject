@@ -321,8 +321,9 @@ public class ResumeManageActivity extends BaicActivity {
 						// Activity
 						Toast.makeText(ResumeManageActivity.this, "注销成功", Toast.LENGTH_SHORT).show();
 						Intent intent = new Intent(ResumeManageActivity.this, HomeActivity.class);
-						intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // 利用ClearTop标志
+		//				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // 利用ClearTop标志
 						startActivity(intent);
+						finish();
 					}
 				}).setNegativeButton("取消", null).show();
 
@@ -972,7 +973,7 @@ public class ResumeManageActivity extends BaicActivity {
 
 			// JSON的解析过程
 			responseJsonObject = new JSONObject(result);
-			if (responseJsonObject.getInt("resultCode") == 0) {// 获得响应结果
+			if (responseJsonObject.getInt("resultcode") == 0) {// 获得响应结果
 				msg.what = 3;
 				handler.sendMessage(msg);
 			} else {
