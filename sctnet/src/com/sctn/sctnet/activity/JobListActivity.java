@@ -244,10 +244,10 @@ public class JobListActivity extends BaicActivity {
 						}
 					} else {// 如果当前用户还没有创建简历，就跳到创建简历页面
 
-						new AlertDialog.Builder(JobListActivity.this).setTitle("友情提示").setMessage("您还没有创建简历，是否要创建简历？").setPositiveButton("是", new android.content.DialogInterface.OnClickListener() {
+						new AlertDialog.Builder(JobListActivity.this).setTitle("友情提示").setMessage("您的简历还不完善暂不能申请职位，是否要去完善您的简历呢？").setPositiveButton("是", new android.content.DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
-								Intent intent = new Intent(JobListActivity.this, ResumeCreateActivity.class);
+								Intent intent = new Intent(JobListActivity.this, ResumeManageActivity.class);
 								startActivity(intent);
 							}
 						}).setNegativeButton("否", null).show();

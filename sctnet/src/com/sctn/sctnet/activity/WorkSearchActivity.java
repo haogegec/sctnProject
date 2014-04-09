@@ -12,38 +12,29 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.View.OnKeyListener;
 import android.view.Window;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.contants.Constant;
 import com.sctn.sctnet.sqlite.DBHelper;
-import com.sctn.sctnet.view.ItemView;
 
 /**
  * @author wanghaoc 首页关键字职位搜索
@@ -56,6 +47,7 @@ public class WorkSearchActivity extends Activity {
 	private ImageView cursor;// 动画图片
 	private int currIndex = 0;// 当前页卡编号
 	private EditText search_edit;
+	private ImageView search_img;
 	private String type = Constant.TYPE_JOB_NAME;// 默认选择职位名
 
 	private SQLiteDatabase database;
@@ -136,7 +128,7 @@ public class WorkSearchActivity extends Activity {
 		cursor.setImageBitmap(bmp);
 		// 初始化Edit编辑框
 		search_edit = (EditText) findViewById(R.id.et_search_searchtxt);
-		
+		search_img = (ImageView) findViewById(R.id.search_bar);
 		listView = (ListView) findViewById(R.id.search_history_listview);
 		
 		listView.setAdapter(new MyAdapter(this,logData,R.layout.select_area_item));
@@ -207,23 +199,41 @@ public class WorkSearchActivity extends Activity {
 
 	protected void reigesterAllEvent() {
 		setPageTitleOnClickListener();
-		search_edit.setOnEditorActionListener(new OnEditorActionListener() { 
-            
-           @Override
-           public boolean onEditorAction(TextView v, int actionId, KeyEvent event) { 
-               if (actionId == EditorInfo.IME_ACTION_DONE||actionId == KeyEvent.KEYCODE_ENTER||actionId == 0||actionId == 5) { 
-            	   Intent intent = new Intent(WorkSearchActivity.this,JobListActivity.class);
-            	   Bundle bundle = new Bundle();
-            	   bundle.putString("type", type);
-            	   bundle.putString("key", search_edit.getText().toString());
-            	   bundle.putString("whichActivity", "WorkSearchActivity");
-            	   intent.putExtras(bundle);
-				   startActivity(intent);
-				   finish();
-               } 
-               return false; 
-           } 
-       });
+//		search_edit.setOnEditorActionListener(new OnEditorActionListener() { 
+//            
+//           @Override
+//           public boolean onEditorAction(TextView v, int actionId, KeyEvent event) { 
+//               if (actionId == EditorInfo.IME_ACTION_DONE||actionId == KeyEvent.KEYCODE_ENTER||actionId == 0||actionId == 5) { 
+//            	   Intent intent = new Intent(WorkSearchActivity.this,JobListActivity.class);
+//            	   Bundle bundle = new Bundle();
+//            	   bundle.putString("type", type);
+//            	   bundle.putString("key", search_edit.getText().toString());
+//            	   bundle.putString("whichActivity", "WorkSearchActivity");
+//            	   intent.putExtras(bundle);
+//				   startActivity(intent);
+//				   finish();
+//               } 
+//               return false; 
+//           } 
+//       });
+		search_img.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				
+			   Intent intent = new Intent(WorkSearchActivity.this,JobListActivity.class);
+         	   Bundle bundle = new Bundle();
+         	   bundle.putString("type", type);
+         	   bundle.putString("key", search_edit.getText().toString());
+         	   bundle.putString("whichActivity", "WorkSearchActivity");
+         	   intent.putExtras(bundle);
+			   startActivity(intent);
+			   finish();
+
+				
+			}
+			
+		});
 		listView.setOnItemClickListener(new OnItemClickListener(){
 
 			@Override

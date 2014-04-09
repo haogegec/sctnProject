@@ -50,6 +50,8 @@ public class Constant {
 	public static final int INDUSTRY_TYPE = 22;// 请求行业类型id
 	public static final int POSITION_TYPE = 4;// 请求职业类型id
 	public static final int POSITION_DETAIL_TYPE = 5;// 请求详细职位类型id
+	
+	public static final int CURRENT_POSITION_REQUEST_CODE = 8;
 
 	// 薪酬调查页面获取后台数据时候用到的常量
 	public static final int DEGREE = 11;// 学位
@@ -71,6 +73,7 @@ public class Constant {
 
 	// 登录页注册请求码
 	public static final int REGISTER_REQUEST_CODE = 0;
+	public static final int FORGET_PASSWORD_REQUEST_CODE = 1;
 
 	// 职位申请、收藏成功时的msg.what的值
 	public static final int APPLY_SUCCESS = 101;
@@ -117,5 +120,8 @@ public class Constant {
 	public static final int AUTO_PUSH_SUCCESS = 210;
 	// 自定义推送内容设置
 	public static final int USER_DEFINED_PUSH_SUCCESS = 211;
+	
+	public static final String PUSH_BY_ALIAS = "A";// 自动推送
+	public static final String PUSH_BY_TAGS = "T";// 订阅推送
 	
 }

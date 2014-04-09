@@ -67,8 +67,8 @@ public class ArchivesListActivity extends BaicActivity{
 		archivesListAdapter = new SimpleAdapter(
 				ArchivesListActivity.this, items,
 				R.layout.archives_list_item,
-				new String[] { "file_id","user_name","birthday","sex","addtime" },
-				new int[] { R.id.file_id,R.id.user_name,R.id.birthday,R.id.sex,R.id.addtime });
+				new String[] { "file_id","user_name","birthday","sex" },
+				new int[] { R.id.file_id,R.id.user_name,R.id.birthday,R.id.sex });
 		archivesListView.setAdapter(archivesListAdapter);
 		archivesListView.setOnScrollListener(listener);
 	}
@@ -157,7 +157,7 @@ public class ArchivesListActivity extends BaicActivity{
 						}else{
 							item.put("sex", "男");
 						}
-						item.put("addtime",resultJsonArray.getJSONObject(j).get("addTime"));
+					//	item.put("addtime",resultJsonArray.getJSONObject(j).get("addTime"));
 
 						items.add(item);
 					}

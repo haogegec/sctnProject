@@ -15,11 +15,11 @@ import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.MarginLayoutParams;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
@@ -27,7 +27,6 @@ import android.widget.Toast;
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.Utils.StringUtil;
 import com.sctn.sctnet.view.ItemView;
-import com.sctn.sctnet.view.SearchEditText;
 /**
  * 信息咨询界面
  * @author 姜勇男
@@ -35,8 +34,9 @@ import com.sctn.sctnet.view.SearchEditText;
  */
 public class InformationQueryActivity extends BaicActivity{
 	
-    private SearchEditText searchEdit;
+    private EditText searchEdit;
 	private LinearLayout parentLayout;
+	private ImageView searchImg;
 	private int pageNo=0;
 //	private String bigTitleId;
 //	private String title;
@@ -156,30 +156,45 @@ public class InformationQueryActivity extends BaicActivity{
 				LinearLayout.LayoutParams.FILL_PARENT,
 				LinearLayout.LayoutParams.WRAP_CONTENT);
 		
-		searchEdit = (SearchEditText) findViewById(R.id.et_search_searchtxt);
+		searchEdit = (EditText) findViewById(R.id.et_search_searchtxt);
+		searchImg = (ImageView) findViewById(R.id.search_bar);
 	}
 
 	@Override
 	protected void reigesterAllEvent() {
 		
 		//searchStr = searchEdit.getText().toString();
-		
-		searchEdit.setOnEditorActionListener(new OnEditorActionListener() { 
-            
-           @Override
-           public boolean onEditorAction(TextView v, int actionId, KeyEvent event) { 
-               if (actionId == EditorInfo.IME_ACTION_DONE||actionId == KeyEvent.KEYCODE_ENTER||actionId == 0) { 
-            	   Intent intent = new Intent(InformationQueryActivity.this,InformationListMoreActivity.class);
-					Bundle bundle = new Bundle();
-					bundle.putString("title", "搜索结果");
-					bundle.putString("search", searchEdit.getText().toString());
-					bundle.putString("url", "appInfo!search.app");
-					intent.putExtras(bundle);
-					startActivity(intent);
-               } 
-               return false; 
-           } 
-       }); 
+		searchImg.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				
+				Intent intent = new Intent(InformationQueryActivity.this,InformationListMoreActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putString("title", "搜索结果");
+				bundle.putString("search", searchEdit.getText().toString());
+				bundle.putString("url", "appInfo!search.app");
+				intent.putExtras(bundle);
+				startActivity(intent);
+			}
+			
+		});
+//		searchEdit.setOnEditorActionListener(new OnEditorActionListener() { 
+//            
+//           @Override
+//           public boolean onEditorAction(TextView v, int actionId, KeyEvent event) { 
+//               if (actionId == EditorInfo.IME_ACTION_DONE||actionId == KeyEvent.KEYCODE_ENTER||actionId == 0) { 
+//            	   Intent intent = new Intent(InformationQueryActivity.this,InformationListMoreActivity.class);
+//					Bundle bundle = new Bundle();
+//					bundle.putString("title", "搜索结果");
+//					bundle.putString("search", searchEdit.getText().toString());
+//					bundle.putString("url", "appInfo!search.app");
+//					intent.putExtras(bundle);
+//					startActivity(intent);
+//               } 
+//               return false; 
+//           } 
+//       }); 
 		
 	}
 	

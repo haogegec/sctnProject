@@ -24,7 +24,7 @@
                 android:layout_alignBottom="@+id/mcs_image"
                 android:layout_toRightOf="@+id/mcs_image"
                 android:layout_marginBottom="7dp"
-                android:text="四川人才网"
+                android:text="四川省人才网"
                 android:textColor="@color/white"
                 android:textSize="12.28dp" />
             <TextView 

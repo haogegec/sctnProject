@@ -13,7 +13,7 @@
        android:orientation="vertical"
        >
  
-    <com.sctn.sctnet.view.SearchEditText
+    <!-- <com.sctn.sctnet.view.SearchEditText
             android:id="@+id/et_search_searchtxt"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -30,7 +30,43 @@
             android:textColor="#555"
             android:textColorHint="#999"
             android:textSize="15dp" 
-            />
+            /> -->
     
+     <RelativeLayout
+             android:id="@+id/search_layout"
+             android:layout_width="fill_parent"  
+             android:layout_height="wrap_content"  
+             android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+              >
+
+           <EditText 
+             android:id="@+id/et_search_searchtxt"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/search_edittext_bg"
+            android:hint="@string/search_hint"
+            android:paddingTop="10dp"
+            android:paddingLeft="10dip"
+            android:paddingBottom="10dp"
+            android:singleLine="true"
+            android:textColor="#555"
+            android:textColorHint="#999"
+            android:textSize="15dp" 
+               />  
+               
+              <ImageView 
+	        android:id="@+id/search_bar"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content" 
+	        android:layout_marginRight="10dip"
+	        android:paddingLeft="15dp"
+	        android:paddingRight="15dp"
+	        android:layout_centerVertical="true"
+	        android:layout_alignRight="@+id/et_search_searchtxt"  
+	        android:background="@drawable/search_bar"
+        /> 
+         </RelativeLayout>
    </LinearLayout> 
 </ScrollView>

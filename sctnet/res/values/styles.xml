@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="AppTheme" parent="android:Theme.Light" />
 
@@ -6,20 +6,30 @@
     <style name="title_bg">
         <item name="android:background">@drawable/titlebar_bg</item>
     </style>
+
     <style name="title" parent="android:Theme">
         <item name="android:windowTitleSize">43.0dip</item>
         <item name="android:windowTitleBackgroundStyle">@style/title_bg</item>
     </style>
-    
+
     <style name="process_dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
-    
-        <!-- checkbox style -->
+
+    <!-- checkbox style -->
     <style name="checkbox" parent="@android:style/Widget.CompoundButton.CheckBox">
         <item name="android:button">@drawable/common_checkbox</item>
         <item name="android:textColor">#FFA2A499</item>
     </style>
+
+    <!-- 自定义弹出框 -->
+    <style name="CustomDialog" parent="@android:Theme.Dialog">
+        <item name="android:windowFrame">@null</item> <!--Dialog的windowFrame框为无 --> 
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item><!-- 是否漂现在activity上 -->
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
 </resources>

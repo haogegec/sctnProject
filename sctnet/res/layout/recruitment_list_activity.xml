@@ -12,14 +12,15 @@
              android:layout_margin="20dip"
               >
 
-           <EditText 
+          <EditText 
              android:id="@+id/search_edit_bg"
              android:layout_width="fill_parent"
 	         android:layout_height="wrap_content" 
              android:background="@drawable/search_bg"
              android:hint="@string/homeactivityhint"
              android:gravity="center_vertical"
-              android:paddingLeft="35dip"
+              android:paddingLeft="20dip"
+              
               android:singleLine="true"
                />  
                
@@ -27,12 +28,25 @@
 	        android:id="@+id/search_bar"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content" 
-	        android:layout_marginLeft="10dip"
+	        android:layout_marginRight="10dip"
+	        android:paddingLeft="15dp"
+	        android:paddingRight="15dp"
 	        android:layout_centerVertical="true"
-	        android:layout_alignLeft="@+id/search_edit_bg"  
+	        android:layout_alignRight="@+id/search_edit_bg"  
 	        android:background="@drawable/search_bar"
         /> 
          </RelativeLayout>
+         <TextView 
+        android:id="@+id/explain_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:textColor="@color/blue"
+        android:background="#ffffff"
+        android:textSize="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        />
          <ListView
         android:id="@+id/recrumitment_list"   
         android:layout_width="fill_parent"

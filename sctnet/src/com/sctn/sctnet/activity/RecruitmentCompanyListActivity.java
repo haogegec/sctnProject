@@ -33,8 +33,9 @@ public class RecruitmentCompanyListActivity extends BaicActivity{
 	private ListView recruitmentCompanyListView;
 	private SimpleAdapter recruitmentCompanyListAdapter;
 	private List<Map<String, Object>> items = new ArrayList<Map<String, Object>>();
-	private String[] key = { "company_name_text","contact_name_text","contact_way_text","email_text","company_address_text"
-			,"register_time_text","company_website_text","postal_code_text","company_desc"};
+	private String[] key = { "company_name_text","partitionlist_name_text","job_name_text","contact_name_text","contact_way_text","company_address_text"
+			};
+	private String partitionlist;//展位号
 	//请求数据
 	private String recruitmentId;
 	
@@ -49,6 +50,7 @@ public class RecruitmentCompanyListActivity extends BaicActivity{
 		Intent intent = this.getIntent();
 		Bundle bundle = intent.getExtras();
 		recruitmentId = bundle.getString("recruitmentId");
+		partitionlist = bundle.getString("partitionlist");
 		initAllView();
 		reigesterAllEvent();
 		requestDataThread();
@@ -107,14 +109,11 @@ public class RecruitmentCompanyListActivity extends BaicActivity{
 
 					Map<String, Object> item = new HashMap<String, Object>();
 					item.put(key[0], resultJsonArray.getJSONObject(j).get("companyname"));
-					item.put(key[1], resultJsonArray.getJSONObject(j).get("contactsname"));
-					item.put(key[2],resultJsonArray.getJSONObject(j).get("phone"));
-					item.put(key[3], resultJsonArray.getJSONObject(j).get("e_mail"));
-					item.put(key[4], resultJsonArray.getJSONObject(j).get("address"));
-					item.put(key[5], resultJsonArray.getJSONObject(j).get("registertime").toString().substring(0,10));
-					item.put(key[6], resultJsonArray.getJSONObject(j).get("websites"));
-					item.put(key[7], resultJsonArray.getJSONObject(j).get("postalcode"));
-					item.put(key[8], resultJsonArray.getJSONObject(j).get("companyinfo"));
+					item.put(key[1], partitionlist);
+					item.put(key[2], "职位详情请到现场了解");
+					item.put(key[3], resultJsonArray.getJSONObject(j).get("contactsname"));
+					item.put(key[4],resultJsonArray.getJSONObject(j).get("phone"));
+					item.put(key[5], resultJsonArray.getJSONObject(j).get("address"));
 
 					items.add(item);
 				}
@@ -146,7 +145,6 @@ public class RecruitmentCompanyListActivity extends BaicActivity{
 
 				break;
 			}
-			closeProcessDialog();
 
 		}
 	};
@@ -160,9 +158,8 @@ public class RecruitmentCompanyListActivity extends BaicActivity{
 		recruitmentCompanyListAdapter = new SimpleAdapter(
 				RecruitmentCompanyListActivity.this, items,
 				R.layout.recruitment_company_list_item,
-				key,new int[] { R.id.company_name_text,R.id.contact_name_text,R.id.contact_way_text,
-						R.id.email_text,R.id.company_address_text,R.id.register_time_text,R.id.company_website_text
-						,R.id.postal_code_text});
+				key,new int[] { R.id.company_name_text,R.id.partitionlist_name_text,R.id.job_name_text,R.id.contact_name_text,
+						R.id.contact_way_text,R.id.company_address_text});
 		recruitmentCompanyListView.setAdapter(recruitmentCompanyListAdapter);
 		
 	}
@@ -170,22 +167,22 @@ public class RecruitmentCompanyListActivity extends BaicActivity{
 	@Override
 	protected void reigesterAllEvent() {
 		
-		recruitmentCompanyListView.setOnItemClickListener(new OnItemClickListener(){
-
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
-					long arg3) {
-				
-				
-				Intent intent = new Intent(RecruitmentCompanyListActivity.this,RecruitmentCompanyDetailActivity.class);
-				Bundle bundle = new Bundle();
-				bundle.putString("companyName", items.get(position).get(key[0]).toString());
-				bundle.putString("companyInfo", items.get(position).get(key[8]).toString());
-				intent.putExtras(bundle);
-				startActivity(intent);
-			}
-			
-		});
+//		recruitmentCompanyListView.setOnItemClickListener(new OnItemClickListener(){
+//
+//			@Override
+//			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+//					long arg3) {
+//				
+//				
+//				Intent intent = new Intent(RecruitmentCompanyListActivity.this,RecruitmentCompanyDetailActivity.class);
+//				Bundle bundle = new Bundle();
+//				bundle.putString("companyName", items.get(position).get(key[0]).toString());
+//				bundle.putString("companyInfo", items.get(position).get(key[8]).toString());
+//				intent.putExtras(bundle);
+//				startActivity(intent);
+//			}
+//			
+//		});
 		
 	}
 

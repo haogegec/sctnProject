@@ -11,16 +11,23 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.sctn.sctnet.R;
@@ -35,7 +42,7 @@ public class RecruitmentSearchResultActivity extends BaicActivity{
 	
 	private ListView recruitmentListView;
 	private View footViewBar;// 下滑加载条
-	private SimpleAdapter recruitmentListAdapter;
+	private MyAdapter recruitmentListAdapter;
 	private List<Map<String, Object>> items = new ArrayList<Map<String, Object>>();
 	
 	private int count;// 一次可以显示的条数（=pageSize或者小于）
@@ -58,7 +65,105 @@ public class RecruitmentSearchResultActivity extends BaicActivity{
 		reigesterAllEvent();
 		requestDataThread(0);// 第一次请求数据
 	}
-	
+	class MyAdapter extends BaseAdapter {
+
+		private Context mContext;// 上下文对象
+		List<Map<String, Object>> list;// 这是要绑定的数据
+		private int resource;// 这是要绑定的 item 布局文件
+		private LayoutInflater inflater;// 布局填充器，Android系统内置的
+
+		public MyAdapter(Context context, List<Map<String, Object>> list, int resource) {
+			this.mContext = context;
+			this.list = list;
+			this.resource = resource;
+			this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);// 布局填充服务
+		}
+
+		@Override
+		public int getCount() {// 数据的总数量
+			return list.size();
+		}
+
+		@Override
+		public Object getItem(int position) {
+			return list.get(position);
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return position;
+		}
+
+		@Override
+		public View getView(final int position, View convertView, ViewGroup parent) {
+
+			TextView name;// 招聘会名称
+			TextView time;// 时间
+			TextView week;// 周几
+			TextView address;// 招聘会地点
+			LinearLayout addressLayout;
+
+			if (convertView == null) {// 目前显示的是第一页，为这些条目数据new一个view出来，如果不是第一页，则继续用缓存的view
+				convertView = inflater.inflate(resource, null);
+
+				// 初始化控件
+				name = (TextView) convertView.findViewById(R.id.recruitment_name);
+				time = (TextView) convertView.findViewById(R.id.recruitment_time);
+				week = (TextView) convertView.findViewById(R.id.recruitment_week);				
+				address = (TextView) convertView.findViewById(R.id.recruitment_address);
+				addressLayout = (LinearLayout) convertView.findViewById(R.id.recruitment_address_layout);
+				
+				ViewCache viewCache = new ViewCache();
+				viewCache.name = name;
+				viewCache.time = time;
+				viewCache.week = week;
+				viewCache.address = address;
+				viewCache.addressLayout = addressLayout;
+				
+				convertView.setTag(viewCache);
+			} else {
+				// 初始化控件
+				ViewCache viewCache = (ViewCache) convertView.getTag();
+				name = viewCache.name;
+				time = viewCache.time;
+				week = viewCache.week;
+				address = viewCache.address;
+				addressLayout = viewCache.addressLayout;
+			}
+
+			String id = list.get(position).get("recruitment_id").toString();
+			name.setText(list.get(position).get("recruitment_name").toString());
+			time.setText(list.get(position).get("recruitment_time").toString());
+			week.setText(list.get(position).get("recruitment_week").toString());
+			address.setText(list.get(position).get("recruitment_address").toString());
+
+			addressLayout.setOnClickListener(new OnClickListener(){
+
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(RecruitmentSearchResultActivity.this, CompanyLocationActivity.class);
+					Bundle bundle = new Bundle();
+					bundle.putString("detailAddress",list.get(position).get("recruitment_address").toString());
+					bundle.putString("city", "成都");
+					intent.putExtras(bundle);
+					startActivity(intent);
+					
+				}
+				
+			});
+			
+			return convertView;
+		}
+
+	}
+
+	private final class ViewCache {
+		public TextView name;// 招聘会名称
+		public TextView time;// 时间
+		public TextView week;// 周几
+		public TextView address;// 招聘会地点
+		public LinearLayout addressLayout;
+	}
 	/**
 	 * 请求数据线程
 	 * 
@@ -125,13 +230,15 @@ public class RecruitmentSearchResultActivity extends BaicActivity{
 						count = resultJsonArray.length();
 					}
 					for (int j = 0; j < count; j++) {
-
+						
 						Map<String, Object> item = new HashMap<String, Object>();
-						item.put("recruitment_type", resultJsonArray.getJSONObject(j).get("holdclassid"));
+						item.put("recruitment_week", resultJsonArray.getJSONObject(j).get("weekTime"));
 						item.put("recruitment_name", resultJsonArray.getJSONObject(j).get("siterecruitmentname"));
-						item.put("recruitment_time",resultJsonArray.getJSONObject(j).get("holddate"));
-						item.put("recruitment_id", resultJsonArray.getJSONObject(j).get("id"));
-
+						item.put("recruitment_time",resultJsonArray.getJSONObject(j).get("holddate").toString().substring(0,10));
+						item.put("recruitment_id", resultJsonArray.getJSONObject(j).get("recruitmentid"));
+						item.put("recruitment_address", "四川省成都市小南街99号(人民公园斜对面·长城园旁)");
+						item.put("recruitment_partition_list",resultJsonArray.getJSONObject(j).get("partitionlist"));
+						
 						items.add(item);
 					}
 					if (i == 0) {
@@ -224,11 +331,12 @@ public class RecruitmentSearchResultActivity extends BaicActivity{
 		recruitmentListView = (ListView) findViewById(R.id.information_list);
 
 		footViewBar = View.inflate(RecruitmentSearchResultActivity.this, R.layout.foot_view_loading, null);
-		recruitmentListAdapter = new SimpleAdapter(
-				RecruitmentSearchResultActivity.this, items,
-				R.layout.recruitment_item,
-				new String[] { "recruitment_type","recruitment_name","recruitment_time" },
-				new int[] { R.id.recruitment_type,R.id.recruitment_name,R.id.recruitment_time });
+//		recruitmentListAdapter = new SimpleAdapter(
+//				RecruitmentSearchResultActivity.this, items,
+//				R.layout.recruitment_item,
+//				new String[] { "recruitment_type","recruitment_name","recruitment_time" },
+//				new int[] { R.id.recruitment_type,R.id.recruitment_name,R.id.recruitment_time });
+		recruitmentListAdapter = new MyAdapter(RecruitmentSearchResultActivity.this, items, R.layout.recruitment_item);
 		recruitmentListView.setAdapter(recruitmentListAdapter);
 		recruitmentListView.setOnScrollListener(listener);
 		
@@ -244,6 +352,7 @@ public class RecruitmentSearchResultActivity extends BaicActivity{
 				Intent intent = new Intent(RecruitmentSearchResultActivity.this,RecruitmentCompanyListActivity.class);
 				Bundle bundle = new Bundle();
 				bundle.putString("recruitmentId", items.get(position).get("recruitment_id").toString());
+				bundle.putString("partitionlist", items.get(position).get("recruitment_partition_list").toString());
 				intent.putExtras(bundle);
 				startActivity(intent);
 				

@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.Utils.StringUtil;
 import com.sctn.sctnet.contants.Constant;
+import com.sctn.sctnet.view.CustomDialog;
 
 /**
  * 职场经历界面
@@ -224,6 +225,7 @@ public class SelectJobExpActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View arg0) {
+				
 				builder.setTitle("请选择您的工作年限");
 				builder.setSingleChoiceItems(workingYears, 0, new DialogInterface.OnClickListener() {
 

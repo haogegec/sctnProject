@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="@drawable/subscribe_name"
+        android:background="@drawable/subscribe_edit_bg"
         android:hint="@string/subscribe_name_hint"
         android:padding="10dp"
         android:singleLine="true"
@@ -36,7 +36,9 @@
     <com.sctn.sctnet.view.ItemView
         android:id="@+id/push_set"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp" />
   <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -53,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="@drawable/subscribe_name"
+        android:background="@drawable/subscribe_edit_bg"
         android:hint="@string/key_words_hint"
         android:padding="10dp"
         android:singleLine="true"

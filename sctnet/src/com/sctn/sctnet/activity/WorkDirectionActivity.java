@@ -1,9 +1,7 @@
 package com.sctn.sctnet.activity;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
@@ -19,6 +17,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
@@ -36,6 +35,7 @@ public class WorkDirectionActivity extends BaicActivity {
 
 	private ItemView itemView1, itemView2, itemView3, itemView4;
 	private EditText searchEdit;
+	private ImageView searchImg;
 	private String result;// 服务端返回的结果
 
 	@Override
@@ -53,7 +53,8 @@ public class WorkDirectionActivity extends BaicActivity {
 	protected void initAllView() {
 
 		searchEdit = (EditText) findViewById(R.id.search_edit_bg);
-
+		searchImg = (ImageView) findViewById(R.id.search_bar);
+		
 		itemView1 = (ItemView) findViewById(R.id.itemview1);
 		itemView2 = (ItemView) findViewById(R.id.itemview2);
 		itemView3 = (ItemView) findViewById(R.id.itemview3);
@@ -148,22 +149,39 @@ public class WorkDirectionActivity extends BaicActivity {
 
 	@Override
 	protected void reigesterAllEvent() {
-		searchEdit.setOnEditorActionListener(new OnEditorActionListener() {
+//		searchEdit.setOnEditorActionListener(new OnEditorActionListener() {
+//
+//			@Override
+//			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+//				if (actionId == EditorInfo.IME_ACTION_DONE || actionId == KeyEvent.KEYCODE_ENTER || actionId == 0) {
+//					Intent intent = new Intent(WorkDirectionActivity.this, InformationListMoreActivity.class);
+//					Bundle bundle = new Bundle();
+//					bundle.putString("search", searchEdit.getText().toString());
+//					bundle.putString("cid", "71");
+//					bundle.putString("title", "搜索结果");
+//					bundle.putString("url", "workGuid!search.app");
+//					intent.putExtras(bundle);
+//					startActivity(intent);
+//				}
+//				return false;
+//			}
+//		});
+		searchImg.setOnClickListener(new OnClickListener(){
 
 			@Override
-			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-				if (actionId == EditorInfo.IME_ACTION_DONE || actionId == KeyEvent.KEYCODE_ENTER || actionId == 0) {
-					Intent intent = new Intent(WorkDirectionActivity.this, InformationListMoreActivity.class);
-					Bundle bundle = new Bundle();
-					bundle.putString("search", searchEdit.getText().toString());
-					bundle.putString("cid", "71");
-					bundle.putString("title", "搜索结果");
-					bundle.putString("url", "workGuid!search.app");
-					intent.putExtras(bundle);
-					startActivity(intent);
-				}
-				return false;
+			public void onClick(View v) {
+				
+				Intent intent = new Intent(WorkDirectionActivity.this, InformationListMoreActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putString("search", searchEdit.getText().toString());
+				bundle.putString("cid", "71");
+				bundle.putString("title", "搜索结果");
+				bundle.putString("url", "workGuid!search.app");
+				intent.putExtras(bundle);
+				startActivity(intent);
+				
 			}
+			
 		});
 
 	}

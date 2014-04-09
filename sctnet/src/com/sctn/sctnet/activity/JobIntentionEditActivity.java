@@ -57,6 +57,11 @@ public class JobIntentionEditActivity extends BaicActivity {
 	private TextView workmannerValue;
 	private String industry = "";// 行业
 	private String industryId = "";
+	
+	private RelativeLayout post;
+	private TextView postValue;
+	private String postStr = "";// 岗位
+	private String postId = "";
 
 	private RelativeLayout companyType;
 	private TextView companyTypeValue;
@@ -121,6 +126,9 @@ public class JobIntentionEditActivity extends BaicActivity {
 		workmanner = (RelativeLayout) findViewById(R.id.workmanner);
 		workmannerValue = (TextView) findViewById(R.id.workmanner_value);
 
+		post = (RelativeLayout) findViewById(R.id.post);
+		postValue = (TextView) findViewById(R.id.post_value);
+		
 		companyType = (RelativeLayout) findViewById(R.id.company_type);
 		companyTypeValue = (TextView) findViewById(R.id.company_type_value);
 
@@ -141,16 +149,20 @@ public class JobIntentionEditActivity extends BaicActivity {
 				workStateStr = jobIntentionMap.get("工作性质");
 				workStateValue.setText(workStateStr);
 			}
-			if (jobIntentionMap.containsKey("行业")) {
-				industry = jobIntentionMap.get("行业");
+			if (jobIntentionMap.containsKey("预从事行业")) {
+				industry = jobIntentionMap.get("预从事行业");
 				workmannerValue.setText(industry);
 			}
-			if (jobIntentionMap.containsKey("企业类型")) {
+			if (jobIntentionMap.containsKey("预从事岗位")) {
+				postStr = jobIntentionMap.get("预从事岗位");
+				postValue.setText(postStr);
+			}
+			if (jobIntentionMap.containsKey("企业性质")) {
 				companyTypeStr = jobIntentionMap.get("企业类型");
 				companyTypeValue.setText(companyTypeStr);
 			}
-			if (jobIntentionMap.containsKey("薪水范围")) {
-				wageStr = jobIntentionMap.get("薪水范围");
+			if (jobIntentionMap.containsKey("月薪要求")) {
+				wageStr = jobIntentionMap.get("月薪要求");
 				wageValue.setText(wageStr);
 			}
 			if (jobIntentionMap.containsKey("住房要求")) {
@@ -203,11 +215,24 @@ public class JobIntentionEditActivity extends BaicActivity {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(JobIntentionEditActivity.this, SelectCurrentIndustryActivity.class);
+				intent.putExtra("flag", "jobintent");
 				startActivityForResult(intent, Constant.CURRENT_INDUSTRY_REQUEST_CODE);
 			}
 
 		});
 
+		// 岗位
+		post.setOnClickListener(new ImageView.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(JobIntentionEditActivity.this, SelectCurrentPositionActivity.class);
+				
+				startActivityForResult(intent, Constant.CURRENT_POSITION_REQUEST_CODE);
+			}
+
+		});
+				
 		// 企业类型
 		companyType.setOnClickListener(new ImageView.OnClickListener() {
 
@@ -252,7 +277,7 @@ public class JobIntentionEditActivity extends BaicActivity {
 			@Override
 			public void onClick(View v) {
 
-				if (workAreaStr.equals(workAreaValue.getText().toString()) && workStateStr.equals(workStateValue.getText().toString()) && industry.equals(workmannerValue.getText().toString()) && companyTypeStr.equals(companyTypeValue.getText().toString()) && wageStr.equals(wageValue.getText().toString()) && housewhereStr.equals(housewhereValue.getText().toString())) {
+				if (workAreaStr.equals(workAreaValue.getText().toString()) && workStateStr.equals(workStateValue.getText().toString()) && industry.equals(workmannerValue.getText().toString())&&postStr.equals(postValue.getText().toString()) && companyTypeStr.equals(companyTypeValue.getText().toString()) && wageStr.equals(wageValue.getText().toString()) && housewhereStr.equals(housewhereValue.getText().toString())) {
 
 					Toast.makeText(getApplicationContext(), "请编辑之后再保存吧~~", Toast.LENGTH_SHORT).show();
 				} else {
@@ -297,6 +322,9 @@ public class JobIntentionEditActivity extends BaicActivity {
 		if (!industryId.equals("")) {
 			params.add(new BasicNameValuePair("WorkManner", industryId));
 		}
+		if (!postId.equals("")) {
+			params.add(new BasicNameValuePair("postCode", postId));
+		}
 		if (!companyTypeId.equals("")) {
 			params.add(new BasicNameValuePair("CompanyType", companyTypeId));
 		}
@@ -317,9 +345,9 @@ public class JobIntentionEditActivity extends BaicActivity {
 
 		newPersonalExperienceMap.put("工作地区", workAreaValue.getText().toString());
 		newPersonalExperienceMap.put("工作性质", workStateValue.getText().toString());
-		newPersonalExperienceMap.put("行业", workmannerValue.getText().toString());
-		newPersonalExperienceMap.put("企业类型", companyTypeValue.getText().toString());
-		newPersonalExperienceMap.put("薪水范围", wageValue.getText().toString());
+		newPersonalExperienceMap.put("预从事行业", workmannerValue.getText().toString());
+		newPersonalExperienceMap.put("企业性质", companyTypeValue.getText().toString());
+		newPersonalExperienceMap.put("月薪要求", wageValue.getText().toString());
 		newPersonalExperienceMap.put("住房要求", housewhereValue.getText().toString());
 		list.add(newPersonalExperienceMap);
 		
@@ -590,6 +618,12 @@ public class JobIntentionEditActivity extends BaicActivity {
 				industry = data.getStringExtra("currentIndustry");
 				industryId = data.getStringExtra("currentIndustryId");
 				workmannerValue.setText(industry);
+
+				break;
+			case Constant.CURRENT_POSITION_REQUEST_CODE:
+				postStr = data.getStringExtra("postStr");
+				postId = data.getStringExtra("postId");
+				postValue.setText(postStr);
 
 				break;
 			}

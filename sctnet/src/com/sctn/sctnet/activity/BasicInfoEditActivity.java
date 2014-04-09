@@ -107,22 +107,17 @@ public class BasicInfoEditActivity extends BaicActivity {
 	private String account_cityId;
 	private String accountCityStr = "";
 
-	private RelativeLayout currentCity;
-	private TextView currentCityValue;// 居住地
-	private String current_province;
-	private String current_provinceId;
-	private String current_city;
-	private String current_cityId;
-	private String currentCityStr = "";
-
-	private EditText cardIdValue;
-	private String cardIdStr = "";// 身份证号
-
-	private EditText driveCodeValue;
-	private String driveCodeStr = "";// 驾驶证号
-
-	private EditText addressValue;
-	private String addressStr = "";// 地址
+	private EditText currentCityValue;
+	private String currentCityStr = "";// 居住地
+	
+//	private EditText cardIdValue;
+//	private String cardIdStr = "";// 身份证号
+//
+//	private EditText driveCodeValue;
+//	private String driveCodeStr = "";// 驾驶证号
+//
+//	private EditText addressValue;
+//	private String addressStr = "";// 地址
 
 	private Builder builder;
 	private Dialog dialog;// 弹出框
@@ -204,14 +199,14 @@ public class BasicInfoEditActivity extends BaicActivity {
 		accountCity = (RelativeLayout) findViewById(R.id.account_city);
 		accountCityValue = (TextView) findViewById(R.id.account_city_value);
 
-		currentCity = (RelativeLayout) findViewById(R.id.current_city);
-		currentCityValue = (TextView) findViewById(R.id.current_city_value);
+//		currentCity = (RelativeLayout) findViewById(R.id.current_city);
+		currentCityValue = (EditText) findViewById(R.id.current_city_value);
 
-		cardIdValue = (EditText) findViewById(R.id.cardid_value);
-
-		driveCodeValue = (EditText) findViewById(R.id.drivecode_value);
-
-		addressValue = (EditText) findViewById(R.id.address_value);
+//		cardIdValue = (EditText) findViewById(R.id.cardid_value);
+//
+//		driveCodeValue = (EditText) findViewById(R.id.drivecode_value);
+//
+//		addressValue = (EditText) findViewById(R.id.address_value);
 		builder = new AlertDialog.Builder(BasicInfoEditActivity.this);
 		
 		
@@ -230,26 +225,26 @@ public class BasicInfoEditActivity extends BaicActivity {
 				accountCityStr = basicInfoMap.get("户口所在地");
 				accountCityValue.setText(accountCityStr);
 			}
-			if(basicInfoMap.containsKey("地址")){
-	            addressStr = basicInfoMap.get("地址");
-				addressValue.setText(addressStr);
-			}
+//			if(basicInfoMap.containsKey("地址")){
+//	            addressStr = basicInfoMap.get("地址");
+//				addressValue.setText(addressStr);
+//			}
 			if(basicInfoMap.containsKey("出生日期")){
 				birthdayStr = basicInfoMap.get("出生日期");
 				birthdayValue.setText(birthdayStr);
 			}
-			if(basicInfoMap.containsKey("身份证号")){
-				cardIdStr = basicInfoMap.get("身份证号");
-				cardIdValue.setText(cardIdStr);
-			}
+//			if(basicInfoMap.containsKey("身份证号")){
+//				cardIdStr = basicInfoMap.get("身份证号");
+//				cardIdValue.setText(cardIdStr);
+//			}
            if(basicInfoMap.containsKey("当前城市")){
         	   currentCityStr = basicInfoMap.get("当前城市");
         	   currentCityValue.setText(currentCityStr);
 			}
-           if(basicInfoMap.containsKey("驾驶证号")){
-        	   driveCodeStr = basicInfoMap.get("驾驶证号");
-        	   driveCodeValue.setText(driveCodeStr);
-			}
+//           if(basicInfoMap.containsKey("驾驶证号")){
+//        	   driveCodeStr = basicInfoMap.get("驾驶证号");
+//        	   driveCodeValue.setText(driveCodeStr);
+//			}
            if(basicInfoMap.containsKey("健康状况")){
         	   healthStatusStr = basicInfoMap.get("健康状况");
         	   healthStatusValue.setText(healthStatusStr);
@@ -299,8 +294,8 @@ public class BasicInfoEditActivity extends BaicActivity {
             	   newSex = "1";
                }
 	           if(nameStr.equals(nameValue.getText().toString())&&orginStr.equals(orginValue.getText().toString())&&accountCityStr.equals(accountCityValue.getText().toString())
-	        		   &&addressStr.equals(addressValue.getText().toString())&&birthdayStr.equals(birthdayValue.getText().toString())&&cardIdStr.equals(cardIdValue.getText().toString())
-	        		   &&currentCityStr.equals(currentCityValue.getText().toString())&&driveCodeStr.equals(driveCodeValue.getText().toString())&&healthStatusStr.equals(healthStatusValue.getText().toString())
+	        		   &&birthdayStr.equals(birthdayValue.getText().toString())
+	        		   &&currentCityStr.equals(currentCityValue.getText().toString())&&healthStatusStr.equals(healthStatusValue.getText().toString())
 	        		   &&maritalStatusStr.equals(maritalStatusValue.getText().toString())&&peopleStr.equals(peopleValue.getText().toString())&&politicalStr.equals(politicalValue.getText().toString())
 	        		   &&heighStr.equals(heighValue.getText().toString())&&newSex.equals(sex)){
 	        	   
@@ -399,17 +394,17 @@ public class BasicInfoEditActivity extends BaicActivity {
 
 		});
 
-		// 居住地
-		currentCity.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(BasicInfoEditActivity.this, SelectAreaActivity.class);
-				intent.putExtra("flag", "BasicInfoEditActivity");
-				startActivityForResult(intent, Constant.SELECT_HABITAT_REQUEST_CODE);
-			}
-
-		});
+//		// 居住地
+//		currentCity.setOnClickListener(new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				Intent intent = new Intent(BasicInfoEditActivity.this, SelectAreaActivity.class);
+//				intent.putExtra("flag", "BasicInfoEditActivity");
+//				startActivityForResult(intent, Constant.SELECT_HABITAT_REQUEST_CODE);
+//			}
+//
+//		});
 
 	}
 
@@ -457,13 +452,13 @@ public class BasicInfoEditActivity extends BaicActivity {
 				accountCityValue.setText(account_province + "  " + account_city);
 				break;
 
-			case Constant.SELECT_HABITAT_REQUEST_CODE:
-				current_city = data.getStringExtra("city");
-				current_cityId = data.getStringExtra("cityId");
-				current_province = data.getStringExtra("province");
-				current_provinceId = data.getStringExtra("provinceId");
-				currentCityValue.setText(current_province + "  " + current_city);
-				break;
+//			case Constant.SELECT_HABITAT_REQUEST_CODE:
+//				current_city = data.getStringExtra("city");
+//				current_cityId = data.getStringExtra("cityId");
+//				current_province = data.getStringExtra("province");
+//				current_provinceId = data.getStringExtra("provinceId");
+//				currentCityValue.setText(current_province + "  " + current_city);
+//				break;
 			}
 		}
 	}
@@ -543,11 +538,11 @@ public class BasicInfoEditActivity extends BaicActivity {
 		params.add(new BasicNameValuePair("Userid", userId+""));
 	//	params.add(new BasicNameValuePair("Userid",100020+""));
 		params.add(new BasicNameValuePair("TrueName", nameValue.getText().toString()));
-		params.add(new BasicNameValuePair("Address", addressValue.getText().toString()));
+	//	params.add(new BasicNameValuePair("Address", addressValue.getText().toString()));
 		params.add(new BasicNameValuePair("BirthDay", birthdayValue.getText().toString()));
-		params.add(new BasicNameValuePair("CardId", cardIdValue.getText().toString()));
+	//	params.add(new BasicNameValuePair("CardId", cardIdValue.getText().toString()));
 		params.add(new BasicNameValuePair("CurrentCity", currentCityValue.getText().toString()));
-		params.add(new BasicNameValuePair("DriveCode", driveCodeValue.getText().toString()));
+	//	params.add(new BasicNameValuePair("DriveCode", driveCodeValue.getText().toString()));
 		if(basicInfoMap==null||!basicInfoMap.containsKey("推荐自己")){
 			params.add(new BasicNameValuePair("RecContent", " "));
 		}
@@ -585,11 +580,11 @@ public class BasicInfoEditActivity extends BaicActivity {
 		newBasicInfoMap.put("姓名", nameValue.getText().toString());
 		newBasicInfoMap.put("籍贯", orginValue.getText().toString());
 		newBasicInfoMap.put("户口所在地", accountCityValue.getText().toString());
-		newBasicInfoMap.put("地址", addressValue.getText().toString());
+	//	newBasicInfoMap.put("地址", addressValue.getText().toString());
 		newBasicInfoMap.put("出生日期", birthdayValue.getText().toString());
-		newBasicInfoMap.put("身份证号", cardIdValue.getText().toString());
+	//	newBasicInfoMap.put("身份证号", cardIdValue.getText().toString());
 		newBasicInfoMap.put("当前城市", currentCityValue.getText().toString());
-		newBasicInfoMap.put("驾驶证号", driveCodeValue.getText().toString());
+	//	newBasicInfoMap.put("驾驶证号", driveCodeValue.getText().toString());
 		newBasicInfoMap.put("健康状况", healthStatusValue.getText().toString());
 		newBasicInfoMap.put("婚姻状况", maritalStatusValue.getText().toString());
 		newBasicInfoMap.put("民族", peopleValue.getText().toString());

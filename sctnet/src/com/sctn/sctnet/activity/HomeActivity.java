@@ -38,6 +38,16 @@ public class HomeActivity extends BaicActivity {
 		initAllView();
 		reigesterAllEvent();
 	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if(LoginInfo.isLogin()){
+			super.setTitleRightButtonImg(R.drawable.log_off_bg);
+		}else{
+			super.setTitleRightButtonImg(R.drawable.login_btn_bg);
+		}
+	}
 
 	@Override
 	protected void initAllView() {

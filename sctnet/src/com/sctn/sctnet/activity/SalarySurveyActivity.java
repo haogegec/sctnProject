@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -475,6 +476,7 @@ public class SalarySurveyActivity extends BaicActivity {
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
 			params.add(new BasicNameValuePair("type", "11"));
 			params.add(new BasicNameValuePair("key", "1"));
+			params.add(new BasicNameValuePair("page", "1"));
 			result = getPostHttpContent(url, params);
 
 			if (StringUtil.isExcetionInfo(result)) {

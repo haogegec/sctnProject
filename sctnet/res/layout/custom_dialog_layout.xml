@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_custom_dialog"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:gravity="center_vertical|center_horizontal"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp" >
+
+        <!-- 这个ImageView不能没有，不然会报错（ClassCastException: 说 不能转换成ImageButton， 具体原因我还没来得急分析） -->
+        <ImageView
+            android:id="@+id/dialog_title_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/logo"
+            android:visibility="gone"
+             />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dp"
+            android:text=""
+            android:textColor="@color/blue"
+            android:singleLine="true"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/blue_point" />
+
+    <TextView
+        android:id="@+id/message"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dip"
+        android:text=""
+        android:textColor="@color/blue"
+        android:textSize="17sp" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom|center_horizontal"
+        android:paddingBottom="10dip"
+        android:paddingTop="10dip" >
+
+        <TextView
+            android:id="@+id/dialog_button_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_weight="1"
+            android:text=""
+            android:gravity="center"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/white"
+            android:background="@color/blue"
+            android:visibility="gone"
+             />
+
+        <TextView
+            android:id="@+id/dialog_button_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+             android:padding="10dp"
+            android:gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@color/blue"
+            android:textColor="@color/white"
+            android:visibility="gone"
+            android:text="" />
+    </LinearLayout>
+
+</LinearLayout>

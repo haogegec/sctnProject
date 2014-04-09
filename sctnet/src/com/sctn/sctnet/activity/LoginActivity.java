@@ -27,6 +27,7 @@ import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.Utils.Md5Builder;
+import com.sctn.sctnet.Utils.SharePreferencesUtils;
 import com.sctn.sctnet.Utils.StringUtil;
 import com.sctn.sctnet.contants.Constant;
 /**
@@ -48,6 +49,7 @@ public class LoginActivity extends BaicActivity {
 	private String userName;
 	private String password;
 	private Button registerBtn;
+	private Button forgetPasswordBtn;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +110,13 @@ public class LoginActivity extends BaicActivity {
 			if (responseJsonObject.getInt("resultCode")==0) {//获得响应结果，登录成功                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
 
 				long userId = responseJsonObject.getLong("userid");
-				sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+				
+				if(responseJsonObject.get("tag").equals("0")){
+					SharePreferencesUtils.setSharedBooleanData(userId+"", true);
+				}else{
+					SharePreferencesUtils.setSharedBooleanData(userId+"", false);
+				}
+				
 				Editor editor = sharedPreferences.edit();
 				editor.putString("userName", userName);
 				editor.putString("password", password);
@@ -183,6 +191,7 @@ public class LoginActivity extends BaicActivity {
 		rememberPassword = (CheckBox) findViewById(R.id.login_remember_password);
 		autoLogin = (CheckBox) findViewById(R.id.login_auto_login);
 		registerBtn = (Button) findViewById(R.id.register);
+		forgetPasswordBtn = (Button) findViewById(R.id.forget_password);
 	}
 
 	@Override
@@ -272,6 +281,16 @@ public class LoginActivity extends BaicActivity {
 			}
 			
 		});
+		forgetPasswordBtn.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				
+				Intent intent = new Intent(LoginActivity.this,ForgetPasswordActivity.class);
+				startActivityForResult(intent, Constant.FORGET_PASSWORD_REQUEST_CODE);
+			}
+			
+		});
 	}
 	
 	@Override
@@ -282,6 +301,10 @@ public class LoginActivity extends BaicActivity {
 				case Constant.REGISTER_REQUEST_CODE : {
 					setResult(RESULT_OK);
 					finish();
+					break;
+				}
+				case Constant.FORGET_PASSWORD_REQUEST_CODE:{
+					Toast.makeText(LoginActivity.this, "您的密码已发送到您注册的邮箱里，请查收后登陆！", Toast.LENGTH_LONG).show();
 					break;
 				}
 			}

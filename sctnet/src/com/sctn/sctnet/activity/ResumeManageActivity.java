@@ -492,6 +492,7 @@ public class ResumeManageActivity extends BaicActivity {
 				String wagename = resultJsonObject.getString("wagename");
 				String workmannername = resultJsonObject.getString("workmannername");
 				String workregionname = resultJsonObject.getString("workregionname");
+				String post = resultJsonObject.getString("postcodename");
 
 				if (!StringUtil.isBlank(housesubsidy)) {
 					jobIntentionMap.put("住房要求", housesubsidy);
@@ -502,15 +503,19 @@ public class ResumeManageActivity extends BaicActivity {
 					i++;
 				}
 				if (!StringUtil.isBlank(companytype)) {
-					jobIntentionMap.put("企业类型", companytype);
+					jobIntentionMap.put("企业性质", companytype);
 					i++;
 				}
 				if (!StringUtil.isBlank(wagename)) {
-					jobIntentionMap.put("薪酬范围", wagename);
+					jobIntentionMap.put("月薪要求", wagename);
 					i++;
 				}
 				if (!StringUtil.isBlank(workmannername)) {
-					jobIntentionMap.put("行业", workmannername);
+					jobIntentionMap.put("预从事行业", workmannername);
+					i++;
+				}
+				if (!StringUtil.isBlank(post)) {
+					jobIntentionMap.put("预从事岗位", post);
 					i++;
 				}
 				if (!StringUtil.isBlank(workregionname)) {
@@ -878,7 +883,7 @@ public class ResumeManageActivity extends BaicActivity {
 			resumeUpdateValue.setText(resumeInfo.getUpresumetime().substring(0, 10));
 		}
 		
-		finishStatus = (int) Math.round(i * 100 / 47) + "%";
+		finishStatus = (int) Math.round(i * 100 / 48) + "%";
 		resumeFinishStatusValue.setText(finishStatus);
 		// resumePublicValue.setText(resumeInfo.getIshide() + "");
 

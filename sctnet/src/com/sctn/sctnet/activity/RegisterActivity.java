@@ -126,8 +126,8 @@ public class RegisterActivity extends BaicActivity {
 			params.add(new BasicNameValuePair("ClassID", "1"));
 			params.add(new BasicNameValuePair("type", "1"));
 			params.add(new BasicNameValuePair("UserName", username));
-			params.add(new BasicNameValuePair("UserPwd", password));
-			params.add(new BasicNameValuePair("UserTxtPwd", userTxtPwd));
+			params.add(new BasicNameValuePair("UserPwd", userTxtPwd));
+			params.add(new BasicNameValuePair("UserTxtPwd", password));
 			params.add(new BasicNameValuePair("email", email));// 没填写邮箱的时候传空值
 			response = getPostHttpContent(url, params);
 

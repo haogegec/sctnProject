@@ -5,11 +5,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.AlertDialog.Builder;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,7 +20,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.Utils.StringUtil;
@@ -59,7 +59,7 @@ public class SelectForeignLanguageActivity extends BaicActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.select_foreign_language_activity);
 		setTitleBar(getString(R.string.selectForeignLanguage), View.VISIBLE, View.VISIBLE);
-		initForeignLanguageThread();
+//		initForeignLanguageThread();
 		initIntent();
 		initAllView();
 		reigesterAllEvent();
@@ -95,7 +95,12 @@ public class SelectForeignLanguageActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View arg0) {
-				initForeignLanguage();
+//				initForeignLanguage();
+				
+				Intent intent = new Intent(SelectForeignLanguageActivity.this, SelectItemActivity.class);
+				intent.putExtra("whichActivity", "SelectFirstLanguage");
+				startActivityForResult(intent, Constant.FIRST_FOREIGN_LANGUAGE);
+				
 			}
 
 		});
@@ -113,6 +118,11 @@ public class SelectForeignLanguageActivity extends BaicActivity {
 							}
 						});
 				mThread.start();
+				
+//				Intent intent = new Intent(SelectForeignLanguageActivity.this, SelectItemActivity.class);
+//				intent.putExtra("whichActivity", "SelectLanguageLevel");
+//				startActivityForResult(intent, Constant.LANGUAGE_LEVEL);
+				
 			}
 
 		});
@@ -136,60 +146,58 @@ public class SelectForeignLanguageActivity extends BaicActivity {
 
 	}
 
-	private void initForeignLanguageThread() {
-		showProcessDialog(false);
-		Thread mThread = new Thread(new Runnable() {// 启动新的线程，
-					@Override
-					public void run() {
-						initLanguageThread();
-					}
-				});
-		mThread.start();
-	}
+//	private void initForeignLanguageThread() {
+//		showProcessDialog(false);
+//		Thread mThread = new Thread(new Runnable() {// 启动新的线程，
+//					@Override
+//					public void run() {
+//						initLanguageThread();
+//					}
+//				});
+//		mThread.start();
+//	}
 
-	private void initLanguageThread() {
-		String url = "appCmbShow.app";
-		Message msg = new Message();
-
-		try {
-			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-			params.add(new BasicNameValuePair("type", "6"));
-			params.add(new BasicNameValuePair("key", "1"));
-			result = getPostHttpContent(url, params);
-
-			if (StringUtil.isExcetionInfo(result)) {
-				SelectForeignLanguageActivity.this.sendExceptionMsg(result);
-				return;
-			}
-
-			JSONObject responseJsonObject = new JSONObject(result);
-
-			if (responseJsonObject.getInt("resultcode") == 0) {// 获得响应结果
-
-				JSONObject resultJsonObject = responseJsonObject.getJSONObject("result");
-				Iterator it = resultJsonObject.keys();
-				foreignLanguageIds = new String[resultJsonObject.length()];
-				foreignLanguage = new String[resultJsonObject.length()];
-				int i = 0;
-				while (it.hasNext()) {
-					String key = (String) it.next();
-					String value = resultJsonObject.getString(key);
-					foreignLanguageIds[i] = key;
-					foreignLanguage[i] = value;
-					i++;
-				}
-				msg.what = Constant.FIRST_FOREIGN_LANGUAGE;
-				handler.sendMessage(msg);
-			} else {
-				String errorResult = (String) responseJsonObject.get("result");
-				String err = StringUtil.getAppException4MOS(errorResult);
-				SelectForeignLanguageActivity.this.sendExceptionMsg(err);
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	private void initLanguageThread() {
+//		String url = "appCmbShow.app";
+//		Message msg = new Message();
+//
+//		try {
+//			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
+//			params.add(new BasicNameValuePair("type", "6"));
+//			params.add(new BasicNameValuePair("key", "1"));
+//			result = getPostHttpContent(url, params);
+//
+//			if (StringUtil.isExcetionInfo(result)) {
+//				SelectForeignLanguageActivity.this.sendExceptionMsg(result);
+//				return;
+//			}
+//
+//			JSONObject responseJsonObject = new JSONObject(result);
+//
+//			if (responseJsonObject.getInt("resultcode") == 0) {// 获得响应结果
+//
+//				JSONArray resultJsonArray = responseJsonObject.getJSONArray("result");
+//				foreignLanguageIds = new String[resultJsonArray.length()];
+//				foreignLanguage = new String[resultJsonArray.length()];
+//				
+//				for(int i=0;i<resultJsonArray.length(); i++){
+//					JSONObject jObject = (JSONObject) resultJsonArray.get(i);
+//					foreignLanguageIds[i] = jObject.getString("key");
+//					foreignLanguage[i] = jObject.getString("value");
+//				}
+//				
+//				msg.what = Constant.FIRST_FOREIGN_LANGUAGE;
+//				handler.sendMessage(msg);
+//			} else {
+//				String errorResult = (String) responseJsonObject.get("result");
+//				String err = StringUtil.getAppException4MOS(errorResult);
+//				SelectForeignLanguageActivity.this.sendExceptionMsg(err);
+//			}
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	private void initLanguageLevelThread() {
 
@@ -200,6 +208,7 @@ public class SelectForeignLanguageActivity extends BaicActivity {
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
 			params.add(new BasicNameValuePair("type", "7"));
 			params.add(new BasicNameValuePair("key", "1"));
+			params.add(new BasicNameValuePair("page", "1"));
 			result = getPostHttpContent(url, params);
 
 			if (StringUtil.isExcetionInfo(result)) {
@@ -246,7 +255,7 @@ public class SelectForeignLanguageActivity extends BaicActivity {
 				// initForeignLanguage();
 				break;
 			case Constant.LANGUAGE_LEVEL:
-				initLanguageLevel();
+//				initLanguageLevel();
 				break;
 
 			}
@@ -254,55 +263,57 @@ public class SelectForeignLanguageActivity extends BaicActivity {
 		}
 	};
 
-	private void initForeignLanguage() {
-		builder.setTitle("请选择您的第一外语");
-		builder.setSingleChoiceItems(foreignLanguage, 0, new DialogInterface.OnClickListener() {
+//	private void initForeignLanguage() {
+//		builder.setTitle("请选择您的第一外语");
+//		builder.setSingleChoiceItems(foreignLanguage, 0, new DialogInterface.OnClickListener() {
+//
+//			@Override
+//			public void onClick(DialogInterface dialog, int which) {
+//				tv_first_language2.setText(foreignLanguage[which]);
+//				languageId = foreignLanguageIds[which];
+//				language = foreignLanguage[which];
+//				dialog.dismiss();
+//			}
+//
+//		});
+//		dialog = builder.create();
+//		dialog.show();
+//	}
 
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				tv_first_language2.setText(foreignLanguage[which]);
-				languageId = foreignLanguageIds[which];
-				language = foreignLanguage[which];
-				dialog.dismiss();
-			}
-
-		});
-		dialog = builder.create();
-		dialog.show();
-	}
-
-	private void initLanguageLevel() {
-		builder.setTitle("请选择您的外语能力");
-		builder.setSingleChoiceItems(languageLevels, 0, new DialogInterface.OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				tv_language_level2.setText(languageLevels[which]);
-				languageLevelId = languageLevelIds[which];
-				languageLevel = languageLevels[which];
-				dialog.dismiss();
-			}
-
-		});
-		dialog = builder.create();
-		dialog.show();
-	}
+//	private void initLanguageLevel() {
+//		builder.setTitle("请选择您的外语能力");
+//		builder.setSingleChoiceItems(languageLevels, 0, new DialogInterface.OnClickListener() {
+//
+//			@Override
+//			public void onClick(DialogInterface dialog, int which) {
+//				tv_language_level2.setText(languageLevels[which]);
+//				languageLevelId = languageLevelIds[which];
+//				languageLevel = languageLevels[which];
+//				dialog.dismiss();
+//			}
+//
+//		});
+//		dialog = builder.create();
+//		dialog.show();
+//	}
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
 			switch (requestCode) {
 
-			// case 1: {
-			//
-			// String area = data.getStringExtra("area");
-			//
-			// tv_area2.setText(area);
-			//
-			// break;
-			//
-			// }
-
+			case Constant.FIRST_FOREIGN_LANGUAGE:
+				
+				String language = data.getStringExtra("language");
+				String languageId = data.getStringExtra("languageId");
+				tv_first_language2.setText(language);
+				
+				break;
+				
+			case Constant.LANGUAGE_LEVEL:
+				
+				break;
+			
 			}
 		}
 	}
