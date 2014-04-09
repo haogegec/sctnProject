@@ -64,6 +64,12 @@ public class Constant {
 	public static final int SCALE = 18;
 	public static final int PROPERTY = 19;
 	public static final int SALARY_SURVEY_SUBMIT = 20;
+	public static final int WORKING_YEARS = 44;
+	public static final int WORK_EXP = 45;
+	public static final int TOTAL_WORKING_TIME = 46;
+	public static final int COMPANY_SCALE = 47;// 现单位规模
+	public static final int COMPANY_PROPERTY = 48;// 现单位规模
+	
 
 	// 消息推送用到的常量
 	public static final String MESSAGE_RECEIVED_ACTION = "com.sctn.sctnet.MESSAGE_RECEIVED_ACTION";

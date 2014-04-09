@@ -19,12 +19,14 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
+import com.alibaba.fastjson.JSONArray;
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.Utils.StringUtil;
 import com.sctn.sctnet.contants.Constant;
@@ -37,6 +39,13 @@ public class SelectPositionActivity extends BaicActivity{
 	private String result;
 	private com.alibaba.fastjson.JSONObject responseJsonObject = null;// 返回结果存放在该json对象中
 	private List<Map> backIndustryType;
+	
+	private int page = 1;
+	private int total;// 总条数
+	private int pageSize = Constant.PageSize;
+	private int pageCount;// 一次可以显示的条数（=pageSize或者小于）
+	private View footViewBar;// 下滑加载条
+	private MyAdapter myAdapter;
 	@Override
     public void onCreate(Bundle savedInstanceState) {
     	
@@ -46,7 +55,7 @@ public class SelectPositionActivity extends BaicActivity{
     	
     	initAllView();
     	reigesterAllEvent();
-		requestDataThread();
+		requestDataThread(0);
         
     }
 	
@@ -54,17 +63,19 @@ public class SelectPositionActivity extends BaicActivity{
 		 * 请求数据线程
 		 * 
 		 */
-		private void requestDataThread() {
-			showProcessDialog(true);
+		private void requestDataThread(final int i) {
+			if (i == 0) {
+				showProcessDialog(true);
+			}
 			Thread mThread = new Thread(new Runnable() {// 启动新的线程，
 						@Override
 						public void run() {
-							requestData();
+							requestData(i);
 						}
 					});
 			mThread.start();
 		}
-		 private void requestData(){
+		 private void requestData(int i){
 				
 				String url = "appCmbShow.app";
 
@@ -72,6 +83,7 @@ public class SelectPositionActivity extends BaicActivity{
 				List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
 				params.add(new BasicNameValuePair("type", Constant.POSITION_TYPE+""));
 				params.add(new BasicNameValuePair("key", "1"));
+				params.add(new BasicNameValuePair("page", page+""));
 				result = getPostHttpContent(url, params);
 
 				if (StringUtil.isExcetionInfo(result)) {
@@ -89,17 +101,30 @@ public class SelectPositionActivity extends BaicActivity{
 						.parseObject(result);
 				if(responseJsonObject.get("resultcode").toString().equals("0")) {
 					
-					com.alibaba.fastjson.JSONObject json = responseJsonObject.getJSONObject("result");
-					Set<Entry<String,Object>> set = json.entrySet();
-					Iterator<Entry<String,Object>> iter = set.iterator();
-					while(iter.hasNext()){
+					JSONArray json = responseJsonObject.getJSONArray("result");
+					
+					total = (Integer) responseJsonObject.get("resultCount");// 总数
+					if (json.size() > 15) {
+						pageCount = 15;
+					} else {
+						pageCount = json.size();
+					}
+					for(int j=0;j<pageCount;j++){
+						
+						String key = json.getJSONObject(j).getString("key");
+						String value = json.getJSONObject(j).getString("value");
 						Map<String,String> map = new HashMap<String,String>();
-						Entry obj = iter.next();
-						map.put("id",(String) obj.getKey());
-						map.put("value", (String) obj.getValue());
+						
+						map.put("id",key);
+						map.put("value", value);
 						listItems.add(map);
 					}
-					m.what = 0;
+					if (i == 0) {
+						m.what = 0;
+
+					} else {
+						m.what = 1;
+					}
 				}else {
 					String errorResult = (String) responseJsonObject.get("result");
 					String err = StringUtil.getAppException4MOS(errorResult);
@@ -116,10 +141,15 @@ public class SelectPositionActivity extends BaicActivity{
 						switch (msg.what) {
 						case 0:
 							initUI();
+							closeProcessDialog();
+							break;
+						case 1:
+							updateUI();
+							
 							break;
 
 						}
-						closeProcessDialog();
+						
 					}
 				};
 
@@ -127,8 +157,9 @@ public class SelectPositionActivity extends BaicActivity{
 	protected void initAllView() {
 		
         lv_area = (ListView) findViewById(R.id.lv_area);
-		
+        footViewBar = View.inflate(SelectPositionActivity.this, R.layout.foot_view_loading, null);
 		lv_area.setAdapter(new MyAdapter(this,listItems,R.layout.select_area_item));
+		lv_area.setOnScrollListener(listener);
 	}
 
 	@Override
@@ -150,10 +181,24 @@ public class SelectPositionActivity extends BaicActivity{
 	  //初始化城市列表
     protected void initUI(){
     	
-    	lv_area.setAdapter(new MyAdapter(this,listItems,R.layout.select_area_item));
+    	if (total > pageSize * page) {
+    		lv_area.addFooterView(footViewBar);// 添加list底部更多按钮
+		}
+    	myAdapter = new MyAdapter(this,listItems,R.layout.select_area_item);
+    	lv_area.setAdapter(myAdapter);
     	
     }
-    
+    /**
+	 * 滑动list请求数据更新页面
+	 */
+	private void updateUI() {
+
+		if (total <= pageSize * page) {
+			lv_area.removeFooterView(footViewBar);// 添加list底部更多按钮
+		}
+		myAdapter.notifyDataSetChanged();
+
+	}
     // 自定义适配器
  	class MyAdapter extends BaseAdapter{
  		private Context mContext;// 上下文对象
@@ -236,4 +281,23 @@ public class SelectPositionActivity extends BaicActivity{
 		}
 	}
 
+ 	private AbsListView.OnScrollListener listener = new AbsListView.OnScrollListener() {
+
+		@Override
+		public void onScroll(AbsListView view, int firstVisibleItem,
+				int visibleItemCount, int totalItemCount) {
+			
+		}
+
+		@Override
+		public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+			if (view.getLastVisiblePosition() == view.getCount() - 1) {
+				page++;
+				requestDataThread(1);// 滑动list请求数据
+			}
+			
+
+		}
+	};
 }

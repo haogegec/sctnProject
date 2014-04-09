@@ -34,6 +34,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONArray;
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.Utils.StringUtil;
 import com.sctn.sctnet.contants.Constant;
@@ -67,6 +68,12 @@ public class SelectIndustryActivity extends BaicActivity {
 	
 	private List backList = new ArrayList();//回传给职位搜索页面的数据
 
+	private int page = 1;
+	private int total;// 总条数
+	private int pageSize = Constant.PageSize;
+	private int pageCount;// 一次可以显示的条数（=pageSize或者小于）
+	private View footViewBar;// 下滑加载条
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -75,31 +82,34 @@ public class SelectIndustryActivity extends BaicActivity {
 
 		initAllView();
 		reigesterAllEvent();
-		requestDataThread();
+		requestDataThread(0);
 	}
 	
 	/**
 	 * 请求数据线程
 	 * 
 	 */
-	private void requestDataThread() {
-		showProcessDialog(true);
+	private void requestDataThread(final int i) {
+		
+		if (i == 0) {
+			showProcessDialog(true);
+		}
 		Thread mThread = new Thread(new Runnable() {// 启动新的线程，
 					@Override
 					public void run() {
-						requestData();
+						requestData(i);
 					}
 				});
 		mThread.start();
 	}
-	private void requestData(){
+	private void requestData(int i){
 		
 		String url = "appCmbShow.app";
 
-		Message msg = new Message();
 		List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
 		params.add(new BasicNameValuePair("type", Constant.INDUSTRY_TYPE+""));
 		params.add(new BasicNameValuePair("key", "1"));
+		params.add(new BasicNameValuePair("page", page+""));
 		result = getPostHttpContent(url, params);
 
 		if (StringUtil.isExcetionInfo(result)) {
@@ -117,23 +127,38 @@ public class SelectIndustryActivity extends BaicActivity {
 				.parseObject(result);
 		if(responseJsonObject.get("resultcode").toString().equals("0")) {
 			
-			com.alibaba.fastjson.JSONObject json = responseJsonObject.getJSONObject("result");
-			Set<Entry<String,Object>> set = json.entrySet();
-			Iterator<Entry<String,Object>> iter = set.iterator();
-			while(iter.hasNext()){
+			JSONArray json = responseJsonObject.getJSONArray("result");
+			
+			
+			total = (Integer) responseJsonObject.get("resultCount");// 总数
+			if (json.size() > 15) {
+				pageCount = 15;
+			} else {
+				pageCount = json.size();
+			}
+			
+			for(int j=0;j<pageCount;j++){
 				
-				Entry obj = iter.next();
-				ItemEntity itemEntity1 = new ItemEntity("全部行业",(String) obj.getValue(),(String) obj.getKey());
+				String key = json.getJSONObject(j).getString("key");
+				String value = json.getJSONObject(j).getString("value");
+				ItemEntity itemEntity1 = new ItemEntity("全部行业",value,key);
 				data.add(itemEntity1);
 			}
-			m.what = 0;
+			
+			if (i == 0) {
+				m.what = 0;
+
+			} else {
+				m.what = 1;
+			}
+			handler.sendMessage(m);
 		}else {
 			String errorResult = (String) responseJsonObject.get("result");
 			String err = StringUtil.getAppException4MOS(errorResult);
 			SelectIndustryActivity.this.sendExceptionMsg(err);
 		}
 				
-		handler.sendMessage(m);
+		
  }
    
 // 处理线程发送的消息
@@ -143,15 +168,34 @@ public class SelectIndustryActivity extends BaicActivity {
 				switch (msg.what) {
 				case 0:
 					initUI();
+					closeProcessDialog();
 					break;
-
+				case 1:
+					updateUI();
+					break;
 				}
-				closeProcessDialog();
+				
 			}
 		};
 
 		private void initUI(){
+			
+			if (total > pageSize * page) {
+				listView.addFooterView(footViewBar);// 添加list底部更多按钮
+			}
+			listView.setAdapter(pinnedAdapter);
 			pinnedAdapter.notifyDataSetChanged();
+		}
+		/**
+		 * 滑动list请求数据更新页面
+		 */
+		private void updateUI() {
+
+			if (total <= pageSize * page) {
+				listView.removeFooterView(footViewBar);// 添加list底部更多按钮
+			}
+			pinnedAdapter.notifyDataSetChanged();
+
 		}
 	@Override
 	protected void initAllView() {
@@ -169,7 +213,10 @@ public class SelectIndustryActivity extends BaicActivity {
 
 		// * 创建新的HeaderView，即置顶的HeaderView
 		headerView = getLayoutInflater().inflate(R.layout.pinned_header_listview_item_header, listView, false);
+		footViewBar = View.inflate(SelectIndustryActivity.this, R.layout.foot_view_loading, null);
+		
 		listView.setPinnedHeader(headerView);
+		
 		pinnedAdapter = new PinnedAdapter(this, data);
 		pinnedAdapter.notifyDataSetChanged();
 		listView.setAdapter(pinnedAdapter);
@@ -414,6 +461,10 @@ public class SelectIndustryActivity extends BaicActivity {
 
 		@Override
 		public void onScrollStateChanged(AbsListView view, int scrollState) {
+			if (view.getLastVisiblePosition() == view.getCount() - 1) {
+				page++;
+				requestDataThread(1);// 滑动list请求数据
+			}
 		}
 
 		@Override

@@ -155,15 +155,20 @@ public class SalarySurveyActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View arg0) {
-				showProcessDialog(false);
-				Thread mThread = new Thread(new Runnable() {// 启动新的线程，
-							@Override
-							public void run() {
-								initDegreeThread();
-							}
-						});
-				mThread.start();
-
+//				showProcessDialog(false);
+//				Thread mThread = new Thread(new Runnable() {// 启动新的线程，
+//							@Override
+//							public void run() {
+//								initDegreeThread();
+//							}
+//						});
+//				mThread.start();
+				
+				Intent intent = new Intent(SalarySurveyActivity.this, SelectItemActivity.class);
+				intent.putExtra("which", "Degree");
+				startActivityForResult(intent, Constant.DEGREE);
+				
+				
 			}
 
 		});
@@ -359,7 +364,7 @@ public class SalarySurveyActivity extends BaicActivity {
 		if (resultCode == RESULT_OK) {
 			switch (requestCode) {
 
-			case Constant.FOREIGNLANGUAGE_REQUEST_CODE: {
+			case Constant.FOREIGNLANGUAGE_REQUEST_CODE: 
 
 				foreignLanguage = data.getStringExtra("foreignLanguage");
 				languageLevel = data.getStringExtra("languageLevel");
@@ -374,9 +379,9 @@ public class SalarySurveyActivity extends BaicActivity {
 				Toast.makeText(getApplicationContext(), "设置成功", Toast.LENGTH_SHORT).show();
 				break;
 
-			}
+			
 
-			case Constant.JOBEXP_REQUEST_CODE: {
+			case Constant.JOBEXP_REQUEST_CODE: 
 
 				workingAreaId = data.getStringExtra("workingAreaId");
 				workingArea = data.getStringExtra("workingArea");
@@ -403,7 +408,16 @@ public class SalarySurveyActivity extends BaicActivity {
 				Toast.makeText(getApplicationContext(), "设置成功", Toast.LENGTH_SHORT).show();
 				break;
 
-			}
+			
+			
+			case Constant.DEGREE:
+				
+				degree = data.getStringExtra("degree");
+				degreeId = data.getStringExtra("degreeId");
+				tv_degree2.setText(degree);
+				
+				break;
+			
 
 			}
 		}

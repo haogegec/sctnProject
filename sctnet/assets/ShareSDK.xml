@@ -70,13 +70,15 @@
         Enable="true" /> -->
 
     <!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
+    <!--我自己的 101052206  shareSDK的 100371282-->
+    <!--我自己的 26748f41f6af35920acf7a79fbf7d2dd  shareSDK的  aed9b0303e3ed1e27bae87c33761161d-->
     <QZone
         Id="3"
         SortId="3"
-        AppId="100371282"
-        AppKey="aed9b0303e3ed1e27bae87c33761161d"
+        AppId="101052206"  
+        AppKey="26748f41f6af35920acf7a79fbf7d2dd"  
         ShareByAppClient="false"
-        Enable="false" />
+        Enable="true" />
     
     <!-- 
     	Wechat微信和WechatMoments微信朋友圈的appid是一样的；

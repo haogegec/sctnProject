@@ -39,8 +39,8 @@ public class ContactWayEditActivity extends BaicActivity{
 	private EditText emailValue;
 	private String emailStr = "";//email
 	
-	private EditText postalcodeValue;
-	private String postalcodeStr = "";//邮政编码
+//	private EditText postalcodeValue;
+//	private String postalcodeStr = "";//邮政编码
 	
 	private EditText qqmsnValue;
 	private String qqmsnStr = "";//QQ号
@@ -84,7 +84,7 @@ public class ContactWayEditActivity extends BaicActivity{
 		
 		emailValue = (EditText) findViewById(R.id.email_value);
 		
-		postalcodeValue = (EditText) findViewById(R.id.postalcode_value);
+	//	postalcodeValue = (EditText) findViewById(R.id.postalcode_value);
 		
 		qqmsnValue = (EditText) findViewById(R.id.qqmsn_value);
 		
@@ -102,10 +102,10 @@ public class ContactWayEditActivity extends BaicActivity{
 				emailStr = contactWayMap.get("邮箱");
 				emailValue.setText(emailStr);
 			}
-			if(contactWayMap.containsKey("邮政编码")){
-				postalcodeStr = contactWayMap.get("邮政编码");
-				postalcodeValue.setText(postalcodeStr);
-			}
+//			if(contactWayMap.containsKey("邮政编码")){
+//				postalcodeStr = contactWayMap.get("邮政编码");
+//				postalcodeValue.setText(postalcodeStr);
+//			}
 			if(contactWayMap.containsKey("QQ")){
 				qqmsnStr = contactWayMap.get("QQ");
 				qqmsnValue.setText(qqmsnStr);
@@ -128,12 +128,15 @@ public class ContactWayEditActivity extends BaicActivity{
 			public void onClick(View v) {
 
 	           if(contactsnameStr.equals(contactsnameValue.getText().toString())&&contactsphoneStr.equals(contactsphoneValue.getText().toString())&&emailStr.equals(emailValue.getText().toString())
-	        		   &&postalcodeStr.equals(postalcodeValue.getText().toString())&&qqmsnStr.equals(qqmsnValue.getText().toString())&&userphoneStr.equals(userphoneValue.getText().toString())
+	        		   &&qqmsnStr.equals(qqmsnValue.getText().toString())&&userphoneStr.equals(userphoneValue.getText().toString())
 	        		   ){
 	        	   
 	        	   Toast.makeText(getApplicationContext(), "请编辑之后再保存吧~~", Toast.LENGTH_SHORT).show();
 	        	   
-	           }else{
+	           }else if(StringUtil.isBlank(userphoneValue.getText().toString())){
+	        	   Toast.makeText(getApplicationContext(), "本人电话不能为空哟~~", Toast.LENGTH_SHORT).show();
+	           }
+	           else {
 	        	   requestDataThread();
 	           }
 				
@@ -167,7 +170,7 @@ public class ContactWayEditActivity extends BaicActivity{
 		params.add(new BasicNameValuePair("ContactsName", contactsnameValue.getText().toString()));
 		params.add(new BasicNameValuePair("ContactsPhone",contactsphoneValue.getText().toString()));
 		params.add(new BasicNameValuePair("email",emailValue.getText().toString()));
-		params.add(new BasicNameValuePair("PostalCode", postalcodeValue.getText().toString()));
+	//	params.add(new BasicNameValuePair("PostalCode", postalcodeValue.getText().toString()));
 		params.add(new BasicNameValuePair("QQMsn", qqmsnValue.getText().toString()));
 		params.add(new BasicNameValuePair("UsePhone", userphoneValue.getText().toString()));
 		
@@ -182,7 +185,7 @@ public class ContactWayEditActivity extends BaicActivity{
 		newContactWayMap.put("联系人", contactsnameValue.getText().toString());	
 		newContactWayMap.put("联系人电话", contactsphoneValue.getText().toString());
 		newContactWayMap.put("邮箱", emailValue.getText().toString());
-		newContactWayMap.put("邮政编码", postalcodeValue.getText().toString());
+	//	newContactWayMap.put("邮政编码", postalcodeValue.getText().toString());
 		newContactWayMap.put("QQ", qqmsnValue.getText().toString());
 		newContactWayMap.put("本人手机号", userphoneValue.getText().toString());
 		list.add(newContactWayMap);

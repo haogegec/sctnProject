@@ -314,7 +314,12 @@ public class JobListActivity extends BaicActivity {
 						
 						OnekeyShare oks = new OnekeyShare();
 						oks.setNotification(R.drawable.logo, getString(R.string.app_name));
-						oks.setText("我看到一个很不错的招聘信息，想告诉大家，有兴趣的可以看看哦~ \n\n"+jobShare);
+						oks.setTitle("我看到一个很不错的招聘信息，想告诉大家，有兴趣的可以看看哦~");
+						oks.setTitleUrl("http://www.scrc168.com/");
+						oks.setText(jobShare);
+//						oks.setImageUrl("http://f1.sharesdk.cn/imgs/2014/02/26/owWpLZo_638x960.jpg");
+						oks.setSite(getApplicationContext().getString(R.string.app_name));
+				        oks.setSiteUrl("http://www.scrc168.com/"); // siteUrl是分享此内容的网站地址，这是分享到 QQ空间时候的参数
 						oks.setCallback(new PlatformActionListener() {
 
 							@Override
@@ -704,16 +709,19 @@ public class JobListActivity extends BaicActivity {
 				
 			case Constant.SHARE_COMPLETE:
 				Toast.makeText(getApplicationContext(), "分享成功", Toast.LENGTH_SHORT).show();
+				jobShare = "";
 				closeProcessDialog();
 				break;
 
 			case Constant.SHARE_CANCEL:
 				Toast.makeText(getApplicationContext(), "分享取消", Toast.LENGTH_SHORT).show();
+				jobShare = "";
 				closeProcessDialog();
 				break;
 
 			case Constant.SHARE_ERROR:
 				Toast.makeText(getApplicationContext(), "分享失败", Toast.LENGTH_SHORT).show();
+				jobShare = "";
 				closeProcessDialog();
 				break;
 				
@@ -837,7 +845,7 @@ public class JobListActivity extends BaicActivity {
 						checkBoxState.put(position, isChecked);
 						jobIdAndCompanyIdMaps.put(position, jobsid + "-" + list.get(position).get("companyid"));
 						jobIdMaps.put(position, jobsid);
-						jobShareMaps.put(position, list.get(position).get("companyname") + "正在招聘" + list.get(position).get("jobsName"));
+//						jobShareMaps.put(position, list.get(position).get("companyname") + "正在招聘" + list.get(position).get("jobsName"));
 					
 						jobShareMaps.put(position, "公司名称：" + list.get(position).get("companyname") + "\n职位名称：" + list.get(position).get("jobsName") + "\n联系电话：" + list.get(position).get("contract") );
 					} else {

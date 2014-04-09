@@ -223,13 +223,18 @@ public class CompanyInfoActivity extends BaicActivity {
 		// 分享
 		btn_share.setOnClickListener(new View.OnClickListener() {
 
+			
 			@Override
 			public void onClick(View v) {
 
 				OnekeyShare oks = new OnekeyShare();
 				oks.setNotification(R.drawable.logo, getString(R.string.app_name));
+				oks.setTitle("我看到一个很不错的招聘信息，想告诉大家，有兴趣的可以看看哦~");
+				oks.setTitleUrl("http://www.scrc168.com/");
 				oks.setText("我看到一个很不错的招聘信息，想告诉大家，有兴趣的可以看看哦~ \n\n公司名称：" + companyName + "\n职位名称：" + jobName + "\n联系人及联系电话：" + companyContacts + "\n电子邮箱：" + companyEmail
 						+ "\n单位网址：" + companyWebsite);
+				oks.setSite(getApplicationContext().getString(R.string.app_name));
+		        oks.setSiteUrl("http://www.scrc168.com/"); // siteUrl是分享此内容的网站地址，这是分享到 QQ空间时候的参数
 				oks.setCallback(new PlatformActionListener() {
 
 					@Override

@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,12 +25,14 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.Utils.StringUtil;
+import com.sctn.sctnet.activity.SelectCurrentPositionActivity.MyAdapter;
 import com.sctn.sctnet.contants.Constant;
 import com.sctn.sctnet.view.SideBar;
 
@@ -44,6 +47,13 @@ public class SelectCurrentIndustryActivity extends BaicActivity {
 	
 	// 服务端返回结果
 	private String result;
+	
+	private int page = 1;
+	private int total;// 总条数
+	private int pageSize = Constant.PageSize;
+	private int pageCount;// 一次可以显示的条数（=pageSize或者小于）
+	private View footViewBar;// 下滑加载条
+	private MyAdapter myAdapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -61,7 +71,7 @@ public class SelectCurrentIndustryActivity extends BaicActivity {
 		
 		initAllView();
 		reigesterAllEvent();
-		requestDataThread();
+		requestDataThread(0);
 
 	}
 
@@ -73,18 +83,18 @@ public class SelectCurrentIndustryActivity extends BaicActivity {
 	 * 请求数据线程
 	 * 
 	 */
-	private void requestDataThread() {
+	private void requestDataThread(final int i) {
 		showProcessDialog(false);
 		Thread mThread = new Thread(new Runnable() {// 启动新的线程，
 					@Override
 					public void run() {
-						initCurrentIndustryThread();
+						initCurrentIndustryThread(i);
 					}
 				});
 		mThread.start();
 	}
 
-	private void initCurrentIndustryThread() {
+	private void initCurrentIndustryThread(int i) {
 		String url = "appCmbShow.app";
 		Message msg = new Message();
 
@@ -99,6 +109,8 @@ public class SelectCurrentIndustryActivity extends BaicActivity {
 				params.add(new BasicNameValuePair("type", "9"));
 			}
 			params.add(new BasicNameValuePair("key", "1"));
+			params.add(new BasicNameValuePair("page", page+""));
+			
 			result = getPostHttpContent(url, params);
 
 			if (StringUtil.isExcetionInfo(result)) {
@@ -110,24 +122,31 @@ public class SelectCurrentIndustryActivity extends BaicActivity {
 
 			if (responseJsonObject.getInt("resultcode") == 0) {// 获得响应结果
 
-				JSONObject resultJsonObject = responseJsonObject.getJSONObject("result");
-				Iterator it = resultJsonObject.keys();
-				currentIndustry = new String[resultJsonObject.length()];
-				currentIndustryIds = new String[resultJsonObject.length()];
-				int i=0;
-				while (it.hasNext()) {
+				JSONArray json = responseJsonObject.getJSONArray("result");
+				
+				total = (Integer) responseJsonObject.get("resultCount");// 总数
+				if (json.length() > 15) {
+					pageCount = 15;
+				} else {
+					pageCount = json.length();
+				}
+				
+				for(int j=0;j<pageCount;j++){
 					Map<String, String> map = new HashMap<String, String>();
-					String key = (String) it.next();
-					String value = resultJsonObject.getString(key);
-					currentIndustryIds[i] = key;
-					currentIndustry[i] = value;
+					String key = json.getJSONObject(j).getString("key");
+					String value = json.getJSONObject(j).getString("value");
 					map.put("id", key);
 					map.put("value", value);
 					listItems.add(map);
-					i++;
+					
 				}
 
-				msg.what = Constant.CURRENT_INDUSTRY;
+				if (i == 0) {
+					msg.what = 0;
+
+				} else {
+					msg.what = 1;
+				}
 				handler.sendMessage(msg);
 			} else {
 				String errorResult = (String) responseJsonObject.get("result");
@@ -146,12 +165,17 @@ public class SelectCurrentIndustryActivity extends BaicActivity {
 
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
-			case Constant.CURRENT_INDUSTRY:
+			case 0:
 				initUI();
+				closeProcessDialog();
+				break;
+			case 1:
+				updateUI();
+				
 				break;
 
 			}
-			closeProcessDialog();
+			
 		}
 	};
 
@@ -163,6 +187,7 @@ public class SelectCurrentIndustryActivity extends BaicActivity {
 		lv_area.setAdapter(new MyAdapter(this, listItems, R.layout.select_area_item));
 		// indexBar = (SideBar) findViewById(R.id.sideBar);
 		// indexBar.setListView(lv_area);
+		lv_area.setOnScrollListener(listener);
 	}
 
 	@Override
@@ -173,8 +198,8 @@ public class SelectCurrentIndustryActivity extends BaicActivity {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                
 				Intent intent = getIntent();
-				intent.putExtra("currentIndustry", currentIndustry[position]);
-				intent.putExtra("currentIndustryId", currentIndustryIds[position]);
+				intent.putExtra("currentIndustry", listItems.get(position).get("value"));
+				intent.putExtra("currentIndustryId", listItems.get(position).get("key"));
 				setResult(RESULT_OK, intent);
 				finish();
 
@@ -186,10 +211,25 @@ public class SelectCurrentIndustryActivity extends BaicActivity {
 	// 初始化城市列表
 	protected void initUI() {
 
-		lv_area.setAdapter(new MyAdapter(this, listItems, R.layout.select_area_item));
-
+		if (total > pageSize * page) {
+    		lv_area.addFooterView(footViewBar);// 添加list底部更多按钮
+		}
+    	myAdapter = new MyAdapter(this,listItems,R.layout.select_area_item);
+    	lv_area.setAdapter(myAdapter);
+		
 	}
 
+	/**
+	 * 滑动list请求数据更新页面
+	 */
+	private void updateUI() {
+
+		if (total <= pageSize * page) {
+			lv_area.removeFooterView(footViewBar);// 添加list底部更多按钮
+		}
+		myAdapter.notifyDataSetChanged();
+
+	}
 	// 自定义适配器
 	class MyAdapter extends BaseAdapter {
 		private Context mContext;// 上下文对象
@@ -247,4 +287,24 @@ public class SelectCurrentIndustryActivity extends BaicActivity {
 	private final class ViewCache {
 		public TextView area;// 地区
 	}
+	
+	private AbsListView.OnScrollListener listener = new AbsListView.OnScrollListener() {
+
+		@Override
+		public void onScroll(AbsListView view, int firstVisibleItem,
+				int visibleItemCount, int totalItemCount) {
+			
+		}
+
+		@Override
+		public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+			if (view.getLastVisiblePosition() == view.getCount() - 1) {
+				page++;
+				requestDataThread(1);// 滑动list请求数据
+			}
+			
+
+		}
+	};
 }

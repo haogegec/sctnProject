@@ -226,19 +226,23 @@ public class SelectJobExpActivity extends BaicActivity {
 			@Override
 			public void onClick(View arg0) {
 				
-				builder.setTitle("请选择您的工作年限");
-				builder.setSingleChoiceItems(workingYears, 0, new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						tv_workingYears2.setText(workingYears[which]);
-						workingYear = (which == 0) ? "1" : (which == 1) ? "6" : (which == 2) ? "12" : (which == 3) ? "24" : (which == 4) ? "36" : (which == 5) ? "48" : (which == 6) ? "60" : (which == 7) ? "72" : (which == 8) ? "120" : "192";
-						dialog.dismiss();
-					}
-
-				});
-				dialog = builder.create();
-				dialog.show();
+//				builder.setTitle("请选择您的工作年限");
+//				builder.setSingleChoiceItems(workingYears, 0, new DialogInterface.OnClickListener() {
+//
+//					@Override
+//					public void onClick(DialogInterface dialog, int which) {
+//						tv_workingYears2.setText(workingYears[which]);
+//						workingYear = (which == 0) ? "1" : (which == 1) ? "6" : (which == 2) ? "12" : (which == 3) ? "24" : (which == 4) ? "36" : (which == 5) ? "48" : (which == 6) ? "60" : (which == 7) ? "72" : (which == 8) ? "120" : "192";
+//						dialog.dismiss();
+//					}
+//
+//				});
+//				dialog = builder.create();
+//				dialog.show();
+				
+				Intent intent = new Intent(SelectJobExpActivity.this, SelectItemActivity.class);
+				intent.putExtra("which", "WorkingYears");
+				startActivityForResult(intent, Constant.WORKING_YEARS);
 			}
 
 		});
@@ -259,19 +263,24 @@ public class SelectJobExpActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View arg0) {
-				builder.setTitle("请选择担任现职务的时间");
-				builder.setSingleChoiceItems(workExp, 0, new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						tv_jobExp2.setText(workExp[which]);
-						jobExp = (which == 0) ? "1" : (which == 1) ? "6" : (which == 2) ? "12" : (which == 3) ? "24" : (which == 4) ? "36" : (which == 5) ? "48" : (which == 6) ? "60" : (which == 7) ? "72" : (which == 8) ? "120" : "192";
-						dialog.dismiss();
-					}
-
-				});
-				dialog = builder.create();
-				dialog.show();
+//				builder.setTitle("请选择担任现职务的时间");
+//				builder.setSingleChoiceItems(workExp, 0, new DialogInterface.OnClickListener() {
+//
+//					@Override
+//					public void onClick(DialogInterface dialog, int which) {
+//						tv_jobExp2.setText(workExp[which]);
+//						jobExp = (which == 0) ? "1" : (which == 1) ? "6" : (which == 2) ? "12" : (which == 3) ? "24" : (which == 4) ? "36" : (which == 5) ? "48" : (which == 6) ? "60" : (which == 7) ? "72" : (which == 8) ? "120" : "192";
+//						dialog.dismiss();
+//					}
+//
+//				});
+//				dialog = builder.create();
+//				dialog.show();
+				
+				Intent intent = new Intent(SelectJobExpActivity.this, SelectItemActivity.class);
+				intent.putExtra("which", "WorkExp");
+				startActivityForResult(intent, Constant.WORK_EXP);
+				
 			}
 
 		});
@@ -294,19 +303,25 @@ public class SelectJobExpActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View arg0) {
-				builder.setTitle("请选择累计工作时间");
-				builder.setSingleChoiceItems(totalWorkingTime, 0, new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						tv_totalWorkingTime2.setText(totalWorkingTime[which]);
-						totalworkingtime = (which == 0) ? "1" : (which == 1) ? "6" : (which == 2) ? "12" : (which == 3) ? "24" : (which == 4) ? "36" : (which == 5) ? "48" : (which == 6) ? "60" : (which == 7) ? "72" : (which == 8) ? "120" : "192";
-						dialog.dismiss();
-					}
-
-				});
-				dialog = builder.create();
-				dialog.show();
+//				builder.setTitle("请选择累计工作时间");
+//				builder.setSingleChoiceItems(totalWorkingTime, 0, new DialogInterface.OnClickListener() {
+//
+//					@Override
+//					public void onClick(DialogInterface dialog, int which) {
+//						tv_totalWorkingTime2.setText(totalWorkingTime[which]);
+//						totalworkingtime = (which == 0) ? "1" : (which == 1) ? "6" : (which == 2) ? "12" : (which == 3) ? "24" : (which == 4) ? "36" : (which == 5) ? "48" : (which == 6) ? "60" : (which == 7) ? "72" : (which == 8) ? "120" : "192";
+//						dialog.dismiss();
+//					}
+//
+//				});
+//				dialog = builder.create();
+//				dialog.show();
+				
+				
+				Intent intent = new Intent(SelectJobExpActivity.this, SelectItemActivity.class);
+				intent.putExtra("which", "TotalWorkingTime");
+				startActivityForResult(intent, Constant.TOTAL_WORKING_TIME);
+				
 			}
 
 		});
@@ -317,15 +332,19 @@ public class SelectJobExpActivity extends BaicActivity {
 			@Override
 			public void onClick(View arg0) {
 
-				showProcessDialog(false);
-				Thread mThread = new Thread(new Runnable() {// 启动新的线程，
-							@Override
-							public void run() {
-								initScaleThread();
-							}
-						});
-				mThread.start();
+//				showProcessDialog(false);
+//				Thread mThread = new Thread(new Runnable() {// 启动新的线程，
+//							@Override
+//							public void run() {
+//								initScaleThread();
+//							}
+//						});
+//				mThread.start();
 
+				Intent intent = new Intent(SelectJobExpActivity.this, SelectItemActivity.class);
+				intent.putExtra("which", "CompanyScale");
+				startActivityForResult(intent, Constant.COMPANY_SCALE);
+				
 			}
 
 		});
@@ -336,14 +355,19 @@ public class SelectJobExpActivity extends BaicActivity {
 			@Override
 			public void onClick(View arg0) {
 
-				showProcessDialog(false);
-				Thread mThread = new Thread(new Runnable() {// 启动新的线程，
-							@Override
-							public void run() {
-								initPropertyThread();
-							}
-						});
-				mThread.start();
+//				showProcessDialog(false);
+//				Thread mThread = new Thread(new Runnable() {// 启动新的线程，
+//							@Override
+//							public void run() {
+//								initPropertyThread();
+//							}
+//						});
+//				mThread.start();
+				
+				Intent intent = new Intent(SelectJobExpActivity.this, SelectItemActivity.class);
+				intent.putExtra("which", "CompanyProperty");
+				startActivityForResult(intent, Constant.COMPANY_PROPERTY);
+				
 			}
 
 		});
@@ -422,6 +446,7 @@ public class SelectJobExpActivity extends BaicActivity {
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
 			params.add(new BasicNameValuePair("type", "10"));
 			params.add(new BasicNameValuePair("key", "1"));
+			params.add(new BasicNameValuePair("page", "1"));
 			result = getPostHttpContent(url, params);
 
 			if (StringUtil.isExcetionInfo(result)) {
@@ -570,27 +595,55 @@ public class SelectJobExpActivity extends BaicActivity {
 		if (resultCode == RESULT_OK) {
 			switch (requestCode) {
 
-			case Constant.WORKINGAREA_REQUEST_CODE: {
+			case Constant.WORKINGAREA_REQUEST_CODE: 
 				workingArea = data.getStringExtra("area");
 				workingAreaId = data.getStringExtra("areaId");
 				tv_workingArea2.setText(workingArea);
 				break;
-			}
-
-			case Constant.CURRENT_INDUSTRY_REQUEST_CODE: {
+				
+			case Constant.CURRENT_INDUSTRY_REQUEST_CODE: 
 				currentIndustry = data.getStringExtra("currentIndustry");
 				currentIndustryId = data.getStringExtra("currentIndustryId");
 				tv_industryCategory2.setText(currentIndustry);
 				break;
-			}
 
-			case Constant.JOB_REQUEST_CODE: {
+			case Constant.JOB_REQUEST_CODE: 
 				jobId = data.getStringExtra("jobId");
 				job = data.getStringExtra("job");
 				tv_currentIndustry2.setText(job);
 				break;
-			}
+			
+			case Constant.WORKING_YEARS:
+				
+				tv_workingYears2.setText(data.getStringExtra("workingYear"));
+				workingYear = data.getStringExtra("workingYearId");
+				break;
+				
+			case Constant.WORK_EXP:
+				
+				tv_jobExp2.setText(data.getStringExtra("workExp"));
+				jobExp = data.getStringExtra("workExpId");
+				break;
 
+			case Constant.TOTAL_WORKING_TIME:
+				
+				tv_totalWorkingTime2.setText(data.getStringExtra("totalWorkingTime"));
+				totalworkingtime = data.getStringExtra("totalWorkingTimeId");
+				break;
+				
+			case Constant.COMPANY_SCALE:
+				
+				tv_scale2.setText(data.getStringExtra("companyScale"));
+				scaleId = data.getStringExtra("companyScaleId");
+				scale = data.getStringExtra("companyScale");
+				break;
+				
+			case Constant.COMPANY_PROPERTY:
+				
+				tv_property2.setText(data.getStringExtra("companyProperty"));
+				propertyId = data.getStringExtra("companyPropertyId");
+				property = data.getStringExtra("companyProperty");
+				break;
 			}
 		}
 	}
