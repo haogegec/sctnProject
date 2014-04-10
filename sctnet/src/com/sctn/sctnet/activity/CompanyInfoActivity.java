@@ -38,6 +38,7 @@ import com.sctn.sctnet.Utils.SharePreferencesUtils;
 import com.sctn.sctnet.Utils.StringUtil;
 import com.sctn.sctnet.contants.Constant;
 import com.sctn.sctnet.entity.LoginInfo;
+import com.sctn.sctnet.view.CustomDialog;
 
 /**
  * 职位描述/公司简介 Tab页面
@@ -188,13 +189,30 @@ public class CompanyInfoActivity extends BaicActivity {
 						applyThread();
 					} else {// 如果当前用户还没有创建简历，就跳到创建简历页面
 
-						new AlertDialog.Builder(CompanyInfoActivity.this).setTitle("友情提示").setMessage("您的简历还不完善暂不能申请职位，是否要去完善您的简历呢？").setPositiveButton("是", new android.content.DialogInterface.OnClickListener() {
+						final CustomDialog dialog = new CustomDialog(CompanyInfoActivity.this, R.style.CustomDialog);
+//						dialog.setCanceledOnTouchOutside(false);// 点击dialog外边，对话框不会消失，按返回键对话框消失
+					//	dialog.setCancelable(false);// 点击dialog外边、按返回键 对话框都不会消失
+						dialog.setTitle("友情提示");
+						dialog.setMessage("您的简历还不完善暂不能申请职位，是否要去完善您的简历呢？");
+						dialog.setOnPositiveListener("是",new OnClickListener(){
+
 							@Override
-							public void onClick(DialogInterface dialog, int which) {
+							public void onClick(View v) {
+								
 								Intent intent = new Intent(CompanyInfoActivity.this, ResumeManageActivity.class);
 								startActivity(intent);
 							}
-						}).setNegativeButton("否", null).show();
+							
+						});
+						dialog.setOnNegativeListener("否", new OnClickListener(){
+
+							@Override
+							public void onClick(View v) {
+								dialog.dismiss();
+							}
+							
+						});
+						dialog.show();
 					}
 				} else {
 					Toast.makeText(getApplicationContext(), "请先登录", Toast.LENGTH_SHORT).show();

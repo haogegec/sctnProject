@@ -83,11 +83,16 @@
 
     <!-- 薪酬调查 -->
     <string name="salarySurvey">薪酬调查</string>
+    <string name="salarySurveyQuery">薪酬查询</string>
+    <string name="salarySurveyQueryList">查询结果</string>
     <string name="selectForeignLanguage">外语能力</string>
     <string name="jobExperience">职场经历</string>
-    <string name="salarySurvey_username">你参与调查的ID号</string>
-    <string name="salarySurvey_password">你参与调查的密码</string>
+    <string name="salarySurveyQuery_username">你参与调查的ID号</string>
+    <string name="salarySurveyQuery_password">你参与调查的密码</string>
 
+    <string name="salarySurvey_username">该ID用于薪酬查询</string>
+    <string name="salarySurvey_password">该密码用于薪酬查询</string>
+    
     <!-- 更多 -->
     <string name="moreActivityTitle">更多</string>
     <string name="feedback">用户反馈</string>
@@ -134,7 +139,7 @@
     <string name="recentRecruiment">近期招聘</string>
     <string name="load_tips">正在地址加载...</string>
     <string name="RecruitmentActivityTitle">现场招聘会</string>
-    <string name="RecruitmentCompanyListActivityTitle">公司列表</string>
+    <string name="RecruitmentCompanyListActivityTitle">参会单位列表</string>
 
     <!-- 档案查询 -->
     <string name="ArchivesQueryActivityTitle">档案查询</string>

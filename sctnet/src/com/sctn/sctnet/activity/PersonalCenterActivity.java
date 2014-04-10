@@ -165,7 +165,7 @@ public class PersonalCenterActivity extends BaicActivity {
 				
 				final CustomDialog dialog = new CustomDialog(PersonalCenterActivity.this, R.style.CustomDialog);
 //				dialog.setCanceledOnTouchOutside(false);// 点击dialog外边，对话框不会消失，按返回键对话框消失
-				dialog.setCancelable(false);// 点击dialog外边、按返回键 对话框都不会消失
+		//		dialog.setCancelable(false);// 点击dialog外边、按返回键 对话框都不会消失
 				dialog.setTitle("友情提示");
 				dialog.setMessage("确定要注销吗？");
 				dialog.setOnPositiveListener("确定",new OnClickListener(){
@@ -203,7 +203,7 @@ public class PersonalCenterActivity extends BaicActivity {
 				if ("0".equals(company)) {
 					final CustomDialog dialog = new CustomDialog(PersonalCenterActivity.this, R.style.CustomDialog);
 //					dialog.setCanceledOnTouchOutside(false);// 点击dialog外边，对话框不会消失，按返回键对话框消失
-					dialog.setCancelable(false);// 点击dialog外边、按返回键 对话框都不会消失
+			//		dialog.setCancelable(false);// 点击dialog外边、按返回键 对话框都不会消失
 					dialog.setTitle("友情提示");
 					dialog.setMessage("近期还没有公司关注你的简历，刷新简历可以引起更多注意哦！");
 					dialog.setOnPositiveListener("确定",new OnClickListener(){
@@ -266,7 +266,7 @@ public class PersonalCenterActivity extends BaicActivity {
 				if ("0".equals(invite)) {
 					final CustomDialog dialog = new CustomDialog(PersonalCenterActivity.this, R.style.CustomDialog);
 //					dialog.setCanceledOnTouchOutside(false);// 点击dialog外边，对话框不会消失，按返回键对话框消失
-					dialog.setCancelable(false);// 点击dialog外边、按返回键 对话框都不会消失
+	//				dialog.setCancelable(false);// 点击dialog外边、按返回键 对话框都不会消失
 					dialog.setTitle("友情提示");
 					dialog.setMessage("还没有公司向你发送过面试邀请，完善简历可以吸引更多的公司哦！");
 					dialog.setOnPositiveListener("确定",new OnClickListener(){
@@ -297,7 +297,7 @@ public class PersonalCenterActivity extends BaicActivity {
 				if (StringUtil.isBlank(resume) || "0".equals(resume)) {
 					final CustomDialog dialog = new CustomDialog(PersonalCenterActivity.this, R.style.CustomDialog);
 //					dialog.setCanceledOnTouchOutside(false);// 点击dialog外边，对话框不会消失，按返回键对话框消失
-					dialog.setCancelable(false);// 点击dialog外边、按返回键 对话框都不会消失
+	//				dialog.setCancelable(false);// 点击dialog外边、按返回键 对话框都不会消失
 					dialog.setTitle("友情提示");
 					dialog.setMessage("您近期没有申请过职位，您可以去“职位搜索”看看自己感兴趣的职位哦！");
 					dialog.setOnPositiveListener("确定",new OnClickListener(){
@@ -328,7 +328,7 @@ public class PersonalCenterActivity extends BaicActivity {
 				if (StringUtil.isBlank(post) || "0".equals(post)) {
 					final CustomDialog dialog = new CustomDialog(PersonalCenterActivity.this, R.style.CustomDialog);
 //					dialog.setCanceledOnTouchOutside(false);// 点击dialog外边，对话框不会消失，按返回键对话框消失
-					dialog.setCancelable(false);// 点击dialog外边、按返回键 对话框都不会消失
+//					dialog.setCancelable(false);// 点击dialog外边、按返回键 对话框都不会消失
 					dialog.setTitle("友情提示");
 					dialog.setMessage("您没有收藏过任何职位，您可以去“职位搜索”看看自己感兴趣的职位哦！");
 					dialog.setOnPositiveListener("确定",new OnClickListener(){

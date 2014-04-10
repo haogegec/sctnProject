@@ -676,7 +676,9 @@ public class ResumeManageActivity extends BaicActivity {
 					i++;
 				}
 				if (!StringUtil.isBlank(truename)) {
-					basicInfoMap.put("姓名", truename);
+					String name = truename.replace("\\s", "");
+					name = name.replace("\n", "");
+					basicInfoMap.put("姓名", name);
 					i++;
 				}
 				if (!StringUtil.isBlank(twoenglish)) {

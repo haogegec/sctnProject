@@ -28,7 +28,7 @@
                 android:background="@null"
                 android:drawableLeft="@drawable/user_name_img"
                 android:drawablePadding="10dp"
-                android:hint="@string/salarySurvey_username"
+                android:hint="@string/salarySurveyQuery_username"
                 android:padding="10dp" />
         </LinearLayout>
         
@@ -51,7 +51,7 @@
                 android:background="@null"
                 android:drawableLeft="@drawable/password_img"
                 android:drawablePadding="10dp"
-                android:hint="@string/salarySurvey_password"
+                android:hint="@string/salarySurveyQuery_password"
                 android:inputType="textPassword"
                 android:padding="10dp" />
         </LinearLayout>
@@ -74,4 +74,13 @@
             android:textColor="#ffffff"
             android:textSize="18sp" />
 </RelativeLayout>
+<TableLayout
+        android:id="@+id/tablelayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="9dp"
+        android:layout_marginRight="10dp"
+        android:stretchColumns="*"       
+        >
+</TableLayout>
 </LinearLayout>

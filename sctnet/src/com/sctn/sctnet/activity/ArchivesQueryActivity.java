@@ -14,8 +14,10 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sctn.sctnet.R;
+import com.sctn.sctnet.view.DatePickerView;
 
 /**
  * 档案查询页面
@@ -72,12 +74,28 @@ public class ArchivesQueryActivity extends BaicActivity{
 
 			@Override
 			public void onClick(View arg0) {
-				// 弹出年月日时间选择框
-				datePickerDialog = new DatePickerDialog(
-						ArchivesQueryActivity.this, myDateSetListener,
-						mYear, mMonth, mDay);
-				/* 显示出日期设置对话框 */
-				datePickerDialog.show();
+//				// 弹出年月日时间选择框
+//				datePickerDialog = new DatePickerDialog(
+//						ArchivesQueryActivity.this, myDateSetListener,
+//						mYear, mMonth, mDay);
+//				/* 显示出日期设置对话框 */
+//				datePickerDialog.show();
+				
+				DatePickerView datePickerView = new DatePickerView(ArchivesQueryActivity.this,
+						new DatePickerView.OnDateSetListener() {
+						@Override
+						public void onDateSet(DatePicker view, int year,
+								int monthOfYear, int dayOfMonth) {
+									/* 把设置修改后的日期赋值给我的年、月、日变量 */
+									mYear = year;
+									mMonth = monthOfYear;
+									mDay = dayOfMonth;
+									/* 显示设置后的日期 */
+									loadDate();
+						   }
+						}, currYear, currMonth, currDay);
+						datePickerView.myShow();
+
 				
 			}
 			

@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.contants.Constant;
 import com.sctn.sctnet.entity.LoginInfo;
+import com.sctn.sctnet.view.CustomDialog;
 
 public class HomeActivity extends BaicActivity {
 	private EditText search_edit;
@@ -77,9 +78,34 @@ public class HomeActivity extends BaicActivity {
 			@Override
 			public void onClick(View v) {
 				if(LoginInfo.isLogin()){
-					LoginInfo.logOut();
-					setTitleRightButtonImg(R.drawable.login_btn_bg);
-					Toast.makeText(getApplicationContext(), "注销成功！可以用其他账户登录哟~~", Toast.LENGTH_SHORT).show();
+					final CustomDialog dialog = new CustomDialog(HomeActivity.this, R.style.CustomDialog);
+//					dialog.setCanceledOnTouchOutside(false);// 点击dialog外边，对话框不会消失，按返回键对话框消失
+				//	dialog.setCancelable(false);// 点击dialog外边、按返回键 对话框都不会消失
+					dialog.setTitle("友情提示");
+					dialog.setMessage("确定要注销吗？");
+					dialog.setOnPositiveListener("确定",new OnClickListener(){
+
+						@Override
+						public void onClick(View v) {
+							// 将本地保存的登录信息清空
+							LoginInfo.logOut();
+							setTitleRightButtonImg(R.drawable.login_btn_bg);
+							dialog.dismiss();
+							Toast.makeText(getApplicationContext(), "注销成功！可以用其他账户登录哟~~", Toast.LENGTH_SHORT).show();
+							
+						}
+						
+					});
+					dialog.setOnNegativeListener("取消", new OnClickListener(){
+
+						@Override
+						public void onClick(View v) {
+							dialog.dismiss();
+						}
+						
+					});
+					dialog.show();
+					
 				}else{
 					Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
 					startActivityForResult(intent,Constant.LOGIN_REQUEST_CONDE);

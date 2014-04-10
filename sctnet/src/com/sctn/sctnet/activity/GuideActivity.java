@@ -112,7 +112,7 @@ public class GuideActivity extends Activity {
 			return;
 		}
 		bottomTag[position].setBackgroundColor(Color.parseColor("#fde20e"));
-		bottomTag[currentIndex].setBackgroundColor(Color.parseColor("#ffffff"));
+		bottomTag[currentIndex].setBackgroundColor(Color.parseColor("#7f000000"));
 		currentIndex = position;
 	}
 

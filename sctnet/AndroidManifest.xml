@@ -121,7 +121,7 @@
             	则分享结束以后不能得到正确的回调
             -->
             <intent-filter>
-                <data android:scheme="tencent101052206" />
+                <data android:scheme="tencent100371282" />
 
                 <action android:name="android.intent.action.VIEW" />
 
@@ -384,14 +384,21 @@
             android:name=".activity.SelectCurrentPositionActivity"
             android:screenOrientation="portrait" >
         </activity>
-        <activity
-            android:name=".activity.SalarySurveyQueryActivity"
-            android:screenOrientation="portrait" >
-        </activity>
 
         <!-- 选择页面 -->
         <activity
             android:name=".activity.SelectItemActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        
+        <activity
+            android:name=".activity.SalarySurveyQueryActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name=".activity.SalaryQueryListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" >
         </activity>

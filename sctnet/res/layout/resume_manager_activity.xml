@@ -33,6 +33,16 @@
             android:layout_marginLeft="15dp"
             android:layout_marginTop="35dp" />
 
+        <ImageView
+            android:id="@+id/takephoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/myPhoto"
+            android:layout_alignRight="@+id/myPhoto"
+            android:src="@drawable/take_photo"
+            android:paddingBottom="25dp"
+            android:paddingRight="10dp"
+            />
         <TextView
             android:id="@+id/resumeName"
             android:layout_width="wrap_content"

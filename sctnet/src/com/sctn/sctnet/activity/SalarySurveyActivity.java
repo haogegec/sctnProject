@@ -16,8 +16,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.ContextThemeWrapper;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -116,7 +116,7 @@ public class SalarySurveyActivity extends BaicActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.salary_survey_activity);
-		setTitleBar(getString(R.string.salarySurvey), View.VISIBLE, View.GONE);
+		setTitleBar(getString(R.string.salarySurvey), View.VISIBLE, View.VISIBLE);
 		initAllView();
 		reigesterAllEvent();
 	}
@@ -356,6 +356,17 @@ public class SalarySurveyActivity extends BaicActivity {
 
 				}
 			}
+		});
+		
+		super.titleRightButton.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				
+				Intent intent = new Intent(SalarySurveyActivity.this, SalarySurveyQueryActivity.class);
+				startActivity(intent);
+			}
+			
 		});
 	}
 
