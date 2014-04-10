@@ -91,8 +91,10 @@ public class SelectJobExpActivity extends BaicActivity {
 //	private String[] properties;// 单位性质
 //	private String[] propertyIds;// 单位性质ID
 
-	private String workingAreaId;// 工作地区ID
-	private String workingArea;// 工作地区
+	private String workingAreaCityId;// 工作地区城市ID
+	private String workingAreaProvinceId; // 工作地区省份ID
+	private String workingAreaCity;// 工作地区-城市
+	private String workingAreaProvince;// 工作地区-省份
 	private String workingYear;// 工龄
 	private String currentIndustryId;// 目前就职的行业的ID
 	private String currentIndustry;// 目前就职的行业
@@ -124,8 +126,10 @@ public class SelectJobExpActivity extends BaicActivity {
 
 	protected void initIntent() {
 		Intent intent = getIntent();
-		workingAreaId = intent.getStringExtra("workingAreaId");
-		workingArea = intent.getStringExtra("workingArea");
+		workingAreaProvinceId = intent.getStringExtra("workingAreaProvinceId");
+		workingAreaProvince = intent.getStringExtra("workingAreaProvince");
+		workingAreaCityId = intent.getStringExtra("workingAreaCityId");
+		workingAreaCity = intent.getStringExtra("workingAreaCity");
 		workingYear = intent.getStringExtra("workingYear");
 		currentIndustryId = intent.getStringExtra("currentIndustryId");
 		currentIndustry = intent.getStringExtra("currentIndustry");
@@ -143,7 +147,9 @@ public class SelectJobExpActivity extends BaicActivity {
 		property = intent.getStringExtra("property");
 		opinion = intent.getStringExtra("opinion");
 
-		tv_workingArea2.setText(workingArea);
+		if(!StringUtil.isBlank(workingAreaProvince)){
+			tv_workingArea2.setText(workingAreaProvince+" "+workingAreaCity);
+		}
 		tv_workingYears2.setText(workingYear);
 		tv_industryCategory2.setText(currentIndustry);
 		tv_currentIndustry2.setText(job);
@@ -384,7 +390,7 @@ public class SelectJobExpActivity extends BaicActivity {
 				annualSalary = et_annualSalary2.getText().toString();
 				opinion = et_opinion.getText().toString();
 
-				if (StringUtil.isBlank(workingArea)) {
+				if (StringUtil.isBlank(tv_workingArea2.getText().toString())) {
 					Toast.makeText(getApplicationContext(), "请选择工作地区", Toast.LENGTH_SHORT).show();
 				} else if (StringUtil.isBlank(workingYear)) {
 					Toast.makeText(getApplicationContext(), "请选择工龄", Toast.LENGTH_SHORT).show();
@@ -408,8 +414,10 @@ public class SelectJobExpActivity extends BaicActivity {
 					Toast.makeText(getApplicationContext(), "请选择单位性质", Toast.LENGTH_SHORT).show();
 				} else {
 					Intent intent = getIntent();
-					intent.putExtra("workingAreaId", workingAreaId);
-					intent.putExtra("workingArea", workingArea);
+					intent.putExtra("workingAreaProvinceId", workingAreaProvinceId);
+					intent.putExtra("workingAreaProvince", workingAreaProvince);
+					intent.putExtra("workingAreaCityId", workingAreaCityId);
+					intent.putExtra("workingAreaCity", workingAreaCity);
 					intent.putExtra("workingYear", workingYear);
 					intent.putExtra("currentIndustry", currentIndustry);
 					intent.putExtra("currentIndustryId", currentIndustryId);
@@ -594,9 +602,14 @@ public class SelectJobExpActivity extends BaicActivity {
 			switch (requestCode) {
 
 			case Constant.WORKINGAREA_REQUEST_CODE: 
-				workingArea = data.getStringExtra("area");
-				workingAreaId = data.getStringExtra("areaId");
-				tv_workingArea2.setText(workingArea);
+//				workingArea = data.getStringExtra("area");s
+//				workingAreaId = data.getStringExtra("areaId");
+				
+				workingAreaCity = data.getStringExtra("city");
+				workingAreaCityId = data.getStringExtra("cityId");
+				workingAreaProvince = data.getStringExtra("province");
+				workingAreaProvinceId = data.getStringExtra("provinceId");
+				tv_workingArea2.setText(workingAreaProvince+" "+workingAreaCity);
 				break;
 				
 			case Constant.CURRENT_INDUSTRY_REQUEST_CODE: 

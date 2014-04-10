@@ -154,18 +154,23 @@ public class SelectAreaActivity extends BaicActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-				if ("BasicInfoEditActivity".equals(flag) || "JobIntentionEditActivity".equals(flag)) {
-					Intent intent = new Intent(SelectAreaActivity.this, SelectCityActivity.class);
-					intent.putExtra("provinceId", provinceIds[position]);
-					intent.putExtra("province", provinces[position]);
-					startActivityForResult(intent , Constant.SELECT_CITY_REQUEST_CODE);
-				} else {
-					Intent intent = getIntent();
-					intent.putExtra("area", provinces[position]);
-					intent.putExtra("areaId", provinceIds[position]);
-					setResult(RESULT_OK, intent);
-					finish();
-				}
+				Intent intent = new Intent(SelectAreaActivity.this, SelectCityActivity.class);
+				intent.putExtra("provinceId", provinceIds[position]);
+				intent.putExtra("province", provinces[position]);
+				startActivityForResult(intent , Constant.SELECT_CITY_REQUEST_CODE);
+				
+//				if ("BasicInfoEditActivity".equals(flag) || "JobIntentionEditActivity".equals(flag)) {
+//					Intent intent = new Intent(SelectAreaActivity.this, SelectCityActivity.class);
+//					intent.putExtra("provinceId", provinceIds[position]);
+//					intent.putExtra("province", provinces[position]);
+//					startActivityForResult(intent , Constant.SELECT_CITY_REQUEST_CODE);
+//				} else {
+//					Intent intent = getIntent();
+//					intent.putExtra("area", provinces[position]);
+//					intent.putExtra("areaId", provinceIds[position]);
+//					setResult(RESULT_OK, intent);
+//					finish();
+//				}
 			}
 
 		});

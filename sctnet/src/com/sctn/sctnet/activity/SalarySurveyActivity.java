@@ -90,8 +90,10 @@ public class SalarySurveyActivity extends BaicActivity {
 	private String skill = "";// 技能技巧
 
 	// ===================== 职场经历页面的参数 ==============================
-	private String workingAreaId;// 工作地区ID
-	private String workingArea;// 工作地区
+	private String workingAreaProvinceId;// 工作地区省份ID
+	private String workingAreaProvince;// 工作地区省份
+	private String workingAreaCityId;// 工作地区城市ID
+	private String workingAreaCity;// 工作地区城市
 	private String workingYear;// 工龄
 	private String currentIndustryId;// 目前就职的行业的ID
 	private String currentIndustry;// 目前就职的行业的
@@ -251,7 +253,8 @@ public class SalarySurveyActivity extends BaicActivity {
 				Intent intent = new Intent(SalarySurveyActivity.this, SelectJobExpActivity.class);
 
 				if (!StringUtil.isBlank(tv_jobExp2.getText().toString())) {
-					intent.putExtra("workingArea", workingArea);
+					intent.putExtra("workingAreaProvince", workingAreaProvince);
+					intent.putExtra("workingAreaCity", workingAreaCity);
 					intent.putExtra("workingYear", workingYear);
 					intent.putExtra("currentIndustry", currentIndustry);
 					intent.putExtra("currentIndustryId", currentIndustryId);
@@ -395,8 +398,10 @@ public class SalarySurveyActivity extends BaicActivity {
 
 			case Constant.JOBEXP_REQUEST_CODE: 
 
-				workingAreaId = data.getStringExtra("workingAreaId");
-				workingArea = data.getStringExtra("workingArea");
+				workingAreaProvinceId = data.getStringExtra("workingAreaProvinceId");
+				workingAreaProvince = data.getStringExtra("workingAreaProvince");
+				workingAreaCityId = data.getStringExtra("workingAreaCityId");
+				workingAreaCity = data.getStringExtra("workingAreaCity");
 				workingYear = data.getStringExtra("workingYear");
 				currentIndustryId = data.getStringExtra("currentIndustryId");
 				currentIndustry = data.getStringExtra("currentIndustry");
@@ -442,7 +447,7 @@ public class SalarySurveyActivity extends BaicActivity {
 		try {
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
 			params.add(new BasicNameValuePair("age", age));
-			params.add(new BasicNameValuePair("city", workingAreaId));
+			params.add(new BasicNameValuePair("city", workingAreaCityId));
 			params.add(new BasicNameValuePair("companytype", propertyId));
 			params.add(new BasicNameValuePair("degree", degreeId));
 			params.add(new BasicNameValuePair("dwgm", scaleId));
