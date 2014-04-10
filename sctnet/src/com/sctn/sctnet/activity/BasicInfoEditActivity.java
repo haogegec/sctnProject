@@ -352,8 +352,10 @@ public class BasicInfoEditActivity extends BaicActivity {
 			@Override
 			public void onClick(View arg0) {
 
-				requestPoliticalThread();
-				
+//				requestPoliticalThread();
+				Intent intent = new Intent(BasicInfoEditActivity.this, SelectItemActivity.class);
+				intent.putExtra("which", "Political");
+				startActivityForResult(intent, Constant.POLITICAL);
 			}
 
 		});
@@ -363,8 +365,11 @@ public class BasicInfoEditActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View arg0) {
-
-				requestMaritalThread();
+//				requestMaritalThread();
+				
+				Intent intent = new Intent(BasicInfoEditActivity.this, SelectItemActivity.class);
+				intent.putExtra("which", "Marital");
+				startActivityForResult(intent, Constant.MARITAL);
 				
 			}
 
@@ -375,9 +380,12 @@ public class BasicInfoEditActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View arg0) {
+//				requestHealthThread();
 
-				requestHealthThread();
-
+				Intent intent = new Intent(BasicInfoEditActivity.this, SelectItemActivity.class);
+				intent.putExtra("which", "Health");
+				startActivityForResult(intent, Constant.HEALTH);
+				
 			}
 
 		});
@@ -452,13 +460,23 @@ public class BasicInfoEditActivity extends BaicActivity {
 				accountCityValue.setText(account_province + "  " + account_city);
 				break;
 
-//			case Constant.SELECT_HABITAT_REQUEST_CODE:
-//				current_city = data.getStringExtra("city");
-//				current_cityId = data.getStringExtra("cityId");
-//				current_province = data.getStringExtra("province");
-//				current_provinceId = data.getStringExtra("provinceId");
-//				currentCityValue.setText(current_province + "  " + current_city);
-//				break;
+			case Constant.POLITICAL:
+				politicalStr = data.getStringExtra("political");
+				politicalId = data.getStringExtra("politicalId");
+				politicalValue.setText(data.getStringExtra("political"));
+				break;
+				
+			case Constant.MARITAL:
+				maritalStatusValue.setText(data.getStringExtra("marital"));
+				maritalStatusId = data.getStringExtra("maritalId");
+				maritalStatusStr = data.getStringExtra("marital");
+				break;
+				
+			case Constant.HEALTH:
+				healthStatusValue.setText(data.getStringExtra("health"));
+				healthStatusId = data.getStringExtra("healthId");
+				healthStatusStr = data.getStringExtra("health");
+				break;
 			}
 		}
 	}
@@ -489,44 +507,44 @@ public class BasicInfoEditActivity extends BaicActivity {
 		mThread.start();
 	}
 	
-	private void requestPoliticalThread(){
-		showProcessDialog(false);
-		Thread mThread = new Thread(new Runnable(){
-
-			@Override
-			public void run() {
-				requestPolitical();
-			}
-			
-		});
-		mThread.start();
-	}
+//	private void requestPoliticalThread(){
+//		showProcessDialog(false);
+//		Thread mThread = new Thread(new Runnable(){
+//
+//			@Override
+//			public void run() {
+//				requestPolitical();
+//			}
+//			
+//		});
+//		mThread.start();
+//	}
 	
-	private void requestMaritalThread(){
-		showProcessDialog(false);
-		Thread mThread = new Thread(new Runnable(){
-
-			@Override
-			public void run() {
-				requestMarital();
-			}
-			
-		});
-		mThread.start();
-	}
+//	private void requestMaritalThread(){
+//		showProcessDialog(false);
+//		Thread mThread = new Thread(new Runnable(){
+//
+//			@Override
+//			public void run() {
+//				requestMarital();
+//			}
+//			
+//		});
+//		mThread.start();
+//	}
 	
-	private void requestHealthThread(){
-		showProcessDialog(false);
-		Thread mThread = new Thread(new Runnable(){
-
-			@Override
-			public void run() {
-				requestHealth();
-			}
-			
-		});
-		mThread.start();
-	}
+//	private void requestHealthThread(){
+//		showProcessDialog(false);
+//		Thread mThread = new Thread(new Runnable(){
+//
+//			@Override
+//			public void run() {
+//				requestHealth();
+//			}
+//			
+//		});
+//		mThread.start();
+//	}
 	
 	private void requestData() {
 
@@ -628,6 +646,7 @@ public class BasicInfoEditActivity extends BaicActivity {
 		List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
 		params.add(new BasicNameValuePair("type", "14"));
 		params.add(new BasicNameValuePair("key", "1"));
+		params.add(new BasicNameValuePair("page", "3"));
 		result = getPostHttpContent(url, params);
 
 		if (StringUtil.isExcetionInfo(result)) {
@@ -668,150 +687,151 @@ public class BasicInfoEditActivity extends BaicActivity {
 		
 	}
 	
-	private void requestPolitical() {
-
-		String url = "appCmbShow.app";
-
-		Message msg = new Message();
-		List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-		params.add(new BasicNameValuePair("type", "15"));
-		params.add(new BasicNameValuePair("key", "1"));
-		result = getPostHttpContent(url, params);
-
-		if (StringUtil.isExcetionInfo(result)) {
-			sendExceptionMsg(result);
-			return;
-		}
-
-		if (StringUtil.isBlank(result)) {
-			result = StringUtil.getAppException4MOS("未获得服务器响应结果！");
-			sendExceptionMsg(result);
-		}
-		
-		JSONObject responseJsonObject = JSONObject.parseObject(result);
-		if (responseJsonObject.get("resultcode").toString().equals("0")) {
-
-			JSONObject json = responseJsonObject.getJSONObject("result");
-			Set<Entry<String, Object>> set = json.entrySet();
-			Iterator<Entry<String, Object>> iter = set.iterator();
-			politicals = new String[set.size()];
-			politicalIds = new String[set.size()];
-			int i = 0;
-			while (iter.hasNext()) {
-				Map<String, String> map = new HashMap<String, String>();
-				Entry obj = iter.next();
-				map.put("id", (String) obj.getKey());
-				map.put("value", (String) obj.getValue());
-				politicals[i] = (String) obj.getValue();
-				politicalIds[i] = (String) obj.getKey();
-				i++;
-			}
-			msg.what = Constant.POLITICAL;
-			handler.sendMessage(msg);
-		} else {
-			String errorResult = (String) responseJsonObject.get("result");
-			String err = StringUtil.getAppException4MOS(errorResult);
-			sendExceptionMsg(err);
-		}
-		
-	}
+//	private void requestPolitical() {
+//
+//		String url = "appCmbShow.app";
+//
+//		Message msg = new Message();
+//		List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
+//		params.add(new BasicNameValuePair("type", "15"));
+//		params.add(new BasicNameValuePair("key", "1"));
+//		result = getPostHttpContent(url, params);
+//
+//		if (StringUtil.isExcetionInfo(result)) {
+//			sendExceptionMsg(result);
+//			return;
+//		}
+//
+//		if (StringUtil.isBlank(result)) {
+//			result = StringUtil.getAppException4MOS("未获得服务器响应结果！");
+//			sendExceptionMsg(result);
+//		}
+//		
+//		JSONObject responseJsonObject = JSONObject.parseObject(result);
+//		if (responseJsonObject.get("resultcode").toString().equals("0")) {
+//
+//			JSONObject json = responseJsonObject.getJSONObject("result");
+//			Set<Entry<String, Object>> set = json.entrySet();
+//			Iterator<Entry<String, Object>> iter = set.iterator();
+//			politicals = new String[set.size()];
+//			politicalIds = new String[set.size()];
+//			int i = 0;
+//			while (iter.hasNext()) {
+//				Map<String, String> map = new HashMap<String, String>();
+//				Entry obj = iter.next();
+//				map.put("id", (String) obj.getKey());
+//				map.put("value", (String) obj.getValue());
+//				politicals[i] = (String) obj.getValue();
+//				politicalIds[i] = (String) obj.getKey();
+//				i++;
+//			}
+//			msg.what = Constant.POLITICAL;
+//			handler.sendMessage(msg);
+//		} else {
+//			String errorResult = (String) responseJsonObject.get("result");
+//			String err = StringUtil.getAppException4MOS(errorResult);
+//			sendExceptionMsg(err);
+//		}
+//		
+//	}
 	
-	private void requestMarital() {
-
-		String url = "appCmbShow.app";
-
-		Message msg = new Message();
-		List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-		params.add(new BasicNameValuePair("type", "16"));
-		params.add(new BasicNameValuePair("key", "1"));
-		result = getPostHttpContent(url, params);
-
-		if (StringUtil.isExcetionInfo(result)) {
-			sendExceptionMsg(result);
-			return;
-		}
-
-		if (StringUtil.isBlank(result)) {
-			result = StringUtil.getAppException4MOS("未获得服务器响应结果！");
-			sendExceptionMsg(result);
-		}
-		
-		JSONObject responseJsonObject = JSONObject.parseObject(result);
-		if (responseJsonObject.get("resultcode").toString().equals("0")) {
-
-			JSONObject json = responseJsonObject.getJSONObject("result");
-			Set<Entry<String, Object>> set = json.entrySet();
-			Iterator<Entry<String, Object>> iter = set.iterator();
-			maritalStatuses = new String[set.size()];
-			maritalStatusIds = new String[set.size()];
-			int i = 0;
-			while (iter.hasNext()) {
-				Map<String, String> map = new HashMap<String, String>();
-				Entry obj = iter.next();
-				map.put("id", (String) obj.getKey());
-				map.put("value", (String) obj.getValue());
-				maritalStatuses[i] = (String) obj.getValue();
-				maritalStatusIds[i] = (String) obj.getKey();
-				i++;
-			}
-			msg.what = Constant.MARITAL;
-			handler.sendMessage(msg);
-		} else {
-			String errorResult = (String) responseJsonObject.get("result");
-			String err = StringUtil.getAppException4MOS(errorResult);
-			sendExceptionMsg(err);
-		}
-		
-	}
+//	private void requestMarital() {
+//
+//		String url = "appCmbShow.app";
+//
+//		Message msg = new Message();
+//		List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
+//		params.add(new BasicNameValuePair("type", "16"));
+//		params.add(new BasicNameValuePair("key", "1"));
+//		result = getPostHttpContent(url, params);
+//
+//		if (StringUtil.isExcetionInfo(result)) {
+//			sendExceptionMsg(result);
+//			return;
+//		}
+//
+//		if (StringUtil.isBlank(result)) {
+//			result = StringUtil.getAppException4MOS("未获得服务器响应结果！");
+//			sendExceptionMsg(result);
+//		}
+//		
+//		JSONObject responseJsonObject = JSONObject.parseObject(result);
+//		if (responseJsonObject.get("resultcode").toString().equals("0")) {
+//
+//			JSONObject json = responseJsonObject.getJSONObject("result");
+//			Set<Entry<String, Object>> set = json.entrySet();
+//			Iterator<Entry<String, Object>> iter = set.iterator();
+//			maritalStatuses = new String[set.size()];
+//			maritalStatusIds = new String[set.size()];
+//			int i = 0;
+//			while (iter.hasNext()) {
+//				Map<String, String> map = new HashMap<String, String>();
+//				Entry obj = iter.next();
+//				map.put("id", (String) obj.getKey());
+//				map.put("value", (String) obj.getValue());
+//				maritalStatuses[i] = (String) obj.getValue();
+//				maritalStatusIds[i] = (String) obj.getKey();
+//				i++;
+//			}
+//			msg.what = Constant.MARITAL;
+//			handler.sendMessage(msg);
+//		} else {
+//			String errorResult = (String) responseJsonObject.get("result");
+//			String err = StringUtil.getAppException4MOS(errorResult);
+//			sendExceptionMsg(err);
+//		}
+//		
+//	}
 	
 	
-	private void requestHealth() {
-
-		String url = "appCmbShow.app";
-
-		Message msg = new Message();
-		List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-		params.add(new BasicNameValuePair("type", "17"));
-		params.add(new BasicNameValuePair("key", "1"));
-		result = getPostHttpContent(url, params);
-
-		if (StringUtil.isExcetionInfo(result)) {
-			sendExceptionMsg(result);
-			return;
-		}
-
-		if (StringUtil.isBlank(result)) {
-			result = StringUtil.getAppException4MOS("未获得服务器响应结果！");
-			sendExceptionMsg(result);
-		}
-		
-		JSONObject responseJsonObject = JSONObject.parseObject(result);
-		if (responseJsonObject.get("resultcode").toString().equals("0")) {
-
-			JSONObject json = responseJsonObject.getJSONObject("result");
-			Set<Entry<String, Object>> set = json.entrySet();
-			Iterator<Entry<String, Object>> iter = set.iterator();
-			healthStatuses = new String[set.size()];
-			healthStatusIds = new String[set.size()];
-			int i = 0;
-			while (iter.hasNext()) {
-				Map<String, String> map = new HashMap<String, String>();
-				Entry obj = iter.next();
-				map.put("id", (String) obj.getKey());
-				map.put("value", (String) obj.getValue());
-				healthStatuses[i] = (String) obj.getValue();
-				healthStatusIds[i] = (String) obj.getKey();
-				i++;
-			}
-			msg.what = Constant.HEALTH;
-			handler.sendMessage(msg);
-		} else {
-			String errorResult = (String) responseJsonObject.get("result");
-			String err = StringUtil.getAppException4MOS(errorResult);
-			sendExceptionMsg(err);
-		}
-		
-	}
+//	private void requestHealth() {
+//
+//		String url = "appCmbShow.app";
+//
+//		Message msg = new Message();
+//		List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
+//		params.add(new BasicNameValuePair("type", "17"));
+//		params.add(new BasicNameValuePair("key", "1"));
+//		params.add(new BasicNameValuePair("page", "2"));
+//		result = getPostHttpContent(url, params);
+//
+//		if (StringUtil.isExcetionInfo(result)) {
+//			sendExceptionMsg(result);
+//			return;
+//		}
+//
+//		if (StringUtil.isBlank(result)) {
+//			result = StringUtil.getAppException4MOS("未获得服务器响应结果！");
+//			sendExceptionMsg(result);
+//		}
+//		
+//		JSONObject responseJsonObject = JSONObject.parseObject(result);
+//		if (responseJsonObject.get("resultcode").toString().equals("0")) {
+//
+//			JSONObject json = responseJsonObject.getJSONObject("result");
+//			Set<Entry<String, Object>> set = json.entrySet();
+//			Iterator<Entry<String, Object>> iter = set.iterator();
+//			healthStatuses = new String[set.size()];
+//			healthStatusIds = new String[set.size()];
+//			int i = 0;
+//			while (iter.hasNext()) {
+//				Map<String, String> map = new HashMap<String, String>();
+//				Entry obj = iter.next();
+//				map.put("id", (String) obj.getKey());
+//				map.put("value", (String) obj.getValue());
+//				healthStatuses[i] = (String) obj.getValue();
+//				healthStatusIds[i] = (String) obj.getKey();
+//				i++;
+//			}
+//			msg.what = Constant.HEALTH;
+//			handler.sendMessage(msg);
+//		} else {
+//			String errorResult = (String) responseJsonObject.get("result");
+//			String err = StringUtil.getAppException4MOS(errorResult);
+//			sendExceptionMsg(err);
+//		}
+//		
+//	}
 
 	// 处理线程发送的消息
 	private Handler handler = new Handler() {

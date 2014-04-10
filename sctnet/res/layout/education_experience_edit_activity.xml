@@ -40,6 +40,7 @@
                 android:background="@drawable/my_edittext"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:layout_marginRight="5dp"
                 android:text="" />
         </LinearLayout>
 
@@ -117,6 +118,7 @@
                 android:background="@drawable/my_edittext"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:layout_marginRight="5dp"
                 android:text="" />
         </LinearLayout>
 
@@ -194,6 +196,7 @@
                 android:background="@drawable/my_edittext"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:layout_marginRight="5dp"
                 android:text="" />
         </LinearLayout>
 
@@ -226,6 +229,7 @@
                 android:background="@drawable/my_edittext"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:layout_marginRight="5dp"
                 android:text="" />
         </LinearLayout>
 
@@ -303,6 +307,7 @@
                 android:background="@drawable/my_edittext"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:layout_marginRight="5dp"
                 android:text="" />
         </LinearLayout>
 

@@ -59,7 +59,9 @@ public class Constant {
 	public static final int LANGUAGE_LEVEL = 13;// 外语能力
 	public static final int CURRENT_INDUSTRY = 14;
 	public static final int JOB = 15;
+	public static final int JOB_UPDATE = 49;
 	public static final int DETAIL_JOB = 16;
+	public static final int DETAIL_JOB_UPDATE = 50;
 	public static final int AREA = 17;
 	public static final int SCALE = 18;
 	public static final int PROPERTY = 19;
@@ -102,7 +104,7 @@ public class Constant {
 	public static final int CAOP_RESULT_REQUEST_CODE = 2;// 剪辑结果码
 	public static final int UPLAOD_RESULT_REQUEST_CODE = 3;// 上传结果码
 
-	// 简历管理中的msg.what的值
+	// 简历管理中
 	public static final int PEOPLE = 30;
 	public static final int POLITICAL = 31;
 	public static final int MARITAL = 32;

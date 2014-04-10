@@ -107,7 +107,7 @@ public abstract class BaicActivity extends Activity {
 	 */
 	public void setTitleBar(String titleText, int leftButtonVisibility, int rightButtonVisibility) {
 		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title);// 设置标题栏布局文件为title_model
-		titleLeftButton = (ImageButton) findViewById(R.id.titlebar_img_btn_left);
+		titleLeftButton = (ImageView) findViewById(R.id.titlebar_img_btn_left);
 		titleTextView = (TextView) findViewById(R.id.titlebar_text);
 		titleRightButton = (ImageView) findViewById(R.id.titlebar_img_btn_right);
 

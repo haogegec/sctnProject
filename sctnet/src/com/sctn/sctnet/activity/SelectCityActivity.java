@@ -47,7 +47,7 @@ public class SelectCityActivity extends BaicActivity {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.select_area_listview);
-		super.setTitleBar("选择地区", View.VISIBLE, View.GONE);
+		super.setTitleBar("选择城市", View.VISIBLE, View.GONE);
 
 		initIntent();
 		initAllView();

@@ -117,6 +117,7 @@ public class SalarySurveyActivity extends BaicActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.salary_survey_activity);
 		setTitleBar(getString(R.string.salarySurvey), View.VISIBLE, View.VISIBLE);
+		super.setTitleRightButtonImg(R.drawable.search_bar);
 		initAllView();
 		reigesterAllEvent();
 	}

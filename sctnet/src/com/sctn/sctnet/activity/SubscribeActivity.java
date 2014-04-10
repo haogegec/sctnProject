@@ -1,6 +1,5 @@
 package com.sctn.sctnet.activity;
 
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -13,6 +12,7 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -114,12 +114,17 @@ public class SubscribeActivity extends BaicActivity {
 					Toast.makeText(getApplicationContext(), "请输入关键字", Toast.LENGTH_SHORT).show();
 				} else {
 					
-					String[] temp = keyWordsEdit.getText().toString().split(" ");
-					keywords = new HashSet<String>();
-					for(String keyword:temp){
-						keywords.add(keyword);
-					}
-					requestDataThread();
+//					String[] temp = keyWordsEdit.getText().toString().split("，");
+//					keywords = new HashSet<String>();
+//					for(String keyword:temp){
+//						keywords.add(keyword);
+//					}
+//					requestDataThread();
+					Intent intent = getIntent();
+					intent.putExtra("tags", "总经理");
+					setResult(RESULT_OK,intent);
+					finish();
+					
 				}
 			}
 

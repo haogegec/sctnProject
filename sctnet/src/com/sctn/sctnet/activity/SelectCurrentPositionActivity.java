@@ -67,7 +67,7 @@ public class SelectCurrentPositionActivity extends BaicActivity{
 		 * 
 		 */
 		private void requestDataThread(final int i) {
-			showProcessDialog(true);
+			if(i==0) showProcessDialog(false);
 			Thread mThread = new Thread(new Runnable() {// 启动新的线程，
 						@Override
 						public void run() {
@@ -146,10 +146,10 @@ public class SelectCurrentPositionActivity extends BaicActivity{
 							break;
 						case 1:
 							updateUI();
-							
 							break;
 
 						}
+						
 						
 					}
 				};
@@ -159,7 +159,8 @@ public class SelectCurrentPositionActivity extends BaicActivity{
 		
         lv_area = (ListView) findViewById(R.id.lv_area);
         footViewBar = View.inflate(SelectCurrentPositionActivity.this, R.layout.foot_view_loading, null);
-		lv_area.setAdapter(new MyAdapter(this,listItems,R.layout.select_area_item));
+        myAdapter = new MyAdapter(this,listItems,R.layout.select_area_item);
+		lv_area.setAdapter(myAdapter);
 		lv_area.setOnScrollListener(listener);
 	}
 
@@ -174,7 +175,7 @@ public class SelectCurrentPositionActivity extends BaicActivity{
 		@Override
 		public void onScrollStateChanged(AbsListView view, int scrollState) {
 
-			if (view.getLastVisiblePosition() == view.getCount() - 1) {
+			if (view.getLastVisiblePosition() == myAdapter.getCount()) {
 				page++;
 				requestDataThread(1);// 滑动list请求数据
 			}
@@ -207,7 +208,6 @@ public class SelectCurrentPositionActivity extends BaicActivity{
     	if (total > pageSize * page) {
     		lv_area.addFooterView(footViewBar);// 添加list底部更多按钮
 		}
-    	myAdapter = new MyAdapter(this,listItems,R.layout.select_area_item);
     	lv_area.setAdapter(myAdapter);
     	
     }

@@ -80,7 +80,7 @@ public class HomeActivity extends BaicActivity {
 				if(LoginInfo.isLogin()){
 					final CustomDialog dialog = new CustomDialog(HomeActivity.this, R.style.CustomDialog);
 //					dialog.setCanceledOnTouchOutside(false);// 点击dialog外边，对话框不会消失，按返回键对话框消失
-				//	dialog.setCancelable(false);// 点击dialog外边、按返回键 对话框都不会消失
+//					dialog.setCancelable(false);// 点击dialog外边、按返回键 对话框都不会消失
 					dialog.setTitle("友情提示");
 					dialog.setMessage("确定要注销吗？");
 					dialog.setOnPositiveListener("确定",new OnClickListener(){
@@ -161,15 +161,16 @@ public class HomeActivity extends BaicActivity {
 			// 薪资调查
 			@Override
 			public void onClick(View v) {
-
-				if (LoginInfo.isLogin()) {
-					Intent intent = new Intent(HomeActivity.this, SalarySurveyActivity.class);
-					startActivity(intent);
-				} else {
-					Toast.makeText(getApplicationContext(), "请先登录", Toast.LENGTH_SHORT).show();
-					Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-					startActivityForResult(intent, Constant.LOGIN_SALARY_SURVEY_ACTIVITY);
-				}
+				Intent intent = new Intent(HomeActivity.this, SalarySurveyActivity.class);
+				startActivity(intent);
+//				if (LoginInfo.isLogin()) {
+//					Intent intent = new Intent(HomeActivity.this, SalarySurveyActivity.class);
+//					startActivity(intent);
+//				} else {
+//					Toast.makeText(getApplicationContext(), "请先登录", Toast.LENGTH_SHORT).show();
+//					Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+//					startActivityForResult(intent, Constant.LOGIN_SALARY_SURVEY_ACTIVITY);
+//				}
 
 			}
 		});

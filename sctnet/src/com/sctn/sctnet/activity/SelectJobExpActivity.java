@@ -75,21 +75,21 @@ public class SelectJobExpActivity extends BaicActivity {
 
 	private EditText et_opinion;// 对目前薪资的看法
 
-	private Builder builder;
-	private Dialog dialog;
-
-	private String[] workingYears = { "6个月以下", "6~12个月", "1年", "2年", "3年", "4年", "5年", "6~9年", "10~15年", "16年以上" };// 工龄
-	private String[] totalWorkingTime = { "6个月以下", "6~12个月", "1年", "2年", "3年", "4年", "5年", "6~9年", "10~15年", "16年以上" };// 该行业累计工作时间
-	private String[] workExp = { "6个月以下", "6~12个月", "1年", "2年", "3年", "4年", "5年", "6~9年", "10~15年", "16年以上" };// 担任现职务之间
+//	private Builder builder;
+//	private Dialog dialog;
+//
+//	private String[] workingYears = { "6个月以下", "6~12个月", "1年", "2年", "3年", "4年", "5年", "6~9年", "10~15年", "16年以上" };// 工龄
+//	private String[] totalWorkingTime = { "6个月以下", "6~12个月", "1年", "2年", "3年", "4年", "5年", "6~9年", "10~15年", "16年以上" };// 该行业累计工作时间
+//	private String[] workExp = { "6个月以下", "6~12个月", "1年", "2年", "3年", "4年", "5年", "6~9年", "10~15年", "16年以上" };// 担任现职务之间
 
 	// private String[] currentIndustries;// 目前就职的行业
 	// private String[] currentIndustryIds;
 
-	private String[] scales;// 规模
-	private String[] scaleIds;// 规模ID
-
-	private String[] properties;// 单位性质
-	private String[] propertyIds;// 单位性质ID
+//	private String[] scales;// 规模
+//	private String[] scaleIds;// 规模ID
+//
+//	private String[] properties;// 单位性质
+//	private String[] propertyIds;// 单位性质ID
 
 	private String workingAreaId;// 工作地区ID
 	private String workingArea;// 工作地区
@@ -203,7 +203,7 @@ public class SelectJobExpActivity extends BaicActivity {
 		// rl_opinion = (RelativeLayout) findViewById(R.id.opinion);
 		et_opinion = (EditText) findViewById(R.id.et_opinion);
 
-		builder = new AlertDialog.Builder(SelectJobExpActivity.this);
+//		builder = new AlertDialog.Builder(SelectJobExpActivity.this);
 	}
 
 	@Override
@@ -406,8 +406,6 @@ public class SelectJobExpActivity extends BaicActivity {
 					Toast.makeText(getApplicationContext(), "请选择单位规模", Toast.LENGTH_SHORT).show();
 				} else if (StringUtil.isBlank(property)) {
 					Toast.makeText(getApplicationContext(), "请选择单位性质", Toast.LENGTH_SHORT).show();
-				} else if (StringUtil.isBlank(opinion)) {
-					Toast.makeText(getApplicationContext(), "请填写您对目前薪资的看法", Toast.LENGTH_SHORT).show();
 				} else {
 					Intent intent = getIntent();
 					intent.putExtra("workingAreaId", workingAreaId);
@@ -437,158 +435,158 @@ public class SelectJobExpActivity extends BaicActivity {
 
 	}
 
-	private void initScaleThread() {
-		String url = "appCmbShow.app";
-		Message msg = new Message();
+//	private void initScaleThread() {
+//		String url = "appCmbShow.app";
+//		Message msg = new Message();
+//
+//		try {
+//
+//			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
+//			params.add(new BasicNameValuePair("type", "10"));
+//			params.add(new BasicNameValuePair("key", "1"));
+//			params.add(new BasicNameValuePair("page", "1"));
+//			result = getPostHttpContent(url, params);
+//
+//			if (StringUtil.isExcetionInfo(result)) {
+//				SelectJobExpActivity.this.sendExceptionMsg(result);
+//				return;
+//			}
+//
+//			JSONObject responseJsonObject = new JSONObject(result);
+//
+//			if (responseJsonObject.getInt("resultcode") == 0) {// 获得响应结果
+//
+//				JSONObject resultJsonObject = responseJsonObject.getJSONObject("result");
+//				Iterator it = resultJsonObject.keys();
+//				scaleIds = new String[resultJsonObject.length()];
+//				scales = new String[resultJsonObject.length()];
+//				int i = 0;
+//				while (it.hasNext()) {
+//					String key = (String) it.next();
+//					String value = resultJsonObject.getString(key);
+//					scaleIds[i] = key;
+//					scales[i] = value;
+//					i++;
+//				}
+//				msg.what = Constant.SCALE;
+//				handler.sendMessage(msg);
+//			} else {
+//				String errorResult = (String) responseJsonObject.get("result");
+//				String err = StringUtil.getAppException4MOS(errorResult);
+//				SelectJobExpActivity.this.sendExceptionMsg(err);
+//			}
+//
+//		} catch (JSONException e) {
+//			String err = StringUtil.getAppException4MOS("解析json出错！");
+//			SelectJobExpActivity.this.sendExceptionMsg(err);
+//		}
+//	}
+//
+//	private void initPropertyThread() {
+//		String url = "appCmbShow.app";
+//		Message msg = new Message();
+//
+//		try {
+//
+//			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
+//			params.add(new BasicNameValuePair("type", "12"));
+//			params.add(new BasicNameValuePair("key", "1"));
+//			result = getPostHttpContent(url, params);
+//
+//			if (StringUtil.isExcetionInfo(result)) {
+//				SelectJobExpActivity.this.sendExceptionMsg(result);
+//				return;
+//			}
+//
+//			JSONObject responseJsonObject = new JSONObject(result);
+//
+//			if (responseJsonObject.getInt("resultcode") == 0) {// 获得响应结果
+//
+//				JSONObject resultJsonObject = responseJsonObject.getJSONObject("result");
+//				Iterator it = resultJsonObject.keys();
+//				propertyIds = new String[resultJsonObject.length()];
+//				properties = new String[resultJsonObject.length()];
+//				int i = 0;
+//				while (it.hasNext()) {
+//					String key = (String) it.next();
+//					String value = resultJsonObject.getString(key);
+//					propertyIds[i] = key;
+//					properties[i] = value;
+//					i++;
+//				}
+//				msg.what = Constant.PROPERTY;
+//				handler.sendMessage(msg);
+//			} else {
+//				String errorResult = (String) responseJsonObject.get("result");
+//				String err = StringUtil.getAppException4MOS(errorResult);
+//				SelectJobExpActivity.this.sendExceptionMsg(err);
+//			}
+//
+//		} catch (JSONException e) {
+//			String err = StringUtil.getAppException4MOS("解析json出错！");
+//			SelectJobExpActivity.this.sendExceptionMsg(err);
+//		}
+//	}
 
-		try {
+//	// 处理线程发送的消息
+//	private Handler handler = new Handler() {
+//
+//		public void handleMessage(Message msg) {
+//			switch (msg.what) {
+//
+//			case Constant.SCALE:
+//				initScale();
+//				break;
+//
+//			case Constant.PROPERTY:
+//				initProperty();
+//				break;
+//			}
+//			closeProcessDialog();
+//		}
+//	};
 
-			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-			params.add(new BasicNameValuePair("type", "10"));
-			params.add(new BasicNameValuePair("key", "1"));
-			params.add(new BasicNameValuePair("page", "1"));
-			result = getPostHttpContent(url, params);
+//	/**
+//	 * 请求完数据，更新界面的数据
+//	 */
+//	private void initScale() {
+//
+//		builder.setTitle("请选择您目前就职的行业");
+//		builder.setSingleChoiceItems(scales, 0, new DialogInterface.OnClickListener() {
+//
+//			@Override
+//			public void onClick(DialogInterface dialog, int which) {
+//				tv_scale2.setText(scales[which]);
+//				scaleId = scaleIds[which];
+//				scale = scales[which];
+//				dialog.dismiss();
+//			}
+//
+//		});
+//		dialog = builder.create();
+//		dialog.show();
+//	}
 
-			if (StringUtil.isExcetionInfo(result)) {
-				SelectJobExpActivity.this.sendExceptionMsg(result);
-				return;
-			}
-
-			JSONObject responseJsonObject = new JSONObject(result);
-
-			if (responseJsonObject.getInt("resultcode") == 0) {// 获得响应结果
-
-				JSONObject resultJsonObject = responseJsonObject.getJSONObject("result");
-				Iterator it = resultJsonObject.keys();
-				scaleIds = new String[resultJsonObject.length()];
-				scales = new String[resultJsonObject.length()];
-				int i = 0;
-				while (it.hasNext()) {
-					String key = (String) it.next();
-					String value = resultJsonObject.getString(key);
-					scaleIds[i] = key;
-					scales[i] = value;
-					i++;
-				}
-				msg.what = Constant.SCALE;
-				handler.sendMessage(msg);
-			} else {
-				String errorResult = (String) responseJsonObject.get("result");
-				String err = StringUtil.getAppException4MOS(errorResult);
-				SelectJobExpActivity.this.sendExceptionMsg(err);
-			}
-
-		} catch (JSONException e) {
-			String err = StringUtil.getAppException4MOS("解析json出错！");
-			SelectJobExpActivity.this.sendExceptionMsg(err);
-		}
-	}
-
-	private void initPropertyThread() {
-		String url = "appCmbShow.app";
-		Message msg = new Message();
-
-		try {
-
-			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-			params.add(new BasicNameValuePair("type", "12"));
-			params.add(new BasicNameValuePair("key", "1"));
-			result = getPostHttpContent(url, params);
-
-			if (StringUtil.isExcetionInfo(result)) {
-				SelectJobExpActivity.this.sendExceptionMsg(result);
-				return;
-			}
-
-			JSONObject responseJsonObject = new JSONObject(result);
-
-			if (responseJsonObject.getInt("resultcode") == 0) {// 获得响应结果
-
-				JSONObject resultJsonObject = responseJsonObject.getJSONObject("result");
-				Iterator it = resultJsonObject.keys();
-				propertyIds = new String[resultJsonObject.length()];
-				properties = new String[resultJsonObject.length()];
-				int i = 0;
-				while (it.hasNext()) {
-					String key = (String) it.next();
-					String value = resultJsonObject.getString(key);
-					propertyIds[i] = key;
-					properties[i] = value;
-					i++;
-				}
-				msg.what = Constant.PROPERTY;
-				handler.sendMessage(msg);
-			} else {
-				String errorResult = (String) responseJsonObject.get("result");
-				String err = StringUtil.getAppException4MOS(errorResult);
-				SelectJobExpActivity.this.sendExceptionMsg(err);
-			}
-
-		} catch (JSONException e) {
-			String err = StringUtil.getAppException4MOS("解析json出错！");
-			SelectJobExpActivity.this.sendExceptionMsg(err);
-		}
-	}
-
-	// 处理线程发送的消息
-	private Handler handler = new Handler() {
-
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-
-			case Constant.SCALE:
-				initScale();
-				break;
-
-			case Constant.PROPERTY:
-				initProperty();
-				break;
-			}
-			closeProcessDialog();
-		}
-	};
-
-	/**
-	 * 请求完数据，更新界面的数据
-	 */
-	private void initScale() {
-
-		builder.setTitle("请选择您目前就职的行业");
-		builder.setSingleChoiceItems(scales, 0, new DialogInterface.OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				tv_scale2.setText(scales[which]);
-				scaleId = scaleIds[which];
-				scale = scales[which];
-				dialog.dismiss();
-			}
-
-		});
-		dialog = builder.create();
-		dialog.show();
-	}
-
-	/**
-	 * 请求完数据，更新界面的数据
-	 */
-	private void initProperty() {
-
-		builder.setTitle("请选择您目前就职的行业");
-		builder.setSingleChoiceItems(properties, 0, new DialogInterface.OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				tv_property2.setText(properties[which]);
-				propertyId = propertyIds[which];
-				property = properties[which];
-				dialog.dismiss();
-			}
-
-		});
-		dialog = builder.create();
-		dialog.show();
-	}
+//	/**
+//	 * 请求完数据，更新界面的数据
+//	 */
+//	private void initProperty() {
+//
+//		builder.setTitle("请选择您目前就职的行业");
+//		builder.setSingleChoiceItems(properties, 0, new DialogInterface.OnClickListener() {
+//
+//			@Override
+//			public void onClick(DialogInterface dialog, int which) {
+//				tv_property2.setText(properties[which]);
+//				propertyId = propertyIds[which];
+//				property = properties[which];
+//				dialog.dismiss();
+//			}
+//
+//		});
+//		dialog = builder.create();
+//		dialog.show();
+//	}
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);

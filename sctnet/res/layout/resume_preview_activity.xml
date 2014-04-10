@@ -44,6 +44,7 @@
         android:paddingBottom="6dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
+        android:visibility="gone"
         />
     <ExpandableListView 
         android:id="@+id/expandableListView"

@@ -162,6 +162,7 @@
                 android:paddingRight="10dp"
                 android:digits="1234567890"
                 android:inputType="number"
+                android:layout_marginRight="5dp"
                 android:text="" />
         </LinearLayout>
         <RelativeLayout

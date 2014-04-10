@@ -196,14 +196,18 @@ public class JobIntentionEditActivity extends BaicActivity {
 			@Override
 			public void onClick(View arg0) {
 
-				showProcessDialog(false);
-				Thread mThread = new Thread(new Runnable() {// 启动新的线程，
-							@Override
-							public void run() {
-								initWorkStateThread();
-							}
-						});
-				mThread.start();
+//				showProcessDialog(false);
+//				Thread mThread = new Thread(new Runnable() {// 启动新的线程，
+//							@Override
+//							public void run() {
+//								initWorkStateThread();
+//							}
+//						});
+//				mThread.start();
+				
+				Intent intent = new Intent(JobIntentionEditActivity.this, SelectItemActivity.class);
+				intent.putExtra("which", "WorkState");
+				startActivityForResult(intent, Constant.WORK_STATE);
 
 			}
 
@@ -227,7 +231,6 @@ public class JobIntentionEditActivity extends BaicActivity {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(JobIntentionEditActivity.this, SelectCurrentPositionActivity.class);
-				
 				startActivityForResult(intent, Constant.CURRENT_POSITION_REQUEST_CODE);
 			}
 
@@ -239,14 +242,18 @@ public class JobIntentionEditActivity extends BaicActivity {
 			@Override
 			public void onClick(View arg0) {
 
-				showProcessDialog(false);
-				Thread mThread = new Thread(new Runnable() {// 启动新的线程，
-							@Override
-							public void run() {
-								initCompanyTypeThread();
-							}
-						});
-				mThread.start();
+//				showProcessDialog(false);
+//				Thread mThread = new Thread(new Runnable() {// 启动新的线程，
+//							@Override
+//							public void run() {
+//								initCompanyTypeThread();
+//							}
+//						});
+//				mThread.start();
+				
+				Intent intent = new Intent(JobIntentionEditActivity.this, SelectItemActivity.class);
+				intent.putExtra("which", "CompanyProperty");
+				startActivityForResult(intent, Constant.PROPERTY);
 
 			}
 
@@ -258,15 +265,19 @@ public class JobIntentionEditActivity extends BaicActivity {
 			@Override
 			public void onClick(View arg0) {
 
-				showProcessDialog(false);
-				Thread mThread = new Thread(new Runnable() {// 启动新的线程，
-							@Override
-							public void run() {
-								initWageThread();
-							}
-						});
-				mThread.start();
+//				showProcessDialog(false);
+//				Thread mThread = new Thread(new Runnable() {// 启动新的线程，
+//							@Override
+//							public void run() {
+//								initWageThread();
+//							}
+//						});
+//				mThread.start();
 
+				Intent intent = new Intent(JobIntentionEditActivity.this, SelectItemActivity.class);
+				intent.putExtra("which", "Wage");
+				startActivityForResult(intent, Constant.WAGE_RANGE);
+				
 			}
 
 		});
@@ -381,97 +392,97 @@ public class JobIntentionEditActivity extends BaicActivity {
 
 	}
 
-	private void initCompanyTypeThread() {
-		String url = "appCmbShow.app";
-		Message msg = new Message();
+//	private void initCompanyTypeThread() {
+//		String url = "appCmbShow.app";
+//		Message msg = new Message();
+//
+//		try {
+//
+//			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
+//			params.add(new BasicNameValuePair("type", "12"));
+//			params.add(new BasicNameValuePair("key", "1"));
+//			result = getPostHttpContent(url, params);
+//
+//			if (StringUtil.isExcetionInfo(result)) {
+//				sendExceptionMsg(result);
+//				return;
+//			}
+//
+//			JSONObject responseJsonObject = new JSONObject(result);
+//
+//			if (responseJsonObject.getInt("resultcode") == 0) {// 获得响应结果
+//
+//				JSONObject resultJsonObject = responseJsonObject.getJSONObject("result");
+//				Iterator it = resultJsonObject.keys();
+//				companyTypes = new String[resultJsonObject.length()];
+//				companyTypeIds = new String[resultJsonObject.length()];
+//				int i = 0;
+//				while (it.hasNext()) {
+//					String key = (String) it.next();
+//					String value = resultJsonObject.getString(key);
+//					companyTypeIds[i] = key;
+//					companyTypes[i] = value;
+//					i++;
+//				}
+//				msg.what = Constant.PROPERTY;
+//				handler.sendMessage(msg);
+//			} else {
+//				String errorResult = (String) responseJsonObject.get("result");
+//				String err = StringUtil.getAppException4MOS(errorResult);
+//				sendExceptionMsg(err);
+//			}
+//
+//		} catch (JSONException e) {
+//			String err = StringUtil.getAppException4MOS("解析json出错！");
+//			sendExceptionMsg(err);
+//		}
+//	}
 
-		try {
-
-			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-			params.add(new BasicNameValuePair("type", "12"));
-			params.add(new BasicNameValuePair("key", "1"));
-			result = getPostHttpContent(url, params);
-
-			if (StringUtil.isExcetionInfo(result)) {
-				sendExceptionMsg(result);
-				return;
-			}
-
-			JSONObject responseJsonObject = new JSONObject(result);
-
-			if (responseJsonObject.getInt("resultcode") == 0) {// 获得响应结果
-
-				JSONObject resultJsonObject = responseJsonObject.getJSONObject("result");
-				Iterator it = resultJsonObject.keys();
-				companyTypes = new String[resultJsonObject.length()];
-				companyTypeIds = new String[resultJsonObject.length()];
-				int i = 0;
-				while (it.hasNext()) {
-					String key = (String) it.next();
-					String value = resultJsonObject.getString(key);
-					companyTypeIds[i] = key;
-					companyTypes[i] = value;
-					i++;
-				}
-				msg.what = Constant.PROPERTY;
-				handler.sendMessage(msg);
-			} else {
-				String errorResult = (String) responseJsonObject.get("result");
-				String err = StringUtil.getAppException4MOS(errorResult);
-				sendExceptionMsg(err);
-			}
-
-		} catch (JSONException e) {
-			String err = StringUtil.getAppException4MOS("解析json出错！");
-			sendExceptionMsg(err);
-		}
-	}
-
-	private void initWorkStateThread() {
-		String url = "appCmbShow.app";
-		Message msg = new Message();
-
-		try {
-
-			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-			params.add(new BasicNameValuePair("type", "19"));
-			params.add(new BasicNameValuePair("key", "1"));
-			result = getPostHttpContent(url, params);
-
-			if (StringUtil.isExcetionInfo(result)) {
-				sendExceptionMsg(result);
-				return;
-			}
-
-			JSONObject responseJsonObject = new JSONObject(result);
-
-			if (responseJsonObject.getInt("resultcode") == 0) {// 获得响应结果
-
-				JSONObject resultJsonObject = responseJsonObject.getJSONObject("result");
-				Iterator it = resultJsonObject.keys();
-				workStates = new String[resultJsonObject.length()];
-				workStateIds = new String[resultJsonObject.length()];
-				int i = 0;
-				while (it.hasNext()) {
-					String key = (String) it.next();
-					String value = resultJsonObject.getString(key);
-					workStateIds[i] = key;
-					workStates[i] = value;
-					i++;
-				}
-				msg.what = Constant.WORK_STATE;
-				handler.sendMessage(msg);
-			} else {
-				String errorResult = (String) responseJsonObject.get("result");
-				String err = StringUtil.getAppException4MOS(errorResult);
-				sendExceptionMsg(err);
-			}
-
-		} catch (JSONException e) {
-			String err = StringUtil.getAppException4MOS("解析json出错！");
-			sendExceptionMsg(err);
-		}
-	}
+//	private void initWorkStateThread() {
+//		String url = "appCmbShow.app";
+//		Message msg = new Message();
+//
+//		try {
+//
+//			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
+//			params.add(new BasicNameValuePair("type", "19"));
+//			params.add(new BasicNameValuePair("key", "1"));
+//			result = getPostHttpContent(url, params);
+//
+//			if (StringUtil.isExcetionInfo(result)) {
+//				sendExceptionMsg(result);
+//				return;
+//			}
+//
+//			JSONObject responseJsonObject = new JSONObject(result);
+//
+//			if (responseJsonObject.getInt("resultcode") == 0) {// 获得响应结果
+//
+//				JSONObject resultJsonObject = responseJsonObject.getJSONObject("result");
+//				Iterator it = resultJsonObject.keys();
+//				workStates = new String[resultJsonObject.length()];
+//				workStateIds = new String[resultJsonObject.length()];
+//				int i = 0;
+//				while (it.hasNext()) {
+//					String key = (String) it.next();
+//					String value = resultJsonObject.getString(key);
+//					workStateIds[i] = key;
+//					workStates[i] = value;
+//					i++;
+//				}
+//				msg.what = Constant.WORK_STATE;
+//				handler.sendMessage(msg);
+//			} else {
+//				String errorResult = (String) responseJsonObject.get("result");
+//				String err = StringUtil.getAppException4MOS(errorResult);
+//				sendExceptionMsg(err);
+//			}
+//
+//		} catch (JSONException e) {
+//			String err = StringUtil.getAppException4MOS("解析json出错！");
+//			sendExceptionMsg(err);
+//		}
+//	}
 
 	private void initWageThread() {
 		String url = "appCmbShow.app";
@@ -525,15 +536,15 @@ public class JobIntentionEditActivity extends BaicActivity {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 
-			case Constant.PROPERTY:
-				initProperty();
-				closeProcessDialog();
-				break;
-
-			case Constant.WORK_STATE:
-				initWorkState();
-				closeProcessDialog();
-				break;
+//			case Constant.PROPERTY:
+//				initProperty();
+//				closeProcessDialog();
+//				break;
+//
+//			case Constant.WORK_STATE:
+//				initWorkState();
+//				closeProcessDialog();
+//				break;
 
 			case Constant.WAGE_RANGE:
 				initWage();
@@ -585,21 +596,21 @@ public class JobIntentionEditActivity extends BaicActivity {
 		dialog.show();
 	}
 
-	private void initWorkState(){
-		builder.setTitle("请选择工作性质");
-		builder.setSingleChoiceItems(workStates, 0, new DialogInterface.OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				workStateValue.setText(workStates[which]);
-				workStateId = workStateIds[which];
-				dialog.dismiss();
-			}
-
-		});
-		dialog = builder.create();
-		dialog.show();
-	}
+//	private void initWorkState(){
+//		builder.setTitle("请选择工作性质");
+//		builder.setSingleChoiceItems(workStates, 0, new DialogInterface.OnClickListener() {
+//
+//			@Override
+//			public void onClick(DialogInterface dialog, int which) {
+//				workStateValue.setText(workStates[which]);
+//				workStateId = workStateIds[which];
+//				dialog.dismiss();
+//			}
+//
+//		});
+//		dialog = builder.create();
+//		dialog.show();
+//	}
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -625,6 +636,24 @@ public class JobIntentionEditActivity extends BaicActivity {
 				postId = data.getStringExtra("postId");
 				postValue.setText(postStr);
 
+				break;
+				
+			case Constant.WORK_STATE:
+				workStateValue.setText(data.getStringExtra("workState"));
+				workStateId = data.getStringExtra("workStateId");
+				workStateStr = data.getStringExtra("workState");
+				break;
+				
+			case Constant.PROPERTY:
+				companyTypeValue.setText(data.getStringExtra("companyProperty"));
+				companyTypeId = data.getStringExtra("companyPropertyId");
+				companyTypeStr = data.getStringExtra("companyProperty");
+				break;
+				
+			case Constant.WAGE_RANGE:
+				wageValue.setText(data.getStringExtra("wage"));
+				wageId = data.getStringExtra("wageId");
+				wageStr = data.getStringExtra("wage");
 				break;
 			}
 		}

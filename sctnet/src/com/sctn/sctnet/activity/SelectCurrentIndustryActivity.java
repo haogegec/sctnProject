@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
@@ -84,7 +85,9 @@ public class SelectCurrentIndustryActivity extends BaicActivity {
 	 * 
 	 */
 	private void requestDataThread(final int i) {
-		showProcessDialog(false);
+		if (i == 0) {
+			showProcessDialog(false);
+		}
 		Thread mThread = new Thread(new Runnable() {// 启动新的线程，
 					@Override
 					public void run() {
@@ -181,12 +184,9 @@ public class SelectCurrentIndustryActivity extends BaicActivity {
 
 	@Override
 	protected void initAllView() {
-		// TODO Auto-generated method stub
+		footViewBar = View.inflate(SelectCurrentIndustryActivity.this, R.layout.foot_view_loading, null);
 		lv_area = (ListView) findViewById(R.id.lv_currentIndustry);
-
 		lv_area.setAdapter(new MyAdapter(this, listItems, R.layout.select_area_item));
-		// indexBar = (SideBar) findViewById(R.id.sideBar);
-		// indexBar.setListView(lv_area);
 		lv_area.setOnScrollListener(listener);
 	}
 
@@ -299,9 +299,16 @@ public class SelectCurrentIndustryActivity extends BaicActivity {
 		@Override
 		public void onScrollStateChanged(AbsListView view, int scrollState) {
 
-			if (view.getLastVisiblePosition() == view.getCount() - 1) {
-				page++;
-				requestDataThread(1);// 滑动list请求数据
+//			if (view.getLastVisiblePosition() == view.getCount() - 1) {
+//				page++;
+//				requestDataThread(1);// 滑动list请求数据
+//			}
+			
+			if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
+				if (view.getLastVisiblePosition() == myAdapter.getCount()) {
+					page++;
+					requestDataThread(1);// 滑动list请求数据
+				}
 			}
 			
 

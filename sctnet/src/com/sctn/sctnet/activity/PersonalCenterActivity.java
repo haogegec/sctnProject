@@ -1,5 +1,6 @@
 package com.sctn.sctnet.activity;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -8,8 +9,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -100,17 +99,6 @@ public class PersonalCenterActivity extends BaicActivity {
 		itemView1.setDetailImageViewResource(R.drawable.detail);
 		itemView1.setIconImageVisibility(View.VISIBLE);
 
-		itemView3.setBackground(R.drawable.item_up_bg);
-		itemView3.setIconImageViewResource(R.drawable.personal_customize);
-		itemView3.setLabel("中心自行定制信息内容推送");
-		itemView3.setLabelTextColor(getResources().getColor(R.color.blue));
-		if (selfSubscribePushAuto) {
-			itemView3.setDetailImageViewResource(R.drawable.set_on);
-		} else {
-			itemView3.setDetailImageViewResource(R.drawable.set_off);
-		}
-		itemView3.setIconImageVisibility(View.VISIBLE);
-
 		itemView2.setBackground(R.drawable.item_up_bg);
 		itemView2.setIconImageViewResource(R.drawable.personal_push);
 		itemView2.setLabel("职业信息自动推送");
@@ -121,6 +109,17 @@ public class PersonalCenterActivity extends BaicActivity {
 			itemView2.setDetailImageViewResource(R.drawable.set_off);
 		}
 		itemView2.setIconImageVisibility(View.VISIBLE);
+		
+		itemView3.setBackground(R.drawable.item_up_bg);
+		itemView3.setIconImageViewResource(R.drawable.subscribe);
+		itemView3.setLabel("中心自行定制信息内容推送");
+		itemView3.setLabelTextColor(getResources().getColor(R.color.blue));
+		if (selfSubscribePushAuto) {
+			itemView3.setDetailImageViewResource(R.drawable.set_on);
+		} else {
+			itemView3.setDetailImageViewResource(R.drawable.set_off);
+		}
+		itemView3.setIconImageVisibility(View.VISIBLE);
 
 		itemView4.setBackground(R.drawable.item_down_bg);
 		itemView4.setIconImageViewResource(R.drawable.password_img);
@@ -147,25 +146,9 @@ public class PersonalCenterActivity extends BaicActivity {
 			@Override
 			public void onClick(View v) {
 
-//				new AlertDialog.Builder(PersonalCenterActivity.this).setTitle("提示").setMessage("确定要注销吗？").setPositiveButton("确定", new android.content.DialogInterface.OnClickListener() {
-//					@Override
-//					public void onClick(DialogInterface dialog, int which) {
-//						// 将本地保存的登录信息清空
-//						LoginInfo.logOut();
-//						// ->直接跳转到 HomeActivity(设置成单例) 同时清空栈中 HomeActivity 之前的
-//						// Activity
-//						Toast.makeText(PersonalCenterActivity.this, "注销成功", Toast.LENGTH_SHORT).show();
-//						Intent intent = new Intent(PersonalCenterActivity.this, HomeActivity.class);
-//						// intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //
-//						// 利用ClearTop标志
-//						startActivity(intent);
-//						finish();
-//					}
-//				}).setNegativeButton("取消", null).show();
-				
 				final CustomDialog dialog = new CustomDialog(PersonalCenterActivity.this, R.style.CustomDialog);
 //				dialog.setCanceledOnTouchOutside(false);// 点击dialog外边，对话框不会消失，按返回键对话框消失
-		//		dialog.setCancelable(false);// 点击dialog外边、按返回键 对话框都不会消失
+				dialog.setCancelable(false);// 点击dialog外边、按返回键 对话框都不会消失
 				dialog.setTitle("友情提示");
 				dialog.setMessage("确定要注销吗？");
 				dialog.setOnPositiveListener("确定",new OnClickListener(){
@@ -200,13 +183,46 @@ public class PersonalCenterActivity extends BaicActivity {
 			@Override
 			public void onClick(View v) {
 
-				if ("0".equals(company)) {
+				if (LoginInfo.hasResume(userId+"")) {// 如果当前用户已经有简历
+					if ("0".equals(company)) {
+						final CustomDialog dialog = new CustomDialog(PersonalCenterActivity.this, R.style.CustomDialog);
+//						dialog.setCanceledOnTouchOutside(false);// 点击dialog外边，对话框不会消失，按返回键对话框消失
+						dialog.setCancelable(false);// 点击dialog外边、按返回键 对话框都不会消失
+						dialog.setTitle("友情提示");
+						dialog.setMessage("近期还没有公司关注你的简历，刷新简历可以引起更多注意哦！");
+						dialog.setOnPositiveListener("确定",new OnClickListener(){
+
+							@Override
+							public void onClick(View v) {
+								dialog.dismiss();
+							}
+							
+						});
+						dialog.show();
+					} else {
+						Intent intent = new Intent(PersonalCenterActivity.this, ReadMyResumeActivity.class);
+						Bundle bundle = new Bundle();
+						bundle.putString("flag", "readMyResume");
+						intent.putExtras(bundle);
+						startActivity(intent);
+					}
+				} else {// 如果当前用户没有简历
 					final CustomDialog dialog = new CustomDialog(PersonalCenterActivity.this, R.style.CustomDialog);
 //					dialog.setCanceledOnTouchOutside(false);// 点击dialog外边，对话框不会消失，按返回键对话框消失
-			//		dialog.setCancelable(false);// 点击dialog外边、按返回键 对话框都不会消失
-					dialog.setTitle("友情提示");
-					dialog.setMessage("近期还没有公司关注你的简历，刷新简历可以引起更多注意哦！");
+					dialog.setCancelable(false);// 点击dialog外边、按返回键 对话框都不会消失
+					dialog.setTitle("您还没有创建简历");
+					dialog.setMessage("是否要创建简历？");
 					dialog.setOnPositiveListener("确定",new OnClickListener(){
+
+						@Override
+						public void onClick(View v) {
+							dialog.dismiss();
+							Intent intent = new Intent(PersonalCenterActivity.this,ResumeCreateActivity.class);
+							startActivity(intent);
+						}
+						
+					});
+					dialog.setOnNegativeListener("取消", new OnClickListener(){
 
 						@Override
 						public void onClick(View v) {
@@ -215,13 +231,9 @@ public class PersonalCenterActivity extends BaicActivity {
 						
 					});
 					dialog.show();
-				} else {
-					Intent intent = new Intent(PersonalCenterActivity.this, ReadMyResumeActivity.class);
-					Bundle bundle = new Bundle();
-					bundle.putString("flag", "readMyResume");
-					intent.putExtras(bundle);
-					startActivity(intent);
 				}
+				
+				
 			}
 
 		});
@@ -263,13 +275,47 @@ public class PersonalCenterActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View v) {
-				if ("0".equals(invite)) {
+				
+				if (LoginInfo.hasResume(userId+"")) {// 如果当前用户已经有简历
+					if ("0".equals(invite)) {
+						final CustomDialog dialog = new CustomDialog(PersonalCenterActivity.this, R.style.CustomDialog);
+//						dialog.setCanceledOnTouchOutside(false);// 点击dialog外边，对话框不会消失，按返回键对话框消失
+						dialog.setCancelable(false);// 点击dialog外边、按返回键 对话框都不会消失
+						dialog.setTitle("友情提示");
+						dialog.setMessage("还没有公司向你发送过面试邀请，完善简历可以吸引更多的公司哦！");
+						dialog.setOnPositiveListener("确定",new OnClickListener(){
+
+							@Override
+							public void onClick(View v) {
+								dialog.dismiss();
+							}
+							
+						});
+						dialog.show();
+					} else {
+						Intent intent = new Intent(PersonalCenterActivity.this, ReadMyResumeActivity.class);
+						Bundle bundle = new Bundle();
+						bundle.putString("flag", "interviewInvitation");
+						intent.putExtras(bundle);
+						startActivity(intent);
+					}
+				} else {
 					final CustomDialog dialog = new CustomDialog(PersonalCenterActivity.this, R.style.CustomDialog);
 //					dialog.setCanceledOnTouchOutside(false);// 点击dialog外边，对话框不会消失，按返回键对话框消失
-	//				dialog.setCancelable(false);// 点击dialog外边、按返回键 对话框都不会消失
-					dialog.setTitle("友情提示");
-					dialog.setMessage("还没有公司向你发送过面试邀请，完善简历可以吸引更多的公司哦！");
+					dialog.setCancelable(false);// 点击dialog外边、按返回键 对话框都不会消失
+					dialog.setTitle("您还没有创建简历");
+					dialog.setMessage("是否要创建简历？");
 					dialog.setOnPositiveListener("确定",new OnClickListener(){
+
+						@Override
+						public void onClick(View v) {
+							dialog.dismiss();
+							Intent intent = new Intent(PersonalCenterActivity.this,ResumeCreateActivity.class);
+							startActivity(intent);
+						}
+						
+					});
+					dialog.setOnNegativeListener("取消", new OnClickListener(){
 
 						@Override
 						public void onClick(View v) {
@@ -278,13 +324,9 @@ public class PersonalCenterActivity extends BaicActivity {
 						
 					});
 					dialog.show();
-				} else {
-					Intent intent = new Intent(PersonalCenterActivity.this, ReadMyResumeActivity.class);
-					Bundle bundle = new Bundle();
-					bundle.putString("flag", "interviewInvitation");
-					intent.putExtras(bundle);
-					startActivity(intent);
 				}
+				
+				
 			}
 
 		});
@@ -297,7 +339,7 @@ public class PersonalCenterActivity extends BaicActivity {
 				if (StringUtil.isBlank(resume) || "0".equals(resume)) {
 					final CustomDialog dialog = new CustomDialog(PersonalCenterActivity.this, R.style.CustomDialog);
 //					dialog.setCanceledOnTouchOutside(false);// 点击dialog外边，对话框不会消失，按返回键对话框消失
-	//				dialog.setCancelable(false);// 点击dialog外边、按返回键 对话框都不会消失
+					dialog.setCancelable(false);// 点击dialog外边、按返回键 对话框都不会消失
 					dialog.setTitle("友情提示");
 					dialog.setMessage("您近期没有申请过职位，您可以去“职位搜索”看看自己感兴趣的职位哦！");
 					dialog.setOnPositiveListener("确定",new OnClickListener(){
@@ -328,7 +370,7 @@ public class PersonalCenterActivity extends BaicActivity {
 				if (StringUtil.isBlank(post) || "0".equals(post)) {
 					final CustomDialog dialog = new CustomDialog(PersonalCenterActivity.this, R.style.CustomDialog);
 //					dialog.setCanceledOnTouchOutside(false);// 点击dialog外边，对话框不会消失，按返回键对话框消失
-//					dialog.setCancelable(false);// 点击dialog外边、按返回键 对话框都不会消失
+					dialog.setCancelable(false);// 点击dialog外边、按返回键 对话框都不会消失
 					dialog.setTitle("友情提示");
 					dialog.setMessage("您没有收藏过任何职位，您可以去“职位搜索”看看自己感兴趣的职位哦！");
 					dialog.setOnPositiveListener("确定",new OnClickListener(){
@@ -551,6 +593,11 @@ public class PersonalCenterActivity extends BaicActivity {
 		if (resultCode == RESULT_OK) {
 			switch (requestCode) {
 			case 100000:
+				
+				Set<String> tags = new HashSet<String>();
+				tags.add("总经理");
+				JPushInterface.setTags(PersonalCenterActivity.this, tags, mAliasCallback);
+				
 				if (subscribe) {
 					itemView3.setDetailImageViewResource(R.drawable.set_off);
 					SharePreferencesUtils.setSharedBooleanData("subscribe", false);
