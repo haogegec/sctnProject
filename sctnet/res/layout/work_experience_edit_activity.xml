@@ -193,6 +193,9 @@
                 android:gravity="right"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:singleLine="true"
+                android:maxEms="10"
+                android:ellipsize="end"
                 android:text="" />
 
             <ImageView

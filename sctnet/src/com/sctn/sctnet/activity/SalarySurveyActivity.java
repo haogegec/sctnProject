@@ -29,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sctn.sctnet.R;
+import com.sctn.sctnet.Utils.SharePreferencesUtils;
 import com.sctn.sctnet.Utils.StringUtil;
 import com.sctn.sctnet.contants.Constant;
 
@@ -366,9 +367,14 @@ public class SalarySurveyActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View v) {
+				boolean canSalaryQuery = SharePreferencesUtils.getSharedBooleanData("canSalaryQuery");
+				if(canSalaryQuery){
+					Intent intent = new Intent(SalarySurveyActivity.this, SalarySurveyQueryActivity.class);
+					startActivity(intent);
+				}else{
+					Toast.makeText(getApplicationContext(), "请先做个薪酬调查再查询吧~~", Toast.LENGTH_SHORT).show();
+				}
 				
-				Intent intent = new Intent(SalarySurveyActivity.this, SalarySurveyQueryActivity.class);
-				startActivity(intent);
 			}
 			
 		});
@@ -556,6 +562,7 @@ public class SalarySurveyActivity extends BaicActivity {
 				break;
 			case Constant.SALARY_SURVEY_SUBMIT:
 				Toast.makeText(getApplicationContext(), "提交成功", Toast.LENGTH_SHORT).show();
+				SharePreferencesUtils.setSharedBooleanData("canSalaryQuery", true);
 				startHomeActivity();
 				break;
 			}

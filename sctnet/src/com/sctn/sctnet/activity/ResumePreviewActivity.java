@@ -83,34 +83,65 @@ public class ResumePreviewActivity extends BaicActivity{
 	 private void initData() {
 		 
 		 if(dataList.get(0).get(0).size()!=0){
-				groupTitle.add("基本信息");
 				
-				HashMap<String,String> map = dataList.get(0).get(0);				
-				childData.add(getListItem(map));
+				
+				HashMap<String,String> map = dataList.get(0).get(0);
+				if(map.containsKey(" ")){
+					map.remove(" ");
+				}
+				if(map.size()!=0){
+					groupTitle.add("基本信息");
+					childData.add(getListItem(map));
+				}
+				
 			}
 			if(dataList.get(1).get(0).size()!=0){
-				groupTitle.add("个人简介");
 				
-				HashMap<String,String> map = dataList.get(1).get(0);				
-				childData.add(getListItem(map));
+				
+				HashMap<String,String> map = dataList.get(1).get(0);
+				if(map.containsKey(" ")){
+					map.remove(" ");
+				}
+				if(map.size()!=0){
+					groupTitle.add("个人简介");
+					childData.add(getListItem(map));
+				}
+				
 			}
 			if(dataList.get(2).get(0).size()!=0){
-				groupTitle.add("教育情况");
+							
+				HashMap<String,String> map = dataList.get(2).get(0);	
+				if(map.containsKey(" ")){
+					map.remove(" ");
+				}
+				if(map.size()!=0){
+					groupTitle.add("职业生涯");
+					childData.add(getListItem(map));
+				}
 				
-				HashMap<String,String> map = dataList.get(2).get(0);				
-				childData.add(getListItem(map));
 			}
 			if(dataList.get(3).get(0).size()!=0){
-				groupTitle.add("职业生涯");
 				
-				HashMap<String,String> map = dataList.get(3).get(0);				
-				childData.add(getListItem(map));
+				HashMap<String,String> map = dataList.get(3).get(0);
+				if(map.containsKey(" ")){
+					map.remove(" ");
+				}
+				if(map.size()!=0){
+					groupTitle.add("教育情况");
+					childData.add(getListItem(map));
+				}
+				
 			}
 			if(dataList.get(4).get(0).size()!=0){
-				groupTitle.add("联系方式");
 				
-				HashMap<String,String> map = dataList.get(4).get(0);				
-				childData.add(getListItem(map));
+				HashMap<String,String> map = dataList.get(4).get(0);	
+				if(map.containsKey(" ")){
+					map.remove(" ");
+				}
+				if(map.size()!=0){
+					groupTitle.add("联系方式");
+					childData.add(getListItem(map));
+				}
 			}
 			if(dataList.get(5).get(0).size()!=0){
 				groupTitle.add("求职意向");

@@ -172,11 +172,16 @@ public class ResumeManageActivity extends BaicActivity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(ResumeManageActivity.this, ResumePreviewActivity.class);
-				Bundle bundle = new Bundle();
-				bundle.putSerializable("resumeInfo", dataList);
-				intent.putExtras(bundle);
-				startActivity(intent);
+				if(dataList.size()==0){
+					resumePreviewImg.setClickable(false);
+				}else{
+					Intent intent = new Intent(ResumeManageActivity.this, ResumePreviewActivity.class);
+					Bundle bundle = new Bundle();
+					bundle.putSerializable("resumeInfo", dataList);
+					intent.putExtras(bundle);
+					startActivity(intent);
+				}
+				
 			}
 
 		});
@@ -444,13 +449,15 @@ public class ResumeManageActivity extends BaicActivity {
 			params.add(new BasicNameValuePair("Userid", userId + ""));
 			// params.add(new BasicNameValuePair("Userid",100020+""));
 			result = getPostHttpContent(url, params);
-			// JSON的解析过程
-			JSONObject responseJsonObject = new JSONObject(result);
+			
 			if (StringUtil.isExcetionInfo(result)) {
 				ResumeManageActivity.this.sendExceptionMsg(result);
 				return;
 			}
 
+			// JSON的解析过程
+			JSONObject responseJsonObject = new JSONObject(result);
+			
 			if (StringUtil.isBlank(responseJsonObject.getString("result"))) {// 说明该用户没有创建简历
 
 				msg.what = 1;
@@ -679,10 +686,10 @@ public class ResumeManageActivity extends BaicActivity {
 				}
 				if (!StringUtil.isBlank(reccontent)) {
 					personalExperienceMap.put("推荐自己", reccontent);
-					basicInfoMap.put("推荐自己", reccontent);
-					workExperienceMap.put("推荐自己", reccontent);
-					educationExperienceMap.put("推荐自己", reccontent);
-					contactMap.put("推荐自己", reccontent);
+					basicInfoMap.put(" ", "");
+					workExperienceMap.put(" ", "");
+					educationExperienceMap.put(" ", "");
+					contactMap.put(" ", "");
 					i++;
 				}
 				if (!StringUtil.isBlank(resume)) {
@@ -948,26 +955,32 @@ public class ResumeManageActivity extends BaicActivity {
 
 	// 删除提示框
 	public void deleteDialog() {
-		// TODO Auto-generated method stub
-		AlertDialog.Builder builder = new Builder(this);
-		builder.setMessage("确定要删除吗?");
-		builder.setTitle("提示");
-		builder.setIcon(android.R.drawable.ic_dialog_alert);
-		builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
+		
+		final CustomDialog dialog = new CustomDialog(this, R.style.CustomDialog);
+//		dialog.setCanceledOnTouchOutside(false);// 点击dialog外边，对话框不会消失，按返回键对话框消失
+	//	dialog.setCancelable(false);// 点击dialog外边、按返回键 对话框都不会消失
+		dialog.setTitle("友情提示");
+		dialog.setMessage("确定要删除吗?");
+		dialog.setOnPositiveListener("确定",new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				
 				// 删除线程
 				dialog.dismiss();
 				deleteTread();
 			}
+			
 		});
+		dialog.setOnNegativeListener("取消", new OnClickListener(){
 
-		builder.setNegativeButton("取消", new android.content.DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
+			@Override
+			public void onClick(View v) {
 				dialog.dismiss();
 			}
+			
 		});
-
-		builder.create().show();
+		dialog.show();
 	}
 
 	/**

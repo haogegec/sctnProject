@@ -29,7 +29,7 @@ public class PhoneUtil {
 	public static final String OS_NAME = "Android";
 
 	// 网络类型
-	public static final String NETWORK_TYPE = ((ConnectivityManager) SctnAplication.getInstance().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo().getTypeName();
+//	public static final String NETWORK_TYPE = ((ConnectivityManager) SctnAplication.getInstance().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo().getTypeName();
 
 	// 时区
 	public static final String TIME_ZONE = TimeZone.getDefault().getDisplayName();

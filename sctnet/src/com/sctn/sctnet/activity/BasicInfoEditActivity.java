@@ -478,7 +478,7 @@ public class BasicInfoEditActivity extends BaicActivity {
 				break;
 
 			case Constant.POLITICAL:
-				politicalStr = data.getStringExtra("political");
+			//	politicalStr = data.getStringExtra("political");
 				politicalId = data.getStringExtra("politicalId");
 				politicalValue.setText(data.getStringExtra("political"));
 				break;
@@ -486,13 +486,13 @@ public class BasicInfoEditActivity extends BaicActivity {
 			case Constant.MARITAL:
 				maritalStatusValue.setText(data.getStringExtra("marital"));
 				maritalStatusId = data.getStringExtra("maritalId");
-				maritalStatusStr = data.getStringExtra("marital");
+			//	maritalStatusStr = data.getStringExtra("marital");
 				break;
 				
 			case Constant.HEALTH:
 				healthStatusValue.setText(data.getStringExtra("health"));
 				healthStatusId = data.getStringExtra("healthId");
-				healthStatusStr = data.getStringExtra("health");
+			//	healthStatusStr = data.getStringExtra("health");
 				break;
 			}
 		}
@@ -578,7 +578,7 @@ public class BasicInfoEditActivity extends BaicActivity {
 	//	params.add(new BasicNameValuePair("CardId", cardIdValue.getText().toString()));
 		params.add(new BasicNameValuePair("CurrentCity", currentCityValue.getText().toString()));
 	//	params.add(new BasicNameValuePair("DriveCode", driveCodeValue.getText().toString()));
-		if(basicInfoMap==null||!basicInfoMap.containsKey("推荐自己")){
+		if(basicInfoMap==null||!basicInfoMap.containsKey(" ")){
 			params.add(new BasicNameValuePair("RecContent", " "));
 		}
 		

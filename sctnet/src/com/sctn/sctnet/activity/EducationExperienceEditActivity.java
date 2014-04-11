@@ -808,7 +808,7 @@ public class EducationExperienceEditActivity extends BaicActivity {
 		params.add(new BasicNameValuePair("DegreeCert", degreecertValue.getText().toString()));
 		params.add(new BasicNameValuePair("Degree", degreeValue.getText().toString()));
 
-		if (educationExperienceMap == null || !educationExperienceMap.containsKey("推荐自己")) {
+		if (educationExperienceMap == null || !educationExperienceMap.containsKey(" ")) {
 			params.add(new BasicNameValuePair("RecContent", " "));
 		}
 		if (!firstLanguageId.equals("")) {

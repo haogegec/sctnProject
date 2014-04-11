@@ -64,7 +64,10 @@ public class SelectCurrentIndustryActivity extends BaicActivity {
 		initIntent();
 		if(!StringUtil.isBlank(flag)&&flag.equals("education")){
 			super.setTitleBar("选择专业", View.VISIBLE, View.GONE);
-		}else{
+		}else if(!StringUtil.isBlank(flag)&&flag.equals("jobintent")){
+			super.setTitleBar("选择预从事行业", View.VISIBLE, View.GONE);
+		}
+		else{
 			super.setTitleBar("选择目前就职的行业", View.VISIBLE, View.GONE);
 		}
 		
@@ -199,7 +202,7 @@ public class SelectCurrentIndustryActivity extends BaicActivity {
                
 				Intent intent = getIntent();
 				intent.putExtra("currentIndustry", listItems.get(position).get("value"));
-				intent.putExtra("currentIndustryId", listItems.get(position).get("key"));
+				intent.putExtra("currentIndustryId", listItems.get(position).get("id"));
 				setResult(RESULT_OK, intent);
 				finish();
 

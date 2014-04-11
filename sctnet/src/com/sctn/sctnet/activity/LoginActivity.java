@@ -76,17 +76,19 @@ public class LoginActivity extends BaicActivity {
 		password = etPassword.getText().toString();
 		
 		if(StringUtil.isBlank(userName)&&StringUtil.isBlank(password)) {
-			Toast.makeText(getApplicationContext(), "用户名和密码不能为空！",
-					Toast.LENGTH_SHORT).show();
+			
+			response = StringUtil.getAppException4MOS("用户名和密码不能为空！");
+			LoginActivity.this.sendExceptionMsg(response);
 			return;
 		}else if(StringUtil.isBlank(userName)) {
 			
-			Toast.makeText(getApplicationContext(), "用户名不能为空！",
-					Toast.LENGTH_SHORT).show();
+			response = StringUtil.getAppException4MOS("用户名不能为空！");
+			LoginActivity.this.sendExceptionMsg(response);
 			return;
+			
 		}else if(StringUtil.isBlank(password)) {
-			Toast.makeText(getApplicationContext(), "密码不能为空！",
-					Toast.LENGTH_SHORT).show();
+			response = StringUtil.getAppException4MOS("密码不能为空！");
+			LoginActivity.this.sendExceptionMsg(response);
 			return;
 		}
 		try {

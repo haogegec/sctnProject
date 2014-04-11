@@ -38,6 +38,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.Utils.StringUtil;
 import com.sctn.sctnet.contants.Constant;
+import com.sctn.sctnet.view.CustomDialog;
 import com.sctn.sctnet.view.MyTextView;
 import com.sctn.sctnet.view.PinnedHeaderListView;
 import com.sctn.sctnet.view.PinnedHeaderListView.PinnedHeaderAdapter;
@@ -372,10 +373,22 @@ public class SelectIndustryActivity extends BaicActivity {
 				public void onClick(View v) {
 					if(((CheckBox)v).isChecked()){
 						if(checkBoxState.size() >= 5){
-							new AlertDialog.Builder(SelectIndustryActivity.this)
-							.setMessage("最多可以选择5个行业，不要太贪心哦")
-							.setPositiveButton("确定", null)
-							.show();
+						
+							final CustomDialog dialog = new CustomDialog(SelectIndustryActivity.this, R.style.CustomDialog);
+//							dialog.setCanceledOnTouchOutside(false);// 点击dialog外边，对话框不会消失，按返回键对话框消失
+						//	dialog.setCancelable(false);// 点击dialog外边、按返回键 对话框都不会消失
+							dialog.setTitle("友情提示");
+							dialog.setMessage("最多可以选择5个行业，不要太贪心哦");
+							
+							dialog.setOnPositiveListener("确定", new OnClickListener(){
+
+								@Override
+								public void onClick(View v) {
+									dialog.dismiss();
+								}
+								
+							});
+							dialog.show();
 							((CheckBox)v).setChecked(false);
 						} else {
 							checkBoxState.put(position, ((CheckBox)v).isChecked());

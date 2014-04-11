@@ -232,7 +232,7 @@ public class RecruitmentSearchResultActivity extends BaicActivity{
 					for (int j = 0; j < count; j++) {
 						
 						Map<String, Object> item = new HashMap<String, Object>();
-						item.put("recruitment_week", resultJsonArray.getJSONObject(j).get("weekTime"));
+						item.put("recruitment_week", resultJsonArray.getJSONObject(j).get("weektime"));
 						item.put("recruitment_name", resultJsonArray.getJSONObject(j).get("siterecruitmentname"));
 						item.put("recruitment_time",resultJsonArray.getJSONObject(j).get("holddate").toString().substring(0,10));
 						item.put("recruitment_id", resultJsonArray.getJSONObject(j).get("recruitmentid"));

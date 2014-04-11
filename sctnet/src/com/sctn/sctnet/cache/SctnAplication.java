@@ -19,6 +19,7 @@ import android.app.Application;
 import cn.jpush.android.api.JPushInterface;
 
 import com.sctn.sctnet.contants.Constant;
+import com.sctn.sctnet.exception.CrashHandler;
 
 public class SctnAplication extends Application{
 
@@ -34,6 +35,10 @@ public class SctnAplication extends Application{
 		
 		JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
 	    JPushInterface.init(this);     		// 初始化 JPush
+	    
+	 // 捕获程序崩溃日志，并将日志发送到服务端
+//		 CrashHandler crashHandler = CrashHandler.getInstance();
+//		 crashHandler.init(getApplicationContext());
 	}
 	
 	public static SctnAplication getInstance(){

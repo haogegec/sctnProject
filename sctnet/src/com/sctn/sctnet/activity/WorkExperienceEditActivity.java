@@ -158,7 +158,7 @@ public class WorkExperienceEditActivity extends BaicActivity{
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(WorkExperienceEditActivity.this,WorkPerformanceEditActivity.class);
-				intent.putExtra("workperformanceStr", workperformanceStr);
+				intent.putExtra("workperformanceStr", workperformanceValue.getText().toString());
 				startActivityForResult(intent,Constant.WORKPERFORMANCE_REQUEST_CODE);
 			}
 			
@@ -208,7 +208,7 @@ public class WorkExperienceEditActivity extends BaicActivity{
 		params.add(new BasicNameValuePair("WorkExperience",workexperienceValue.getText().toString()));
 		params.add(new BasicNameValuePair("WorkPerformance",workperformanceValue.getText().toString()));
 		
-		if(workExperienceMap==null||!workExperienceMap.containsKey("推荐自己")){
+		if(workExperienceMap==null||!workExperienceMap.containsKey(" ")){
 			params.add(new BasicNameValuePair("RecContent", " "));
 		}
 		

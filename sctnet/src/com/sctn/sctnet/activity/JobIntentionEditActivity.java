@@ -158,7 +158,7 @@ public class JobIntentionEditActivity extends BaicActivity {
 				postValue.setText(postStr);
 			}
 			if (jobIntentionMap.containsKey("企业性质")) {
-				companyTypeStr = jobIntentionMap.get("企业类型");
+				companyTypeStr = jobIntentionMap.get("企业性质");
 				companyTypeValue.setText(companyTypeStr);
 			}
 			if (jobIntentionMap.containsKey("月薪要求")) {
@@ -357,6 +357,7 @@ public class JobIntentionEditActivity extends BaicActivity {
 		newPersonalExperienceMap.put("工作地区", workAreaValue.getText().toString());
 		newPersonalExperienceMap.put("工作性质", workStateValue.getText().toString());
 		newPersonalExperienceMap.put("预从事行业", workmannerValue.getText().toString());
+		newPersonalExperienceMap.put("预从事岗位", workmannerValue.getText().toString());
 		newPersonalExperienceMap.put("企业性质", companyTypeValue.getText().toString());
 		newPersonalExperienceMap.put("月薪要求", wageValue.getText().toString());
 		newPersonalExperienceMap.put("住房要求", housewhereValue.getText().toString());
@@ -626,34 +627,34 @@ public class JobIntentionEditActivity extends BaicActivity {
 				break;
 
 			case Constant.CURRENT_INDUSTRY_REQUEST_CODE:
-				industry = data.getStringExtra("currentIndustry");
+				String industry1 = data.getStringExtra("currentIndustry");
 				industryId = data.getStringExtra("currentIndustryId");
-				workmannerValue.setText(industry);
+				workmannerValue.setText(industry1);
 
 				break;
 			case Constant.CURRENT_POSITION_REQUEST_CODE:
-				postStr = data.getStringExtra("postStr");
+				String postStr1 = data.getStringExtra("postStr");
 				postId = data.getStringExtra("postId");
-				postValue.setText(postStr);
+				postValue.setText(postStr1);
 
 				break;
 				
 			case Constant.WORK_STATE:
 				workStateValue.setText(data.getStringExtra("workState"));
 				workStateId = data.getStringExtra("workStateId");
-				workStateStr = data.getStringExtra("workState");
+				//workStateStr = data.getStringExtra("workState");
 				break;
 				
 			case Constant.PROPERTY:
 				companyTypeValue.setText(data.getStringExtra("companyProperty"));
 				companyTypeId = data.getStringExtra("companyPropertyId");
-				companyTypeStr = data.getStringExtra("companyProperty");
+				//companyTypeStr = data.getStringExtra("companyProperty");
 				break;
 				
 			case Constant.WAGE_RANGE:
 				wageValue.setText(data.getStringExtra("wage"));
 				wageId = data.getStringExtra("wageId");
-				wageStr = data.getStringExtra("wage");
+				//wageStr = data.getStringExtra("wage");
 				break;
 			}
 		}

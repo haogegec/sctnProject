@@ -174,7 +174,7 @@ public class ContactWayEditActivity extends BaicActivity{
 		params.add(new BasicNameValuePair("QQMsn", qqmsnValue.getText().toString()));
 		params.add(new BasicNameValuePair("UsePhone", userphoneValue.getText().toString()));
 		
-		if(contactWayMap==null||!contactWayMap.containsKey("推荐自己")){
+		if(contactWayMap==null||!contactWayMap.containsKey(" ")){
 			params.add(new BasicNameValuePair("RecContent", " "));
 		}
 		

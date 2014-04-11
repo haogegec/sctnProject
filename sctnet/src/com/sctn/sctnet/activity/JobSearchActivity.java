@@ -54,6 +54,8 @@ public class JobSearchActivity extends BaicActivity {
 	
 	private List<Map<String, Object>> logData = new ArrayList<Map<String, Object>>();
 	
+	private LinearLayout.LayoutParams littleTitlep;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -140,7 +142,7 @@ public class JobSearchActivity extends BaicActivity {
 		    	for(int i = begin; i >= end; i--){
 					RelativeLayout layout = (RelativeLayout)getLayoutInflater().inflate(R.layout.job_search_item, null);
 					final Map<String,Object> map = logData.get(i);
-					ItemView jobSearchLogItem = (ItemView) layout.findViewById(R.id.job_search_log_item);
+					ItemView jobSearchLogItem = (ItemView) layout.getChildAt(0);
 					jobSearchLogItem.setBackground(R.drawable.item_up_bg);
 					jobSearchLogItem.setIconImageViewResource(R.drawable.home_btn_normal);
 					jobSearchLogItem.setLabel(map.get("workAreaName")+"+"+map.get("jobClassName")+"+"+map.get("needProfessionName"));
@@ -149,8 +151,8 @@ public class JobSearchActivity extends BaicActivity {
 					jobSearchLogItem.setDetailImageViewResource(R.drawable.detail);
 					jobSearchLogItem.setIconImageVisibility(View.GONE);
 			        
-					search_history_layout.addView(layout,index++);
-					layout.setOnClickListener(new View.OnClickListener() {
+					
+					jobSearchLogItem.getRelativeLayout().setOnClickListener(new View.OnClickListener() {
 						
 						@Override
 						public void onClick(View v) {
@@ -168,6 +170,8 @@ public class JobSearchActivity extends BaicActivity {
 							finish();
 						}
 					});
+					
+					search_history_layout.addView(layout, littleTitlep);
 				}
 		    }
             
@@ -208,6 +212,10 @@ public class JobSearchActivity extends BaicActivity {
 		//初始化本地数据库
 	    DBHelper dbHelper = new DBHelper(this,"jobSearchLog");
         database = dbHelper.getWritableDatabase();
+        
+        littleTitlep = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.FILL_PARENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT);
 	}
 
 	@Override
