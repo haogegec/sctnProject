@@ -40,6 +40,7 @@ import com.sctn.sctnet.entity.LoginInfo;
 import com.sctn.sctnet.entity.ResumeInfo;
 import com.sctn.sctnet.httpConnect.AsyncBitmapLoader;
 import com.sctn.sctnet.httpConnect.AsyncBitmapLoader.ImageCallBack;
+import com.sctn.sctnet.view.CustomDialog;
 
 /**
  * 简历管理界面
@@ -312,20 +313,51 @@ public class ResumeManageActivity extends BaicActivity {
 			@Override
 			public void onClick(View v) {
 
-				new AlertDialog.Builder(ResumeManageActivity.this).setTitle("提示").setMessage("确定要注销吗？").setPositiveButton("确定", new android.content.DialogInterface.OnClickListener() {
+//				new AlertDialog.Builder(ResumeManageActivity.this).setTitle("提示").setMessage("确定要注销吗？").setPositiveButton("确定", new android.content.DialogInterface.OnClickListener() {
+//					@Override
+//					public void onClick(DialogInterface dialog, int which) {
+//						// 将本地保存的登录信息清空
+//						LoginInfo.logOut();
+//						// ->直接跳转到 HomeActivity(设置成单例) 同时清空栈中 HomeActivity 之前的
+//						// Activity
+//						Toast.makeText(ResumeManageActivity.this, "注销成功", Toast.LENGTH_SHORT).show();
+//						Intent intent = new Intent(ResumeManageActivity.this, HomeActivity.class);
+//		//				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // 利用ClearTop标志
+//						startActivity(intent);
+//						finish();
+//					}
+//				}).setNegativeButton("取消", null).show();
+//
+//			}
+//		});
+
+				final CustomDialog dialog = new CustomDialog(ResumeManageActivity.this, R.style.CustomDialog);
+//				dialog.setCanceledOnTouchOutside(false);// 点击dialog外边，对话框不会消失，按返回键对话框消失
+				dialog.setCancelable(false);// 点击dialog外边、按返回键 对话框都不会消失
+				dialog.setTitle("友情提示");
+				dialog.setMessage("确定要注销吗？");
+				dialog.setOnPositiveListener("确定",new OnClickListener(){
+
 					@Override
-					public void onClick(DialogInterface dialog, int which) {
+					public void onClick(View v) {
 						// 将本地保存的登录信息清空
 						LoginInfo.logOut();
-						// ->直接跳转到 HomeActivity(设置成单例) 同时清空栈中 HomeActivity 之前的
-						// Activity
 						Toast.makeText(ResumeManageActivity.this, "注销成功", Toast.LENGTH_SHORT).show();
 						Intent intent = new Intent(ResumeManageActivity.this, HomeActivity.class);
-		//				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // 利用ClearTop标志
 						startActivity(intent);
 						finish();
 					}
-				}).setNegativeButton("取消", null).show();
+					
+				});
+				dialog.setOnNegativeListener("取消", new OnClickListener(){
+
+					@Override
+					public void onClick(View v) {
+						dialog.dismiss();
+					}
+					
+				});
+				dialog.show();
 
 			}
 		});

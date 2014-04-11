@@ -4,14 +4,18 @@ import java.io.File;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.provider.SyncStateContract.Constants;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.sctn.sctnet.R;
 import com.sctn.sctnet.contants.Constant;
 
 public class CameraUtil {
@@ -47,32 +51,87 @@ public class CameraUtil {
 	}
 
 	public void showUplaodImageDialog() {
-		new AlertDialog.Builder(mActivity).setTitle(getDialogTitle()).setItems(items, new DialogInterface.OnClickListener() {
+//		new AlertDialog.Builder(mActivity).setTitle(getDialogTitle()).setItems(items, new DialogInterface.OnClickListener() {
+//			@Override
+//			public void onClick(DialogInterface dialog, int which) {
+//				switch (which) {
+//				case 0:
+//					Intent intentFromGallery = new Intent();
+//					intentFromGallery.setType("image/*"); // 设置文件类型
+//					intentFromGallery.setAction(Intent.ACTION_GET_CONTENT);
+//					mActivity.startActivityForResult(intentFromGallery, Constant.IMAGE_REQUEST_CODE);
+//					break;
+//				case 1:
+//					Intent intentFromCapture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//					// 判断存储卡是否可以用，可用进行存储
+//					if (SDCardUtil.IsSDCardExist()) {
+//						intentFromCapture.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(), IMAGE_FILE_NAME)));
+//					}
+//					mActivity.startActivityForResult(intentFromCapture, Constant.CAMERA_REQUEST_CODE);
+//					break;
+//				}
+//			}
+//		}).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//			@Override
+//			public void onClick(DialogInterface dialog, int which) {
+//				dialog.dismiss();
+//			}
+//		}).show();
+		
+		
+		final AlertDialog dialog = new AlertDialog.Builder(
+				mActivity).create();	
+		dialog.show();//该代码一定要放在给dialog设置自定义view的前面
+		
+	    Window window = dialog.getWindow();
+	    window.setContentView(R.layout.camera_alterdialog_layout);
+	    
+	    TextView imageText = (TextView) window.findViewById(R.id.item1);
+	    TextView cameraText = (TextView) window.findViewById(R.id.item2);
+	    TextView cancel = (TextView) window.findViewById(R.id.dialog_button_cancel);
+	    
+	    imageText.setOnClickListener(new OnClickListener(){
+
 			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				switch (which) {
-				case 0:
-					Intent intentFromGallery = new Intent();
-					intentFromGallery.setType("image/*"); // 设置文件类型
-					intentFromGallery.setAction(Intent.ACTION_GET_CONTENT);
-					mActivity.startActivityForResult(intentFromGallery, Constant.IMAGE_REQUEST_CODE);
-					break;
-				case 1:
-					Intent intentFromCapture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-					// 判断存储卡是否可以用，可用进行存储
-					if (SDCardUtil.IsSDCardExist()) {
-						intentFromCapture.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(), IMAGE_FILE_NAME)));
-					}
-					mActivity.startActivityForResult(intentFromCapture, Constant.CAMERA_REQUEST_CODE);
-					break;
-				}
-			}
-		}).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
+			public void onClick(View v) {
 				dialog.dismiss();
+				Intent intentFromGallery = new Intent();
+				intentFromGallery.setType("image/*"); // 设置文件类型
+				intentFromGallery.setAction(Intent.ACTION_GET_CONTENT);
+				
+				mActivity.startActivityForResult(intentFromGallery, Constant.IMAGE_REQUEST_CODE);
+				
 			}
-		}).show();
+	    	
+	    });
+	    
+	    cameraText.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				
+				dialog.dismiss();
+				Intent intentFromCapture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+				// 判断存储卡是否可以用，可用进行存储
+				if (SDCardUtil.IsSDCardExist()) {
+					intentFromCapture.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(), IMAGE_FILE_NAME)));
+				}
+				
+				mActivity.startActivityForResult(intentFromCapture, Constant.CAMERA_REQUEST_CODE);
+				
+			}
+	    	
+	    });
+	    cancel.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				
+				dialog.dismiss();
+				
+			}
+	    	
+	    });
 	}
 
 	/*
@@ -90,7 +149,7 @@ public class CameraUtil {
 			break;
 		case Constant.CAMERA_REQUEST_CODE:
 			if (SDCardUtil.IsSDCardExist()) {
-				File tempFile = new File(Environment.getExternalStorageDirectory() + "/sctnet/" + IMAGE_FILE_NAME);
+				File tempFile = new File(Environment.getExternalStorageDirectory(),IMAGE_FILE_NAME);
 				startPhotoZoom(Uri.fromFile(tempFile));
 			} else {
 				Toast.makeText(mActivity, "未找到存储卡，无法存储照片！", Toast.LENGTH_LONG).show();
