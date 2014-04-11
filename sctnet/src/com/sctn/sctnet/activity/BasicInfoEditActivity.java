@@ -357,7 +357,7 @@ public class BasicInfoEditActivity extends BaicActivity {
 			@Override
 			public void onClick(View arg0) {
 				
-				requestPeopleThread();
+//				requestPeopleThread();
 
 			}
 

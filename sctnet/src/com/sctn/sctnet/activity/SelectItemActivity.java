@@ -95,9 +95,9 @@ public class SelectItemActivity extends BaicActivity {
 	private String[] wageIds = {"70000100","70000200","70000300","70000400","70000500","70000600","70000700","70000800","70000900","70001000"};
 	private String[] wages = {"1000元以下","1000-1999元","2000-2999元","3000-3999元","4000-4999元","5000-7999元","8000-9999元","10000-19999元","20000元及以上","不限"};
 	
-	
-	
-	
+	// 微机水平
+	private String[] computerLevelIds = {"11010000","11020000","11030000","11040000","11050000","11060000","11070000","11080000","11090000","11100000","11110000"};
+	private String[] computerLevels = {"计算机水平一级","计算机水平二级","计算机水平三级","精通","较好","一般","差","微软认证工程师","思科认证工程师","SUN认证工程师","IBM认证工程师"};
 	
 	
 	
@@ -228,6 +228,14 @@ public class SelectItemActivity extends BaicActivity {
 				map.put("value", wages[i]);
 				listItems.add(map);
 			}
+		} else if ("ComputerLevel".equals(which)) {
+			super.setTitleBar("选择微机水平", View.VISIBLE, View.GONE);
+			for (int i = 0; i < computerLevelIds.length; i++) {
+				Map<String, String> map = new HashMap<String, String>();
+				map.put("id", computerLevelIds[i]);
+				map.put("value", computerLevels[i]);
+				listItems.add(map);
+			}
 		}
 		
 	}
@@ -344,6 +352,12 @@ public class SelectItemActivity extends BaicActivity {
 					Intent intent = getIntent();
 					intent.putExtra("wage", wages[position]);
 					intent.putExtra("wageId", wageIds[position]);
+					setResult(RESULT_OK, intent);
+					finish();
+				} else if ("ComputerLevel".equals(which)) {
+					Intent intent = getIntent();
+					intent.putExtra("computerLevel", computerLevels[position]);
+					intent.putExtra("computerLevelId", computerLevelIds[position]);
 					setResult(RESULT_OK, intent);
 					finish();
 				}

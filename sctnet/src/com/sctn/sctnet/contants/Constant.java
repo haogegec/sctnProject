@@ -112,6 +112,10 @@ public class Constant {
 	public static final int COMPUTER_LEVEL = 34;
 	public static final int WORK_STATE = 35;
 	public static final int WAGE_RANGE = 36;
+	public static final int FIRST_LANGUAGE = 51;
+	public static final int FIRST_LANGUAGE_LEVEL = 52;
+	public static final int SECOND_LANGUAGE = 53;
+	public static final int SECOND_LANGUAGE_LEVEL = 54;
 
 	// 职位搜索按照类型来查询
 	public static final String TYPE_JOB_NAME = "1";// 按照职位名称搜索
