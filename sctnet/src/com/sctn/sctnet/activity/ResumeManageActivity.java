@@ -103,6 +103,8 @@ public class ResumeManageActivity extends BaicActivity {
 	private float i = 0;
 
 	private SharedPreferences sharedPreferences;
+	
+	private String isOpen;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -263,6 +265,11 @@ public class ResumeManageActivity extends BaicActivity {
 			@Override
 			public void onClick(View arg0) {
 
+				if(isOpen.equals("0")){
+					isOpen = "1";
+				}else{
+					isOpen = "0";
+				}
 				displayOrNotTread();
 
 			}
@@ -277,6 +284,11 @@ public class ResumeManageActivity extends BaicActivity {
 
 				isPublicImg.setPressed(true);
 
+				if(isOpen.equals("0")){
+					isOpen = "1";
+				}else{
+					isOpen = "0";
+				}
 				displayOrNotTread();
 
 			}
@@ -928,14 +940,16 @@ public class ResumeManageActivity extends BaicActivity {
 		resumeFinishStatusValue.setText(finishStatus);
 		// resumePublicValue.setText(resumeInfo.getIshide() + "");
 
-		if (resumeInfo.getIshide() == 0) {
+		if (resumeInfo.getIsresumehide() == 1) {
 			isPublicImg.setImageResource(R.drawable.resume_is_secret_bg);
 			resumePublicValue.setText("公开");
 			isPublicBtn.setText("隐藏");
+			isOpen = "1";
 		} else {
 			isPublicImg.setImageResource(R.drawable.resume_is_public_bg);
 			resumePublicValue.setText("隐藏");
 			isPublicBtn.setText("公开");
+			isOpen = "0";
 
 		}
 
@@ -1119,7 +1133,7 @@ public class ResumeManageActivity extends BaicActivity {
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
 			params.add(new BasicNameValuePair("Userid", userId + ""));
 			// params.add(new BasicNameValuePair("Userid",100020+""));
-			params.add(new BasicNameValuePair("IsResumeHide", "1"));// 1是显示，0是隐藏
+			params.add(new BasicNameValuePair("IsResumeHide", isOpen));// 1是显示，0是隐藏
 			result = getPostHttpContent(url, params);
 
 			if (StringUtil.isExcetionInfo(result)) {

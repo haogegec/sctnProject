@@ -285,14 +285,14 @@ public class WorkExperienceEditActivity extends BaicActivity{
 			switch (requestCode) {
 
 				case Constant.CURRENT_INDUSTRY_REQUEST_CODE: 
-					currentIndustry = data.getStringExtra("currentIndustry");
+				//	currentIndustry = data.getStringExtra("currentIndustry");
 					currentIndustryId = data.getStringExtra("currentIndustryId");
-					currentprofessionalValue.setText(currentIndustry);
+					currentprofessionalValue.setText(data.getStringExtra("currentIndustry"));
 				break;
 				case Constant.JOB_REQUEST_CODE: 
 					jobId = data.getStringExtra("jobId");
-					job = data.getStringExtra("job");
-					adminpostValue.setText(job);
+					//job = data.getStringExtra("job");
+					adminpostValue.setText(data.getStringExtra("job"));
 					break;
 				case Constant.WORKPERFORMANCE_REQUEST_CODE:
 				    
