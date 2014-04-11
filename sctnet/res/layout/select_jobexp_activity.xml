@@ -22,14 +22,24 @@
             android:gravity="center_vertical"
             android:orientation="horizontal" >
 
+            <TextView 
+                android:id="@+id/nessary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nessary"
+                android:layout_marginLeft="10dp"
+                android:layout_alignParentLeft="true"
+                android:paddingRight="3dp"
+                android:textColor="@color/red"
+                />
+            
             <TextView
                 android:id="@+id/tv_workingArea"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textColor="@color/lightBlack"
+                android:layout_toRightOf="@+id/nessary"
                 android:text="工作地区" />
 
             <TextView
@@ -67,14 +77,24 @@
             android:gravity="center_vertical"
             android:orientation="horizontal" >
 
+            <TextView 
+                android:id="@+id/nessary2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nessary"
+                android:layout_marginLeft="10dp"
+                android:layout_alignParentLeft="true"
+                android:paddingRight="3dp"
+                android:textColor="@color/red"
+                />
+            
             <TextView
                 android:id="@+id/tv_workingYears"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textColor="@color/lightBlack"
+                android:layout_toRightOf="@+id/nessary2"
                 android:text="工龄" />
 
             <TextView
@@ -112,14 +132,24 @@
             android:gravity="center_vertical"
             android:orientation="horizontal" >
 
+            <TextView 
+                android:id="@+id/nessary3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nessary"
+                android:layout_marginLeft="10dp"
+                android:layout_alignParentLeft="true"
+                android:paddingRight="3dp"
+                android:textColor="@color/red"
+                />
+            
             <TextView
                 android:id="@+id/tv_industryCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textColor="@color/lightBlack"
+                android:layout_toRightOf="@+id/nessary3"
                 android:text="目前就职的行业" />
 
             <TextView
@@ -157,14 +187,24 @@
             android:gravity="center_vertical"
             android:orientation="horizontal" >
 
+            <TextView 
+                android:id="@+id/nessary4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nessary"
+                android:layout_marginLeft="10dp"
+                android:layout_alignParentLeft="true"
+                android:paddingRight="3dp"
+                android:textColor="@color/red"
+                />
+            
             <TextView
                 android:id="@+id/tv_currentIndustry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textColor="@color/lightBlack"
+                android:layout_toRightOf="@+id/nessary4"
                 android:text="目前就职的职位类别" />
 
             <TextView
@@ -202,14 +242,24 @@
             android:gravity="center_vertical"
             android:orientation="horizontal" >
 
+            <TextView 
+                android:id="@+id/nessary5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nessary"
+                android:layout_marginLeft="10dp"
+                android:layout_alignParentLeft="true"
+                android:paddingRight="3dp"
+                android:textColor="@color/red"
+                />
+            
             <TextView
                 android:id="@+id/tv_totalWorkingTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textColor="@color/lightBlack"
+                android:layout_toRightOf="@+id/nessary5"
                 android:text="该行业累计工作时间" />
 
             <TextView
@@ -250,11 +300,21 @@
    			android:focusableInTouchMode="true"
              >
 
+            <TextView 
+                android:id="@+id/nessary6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nessary"
+                android:layout_marginLeft="10dp"
+                android:layout_alignParentLeft="true"
+                android:paddingRight="3dp"
+                android:textColor="@color/red"
+                />
+            
             <TextView
                 android:id="@+id/tv_job"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textColor="@color/lightBlack"
                 android:text="职务" />
@@ -283,14 +343,24 @@
             android:gravity="center_vertical"
             android:orientation="horizontal" >
 
+            <TextView 
+                android:id="@+id/nessary7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nessary"
+                android:layout_marginLeft="10dp"
+                android:layout_alignParentLeft="true"
+                android:paddingRight="3dp"
+                android:textColor="@color/red"
+                />
+            
             <TextView
                 android:id="@+id/tv_jobExp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textColor="@color/lightBlack"
+                android:layout_toRightOf="@+id/nessary7"
                 android:text="担任现职务时间" />
 
             <TextView
@@ -377,11 +447,21 @@
    			android:focusableInTouchMode="true"
              >
 
+            <TextView 
+                android:id="@+id/nessary8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nessary"
+                android:layout_marginLeft="10dp"
+                android:layout_alignParentLeft="true"
+                android:paddingRight="3dp"
+                android:textColor="@color/red"
+                />
+            
             <TextView
                 android:id="@+id/tv_monthlySalary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textColor="@color/lightBlack"
                 android:text="月薪" />
@@ -537,11 +617,21 @@
             android:focusable="true"  
    			android:focusableInTouchMode="true" >
 
+            <TextView 
+                android:id="@+id/nessary9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nessary"
+                android:layout_marginLeft="10dp"
+                android:layout_alignParentLeft="true"
+                android:paddingRight="3dp"
+                android:textColor="@color/red"
+                />
+            
             <TextView
                 android:id="@+id/tv_annualSalary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textColor="@color/lightBlack"
                 android:text="年薪" />
@@ -623,14 +713,24 @@
             android:gravity="center_vertical"
             android:orientation="horizontal" >
 
+            <TextView 
+                android:id="@+id/nessary10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nessary"
+                android:layout_marginLeft="10dp"
+                android:layout_alignParentLeft="true"
+                android:paddingRight="3dp"
+                android:textColor="@color/red"
+                />
+            
             <TextView
                 android:id="@+id/tv_scale"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textColor="@color/lightBlack"
+                android:layout_toRightOf="@+id/nessary10"
                 android:text="现单位规模" />
 
             <TextView
@@ -668,14 +768,24 @@
             android:gravity="center_vertical"
             android:orientation="horizontal" >
 
+            <TextView 
+                android:id="@+id/nessary11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nessary"
+                android:layout_marginLeft="10dp"
+                android:layout_alignParentLeft="true"
+                android:paddingRight="3dp"
+                android:textColor="@color/red"
+                />
+            
             <TextView
                 android:id="@+id/tv_property"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textColor="@color/lightBlack"
+                android:layout_toRightOf="@+id/nessary11"
                 android:text="现单位性质" />
 
             <TextView

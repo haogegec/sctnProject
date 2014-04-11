@@ -192,5 +192,8 @@
     <string name="forget_password_user_name_hint">请输入您的用户名</string>
     <string name="forget_password_email_hint">请输入注册时使用的邮箱</string>
     <string name="forget_password_ok">确定</string>
+    
+    <!--  -->
+    <string name="nessary">*</string>
 
 </resources>

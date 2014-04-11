@@ -95,14 +95,17 @@ public class SelectJobExpActivity extends BaicActivity {
 	private String workingAreaProvinceId; // 工作地区省份ID
 	private String workingAreaCity;// 工作地区-城市
 	private String workingAreaProvince;// 工作地区-省份
+	private String workingYearId;// 工龄ID
 	private String workingYear;// 工龄
 	private String currentIndustryId;// 目前就职的行业的ID
 	private String currentIndustry;// 目前就职的行业
 	private String jobId;// 目前的职位类别ID
 	private String job;// 目前的职位类别
 	private String totalworkingtime;// 该行业累计工作时间
+	private String totalworkingtimeId;// 该行业累计工作时间ID
 	private String position;// 职务
 	private String jobExp;// 担任现职务的时间
+	private String jobExpId;// 担任现职务的时间ID
 	private String monthlySalary;// 月薪
 	private String dividend;// 分红
 	private String annualSalary;// 年薪
@@ -131,13 +134,16 @@ public class SelectJobExpActivity extends BaicActivity {
 		workingAreaCityId = intent.getStringExtra("workingAreaCityId");
 		workingAreaCity = intent.getStringExtra("workingAreaCity");
 		workingYear = intent.getStringExtra("workingYear");
+		workingYearId = intent.getStringExtra("workingYearId");
 		currentIndustryId = intent.getStringExtra("currentIndustryId");
 		currentIndustry = intent.getStringExtra("currentIndustry");
 		jobId = intent.getStringExtra("jobId");
 		job = intent.getStringExtra("job");
 		totalworkingtime = intent.getStringExtra("totalworkingtime");
+		totalworkingtimeId = intent.getStringExtra("totalworkingtimeId");
 		position = intent.getStringExtra("position");
 		jobExp = intent.getStringExtra("jobExp");
+		jobExpId = intent.getStringExtra("jobExpId");
 		monthlySalary = intent.getStringExtra("monthlySalary");
 		dividend = intent.getStringExtra("dividend");
 		annualSalary = intent.getStringExtra("annualSalary");
@@ -155,6 +161,7 @@ public class SelectJobExpActivity extends BaicActivity {
 		tv_currentIndustry2.setText(job);
 		tv_totalWorkingTime2.setText(totalworkingtime);
 		et_job2.setText(position);
+		tv_jobExp2.setText(jobExp);
 		et_monthlySalary2.setText(monthlySalary);
 		et_dividend2.setText(dividend);
 		et_annualSalary2.setText(annualSalary);
@@ -419,13 +426,16 @@ public class SelectJobExpActivity extends BaicActivity {
 					intent.putExtra("workingAreaCityId", workingAreaCityId);
 					intent.putExtra("workingAreaCity", workingAreaCity);
 					intent.putExtra("workingYear", workingYear);
+					intent.putExtra("workingYearId", workingYearId);
 					intent.putExtra("currentIndustry", currentIndustry);
 					intent.putExtra("currentIndustryId", currentIndustryId);
 					intent.putExtra("job", job);
 					intent.putExtra("jobId", jobId);
 					intent.putExtra("totalworkingtime", totalworkingtime);
+					intent.putExtra("totalworkingtimeId", totalworkingtimeId);
 					intent.putExtra("position", position);
 					intent.putExtra("jobExp", jobExp);
+					intent.putExtra("jobExpId", jobExpId);
 					intent.putExtra("monthlySalary", monthlySalary);
 					intent.putExtra("dividend", dividend);
 					intent.putExtra("annualSalary", annualSalary);
@@ -627,19 +637,22 @@ public class SelectJobExpActivity extends BaicActivity {
 			case Constant.WORKING_YEARS:
 				
 				tv_workingYears2.setText(data.getStringExtra("workingYear"));
-				workingYear = data.getStringExtra("workingYearId");
+				workingYearId = data.getStringExtra("workingYearId");
+				workingYear = data.getStringExtra("workingYear");
 				break;
 				
 			case Constant.WORK_EXP:
 				
 				tv_jobExp2.setText(data.getStringExtra("workExp"));
-				jobExp = data.getStringExtra("workExpId");
+				jobExp = data.getStringExtra("workExp");
+				jobExpId = data.getStringExtra("workExpId");
 				break;
 
 			case Constant.TOTAL_WORKING_TIME:
 				
 				tv_totalWorkingTime2.setText(data.getStringExtra("totalWorkingTime"));
-				totalworkingtime = data.getStringExtra("totalWorkingTimeId");
+				totalworkingtime = data.getStringExtra("totalWorkingTime");
+				totalworkingtimeId = data.getStringExtra("totalWorkingTimeId");
 				break;
 				
 			case Constant.COMPANY_SCALE:

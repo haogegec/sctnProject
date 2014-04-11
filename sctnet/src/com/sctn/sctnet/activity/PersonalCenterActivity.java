@@ -1,5 +1,7 @@
 package com.sctn.sctnet.activity;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,6 +18,7 @@ import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import cn.jpush.android.api.JPushInterface;
@@ -47,6 +50,7 @@ public class PersonalCenterActivity extends BaicActivity {
 	private ImageView postAppImage;// 职位申请记录控件
 	private ImageView postCollImage;// 职位收藏记录
 	private TextView username;
+	private ScrollView scrollView;
 
 	private String userName;// 登录名
 	private String post = "";// 职位申请记录
@@ -55,7 +59,8 @@ public class PersonalCenterActivity extends BaicActivity {
 	private String invite = "";// 向我发送过面试邀请的公司个数
 	private boolean jobInformationPushAuto;
 	private boolean subscribe;
-	boolean selfSubscribePushAuto;
+	private String logs;// 开关推送设置之后的提示信息
+	private HashSet<String> tags;// 设置tags用的
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +80,8 @@ public class PersonalCenterActivity extends BaicActivity {
 
 	@Override
 	protected void initAllView() {
+		scrollView = (ScrollView) findViewById(R.id.ScrollView);
+		
 		username = (TextView) findViewById(R.id.userNameValue);
 
 		postAppCount = (TextView) findViewById(R.id.postAppCount);
@@ -90,7 +97,7 @@ public class PersonalCenterActivity extends BaicActivity {
 		itemView5 = (ItemView) findViewById(R.id.itemview5);
 
 		jobInformationPushAuto = SharePreferencesUtils.getSharedBooleanData("jobInformationPushAuto");
-		selfSubscribePushAuto = SharePreferencesUtils.getSharedBooleanData("selfSubscribePushAuto");
+		subscribe = SharePreferencesUtils.getSharedBooleanData("subscribe");
 
 		itemView1.setBackground(R.drawable.item_up_bg);
 		itemView1.setIconImageViewResource(R.drawable.personal_readed);
@@ -114,7 +121,7 @@ public class PersonalCenterActivity extends BaicActivity {
 		itemView3.setIconImageViewResource(R.drawable.subscribe);
 		itemView3.setLabel("中心自行定制信息内容推送");
 		itemView3.setLabelTextColor(getResources().getColor(R.color.blue));
-		if (selfSubscribePushAuto) {
+		if (subscribe) {
 			itemView3.setDetailImageViewResource(R.drawable.set_on);
 		} else {
 			itemView3.setDetailImageViewResource(R.drawable.set_off);
@@ -243,7 +250,7 @@ public class PersonalCenterActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View v) {
-				autoPushThread();
+					autoPushThread();
 			}
 
 		});
@@ -253,10 +260,20 @@ public class PersonalCenterActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(PersonalCenterActivity.this, SubscribeActivity.class);
-				startActivityForResult(intent, 100000);
+				subscribe = SharePreferencesUtils.getSharedBooleanData("subscribe");
+				if(subscribe){// true 表示当前是开着，准备关闭
+					closeUserDefinedPushThread();
+				} else {
+					Intent intent = new Intent(PersonalCenterActivity.this, SubscribeActivity.class);
+					startActivityForResult(intent, Constant.SUBSCRIBE_REQUEST_CODE);
+					
+//					Set<String> tags = new HashSet<String>();
+//					tags.add("总经理");
+//					JPushInterface.setTags(PersonalCenterActivity.this, tags, mAliasCallback2);
+				}
+				
+				
 			}
-
 		});
 
 		// 修改密码
@@ -466,17 +483,20 @@ public class PersonalCenterActivity extends BaicActivity {
 				break;
 
 			case Constant.AUTO_PUSH_SUCCESS:
-
 				JPushInterface.setAlias(PersonalCenterActivity.this, PhoneUtil.DEVICE_ID, mAliasCallback);
-
-				if (jobInformationPushAuto) {
-					itemView2.setDetailImageViewResource(R.drawable.set_off);
-					SharePreferencesUtils.setSharedBooleanData("jobInformationPushAuto", false);
-				} else {
-					itemView2.setDetailImageViewResource(R.drawable.set_on);
-					SharePreferencesUtils.setSharedBooleanData("jobInformationPushAuto", true);
-				}
-
+				break;
+				
+			case Constant.AUTO_PUSH_SUCCESS_MODIFY_WIDGET:
+				setAutoPush();
+				break;
+				
+			case Constant.USER_DEFINED_PUSH_SUCCESS:
+				tags = new HashSet<String>();
+				JPushInterface.setTags(PersonalCenterActivity.this, tags, mAliasCallback2);
+				break;
+				
+			case Constant.USER_DEFINED_PUSH_SUCCESS_MODIFY_WIDGET:
+				setUserDefinedPush();
 				break;
 
 			}
@@ -488,6 +508,7 @@ public class PersonalCenterActivity extends BaicActivity {
 	 * 请求完数据，更新界面的数据
 	 */
 	private void updateUI() {
+		scrollView.setVisibility(View.VISIBLE);
 		username.setText(userName);
 		itemView1.setValue("共" + company + "条");
 		itemView5.setValue("共" + invite + "条");
@@ -517,9 +538,8 @@ public class PersonalCenterActivity extends BaicActivity {
 		String url = "appMessageSend.app";
 
 		Message msg = new Message();
-
+		
 		jobInformationPushAuto = SharePreferencesUtils.getSharedBooleanData("jobInformationPushAuto");
-
 		try {
 
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
@@ -528,17 +548,16 @@ public class PersonalCenterActivity extends BaicActivity {
 			params.add(new BasicNameValuePair("DeviceName", "默认设备名称"));
 			params.add(new BasicNameValuePair("DeviceModel", PhoneUtil.MODEL));
 			params.add(new BasicNameValuePair("flag", Constant.PUSH_BY_ALIAS));
-			if (jobInformationPushAuto) {// true表示当前是开着的，正关闭开关
+			if(jobInformationPushAuto){// true表示当前是开着的，正关闭开关
 				params.add(new BasicNameValuePair("AuthPush", "N"));
 			} else {
 				params.add(new BasicNameValuePair("AuthPush", "Y"));
 			}
-			if (subscribe) {// true表示当前是开着的，正关闭开关
-				params.add(new BasicNameValuePair("UserDefinedPush", "N"));
-			} else {
+			if (subscribe) {// true表示当前是开着的
 				params.add(new BasicNameValuePair("UserDefinedPush", "Y"));
+			} else {
+				params.add(new BasicNameValuePair("UserDefinedPush", "N"));
 			}
-			// params.add(new BasicNameValuePair("Tags", "AUTO_PUSH"));
 
 			result = getPostHttpContent(url, params);
 
@@ -567,21 +586,46 @@ public class PersonalCenterActivity extends BaicActivity {
 
 		@Override
 		public void gotResult(int code, String alias, Set<String> tags) {
-			String logs;
+			Message msg = new Message();
 			switch (code) {
 			case 0:
-				logs = "Set tag and alias success";
+				logs = jobInformationPushAuto ? "关闭自动推送":"打开自动推送";
+				msg.what = Constant.AUTO_PUSH_SUCCESS_MODIFY_WIDGET;
+				handler.sendMessage(msg);
 				break;
 
 			case 6002:
-				logs = "Failed to set alias and tags due to timeout. Try again after 60s.";
+				logs = "网络连接超时，请60秒之后重新设置";
 				break;
 
 			default:
-				logs = "Failed with errorCode = " + code;
+				logs = "设置失败，错误代码：" + code;
+				break;
 			}
+		}
 
-			Toast.makeText(getApplicationContext(), logs, Toast.LENGTH_LONG).show();
+	};
+	
+	private final TagAliasCallback mAliasCallback2 = new TagAliasCallback() {
+
+		@Override
+		public void gotResult(int code, String alias, Set<String> tags) {
+			Message msg = new Message();
+			switch (code) {
+			case 0:
+				logs = subscribe ? "关闭订阅":"订阅成功";
+				msg.what = Constant.USER_DEFINED_PUSH_SUCCESS_MODIFY_WIDGET;
+				handler.sendMessage(msg);
+				break;
+
+			case 6002:
+				logs = "网络连接超时，请60秒之后重新设置";
+				break;
+
+			default:
+				logs = "设置失败，错误代码：" + code;
+				break;
+			}
 		}
 
 	};
@@ -592,23 +636,109 @@ public class PersonalCenterActivity extends BaicActivity {
 
 		if (resultCode == RESULT_OK) {
 			switch (requestCode) {
-			case 100000:
-				
-				Set<String> tags = new HashSet<String>();
-				tags.add("总经理");
-				JPushInterface.setTags(PersonalCenterActivity.this, tags, mAliasCallback);
-				
-				if (subscribe) {
-					itemView3.setDetailImageViewResource(R.drawable.set_off);
-					SharePreferencesUtils.setSharedBooleanData("subscribe", false);
-				} else {
-					itemView3.setDetailImageViewResource(R.drawable.set_on);
-					SharePreferencesUtils.setSharedBooleanData("subscribe", true);
+			case Constant.SUBSCRIBE_REQUEST_CODE:
+				ArrayList<String> tagList = new ArrayList<String>();
+				tags = new HashSet<String>();
+				tagList = data.getStringArrayListExtra("tags");
+				for(String tag:tagList){
+					tags.add(tag);
 				}
+				
+				JPushInterface.setTags(PersonalCenterActivity.this, tags, mAliasCallback2);
 				break;
 			}
 		}
 
+	}
+	
+	private void setAutoPush(){
+		Toast.makeText(getApplicationContext(), logs, Toast.LENGTH_SHORT).show();
+		
+		if(jobInformationPushAuto){// true表示当前按钮时开着的，正在关闭
+			itemView2.setDetailImageViewResource(R.drawable.set_off);
+			SharePreferencesUtils.setSharedBooleanData("jobInformationPushAuto", false);
+		} else {
+			itemView2.setDetailImageViewResource(R.drawable.set_on);
+			SharePreferencesUtils.setSharedBooleanData("jobInformationPushAuto", true);
+		}
+	}
+	
+	private void setUserDefinedPush(){
+		Toast.makeText(getApplicationContext(), logs, Toast.LENGTH_SHORT).show();
+		
+		if(subscribe){
+			itemView3.setDetailImageViewResource(R.drawable.set_off);
+			SharePreferencesUtils.setSharedBooleanData("subscribe", false);
+		} else {
+			itemView3.setDetailImageViewResource(R.drawable.set_on);
+			SharePreferencesUtils.setSharedBooleanData("subscribe", true);
+		}
+		
+	}
+	
+	/**
+	 * 关闭订阅
+	 */
+	private void closeUserDefinedPushThread() {
+		Thread mThread = new Thread(new Runnable() {// 启动新的线程，
+					@Override
+					public void run() {
+						closeUserDefinedPush();
+					}
+				});
+		mThread.start();
+	}
+	
+	private void closeUserDefinedPush() {
+		String url = "appMessageSend.app";
+
+		Message msg = new Message();
+
+		jobInformationPushAuto = SharePreferencesUtils.getSharedBooleanData("jobInformationPushAuto");
+		subscribe = SharePreferencesUtils.getSharedBooleanData("subscribe");
+
+		try {
+
+			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
+			params.add(new BasicNameValuePair("DeviceId", PhoneUtil.DEVICE_ID));
+			params.add(new BasicNameValuePair("RegisterrationId", JPushInterface.getRegistrationID(getApplicationContext())));
+			params.add(new BasicNameValuePair("DeviceName", "默认设备名称"));
+			params.add(new BasicNameValuePair("DeviceModel", PhoneUtil.MODEL));
+			params.add(new BasicNameValuePair("flag", Constant.PUSH_BY_TAGS));
+			params.add(new BasicNameValuePair("Tags", ""));
+			if (jobInformationPushAuto) {// 这个true表示按钮时开着的，这块没有关闭的动作，所以传送的是 Y
+				params.add(new BasicNameValuePair("AuthPush", "Y"));
+			} else {
+				params.add(new BasicNameValuePair("AuthPush", "N"));
+			}
+			
+			if(subscribe){// true 表示按钮时开着的，正在关闭
+				params.add(new BasicNameValuePair("UserDefinedPush", "N"));
+			} else {
+				params.add(new BasicNameValuePair("UserDefinedPush", "Y"));
+			}
+
+			result = getPostHttpContent(url, params);
+
+			if (StringUtil.isExcetionInfo(result)) {
+				sendExceptionMsg(result);
+				return;
+			}
+
+			JSONObject responseJsonObject = new JSONObject(result);// 返回结果存放在该json对象中
+			if ("0".equals(responseJsonObject.getString("resultCode"))) {
+				msg.what = Constant.USER_DEFINED_PUSH_SUCCESS;
+				handler.sendMessage(msg);
+			} else {
+				String errorResult = responseJsonObject.getString("result");
+				String err = StringUtil.getAppException4MOS(errorResult);
+				sendExceptionMsg(err);
+			}
+
+		} catch (JSONException e) {
+			String err = StringUtil.getAppException4MOS("解析json出错！");
+			sendExceptionMsg(err);
+		}
 	}
 
 }

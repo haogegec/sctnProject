@@ -130,10 +130,15 @@ public class Constant {
 
 	// 职业信息自动推送设置
 	public static final int AUTO_PUSH_SUCCESS = 210;
+	public static final int AUTO_PUSH_SUCCESS_MODIFY_WIDGET = 212;
 	// 自定义推送内容设置
 	public static final int USER_DEFINED_PUSH_SUCCESS = 211;
+	public static final int USER_DEFINED_PUSH_SUCCESS_MODIFY_WIDGET = 213;
+	
+	public static final int SUBSCRIBE_REQUEST_CODE = 214;
 	
 	public static final String PUSH_BY_ALIAS = "A";// 自动推送
 	public static final String PUSH_BY_TAGS = "T";// 订阅推送
+	
 	
 }

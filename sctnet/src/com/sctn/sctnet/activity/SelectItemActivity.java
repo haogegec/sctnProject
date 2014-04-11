@@ -99,9 +99,13 @@ public class SelectItemActivity extends BaicActivity {
 	private String[] computerLevelIds = {"11010000","11020000","11030000","11040000","11050000","11060000","11070000","11080000","11090000","11100000","11110000"};
 	private String[] computerLevels = {"计算机水平一级","计算机水平二级","计算机水平三级","精通","较好","一般","差","微软认证工程师","思科认证工程师","SUN认证工程师","IBM认证工程师"};
 	
-	
-	
-	
+	// 民族
+	private String[] peopleIds = {"17000100","17000200","17000300","17000400","17000500","17000600","17000700","17000800","17000900","17001100","17001200","17001300","17001400","17001500","17001600","17001700","17001800","17001900","17002000",
+			"17002200","17002300","17002400","17002500","17002600","17002700","17002800","17002900","17003000","17003100","17003200","17003300","17003400","17003500","17003600","17003700","17003800","17003900","17004000",
+			"17004100","17004200","17004300","17004400","17004500","17004600","17004700","17004800","17004900","17005000","17005100","17005200","17005300","17005400","17005500","17005600","17005700","17005800"};
+	private String[] peoples = {"汉族","蒙古族","回族","藏族","维吾尔族","苗族","彝族","壮族","布依族","朝鲜族","满族","侗族","瑶族","白族","土家族","哈尼族","哈萨克族","傣族","黎族",
+			"傈僳族","佤族","畲族","高山族","拉祜族","水族","东乡族","纳西族","景颇族","柯尔克孜族","土族","达斡尔族","仫佬族","羌族","布朗族","撒拉族","毛南族","仡佬族","锡伯族",
+			"阿昌族","普米族","塔吉克族","怒族","乌孜别克族","俄罗斯族","鄂温克族","德昂族","保安族","裕固族","京族","塔塔尔族","独龙族","鄂伦春族","赫哲族","门巴族","珞巴族","基诺族"};
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -236,6 +240,14 @@ public class SelectItemActivity extends BaicActivity {
 				map.put("value", computerLevels[i]);
 				listItems.add(map);
 			}
+		} else if ("People".equals(which)) {
+			super.setTitleBar("选择民族", View.VISIBLE, View.GONE);
+			for (int i = 0; i < peopleIds.length; i++) {
+				Map<String, String> map = new HashMap<String, String>();
+				map.put("id", peopleIds[i]);
+				map.put("value", peoples[i]);
+				listItems.add(map);
+			}
 		}
 		
 	}
@@ -358,6 +370,12 @@ public class SelectItemActivity extends BaicActivity {
 					Intent intent = getIntent();
 					intent.putExtra("computerLevel", computerLevels[position]);
 					intent.putExtra("computerLevelId", computerLevelIds[position]);
+					setResult(RESULT_OK, intent);
+					finish();
+				} else if ("People".equals(which)) {
+					Intent intent = getIntent();
+					intent.putExtra("people", peoples[position]);
+					intent.putExtra("peopleId", peopleIds[position]);
 					setResult(RESULT_OK, intent);
 					finish();
 				}

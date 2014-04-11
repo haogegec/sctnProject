@@ -96,13 +96,16 @@ public class SalarySurveyActivity extends BaicActivity {
 	private String workingAreaCityId;// 工作地区城市ID
 	private String workingAreaCity;// 工作地区城市
 	private String workingYear;// 工龄
+	private String workingYearId;// 工龄
 	private String currentIndustryId;// 目前就职的行业的ID
 	private String currentIndustry;// 目前就职的行业的
 	private String jobId;// 目前的职位类别ID
 	private String job;// 目前的职位类别
 	private String totalworkingtime;// 该行业累计工作时间
+	private String totalworkingtimeId;// 该行业累计工作时间ID
 	private String position;// 职务
 	private String jobExp;// 担任现职务的时间
+	private String jobExpId;// 担任现职务的时间ID
 	private String monthlySalary;// 月薪
 	private String dividend;// 分红
 	private String annualSalary;// 年薪
@@ -159,24 +162,24 @@ public class SalarySurveyActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View arg0) {
-//				showProcessDialog(false);
-//				Thread mThread = new Thread(new Runnable() {// 启动新的线程，
-//							@Override
-//							public void run() {
-//								initDegreeThread();
-//							}
-//						});
-//				mThread.start();
-				
+				// showProcessDialog(false);
+				// Thread mThread = new Thread(new Runnable() {// 启动新的线程，
+				// @Override
+				// public void run() {
+				// initDegreeThread();
+				// }
+				// });
+				// mThread.start();
+
 				Intent intent = new Intent(SalarySurveyActivity.this, SelectItemActivity.class);
 				intent.putExtra("which", "Degree");
 				startActivityForResult(intent, Constant.DEGREE);
-				
-				
+
 			}
 
 		});
 
+		// 性别
 		rg_sex.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 			@Override
@@ -257,13 +260,16 @@ public class SalarySurveyActivity extends BaicActivity {
 					intent.putExtra("workingAreaProvince", workingAreaProvince);
 					intent.putExtra("workingAreaCity", workingAreaCity);
 					intent.putExtra("workingYear", workingYear);
+					intent.putExtra("workingYearId", workingYearId);
 					intent.putExtra("currentIndustry", currentIndustry);
 					intent.putExtra("currentIndustryId", currentIndustryId);
 					intent.putExtra("job", job);
 					intent.putExtra("jobId", jobId);
 					intent.putExtra("totalworkingtime", totalworkingtime);
+					intent.putExtra("totalworkingtimeId", totalworkingtimeId);
 					intent.putExtra("position", position);
 					intent.putExtra("jobExp", jobExp);
+					intent.putExtra("jobExpId", jobExpId);
 					intent.putExtra("monthlySalary", monthlySalary);
 					intent.putExtra("dividend", dividend);
 					intent.putExtra("annualSalary", annualSalary);
@@ -329,6 +335,7 @@ public class SalarySurveyActivity extends BaicActivity {
 		//
 		// });
 
+		// 提交
 		btn_submit.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -362,21 +369,22 @@ public class SalarySurveyActivity extends BaicActivity {
 				}
 			}
 		});
-		
-		super.titleRightButton.setOnClickListener(new OnClickListener(){
+
+		// 薪酬查询
+		super.titleRightButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
+
 				boolean canSalaryQuery = SharePreferencesUtils.getSharedBooleanData("canSalaryQuery");
-				if(canSalaryQuery){
+				if (canSalaryQuery) {
 					Intent intent = new Intent(SalarySurveyActivity.this, SalarySurveyQueryActivity.class);
 					startActivity(intent);
-				}else{
+				} else {
 					Toast.makeText(getApplicationContext(), "请先做个薪酬调查再查询吧~~", Toast.LENGTH_SHORT).show();
 				}
-				
 			}
-			
+
 		});
 	}
 
@@ -385,7 +393,7 @@ public class SalarySurveyActivity extends BaicActivity {
 		if (resultCode == RESULT_OK) {
 			switch (requestCode) {
 
-			case Constant.FOREIGNLANGUAGE_REQUEST_CODE: 
+			case Constant.FOREIGNLANGUAGE_REQUEST_CODE:
 
 				foreignLanguage = data.getStringExtra("foreignLanguage");
 				languageLevel = data.getStringExtra("languageLevel");
@@ -400,22 +408,23 @@ public class SalarySurveyActivity extends BaicActivity {
 				Toast.makeText(getApplicationContext(), "设置成功", Toast.LENGTH_SHORT).show();
 				break;
 
-			
-
-			case Constant.JOBEXP_REQUEST_CODE: 
+			case Constant.JOBEXP_REQUEST_CODE:
 
 				workingAreaProvinceId = data.getStringExtra("workingAreaProvinceId");
 				workingAreaProvince = data.getStringExtra("workingAreaProvince");
 				workingAreaCityId = data.getStringExtra("workingAreaCityId");
 				workingAreaCity = data.getStringExtra("workingAreaCity");
 				workingYear = data.getStringExtra("workingYear");
+				workingYearId = data.getStringExtra("workingYearId");
 				currentIndustryId = data.getStringExtra("currentIndustryId");
 				currentIndustry = data.getStringExtra("currentIndustry");
 				jobId = data.getStringExtra("jobId");
 				job = data.getStringExtra("job");
 				totalworkingtime = data.getStringExtra("totalworkingtime");
+				totalworkingtimeId = data.getStringExtra("totalworkingtimeId");
 				position = data.getStringExtra("position");
 				jobExp = data.getStringExtra("jobExp");
+				jobExpId = data.getStringExtra("jobExpId");
 				monthlySalary = data.getStringExtra("monthlySalary");
 				dividend = data.getStringExtra("dividend");
 				annualSalary = data.getStringExtra("annualSalary");
@@ -431,16 +440,13 @@ public class SalarySurveyActivity extends BaicActivity {
 				Toast.makeText(getApplicationContext(), "设置成功", Toast.LENGTH_SHORT).show();
 				break;
 
-			
-			
 			case Constant.DEGREE:
-				
+
 				degree = data.getStringExtra("degree");
 				degreeId = data.getStringExtra("degreeId");
 				tv_degree2.setText(degree);
-				
+
 				break;
-			
 
 			}
 		}
@@ -457,10 +463,10 @@ public class SalarySurveyActivity extends BaicActivity {
 			params.add(new BasicNameValuePair("companytype", propertyId));
 			params.add(new BasicNameValuePair("degree", degreeId));
 			params.add(new BasicNameValuePair("dwgm", scaleId));
-			params.add(new BasicNameValuePair("experience", workingYear));
+			params.add(new BasicNameValuePair("experience", workingYearId));
 			params.add(new BasicNameValuePair("foreignLanguage", foreignLanguageId));
 			params.add(new BasicNameValuePair("grade", languageLevelId));
-			params.add(new BasicNameValuePair("hyyears", totalworkingtime));
+			params.add(new BasicNameValuePair("hyyears", totalworkingtimeId));
 			params.add(new BasicNameValuePair("monthsalary", monthlySalary));
 			params.add(new BasicNameValuePair("opinion", opinion));
 			params.add(new BasicNameValuePair("oversea", overseasEduExp));
@@ -473,7 +479,7 @@ public class SalarySurveyActivity extends BaicActivity {
 			params.add(new BasicNameValuePair("yearsalary", annualSalary));
 			params.add(new BasicNameValuePair("zw", position));
 			params.add(new BasicNameValuePair("zwtype", jobId));
-			params.add(new BasicNameValuePair("zwyears", jobExp));
+			params.add(new BasicNameValuePair("zwyears", jobExpId));
 			params.add(new BasicNameValuePair("zyzgzs", professionalCertificate));
 
 			result = getPostHttpContent(url, params);
@@ -562,7 +568,6 @@ public class SalarySurveyActivity extends BaicActivity {
 				break;
 			case Constant.SALARY_SURVEY_SUBMIT:
 				Toast.makeText(getApplicationContext(), "提交成功", Toast.LENGTH_SHORT).show();
-				SharePreferencesUtils.setSharedBooleanData("canSalaryQuery", true);
 				startHomeActivity();
 				break;
 			}
@@ -590,9 +595,9 @@ public class SalarySurveyActivity extends BaicActivity {
 		dialog = builder.create();
 		dialog.show();
 	}
-	
-	private void startHomeActivity(){
-		Intent intent = new Intent(SalarySurveyActivity.this,HomeActivity.class);
+
+	private void startHomeActivity() {
+		Intent intent = new Intent(SalarySurveyActivity.this, HomeActivity.class);
 		startActivity(intent);
 	}
 }

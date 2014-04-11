@@ -232,11 +232,19 @@
             android:focusable="true"  
    			android:focusableInTouchMode="true" >
 
+            <TextView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nessary"
+                android:layout_marginLeft="10dp"
+                android:paddingRight="3dp"
+                android:textColor="@color/red"
+                />
+            
             <TextView
                 android:id="@+id/tv_age"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textColor="@color/lightBlack"
                 android:text="年龄" />
@@ -279,14 +287,25 @@
             android:gravity="center_vertical"
             android:orientation="horizontal" >
 
+            <TextView 
+                android:id="@+id/nessary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nessary"
+                android:layout_marginLeft="10dp"
+                android:layout_alignParentLeft="true"
+                android:paddingRight="3dp"
+                android:textColor="@color/red"
+                />
+            
             <TextView
                 android:id="@+id/tv_degree"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:paddingLeft="10dp"
+                
                 android:paddingRight="10dp"
                 android:textColor="@color/lightBlack"
+                android:layout_toRightOf="@+id/nessary"
                 android:text="学历" />
 
             <TextView
@@ -680,15 +699,25 @@
             android:background="@drawable/item_selector"
             android:gravity="center_vertical"
             android:orientation="horizontal" >
+            
+            <TextView 
+                android:id="@+id/nessary2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nessary"
+                android:layout_marginLeft="10dp"
+                android:layout_alignParentLeft="true"
+                android:paddingRight="3dp"
+                android:textColor="@color/red"
+                />
 
             <TextView
                 android:id="@+id/tv_jobExp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textColor="@color/lightBlack"
+                android:layout_toRightOf="@+id/nessary2"
                 android:text="职场经历" />
 
             <TextView

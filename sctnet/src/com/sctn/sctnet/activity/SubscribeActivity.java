@@ -1,5 +1,8 @@
 package com.sctn.sctnet.activity;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -47,7 +50,8 @@ public class SubscribeActivity extends BaicActivity {
 	private boolean subscribe;// 是否开启消息订阅
 	private boolean jobInformationPushAuto;// 是否开启职业信息自动推送
 	private String result;// 服务端返回的数据
-	private Set<String> keywords;// 设置tags用的
+	private HashSet<String> keywords;// 设置tags用的
+	String logs;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -114,16 +118,17 @@ public class SubscribeActivity extends BaicActivity {
 					Toast.makeText(getApplicationContext(), "请输入关键字", Toast.LENGTH_SHORT).show();
 				} else {
 					
-//					String[] temp = keyWordsEdit.getText().toString().split("，");
-//					keywords = new HashSet<String>();
-//					for(String keyword:temp){
-//						keywords.add(keyword);
-//					}
-//					requestDataThread();
-					Intent intent = getIntent();
-					intent.putExtra("tags", "总经理");
-					setResult(RESULT_OK,intent);
-					finish();
+					String[] temp = keyWordsEdit.getText().toString().split("，");
+					keywords = new HashSet<String>();
+					for(String keyword:temp){
+						keywords.add(keyword);
+					}
+					requestDataThread();
+					
+//					Intent intent = getIntent();
+//					intent.putExtra("tags", "总经理");
+//					setResult(RESULT_OK,intent);
+//					finish();
 					
 				}
 			}
@@ -163,19 +168,18 @@ public class SubscribeActivity extends BaicActivity {
 			params.add(new BasicNameValuePair("DeviceName", "默认设备名称"));
 			params.add(new BasicNameValuePair("DeviceModel", PhoneUtil.MODEL));
 			params.add(new BasicNameValuePair("flag", Constant.PUSH_BY_TAGS));
-			params.add(new BasicNameValuePair("tags", keyWordsEdit.getText().toString()));
-			if (jobInformationPushAuto) {// true表示当前是开着的，正关闭开关
-				params.add(new BasicNameValuePair("AuthPush", "N"));
-			} else {
+			params.add(new BasicNameValuePair("Tags", keyWordsEdit.getText().toString()));
+			if (jobInformationPushAuto) {// 这个true表示按钮时开着的，这块没有关闭的动作，所以传送的是 Y
 				params.add(new BasicNameValuePair("AuthPush", "Y"));
+			} else {
+				params.add(new BasicNameValuePair("AuthPush", "N"));
 			}
-			if (subscribe) {// true表示当前是开着的，正关闭开关
+			
+			if(subscribe){// true 表示按钮时开着的，正在关闭
 				params.add(new BasicNameValuePair("UserDefinedPush", "N"));
 			} else {
 				params.add(new BasicNameValuePair("UserDefinedPush", "Y"));
 			}
-			
-			// params.add(new BasicNameValuePair("Tags", "AUTO_PUSH"));
 
 			result = getPostHttpContent(url, params);
 
@@ -207,36 +211,52 @@ public class SubscribeActivity extends BaicActivity {
 			switch (msg.what) {
 			case Constant.USER_DEFINED_PUSH_SUCCESS:
 				
-				JPushInterface.setTags(SubscribeActivity.this, keywords, mAliasCallback);
-				setResult(RESULT_OK);
-				finish();
-				
+				finishCurrentActivity();
 				break;
 				
+//			case Constant.USER_DEFINED_PUSH_SUCCESS_MODIFY_WIDGET:
+//				finishCurrentActivity();
+//				break;
 			}
 		}
 	};
 	
-	private final TagAliasCallback mAliasCallback = new TagAliasCallback() {
-
-		@Override
-		public void gotResult(int code, String alias, Set<String> tags) {
-			String logs;
-			switch (code) {
-			case 0:
-				logs = "Set tag and alias success";
-				break;
-
-			case 6002:
-				logs = "Failed to set alias and tags due to timeout. Try again after 60s.";
-				break;
-
-			default:
-				logs = "Failed with errorCode = " + code;
-			}
-
-			Toast.makeText(getApplicationContext(), logs, Toast.LENGTH_LONG).show();
+	private void finishCurrentActivity(){
+//		Toast.makeText(getApplicationContext(), logs, Toast.LENGTH_SHORT).show();
+		
+		ArrayList<String> tagList = new ArrayList<String>();
+		for(String keyword:keywords){
+			tagList.add(keyword);
 		}
-
-	};
+		
+		Intent intent = getIntent();
+		intent.putStringArrayListExtra("tags",tagList);
+		setResult(RESULT_OK,intent);
+		finish();
+		
+	}	
+//	private final TagAliasCallback mAliasCallback = new TagAliasCallback() {
+//
+//		@Override
+//		public void gotResult(int code, String alias, Set<String> tags) {
+//			Message msg = new Message();
+//			switch (code) {
+//			case 0:
+//				logs = "订阅成功";
+//				msg.what = Constant.USER_DEFINED_PUSH_SUCCESS_MODIFY_WIDGET;
+//				handler.sendMessage(msg);
+//				break;
+//
+//			case 6002:
+//				logs = "网络连接超时，请60秒之后重新设置";
+//				break;
+//
+//			default:
+//				logs = "设置失败，错误代码：" + code;
+//				break;
+//			}
+//
+//		}
+//
+//	};
 }
