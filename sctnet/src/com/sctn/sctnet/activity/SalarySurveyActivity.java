@@ -568,6 +568,7 @@ public class SalarySurveyActivity extends BaicActivity {
 				break;
 			case Constant.SALARY_SURVEY_SUBMIT:
 				Toast.makeText(getApplicationContext(), "提交成功", Toast.LENGTH_SHORT).show();
+				SharePreferencesUtils.setSharedBooleanData("canSalaryQuery", true);
 				startHomeActivity();
 				break;
 			}
