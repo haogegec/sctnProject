@@ -117,7 +117,13 @@ public class SelectCurrentIndustryActivity extends BaicActivity {
 			params.add(new BasicNameValuePair("key", "1"));
 			params.add(new BasicNameValuePair("page", page+""));
 			
+			long startTime = System.nanoTime();  //开始时间
+			System.out.println("传值之前："+startTime);
 			result = getPostHttpContent(url, params);
+			long endTime = System.nanoTime();
+			System.out.println("传值之后："+endTime);
+			long consumingTime = endTime - startTime; //消耗时间
+	        System.out.println("消耗时间："+consumingTime/(1000*1000*1000)+"秒");
 
 			if (StringUtil.isExcetionInfo(result)) {
 				SelectCurrentIndustryActivity.this.sendExceptionMsg(result);

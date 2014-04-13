@@ -490,13 +490,23 @@ public class PersonalCenterActivity extends BaicActivity {
 				setAutoPush();
 				break;
 				
+			case Constant.AUTO_PUSH_ERROR:
+				alert();
+				break;
+				
 			case Constant.USER_DEFINED_PUSH_SUCCESS:
+//				setUserDefinedPush();
 				tags = new HashSet<String>();
+				tags.add(" ");
 				JPushInterface.setTags(PersonalCenterActivity.this, tags, mAliasCallback2);
 				break;
 				
 			case Constant.USER_DEFINED_PUSH_SUCCESS_MODIFY_WIDGET:
 				setUserDefinedPush();
+				break;
+				
+			case Constant.USER_DEFINED_PUSH_ERROR:
+				alert();
 				break;
 
 			}
@@ -596,6 +606,8 @@ public class PersonalCenterActivity extends BaicActivity {
 
 			case 6002:
 				logs = "网络连接超时，请60秒之后重新设置";
+				msg.what = Constant.AUTO_PUSH_ERROR;
+				handler.sendMessage(msg);
 				break;
 
 			default:
@@ -620,10 +632,14 @@ public class PersonalCenterActivity extends BaicActivity {
 
 			case 6002:
 				logs = "网络连接超时，请60秒之后重新设置";
+				msg.what = Constant.USER_DEFINED_PUSH_ERROR;
+				handler.sendMessage(msg);
 				break;
 
 			default:
 				logs = "设置失败，错误代码：" + code;
+				msg.what = Constant.USER_DEFINED_PUSH_ERROR;
+				handler.sendMessage(msg);
 				break;
 			}
 		}
@@ -712,7 +728,7 @@ public class PersonalCenterActivity extends BaicActivity {
 				params.add(new BasicNameValuePair("AuthPush", "N"));
 			}
 			
-			if(subscribe){// true 表示按钮时开着的，正在关闭
+			if(subscribe){// true 表示按钮是开着的，正在关闭
 				params.add(new BasicNameValuePair("UserDefinedPush", "N"));
 			} else {
 				params.add(new BasicNameValuePair("UserDefinedPush", "Y"));
@@ -739,6 +755,10 @@ public class PersonalCenterActivity extends BaicActivity {
 			String err = StringUtil.getAppException4MOS("解析json出错！");
 			sendExceptionMsg(err);
 		}
+	}
+	
+	private void alert(){
+		Toast.makeText(getApplicationContext(), logs, Toast.LENGTH_SHORT).show();
 	}
 
 }

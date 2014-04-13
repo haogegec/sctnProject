@@ -118,7 +118,7 @@ public class SubscribeActivity extends BaicActivity {
 					Toast.makeText(getApplicationContext(), "请输入关键字", Toast.LENGTH_SHORT).show();
 				} else {
 					
-					String[] temp = keyWordsEdit.getText().toString().split("，");
+					String[] temp = keyWordsEdit.getText().toString().split(",");
 					keywords = new HashSet<String>();
 					for(String keyword:temp){
 						keywords.add(keyword);
