@@ -105,7 +105,7 @@ public class SalaryQueryListActivity extends BaicActivity{
 			for (int j = 0; j < resultJsonArray.size(); j++) {
 
 				Map<String, Object> item = new HashMap<String, Object>();
-				item.put(key[0], resultJsonArray.getJSONObject(j).get("salaryUserid"));// 小栏目的id
+				item.put(key[0], resultJsonArray.getJSONObject(j).get("salaryuserid"));// 小栏目的id
 				item.put(key[1], resultJsonArray
 						.getJSONObject(j).get("monthsalary"));
 				item.put(key[2], resultJsonArray

@@ -149,8 +149,8 @@ public class ChangePasswordActivity extends BaicActivity {
 			// Userid;userPwd;userTxtPwd
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
 			params.add(new BasicNameValuePair("Userid",sp_userId+""));
-			params.add(new BasicNameValuePair("userPwd", newPassword));
-			params.add(new BasicNameValuePair("userTxtPwd", newMD5Password));
+			params.add(new BasicNameValuePair("userTxtPwd", newPassword));
+			params.add(new BasicNameValuePair("userPwd", newMD5Password));
 			response = getPostHttpContent(url, params);
 
 			if (StringUtil.isExcetionInfo(response)) {

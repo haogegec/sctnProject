@@ -25,8 +25,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sctn.sctnet.R;
+import com.sctn.sctnet.Utils.SharePreferencesUtils;
 import com.sctn.sctnet.Utils.StringUtil;
 import com.sctn.sctnet.cache.CacheProcess;
 
@@ -46,6 +48,11 @@ public class MyAppliedJobActivity extends BaicActivity {
 	private CacheProcess cacheProcess;// 缓存数据
 	private long userId;// 用户唯一标识
 	private String result;// 获取服务端返回结果
+
+	private ImageView star;
+	private boolean[] global_isCollected;
+	
+	Map<Integer, Boolean> collectState = new HashMap<Integer, Boolean>();// 记录收藏图标的状态
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -121,8 +128,8 @@ public class MyAppliedJobActivity extends BaicActivity {
 
 		try {
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-//			params.add(new BasicNameValuePair("Userid", "217294"));
-			params.add(new BasicNameValuePair("Userid",userId+""));
+			// params.add(new BasicNameValuePair("Userid", "217294"));
+			params.add(new BasicNameValuePair("Userid", userId + ""));
 			result = getPostHttpContent(url, params);
 
 			if (StringUtil.isExcetionInfo(result)) {
@@ -185,8 +192,8 @@ public class MyAppliedJobActivity extends BaicActivity {
 
 		try {
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
-//			params.add(new BasicNameValuePair("Userid", "197244"));
-			params.add(new BasicNameValuePair("Userid",userId+""));
+			// params.add(new BasicNameValuePair("Userid", "197244"));
+			params.add(new BasicNameValuePair("Userid", userId + ""));
 			result = getPostHttpContent(url, params);
 
 			if (StringUtil.isExcetionInfo(result)) {
@@ -199,51 +206,54 @@ public class MyAppliedJobActivity extends BaicActivity {
 			// JSON的解析过程
 			responseJsonArray = new JSONArray(result);
 			if (responseJsonArray != null && responseJsonArray.length() != 0) {
-				
-					for (int i = 0; i < responseJsonArray.length(); i++) {
-						JSONObject applyInfo = responseJsonArray.optJSONObject(i);
+				global_isCollected = new boolean[responseJsonArray.length()];
+				for (int i = 0; i < responseJsonArray.length(); i++) {
+					global_isCollected[i] = true;
+					
+					JSONObject applyInfo = responseJsonArray.optJSONObject(i);
 
-						String jobsid = applyInfo.getString("jobsid");// 职位ID
-						String companyid = applyInfo.getString("companyid");// 公司ID
-						String companyname = applyInfo.getString("companyname");// 公司名称
-						String collecttime = applyInfo.getString("adddate");// 收藏时间
+					String jobsid = applyInfo.getString("jobsid");// 职位ID
+					String companyid = applyInfo.getString("companyid");// 公司ID
+					String companyname = applyInfo.getString("companyname");// 公司名称
+					String collecttime = applyInfo.getString("adddate");// 收藏时间
 
-						String jobsclass = applyInfo.getString("jobsclassname");// 职位行业
-						String jobsname = applyInfo.getString("jobsname");// 职位名称
-						String workregion = applyInfo.getString("workregion");// 工作地区
-						String needprofession = applyInfo.getString("needprofession");// 专业要求：计算机专业OR不限专业等等
-						String monthlysalary = applyInfo.getString("monthlysalary");// 月薪
-						String needworkexperience = applyInfo.getString("needworkexperience");// 工作经验
-						String jobsstate = applyInfo.getString("jobsstate");// 职位状态：1代表？2代表？
-						String neededucation = applyInfo.getString("neededucation");// 学历要求：本科OR专科等等
-						String housewhere = applyInfo.getString("housewhere");// 住宿：包吃包住OR不提供宿舍等等
+					String jobsclass = applyInfo.getString("jobsclassname");// 职位行业
+					String jobsname = applyInfo.getString("jobsname");// 职位名称
+					String workregion = applyInfo.getString("workregion");// 工作地区
+					String needprofession = applyInfo.getString("needprofession");// 专业要求：计算机专业OR不限专业等等
+					String monthlysalary = applyInfo.getString("monthlysalary");// 月薪
+					String needworkexperience = applyInfo.getString("needworkexperience");// 工作经验
+					String jobsstate = applyInfo.getString("jobsstate");// 职位状态：1代表？2代表？
+					String neededucation = applyInfo.getString("neededucation");// 学历要求：本科OR专科等等
+					String housewhere = applyInfo.getString("housewhere");// 住宿：包吃包住OR不提供宿舍等等
 
-						Map<String, Object> item = new HashMap<String, Object>();
-						item.put("jobsclass", jobsclass);
-						item.put("jobsid", jobsid);
-						item.put("jobsname", jobsname);
-						item.put("companyid", companyid);
-						item.put("companyname", companyname);
-						item.put("collecttime", collecttime);
-						item.put("workregion", workregion);
-						item.put("needprofession", needprofession);
-						item.put("monthlysalary", monthlysalary);
-						item.put("needworkexperience", needworkexperience);
-						item.put("jobsstate", jobsstate);
-						item.put("neededucation", neededucation);
-						item.put("housewhere", housewhere);
-						listItems.add(item);
+					Map<String, Object> item = new HashMap<String, Object>();
+					item.put("jobsclass", jobsclass);
+					item.put("jobsid", jobsid);
+					item.put("jobsname", jobsname);
+					item.put("companyid", companyid);
+					item.put("companyname", companyname);
+					item.put("collecttime", collecttime);
+					item.put("workregion", workregion);
+					item.put("needprofession", needprofession);
+					item.put("monthlysalary", monthlysalary);
+					item.put("needworkexperience", needworkexperience);
+					item.put("jobsstate", jobsstate);
+					item.put("neededucation", neededucation);
+					item.put("housewhere", housewhere);
+					listItems.add(item);
 
-					}
-
-					msg.what = 0;
-					handler.sendMessage(msg);
-				} else {
-//					String errorResult = (String) responseJsonArray.get("result");
-					String errorResult = "查询有误";
-					String err = StringUtil.getAppException4MOS(errorResult);
-					MyAppliedJobActivity.this.sendExceptionMsg(err);
 				}
+
+				msg.what = 0;
+				handler.sendMessage(msg);
+			} else {
+				// String errorResult = (String)
+				// responseJsonArray.get("result");
+				String errorResult = "查询有误";
+				String err = StringUtil.getAppException4MOS(errorResult);
+				MyAppliedJobActivity.this.sendExceptionMsg(err);
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -258,6 +268,14 @@ public class MyAppliedJobActivity extends BaicActivity {
 			switch (msg.what) {
 			case 0:
 				setMyAdapter();
+				break;
+				
+			case 3:
+				setCollectOn();
+				break;
+
+			case 4:// 取消收藏
+				setCollectOff();
 				break;
 
 			}
@@ -304,7 +322,7 @@ public class MyAppliedJobActivity extends BaicActivity {
 		}
 
 		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
+		public View getView(final int position, View convertView, ViewGroup parent) {
 			TextView jobName = null;
 			TextView companyName = null;
 			TextView applicationDate = null;
@@ -312,7 +330,7 @@ public class MyAppliedJobActivity extends BaicActivity {
 			TextView sendStatus = null;
 			TextView replyStatus = null;
 			ImageView collect = null;
-
+			
 			if (convertView == null) {// 目前显示的是第一页，为这些条目数据new一个view出来，如果不是第一页，则继续用缓存的view
 				convertView = inflater.inflate(resource, null);
 
@@ -372,13 +390,33 @@ public class MyAppliedJobActivity extends BaicActivity {
 				status.setVisibility(View.GONE);
 				applicationDate.setText(((Map) getItem(position)).get("collecttime").toString().substring(0, 10));
 
-				collect.setOnClickListener(new View.OnClickListener() {
+				collect.setOnClickListener(new ImageView.OnClickListener() {
 
 					@Override
 					public void onClick(View v) {
-						((ImageView) v).setImageResource(R.drawable.star_none);
+						star = (ImageView) v;
+						boolean local_isCollected = global_isCollected[position];
+						
+						if(local_isCollected){
+							collectState.put(position, false);
+							global_isCollected[position] = false;
+							cancelCollectThread(((Map) getItem(position)).get("jobsid").toString());
+						} else {
+							collectState.put(position, true);
+							global_isCollected[position] = true;
+							collectThread(((Map) getItem(position)).get("jobsid").toString());
+						}
+						
 					}
 				});
+				
+				// listview滚动时候判断
+				if(collectState.get(position) != null){
+					if(collectState.get(position)) collect.setImageResource(R.drawable.star_selected);
+					else collect.setImageResource(R.drawable.star_none);
+				} else {
+					collect.setImageResource(R.drawable.star_selected);
+				}
 
 			}
 
@@ -396,6 +434,110 @@ public class MyAppliedJobActivity extends BaicActivity {
 		public TextView sendStatus;// 发送状态
 		public TextView replyStatus;// 回复状态
 		public ImageView collect;// 收藏图标
+
+	}
+
+	/**
+	 * 取消收藏
+	 */
+	private void cancelCollectThread(final String jobsid) {
+		Thread mThread = new Thread(new Runnable() {// 启动新的线程，
+					@Override
+					public void run() {
+						cancelCollect(jobsid);
+					}
+				});
+		mThread.start();
+	}
+
+	/**
+	 * 取消收藏
+	 */
+	protected void cancelCollect(String jobsid) {
+
+		String url = "appPersonCenter!deleteUserJobInfo.app";
+
+		Message msg = new Message();
+
+		try {
+			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
+			params.add(new BasicNameValuePair("Userid", userId + ""));
+			params.add(new BasicNameValuePair("jobsid", jobsid));
+			result = getPostHttpContent(url, params);
+
+			if (StringUtil.isExcetionInfo(result)) {
+				MyAppliedJobActivity.this.sendExceptionMsg(result);
+				return;
+			}
+
+			// JSON的解析过程
+			JSONObject jObject = new JSONObject(result);
+			if (0 == jObject.getInt("resultcode")) {// 表示取消收藏成功
+
+				msg.what = 4;
+				handler.sendMessage(msg);
+
+			} else {
+				String errorResult = (String) jObject.get("result");
+				String err = StringUtil.getAppException4MOS(errorResult);
+				MyAppliedJobActivity.this.sendExceptionMsg(err);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void setCollectOff() {
+		star.setImageResource(R.drawable.star_none);
+		Toast.makeText(getApplicationContext(), "取消收藏成功！", Toast.LENGTH_SHORT).show();
+	}
+	
+	private void setCollectOn() {
+		star.setImageResource(R.drawable.star_selected);
+		Toast.makeText(getApplicationContext(), "收藏成功！", Toast.LENGTH_SHORT).show();
+	}
+	
+	/**
+	 * 在子线程与远端服务器交互，请求数据
+	 */
+	private void collectThread(final String jobId) {
+		Thread mThread = new Thread(new Runnable() {// 启动新的线程，
+					@Override
+					public void run() {
+						collect(jobId);
+					}
+				});
+		mThread.start();
+	}
+
+	// 职位收藏
+	protected void collect(String jobId) {
+
+		String url = "appPersonCenter!insertUserJobInfo.app";
+		Message msg = new Message();
+
+		try {
+			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
+			long userId = SharePreferencesUtils.getSharedlongData("userId");
+			params.add(new BasicNameValuePair("Userid", userId + ""));
+			params.add(new BasicNameValuePair("jobsid", jobId));
+			result = getPostHttpContent(url, params);
+
+			if (StringUtil.isExcetionInfo(result)) {
+				sendExceptionMsg(result);
+				return;
+			}
+
+			JSONObject responseJsonObject = new JSONObject(result);
+			if ("0".equals(responseJsonObject.getString("resultcode"))) {// 表示职位收藏成功
+				msg.what = 3;// 收藏成功
+				handler.sendMessage(msg);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 	}
 

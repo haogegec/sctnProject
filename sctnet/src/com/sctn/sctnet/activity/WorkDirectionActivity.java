@@ -127,7 +127,7 @@ public class WorkDirectionActivity extends BaicActivity {
 
 		});
 
-		itemView4.setBackground(R.drawable.item_up_bg);
+		itemView4.setBackground(R.drawable.item_single_bg);
 		itemView4.setIconImageViewResource(R.drawable.work_direction_item);
 		itemView4.setLabel("相关资料下载");
 		itemView4.setLabelTextColor(this.getResources().getColor(R.color.blue));

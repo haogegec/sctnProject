@@ -262,11 +262,11 @@ public class BasicInfoEditActivity extends BaicActivity {
 				politicalValue.setText(politicalStr);
 			}
 			if (basicInfoMap.containsKey("性别")) {
-				if (basicInfoMap.get("性别").equals("0")) {
-					female.setSelected(true);
+				if (basicInfoMap.get("性别").equals("女")) {
+					female.setChecked(true);
 					sex = "0";
 				} else {
-					mail.setSelected(true);
+					mail.setChecked(true);
 					sex = "1";
 				}
 
@@ -288,7 +288,7 @@ public class BasicInfoEditActivity extends BaicActivity {
 			public void onClick(View v) {
 
 				String newSex = "";
-				if (female.isSelected()) {
+				if (female.isChecked()) {
 					newSex = "0";
 				} else {
 					newSex = "1";
@@ -494,6 +494,10 @@ public class BasicInfoEditActivity extends BaicActivity {
 				healthStatusId = data.getStringExtra("healthId");
 				// healthStatusStr = data.getStringExtra("health");
 				break;
+			case Constant.PEOPLE:
+				peopleValue.setText(data.getStringExtra("people"));
+				peopleId = data.getStringExtra("peopleId");
+				break;
 			}
 		}
 	}
@@ -548,7 +552,7 @@ public class BasicInfoEditActivity extends BaicActivity {
 			params.add(new BasicNameValuePair("Political", politicalId));
 		}
 
-		if (female.isSelected()) {
+		if (female.isChecked()) {
 			params.add(new BasicNameValuePair("Sex", "0"));
 		} else {
 			params.add(new BasicNameValuePair("Sex", "1"));
@@ -577,9 +581,9 @@ public class BasicInfoEditActivity extends BaicActivity {
 		newBasicInfoMap.put("民族", peopleValue.getText().toString());
 		newBasicInfoMap.put("政治面貌", politicalValue.getText().toString());
 		if (female.isSelected()) {
-			newBasicInfoMap.put("性别", "0");
+			newBasicInfoMap.put("性别", "女");
 		} else {
-			newBasicInfoMap.put("性别", "1");
+			newBasicInfoMap.put("性别", "男");
 		}
 		newBasicInfoMap.put("身高", heighValue.getText().toString());
 
