@@ -495,9 +495,7 @@ public class PersonalCenterActivity extends BaicActivity {
 				break;
 				
 			case Constant.USER_DEFINED_PUSH_SUCCESS:
-//				setUserDefinedPush();
 				tags = new HashSet<String>();
-				tags.add(" ");
 				JPushInterface.setTags(PersonalCenterActivity.this, tags, mAliasCallback2);
 				break;
 				

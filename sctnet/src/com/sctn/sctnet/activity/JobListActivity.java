@@ -67,7 +67,7 @@ public class JobListActivity extends BaicActivity {
 	public static String TEST_IMAGE;
 	private MyAdapter jobListAdapter;
 	private ListView jobList;
-	private List<Map<String, Object>> items = new ArrayList<Map<String, Object>>();
+	private List<Map<String, String>> items = new ArrayList<Map<String, String>>();
 
 	Map<Integer, Object> jobIdAndCompanyIdMaps = new HashMap<Integer, Object>();// 记录选中的checkbox的jobId和companyId，申请职位时用到
 	Map<Integer, Object> jobIdMaps = new HashMap<Integer, Object>();// 记录选中的checkbox的jobId,收藏职位时用到
@@ -648,44 +648,44 @@ public class JobListActivity extends BaicActivity {
 				}
 				for (int j = 0; j < count; j++) {
 
-					Map<String, Object> item = new HashMap<String, Object>();
-					item.put("companyid", resultJsonArray.getJSONObject(j).get("companyid"));// 公司id
-					item.put("companyname", resultJsonArray.getJSONObject(j).get("companyname"));// 公司
-					item.put("jobsid", resultJsonArray.getJSONObject(j).get("jobsid"));// 职位ID
-					item.put("jobsName", resultJsonArray.getJSONObject(j).get("jobsname"));// 职位
-					item.put("clickNum", resultJsonArray.getJSONObject(j).get("clicknum"));// 点击次数
-					item.put("computerLevel", resultJsonArray.getJSONObject(j).get("computerlevel"));// 计算机能力
-					item.put("description", resultJsonArray.getJSONObject(j).get("description"));// 工作描述
-					item.put("english", resultJsonArray.getJSONObject(j).get("english"));// 语种
-					item.put("houseWhere", resultJsonArray.getJSONObject(j).get("housewhere"));// 是否提供住宿
-					item.put("jobsClass", resultJsonArray.getJSONObject(j).get("jobsclass"));// 职位类别
-					item.put("jobsNumber", resultJsonArray.getJSONObject(j).get("jobsnumber"));// 招聘人数
-					item.put("jobsstate", resultJsonArray.getJSONObject(j).get("jobsstate"));// 职位状态
-					item.put("monthlySalary", resultJsonArray.getJSONObject(j).get("monthlysalary"));// 月薪
-					item.put("needAge", resultJsonArray.getJSONObject(j).get("needages"));// 最小年纪
-					item.put("needEducation", resultJsonArray.getJSONObject(j).get("neededucationname"));// 学历
-					item.put("needHeight", resultJsonArray.getJSONObject(j).get("needheight"));// 身高
-					item.put("needProfession", resultJsonArray.getJSONObject(j).get("needprofession"));// 专业
-					item.put("needWorkExperience", resultJsonArray.getJSONObject(j).get("needworkexperience"));// 职位状态
-					item.put("political", resultJsonArray.getJSONObject(j).get("political"));// 政治面貌
-					item.put("postTime", resultJsonArray.getJSONObject(j).get("posttime"));// 发布时间
-					item.put("rid", resultJsonArray.getJSONObject(j).get("rid"));
-					item.put("sex", resultJsonArray.getJSONObject(j).get("sex"));// 性别
-					item.put("titles", resultJsonArray.getJSONObject(j).get("titles"));// 技术
-					if (resultJsonArray.getJSONObject(j).get("validitytime") != null && !"".equals(resultJsonArray.getJSONObject(j).get("validitytime").toString())) {
-						if (!StringUtil.isBlank(resultJsonArray.getJSONObject(j).get("validitytime").toString())) {
-							if (resultJsonArray.getJSONObject(j).get("validitytime").toString().length() > 11) {
-								item.put("validityTime", resultJsonArray.getJSONObject(j).get("validitytime").toString().substring(0, 10));// 有效时间
+					Map<String, String> item = new HashMap<String, String>();
+					item.put("companyid", resultJsonArray.getJSONObject(j).getString("companyid"));// 公司id
+					item.put("companyname", resultJsonArray.getJSONObject(j).getString("companyname"));// 公司
+					item.put("jobsid", resultJsonArray.getJSONObject(j).getString("jobsid"));// 职位ID
+					item.put("jobsName", resultJsonArray.getJSONObject(j).getString("jobsname"));// 职位
+					item.put("clickNum", resultJsonArray.getJSONObject(j).getString("clicknum"));// 点击次数
+					item.put("computerLevel", resultJsonArray.getJSONObject(j).getString("computerlevel"));// 计算机能力
+					item.put("description", resultJsonArray.getJSONObject(j).getString("description"));// 工作描述
+					item.put("english", resultJsonArray.getJSONObject(j).getString("english"));// 语种
+					item.put("houseWhere", resultJsonArray.getJSONObject(j).getString("housewhere"));// 是否提供住宿
+					item.put("jobsClass", resultJsonArray.getJSONObject(j).getString("jobsclass"));// 职位类别
+					item.put("jobsNumber", resultJsonArray.getJSONObject(j).getString("jobsnumber"));// 招聘人数
+					item.put("jobsstate", resultJsonArray.getJSONObject(j).getString("jobsstate"));// 职位状态
+					item.put("monthlySalary", resultJsonArray.getJSONObject(j).getString("monthlysalary"));// 月薪
+					item.put("needAge", resultJsonArray.getJSONObject(j).getString("needages"));// 最小年纪
+					item.put("needEducation", resultJsonArray.getJSONObject(j).getString("neededucationname"));// 学历
+					item.put("needHeight", resultJsonArray.getJSONObject(j).getString("needheight"));// 身高
+					item.put("needProfession", resultJsonArray.getJSONObject(j).getString("needprofession"));// 专业
+					item.put("needWorkExperience", resultJsonArray.getJSONObject(j).getString("needworkexperience"));// 职位状态
+					item.put("political", resultJsonArray.getJSONObject(j).getString("political"));// 政治面貌
+					item.put("postTime", resultJsonArray.getJSONObject(j).getString("posttime"));// 发布时间
+					item.put("rid", resultJsonArray.getJSONObject(j).getString("rid"));
+					item.put("sex", resultJsonArray.getJSONObject(j).getString("sex"));// 性别
+					item.put("titles", resultJsonArray.getJSONObject(j).getString("titles"));// 技术
+					if (resultJsonArray.getJSONObject(j).getString("validitytime") != null && !"".equals(resultJsonArray.getJSONObject(j).getString("validitytime"))) {
+						if (!StringUtil.isBlank(resultJsonArray.getJSONObject(j).getString("validitytime"))) {
+							if (resultJsonArray.getJSONObject(j).getString("validitytime").length() > 11) {
+								item.put("validityTime", resultJsonArray.getJSONObject(j).getString("validitytime").substring(0, 10));// 有效时间
 							}
 						} else {
-							item.put("validityTime", resultJsonArray.getJSONObject(j).get("validitytime"));// 有效时间
+							item.put("validityTime", resultJsonArray.getJSONObject(j).getString("validitytime"));// 有效时间
 						}
 					} else {
-						item.put("validityTime", resultJsonArray.getJSONObject(j).get("validitytime"));
+						item.put("validityTime", resultJsonArray.getJSONObject(j).getString("validitytime"));
 					}
-					item.put("workManner", resultJsonArray.getJSONObject(j).get("workmanner"));// 工作方式
-					item.put("workRegion", resultJsonArray.getJSONObject(j).get("workregionname"));// 工作地区,workregion是编号
-					item.put("contract", resultJsonArray.getJSONObject(j).get("phone"));
+					item.put("workManner", resultJsonArray.getJSONObject(j).getString("workmanner"));// 工作方式
+					item.put("workRegion", resultJsonArray.getJSONObject(j).getString("workregionname"));// 工作地区,workregion是编号
+					item.put("contract", resultJsonArray.getJSONObject(j).getString("phone"));
 					items.add(item);
 				}
 				if (i == 0) {
@@ -776,11 +776,11 @@ public class JobListActivity extends BaicActivity {
 	class MyAdapter extends BaseAdapter {
 
 		private Context mContext;// 上下文对象
-		List<Map<String, Object>> list;// 这是要绑定的数据
+		List<Map<String, String>> list;// 这是要绑定的数据
 		private int resource;// 这是要绑定的 item 布局文件
 		private LayoutInflater inflater;// 布局填充器，Android系统内置的
 
-		public MyAdapter(Context context, List<Map<String, Object>> list, int resource) {
+		public MyAdapter(Context context, List<Map<String, String>> list, int resource) {
 			this.mContext = context;
 			this.list = list;
 			this.resource = resource;
@@ -855,7 +855,7 @@ public class JobListActivity extends BaicActivity {
 			degree.setText(list.get(position).get("needEducation").toString());
 			// workingYears.setText(list.get(position).get("workingYears").toString());
 			workplace.setText(list.get(position).get("workRegion").toString());
-			releaseTime.setText(list.get(position).get("validityTime").toString());
+			releaseTime.setText(list.get(position).get("validityTime"));
 
 			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 

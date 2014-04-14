@@ -37,8 +37,8 @@ public class SctnAplication extends Application{
 	    JPushInterface.init(this);     		// 初始化 JPush
 	    
 	 // 捕获程序崩溃日志，并将日志发送到服务端
-//		 CrashHandler crashHandler = CrashHandler.getInstance();
-//		 crashHandler.init(getApplicationContext());
+		 CrashHandler crashHandler = CrashHandler.getInstance();
+		 crashHandler.init(getApplicationContext());
 	}
 	
 	public static SctnAplication getInstance(){
