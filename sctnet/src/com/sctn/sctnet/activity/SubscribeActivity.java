@@ -1,11 +1,9 @@
 package com.sctn.sctnet.activity;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
@@ -14,17 +12,17 @@ import org.json.JSONObject;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import cn.jpush.android.api.JPushInterface;
-import cn.jpush.android.api.TagAliasCallback;
 
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.Utils.PhoneUtil;
@@ -72,7 +70,7 @@ public class SubscribeActivity extends BaicActivity {
 		subsribeNameEdit = (EditText) findViewById(R.id.subscribe_name_edit);
 		keyWordsEdit = (EditText) findViewById(R.id.keywords_edit);
 		pushSetItem = (ItemView) findViewById(R.id.push_set);
-		pushSetItem.setBackground(R.drawable.item_up_bg);
+		pushSetItem.setBackground(R.drawable.item_single_bg);
 		pushSetItem.setIconImageViewResource(R.drawable.home_btn_normal);
 		pushSetItem.setLabel("推送设置");
 		pushSetItem.setValue("不推送");
@@ -88,20 +86,68 @@ public class SubscribeActivity extends BaicActivity {
 			@Override
 			public void onClick(View v) {
 
-				builder.setTitle("推送设置");
-				builder.setSingleChoiceItems(pushItem, 0, new DialogInterface.OnClickListener() {
+				final AlertDialog dialog = new AlertDialog.Builder(
+						SubscribeActivity.this).create();	
+				dialog.show();//该代码一定要放在给dialog设置自定义view的前面
+				
+			    Window window = dialog.getWindow();
+			    window.setContentView(R.layout.set_push_dialog);
+			    
+			    final TextView item1Text = (TextView) window.findViewById(R.id.item1);
+			    final TextView item2Text = (TextView) window.findViewById(R.id.item2);
+			    final TextView item3Text = (TextView) window.findViewById(R.id.item3);
+			    final TextView item4Text = (TextView) window.findViewById(R.id.item4);
+			    final TextView cancel = (TextView) window.findViewById(R.id.dialog_button_cancel);
+			    item1Text.setOnClickListener(new OnClickListener(){
 
 					@Override
-					public void onClick(DialogInterface dialog, int which) {
-
-						pushSetItem.setValue(pushItem[which]);
-
+					public void onClick(View v) {
+						
+						pushSetItem.setValue(item1Text.getText().toString());
 						dialog.dismiss();
 					}
+			    	
+			    });
+			    item2Text.setOnClickListener(new OnClickListener(){
 
-				});
-				dialog = builder.create();
-				dialog.show();
+					@Override
+					public void onClick(View v) {
+						
+						pushSetItem.setValue(item2Text.getText().toString());
+						dialog.dismiss();
+					}
+			    	
+			    });
+			    item3Text.setOnClickListener(new OnClickListener(){
+
+					@Override
+					public void onClick(View v) {
+						
+						pushSetItem.setValue(item3Text.getText().toString());
+						dialog.dismiss();
+					}
+			    	
+			    });
+			    item4Text.setOnClickListener(new OnClickListener(){
+
+					@Override
+					public void onClick(View v) {
+						
+						pushSetItem.setValue(item4Text.getText().toString());
+						dialog.dismiss();
+					}
+			    	
+			    });
+			    cancel.setOnClickListener(new OnClickListener(){
+
+					@Override
+					public void onClick(View v) {
+						
+						dialog.dismiss();
+						
+					}
+			    	
+			    });
 
 			}
 

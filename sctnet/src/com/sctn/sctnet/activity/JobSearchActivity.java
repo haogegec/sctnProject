@@ -124,7 +124,7 @@ public class JobSearchActivity extends BaicActivity {
 		    	RelativeLayout layout = (RelativeLayout)getLayoutInflater().inflate(R.layout.job_search_item, null);
 				
 				ItemView jobSearchLogItem = (ItemView) layout.findViewById(R.id.job_search_log_item);
-				jobSearchLogItem.setBackground(R.drawable.item_up_bg);
+				jobSearchLogItem.setBackground(R.drawable.item_single_bg);
 				jobSearchLogItem.setIconImageViewResource(R.drawable.home_btn_normal);
 				jobSearchLogItem.setLabel("暂无搜素记录");
 				jobSearchLogItem.setValue("");
@@ -143,7 +143,12 @@ public class JobSearchActivity extends BaicActivity {
 					RelativeLayout layout = (RelativeLayout)getLayoutInflater().inflate(R.layout.job_search_item, null);
 					final Map<String,Object> map = logData.get(i);
 					ItemView jobSearchLogItem = (ItemView) layout.getChildAt(0);
-					jobSearchLogItem.setBackground(R.drawable.item_up_bg);
+					if(i==end){
+						jobSearchLogItem.setBackground(R.drawable.item_single_bg);
+					}else{
+						jobSearchLogItem.setBackground(R.drawable.item_up_bg);
+					}
+					
 					jobSearchLogItem.setIconImageViewResource(R.drawable.home_btn_normal);
 					jobSearchLogItem.setLabel(map.get("workAreaName")+"+"+map.get("jobClassName")+"+"+map.get("needProfessionName"));
 					jobSearchLogItem.setValue(map.get("total").toString());
@@ -198,7 +203,7 @@ public class JobSearchActivity extends BaicActivity {
 		searchitemView2.setIconImageVisibility(View.GONE);
 
 		searchitemView3 = (ItemView) findViewById(R.id.itemview3);
-		searchitemView3.setBackground(R.drawable.item_up_bg);
+		searchitemView3.setBackground(R.drawable.item_single_bg);
 		searchitemView3.setIconImageViewResource(R.drawable.home_btn_normal);
 		searchitemView3.setLabel("职能");
 		searchitemView3.setValue("所有职能");

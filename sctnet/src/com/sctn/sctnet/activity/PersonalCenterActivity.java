@@ -128,7 +128,7 @@ public class PersonalCenterActivity extends BaicActivity {
 		}
 		itemView3.setIconImageVisibility(View.VISIBLE);
 
-		itemView4.setBackground(R.drawable.item_down_bg);
+		itemView4.setBackground(R.drawable.item_single_bg);
 		itemView4.setIconImageViewResource(R.drawable.password_img);
 		itemView4.setLabel("修改密码");
 		itemView4.setLabelTextColor(getResources().getColor(R.color.blue));
