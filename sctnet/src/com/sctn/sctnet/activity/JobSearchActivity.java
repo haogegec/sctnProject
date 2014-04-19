@@ -357,7 +357,7 @@ public class JobSearchActivity extends BaicActivity {
 				positionMap = (Map<String, Map<Integer, Boolean>>) data.getSerializableExtra("positionMap");
 //				/backPositionType = (List<Map>) data.getSerializableExtra("backPositionType");
 				positionList = (List<Map<String, String>>) data.getSerializableExtra("positionList");
-//				positionListMap = (Map<String, List<Map<String, String>>>) data.getSerializableExtra("positionListMap");
+				positionListMap = (Map<String, List<Map<String, String>>>) data.getSerializableExtra("positionListMap");
 				//				String industryTypeTitle="";
 //				industryTypeTitle = "";
 //				for (int i = 0; i < backPositionType.size(); i++) {
@@ -369,19 +369,20 @@ public class JobSearchActivity extends BaicActivity {
 //					}
 //
 //				}
-				
+				positionTypeId = "";
 				positionTypeTitle = "";
-				for(int i=0;i<positionList.size(); i++){
-					if (i == positionList.size() - 1) {
-						positionTypeId = positionTypeId + positionList.get(i).get("id");
-						positionTypeTitle = positionTypeTitle + positionList.get(i).get("value");
-					} else {
-						positionTypeId = positionTypeId + positionList.get(i).get("id") + ",";
-						positionTypeTitle = positionTypeTitle + positionList.get(i).get("value") +",";
+				for(Map.Entry<String, List<Map<String,String>>> entry: positionListMap.entrySet()) {
+					List<Map<String,String>> tempList = entry.getValue();
+					for(int i=0; i<tempList.size(); i++){
+						if (i == tempList.size() - 1) {
+							positionTypeId = positionTypeId + tempList.get(i).get("id");
+							positionTypeTitle = positionTypeTitle + tempList.get(i).get("value");
+						} else {
+							positionTypeId = positionTypeId + tempList.get(i).get("id") + ",";
+							positionTypeTitle = positionTypeTitle + tempList.get(i).get("value") +",";
+						}
 					}
 				}
-				
-				
 				searchitemView3.setValue(positionTypeTitle);
 				break;
 			}

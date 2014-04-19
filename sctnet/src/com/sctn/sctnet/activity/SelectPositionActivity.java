@@ -38,7 +38,7 @@ public class SelectPositionActivity extends BaicActivity {
 	//服务端返回结果
 	private String result;
 	private com.alibaba.fastjson.JSONObject responseJsonObject = null;// 返回结果存放在该json对象中
-	private List<Map> backPositionType;
+	private List<Map<String,String>> backPositionType;
 
 	private int page = 1;
 	private int total;// 总条数
@@ -103,10 +103,10 @@ public class SelectPositionActivity extends BaicActivity {
 		if(positionList == null){
 			positionList = new ArrayList<Map<String,String>>();
 		}
-//		positionListMap = (HashMap<String,List<Map<String,String>>>) intent.getSerializableExtra("positionListMap");
-//		if(positionListMap == null){
-//			positionListMap = new HashMap<String,List<Map<String,String>>>();
-//		}
+		positionListMap = (HashMap<String,List<Map<String,String>>>) intent.getSerializableExtra("positionListMap");
+		if(positionListMap == null){
+			positionListMap = new HashMap<String,List<Map<String,String>>>();
+		}
 	}
 	
 	private void initData() {
@@ -370,7 +370,7 @@ public class SelectPositionActivity extends BaicActivity {
 			switch (requestCode) {
 
 			case Constant.POSITION_TYPE: {
-				backPositionType = (List<Map>) ((List) data.getSerializableExtra("list")).get(0);
+				backPositionType = (List<Map<String,String>>) ((List) data.getSerializableExtra("list")).get(0);
 				checkBoxState = (HashMap<Integer, Boolean>) data.getSerializableExtra("checkBoxState");
 				String industryId = data.getStringExtra("industryId");
 				
@@ -406,10 +406,9 @@ public class SelectPositionActivity extends BaicActivity {
 							}
 						}
 					}
-					positionListMap.put(industryId, positionList);
+					positionListMap.put(industryId, backPositionType);
 					myAdapter.notifyDataSetChanged(); 
 				} else {//
-					System.out.println(checkBoxState);
 					List<Map<String,String>> tempList = new ArrayList<Map<String,String>>();
 					
 					for(Map map:positionListMap.get(industryId)){
@@ -445,7 +444,9 @@ public class SelectPositionActivity extends BaicActivity {
 								positionList.remove(j);
 							}
 							positionListMap.remove(industryId);
-							positionListMap.put(industryId, positionList);
+							if(backPositionType.size() != 0){
+								positionListMap.put(industryId, backPositionType);
+							}
 						}
 					}
 					positionMap.remove(industryId);
