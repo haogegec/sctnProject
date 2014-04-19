@@ -56,27 +56,29 @@ public class SelectCurrentIndustryActivity extends BaicActivity {
 	private View footViewBar;// 下滑加载条
 	private MyAdapter myAdapter;
 
+	private String[] industryIds = { "90010000", "90020000", "90030000", "90040000", "90050000", "90060000", "90070000", "90080000", "90090000", "90100000", "90110000", "90120000", "90130000", "90140000", "90150000", "90160000", "90170000", "90180000", "90190000", "90200000", "90220000", "90210000", };
+	private String[] industries = { "农、林、牧、渔业", "采矿业", "生产、制造和加工业", "电力、燃气及水的生产和供应业", "建筑业", "交通运输、仓储和邮政业", "信息传输、计算机服务和软件业", "批发和零售业", "旅游、住宿和餐饮业", "金融业", "房地产业", "租赁和商务服务业", "科学研究、技术服务和地质勘查业", "水利、环境和公共设施管理业", "居民服务和其他服务业", "教育、培训", "卫生、社会保障和社会福利业", "文化、体育和娱乐业", "公共管理和社会组织", "国际组织", "贸易、进出口", "其他", };
+	
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.select_current_industry_listview);
 		initIntent();
+		initAllView();
+		reigesterAllEvent();
 		if(!StringUtil.isBlank(flag)&&flag.equals("education")){
 			super.setTitleBar("选择专业", View.VISIBLE, View.GONE);
+			requestDataThread(0);
 		}else if(!StringUtil.isBlank(flag)&&flag.equals("jobintent")){
-			super.setTitleBar("选择预从事行业", View.VISIBLE, View.GONE);
+			super.setTitleBar("选择欲从事行业", View.VISIBLE, View.GONE);
+			initData();
 		}
 		else{
 			super.setTitleBar("选择目前就职的行业", View.VISIBLE, View.GONE);
+			requestDataThread(0);
 		}
-		
-
-		
-		initAllView();
-		reigesterAllEvent();
-		requestDataThread(0);
-
 	}
 
 	private void initIntent(){
@@ -111,9 +113,10 @@ public class SelectCurrentIndustryActivity extends BaicActivity {
 				params.add(new BasicNameValuePair("type", "3"));
 			}else if("education".equals(flag)){
 				params.add(new BasicNameValuePair("type", "21"));
-			}else {
-				params.add(new BasicNameValuePair("type", "9"));
 			}
+//			else {
+//				params.add(new BasicNameValuePair("type", "9"));
+//			}
 			params.add(new BasicNameValuePair("key", "1"));
 			params.add(new BasicNameValuePair("page", page+""));
 			
@@ -170,6 +173,19 @@ public class SelectCurrentIndustryActivity extends BaicActivity {
 			String err = StringUtil.getAppException4MOS("解析json出错！");
 			SelectCurrentIndustryActivity.this.sendExceptionMsg(err);
 		}
+	}
+	
+	// 
+	private void initData(){
+		for(int j=0; j<industryIds.length; j++){
+			Map<String, String> map = new HashMap<String, String>();
+			String key = industryIds[j];
+			String value = industries[j];
+			map.put("id", key);
+			map.put("value", value);
+			listItems.add(map);
+		}
+		initUI();
 	}
 
 	// 处理线程发送的消息

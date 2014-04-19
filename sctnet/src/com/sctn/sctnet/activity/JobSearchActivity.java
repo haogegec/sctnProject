@@ -1,11 +1,10 @@
 package com.sctn.sctnet.activity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.jsoup.helper.StringUtil;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -22,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.cache.CacheProcess;
 import com.sctn.sctnet.contants.Constant;
@@ -42,61 +42,72 @@ public class JobSearchActivity extends BaicActivity {
 	private ScrollView sv_scroll;
 	private LinearLayout search_history_layout;
 	private Button search_btn;
-	
-	private String areaId="";
-	private String industryTypeId="";
-	private String positionTypeId="";
-	
+
+	private String areaId = "";
+	private String industryTypeId = "";
+	private String industryTypeTitle = "";
+	private String positionTypeId = "";
+	private String positionTypeTitle = "";
+
 	private List<Map> backIndustryType;
-	private List<Map> backPositionType;
 	
+	private Map<Integer, Boolean> checkBoxState = null;
+
 	private SQLiteDatabase database;
-	
+
 	private List<Map<String, Object>> logData = new ArrayList<Map<String, Object>>();
-	
+
 	private LinearLayout.LayoutParams littleTitlep;
+	
+	// 保存已选择的职位
+	private Map<String,Boolean> state;
+	private Map<Integer, Boolean> positionCheckBoxState;
+	private Map<String,Map<Integer,Boolean>> positionMap;
+	private List<Map<String,String>> positionList;
+	private List<Map> backPositionType;
+	private Map<String,List<Map<String,String>>> positionListMap = new HashMap<String,List<Map<String,String>>>();
+	
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.job_search_activity);
 		setTitleBar(getString(R.string.jobsearchTitle), View.VISIBLE, View.GONE);
-		
+
 		initAllView();
-		
+
 		reigesterAllEvent();
 		initLogThread();
 	}
 
 	protected void initLogThread() {
-		
+
 		//查询数据可能花费太多时间交给子线程去做，在Handler完成数据的显示
 		Thread mThread = new Thread(new Runnable() {// 启动新的线程，
-			@Override
-			public void run() {
-				initData();
-			}
-		});
-       mThread.start();
-		
-		
+					@Override
+					public void run() {
+						initData();
+					}
+				});
+		mThread.start();
 
 	}
+
 	private void initData() {
-		
+
 		Message msg = new Message();
-		Cursor cursor = database.query("jobSearchLog", new String[] { "_id",
-				"workAreaName", "jobClassName","needProfessionName","workAreaId","jobClassId","needProfessionId","total" }, null, null, null, null, null);
+		Cursor cursor = database.query("jobSearchLog", new String[] { "_id", "workAreaName", "jobClassName", "needProfessionName", "workAreaId", "jobClassId", "needProfessionId", "total" }, null, null, null, null, null);
 		while (cursor.moveToNext()) {
-             Map<String,Object> map = new HashMap<String,Object>(); 
-             map.put("workAreaName", cursor.getString(cursor.getColumnIndex("workAreaName")));
-             map.put("jobClassName", cursor.getString(cursor.getColumnIndex("jobClassName")));
-             map.put("needProfessionName", cursor.getString(cursor.getColumnIndex("needProfessionName")));
-             map.put("workAreaId", cursor.getString(cursor.getColumnIndex("workAreaId")));
-             map.put("jobClassId", cursor.getString(cursor.getColumnIndex("jobClassId")));
-             map.put("needProfessionId", cursor.getString(cursor.getColumnIndex("needProfessionId")));
-             map.put("total", cursor.getString(cursor.getColumnIndex("total")));
-             logData.add(map);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("workAreaName", cursor.getString(cursor.getColumnIndex("workAreaName")));
+			map.put("jobClassName", cursor.getString(cursor.getColumnIndex("jobClassName")));
+			map.put("needProfessionName", cursor.getString(cursor.getColumnIndex("needProfessionName")));
+			map.put("workAreaId", cursor.getString(cursor.getColumnIndex("workAreaId")));
+			map.put("jobClassId", cursor.getString(cursor.getColumnIndex("jobClassId")));
+			map.put("needProfessionId", cursor.getString(cursor.getColumnIndex("needProfessionId")));
+			map.put("total", cursor.getString(cursor.getColumnIndex("total")));
+			logData.add(map);
 		}
 		cursor.close();
 		//database.close();
@@ -104,6 +115,7 @@ public class JobSearchActivity extends BaicActivity {
 		handler.sendMessage(msg);
 
 	}
+
 	// 处理线程发送的消息
 	private Handler handler = new Handler() {
 
@@ -115,72 +127,73 @@ public class JobSearchActivity extends BaicActivity {
 			}
 		}
 	};
-	private void initUI(){
-		
-            int begin = 0;
-            int end = 0;
-            int index = 0;
-		    if(logData==null||logData.size()==0){
-		    	RelativeLayout layout = (RelativeLayout)getLayoutInflater().inflate(R.layout.job_search_item, null);
-				
-				ItemView jobSearchLogItem = (ItemView) layout.findViewById(R.id.job_search_log_item);
-				jobSearchLogItem.setBackground(R.drawable.item_single_bg);
-				jobSearchLogItem.setIconImageViewResource(R.drawable.home_btn_normal);
-				jobSearchLogItem.setLabel("暂无搜素记录");
-				jobSearchLogItem.setValue("");
-				jobSearchLogItem.setDetailImageVisibility(View.GONE);
-				jobSearchLogItem.setIconImageVisibility(View.GONE);
-				search_history_layout.addView(layout,0);
-		    }else{
-		    	if(logData.size()>=5){
-		    		begin = logData.size()-1;
-		    		end = logData.size()-5;
-		    	}else{
-		    		begin = logData.size()-1;
-		    		end = 0;
-		    	}
-		    	for(int i = begin; i >= end; i--){
-					RelativeLayout layout = (RelativeLayout)getLayoutInflater().inflate(R.layout.job_search_item, null);
-					final Map<String,Object> map = logData.get(i);
-					ItemView jobSearchLogItem = (ItemView) layout.getChildAt(0);
-					if(i==end){
-						jobSearchLogItem.setBackground(R.drawable.item_single_bg);
-					}else{
-						jobSearchLogItem.setBackground(R.drawable.item_up_bg);
-					}
-					
-					jobSearchLogItem.setIconImageViewResource(R.drawable.home_btn_normal);
-					jobSearchLogItem.setLabel(map.get("workAreaName")+"+"+map.get("jobClassName")+"+"+map.get("needProfessionName"));
-					jobSearchLogItem.setValue(map.get("total").toString());
-					jobSearchLogItem.setValueTextColor(getResources().getColor(R.color.blue));
-					jobSearchLogItem.setDetailImageViewResource(R.drawable.detail);
-					jobSearchLogItem.setIconImageVisibility(View.GONE);
-			        
-					
-					jobSearchLogItem.getRelativeLayout().setOnClickListener(new View.OnClickListener() {
-						
-						@Override
-						public void onClick(View v) {
-							
-							Intent intent = new Intent(JobSearchActivity.this,JobListActivity.class);
-							Bundle bundle = new Bundle();
-							bundle.putString("areaId", map.get("workAreaId").toString());
-							bundle.putString("industryTypeId",map.get("jobClassId").toString());
-							bundle.putString("positionTypeId",map.get("needProfessionId").toString());
-							bundle.putString("areaName", map.get("workAreaName").toString());
-							bundle.putString("industryTypeName", map.get("jobClassName").toString());
-							bundle.putString("positionTypeName", map.get("needProfessionName").toString());
-							intent.putExtras(bundle);
-							startActivity(intent);
-							finish();
-						}
-					});
-					
-					search_history_layout.addView(layout, littleTitlep);
+
+	private void initUI() {
+
+		int begin = 0;
+		int end = 0;
+		int index = 0;
+		if (logData == null || logData.size() == 0) {
+			RelativeLayout layout = (RelativeLayout) getLayoutInflater().inflate(R.layout.job_search_item, null);
+
+			ItemView jobSearchLogItem = (ItemView) layout.findViewById(R.id.job_search_log_item);
+			jobSearchLogItem.setBackground(R.drawable.item_single_bg);
+			jobSearchLogItem.setIconImageViewResource(R.drawable.home_btn_normal);
+			jobSearchLogItem.setLabel("暂无搜素记录");
+			jobSearchLogItem.setValue("");
+			jobSearchLogItem.setDetailImageVisibility(View.GONE);
+			jobSearchLogItem.setIconImageVisibility(View.GONE);
+			search_history_layout.addView(layout, 0);
+		} else {
+			if (logData.size() >= 5) {
+				begin = logData.size() - 1;
+				end = logData.size() - 5;
+			} else {
+				begin = logData.size() - 1;
+				end = 0;
+			}
+			for (int i = begin; i >= end; i--) {
+				RelativeLayout layout = (RelativeLayout) getLayoutInflater().inflate(R.layout.job_search_item, null);
+				final Map<String, Object> map = logData.get(i);
+				ItemView jobSearchLogItem = (ItemView) layout.getChildAt(0);
+				if (i == end) {
+					jobSearchLogItem.setBackground(R.drawable.item_single_bg);
+				} else {
+					jobSearchLogItem.setBackground(R.drawable.item_up_bg);
 				}
-		    }
-            
+
+				jobSearchLogItem.setIconImageViewResource(R.drawable.home_btn_normal);
+				jobSearchLogItem.setLabel(map.get("workAreaName") + "+" + map.get("jobClassName") + "+" + map.get("needProfessionName"));
+				jobSearchLogItem.setValue(map.get("total").toString());
+				jobSearchLogItem.setValueTextColor(getResources().getColor(R.color.blue));
+				jobSearchLogItem.setDetailImageViewResource(R.drawable.detail);
+				jobSearchLogItem.setIconImageVisibility(View.GONE);
+
+				jobSearchLogItem.getRelativeLayout().setOnClickListener(new View.OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+
+						Intent intent = new Intent(JobSearchActivity.this, JobListActivity.class);
+						Bundle bundle = new Bundle();
+						bundle.putString("areaId", map.get("workAreaId").toString());
+						bundle.putString("industryTypeId", map.get("jobClassId").toString());
+						bundle.putString("positionTypeId", map.get("needProfessionId").toString());
+						bundle.putString("areaName", map.get("workAreaName").toString());
+						bundle.putString("industryTypeName", map.get("jobClassName").toString());
+						bundle.putString("positionTypeName", map.get("needProfessionName").toString());
+						intent.putExtras(bundle);
+						startActivity(intent);
+						finish();
+					}
+				});
+
+				search_history_layout.addView(layout, littleTitlep);
+			}
+		}
+
 	}
+
 	@Override
 	protected void initAllView() {
 
@@ -213,14 +226,12 @@ public class JobSearchActivity extends BaicActivity {
 		search_btn = (Button) findViewById(R.id.search_btn);
 		sv_scroll = (ScrollView) findViewById(R.id.sv_scroll);
 		search_history_layout = (LinearLayout) findViewById(R.id.search_history_layout);
-		
+
 		//初始化本地数据库
-	    DBHelper dbHelper = new DBHelper(this,"jobSearchLog");
-        database = dbHelper.getWritableDatabase();
-        
-        littleTitlep = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.FILL_PARENT,
-				LinearLayout.LayoutParams.WRAP_CONTENT);
+		DBHelper dbHelper = new DBHelper(this, "jobSearchLog");
+		database = dbHelper.getWritableDatabase();
+
+		littleTitlep = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 	}
 
 	@Override
@@ -240,8 +251,8 @@ public class JobSearchActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(JobSearchActivity.this,SelectWorkAreaActivity.class);
-				startActivityForResult(intent,Constant.WORKINGAREA_REQUEST_CODE);
+				Intent intent = new Intent(JobSearchActivity.this, SelectAreaActivity.class);
+				startActivityForResult(intent, Constant.WORKINGAREA_REQUEST_CODE);
 			}
 		});
 
@@ -250,8 +261,11 @@ public class JobSearchActivity extends BaicActivity {
 
 			@Override
 			public void onClick(View v) {
-				 Intent intent = new Intent(JobSearchActivity.this,SelectIndustryActivity.class);
-				 startActivityForResult(intent,Constant.INDUSTRY_REQUEST_CODE);
+				Intent intent = new Intent(JobSearchActivity.this, SelectIndustryActivity.class);
+				intent.putExtra("industryTypeId", industryTypeId);
+				intent.putExtra("industryTypeTitle", industryTypeTitle);
+				intent.putExtra("checkBoxState", (Serializable) checkBoxState);
+				startActivityForResult(intent, Constant.INDUSTRY_REQUEST_CODE);
 			}
 
 		});
@@ -262,19 +276,26 @@ public class JobSearchActivity extends BaicActivity {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(JobSearchActivity.this, SelectPositionActivity.class);
-				startActivityForResult(intent,Constant.POSITION_TYPE);
+//				intent.putExtra("list", list);
+				intent.putExtra("state", (Serializable)state);
+				intent.putExtra("checkBoxState", (Serializable)checkBoxState);
+				intent.putExtra("positionMap", (Serializable)positionMap);
+				intent.putExtra("backPositionType", (Serializable)backIndustryType);
+				intent.putExtra("positionList", (Serializable)positionList);
+				intent.putExtra("positionListMap", (Serializable)positionListMap);
+				startActivityForResult(intent, Constant.POSITION_TYPE);
 			}
 		});
-		
+
 		search_btn.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				
-				Intent intent = new Intent(JobSearchActivity.this,JobListActivity.class);
+
+				Intent intent = new Intent(JobSearchActivity.this, JobListActivity.class);
 				Bundle bundle = new Bundle();
 				bundle.putString("areaId", areaId);
-				bundle.putString("industryTypeId",industryTypeId);
+				bundle.putString("industryTypeId", industryTypeId);
 				bundle.putString("positionTypeId", positionTypeId);
 				bundle.putString("areaName", searchitemView1.getValue());
 				bundle.putString("industryTypeName", searchitemView2.getValue());
@@ -282,54 +303,86 @@ public class JobSearchActivity extends BaicActivity {
 				intent.putExtras(bundle);
 				startActivity(intent);
 				finish();
-				
+
 			}
 		});
 
 	}
 
-	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
 			switch (requestCode) {
 
 			case Constant.WORKINGAREA_REQUEST_CODE: {
-				
-				String area = data.getStringExtra("value");
+
+				String area = data.getStringExtra("city");
 				searchitemView1.setValue(area);
-				areaId = data.getStringExtra("id");
+				areaId = data.getStringExtra("cityId");
 				break;
 			}
-			
+
 			case Constant.INDUSTRY_REQUEST_CODE: {
 				backIndustryType = (List<Map>) ((List) data.getSerializableExtra("list")).get(0);
-				String industryTypeTitle="";
-				for(int i=0;i<backIndustryType.size();i++){
-					industryTypeTitle = industryTypeTitle+backIndustryType.get(i).get("value").toString();
-					if(i==backIndustryType.size()-1){
-						industryTypeId = industryTypeId+backIndustryType.get(i).get("id").toString();
-					}else{
-						industryTypeId = industryTypeId+backIndustryType.get(i).get("id").toString()+",";
+				checkBoxState = (HashMap<Integer, Boolean>) data.getSerializableExtra("checkBoxState");
+				industryTypeTitle = "";
+				industryTypeId = "";
+
+				if (backIndustryType.size() == 0) {
+					searchitemView2.setValue("所有行业");
+				} else {
+					for (int i = 0; i < backIndustryType.size(); i++) {
+						if (i == backIndustryType.size() - 1) {
+							industryTypeTitle = industryTypeTitle + backIndustryType.get(i).get("value").toString();
+						} else {
+							industryTypeTitle = industryTypeTitle + backIndustryType.get(i).get("value").toString() + ",";
+						}
+						if (i == backIndustryType.size() - 1) {
+							industryTypeId = industryTypeId + backIndustryType.get(i).get("id").toString();
+						} else {
+							industryTypeId = industryTypeId + backIndustryType.get(i).get("id").toString() + ",";
+						}
+
 					}
-					
+					searchitemView2.setValue(industryTypeTitle);
 				}
-				searchitemView2.setValue(industryTypeTitle);
+
 				break;
 			}
 			case Constant.POSITION_TYPE: {
 				backPositionType = (List<Map>) ((List) data.getSerializableExtra("list")).get(0);
-				String industryTypeTitle="";
-				for(int i=0;i<backPositionType.size();i++){
-					industryTypeTitle = industryTypeTitle+backPositionType.get(i).get("value").toString();
-					if(i==backPositionType.size()-1){
-						positionTypeId =positionTypeId+ backPositionType.get(i).get("id").toString();
-					}else{
-						positionTypeId =positionTypeId+ backPositionType.get(i).get("id").toString()+",";
+				
+				state = (Map<String, Boolean>) data.getSerializableExtra("state");
+				checkBoxState = (Map<Integer, Boolean>) data.getSerializableExtra("checkBoxState");
+				positionMap = (Map<String, Map<Integer, Boolean>>) data.getSerializableExtra("positionMap");
+//				/backPositionType = (List<Map>) data.getSerializableExtra("backPositionType");
+				positionList = (List<Map<String, String>>) data.getSerializableExtra("positionList");
+//				positionListMap = (Map<String, List<Map<String, String>>>) data.getSerializableExtra("positionListMap");
+				//				String industryTypeTitle="";
+//				industryTypeTitle = "";
+//				for (int i = 0; i < backPositionType.size(); i++) {
+//					industryTypeTitle = industryTypeTitle + backPositionType.get(i).get("value").toString();
+//					if (i == backPositionType.size() - 1) {
+//						positionTypeId = positionTypeId + backPositionType.get(i).get("id").toString();
+//					} else {
+//						positionTypeId = positionTypeId + backPositionType.get(i).get("id").toString() + ",";
+//					}
+//
+//				}
+				
+				positionTypeTitle = "";
+				for(int i=0;i<positionList.size(); i++){
+					if (i == positionList.size() - 1) {
+						positionTypeId = positionTypeId + positionList.get(i).get("id");
+						positionTypeTitle = positionTypeTitle + positionList.get(i).get("value");
+					} else {
+						positionTypeId = positionTypeId + positionList.get(i).get("id") + ",";
+						positionTypeTitle = positionTypeTitle + positionList.get(i).get("value") +",";
 					}
-					
 				}
-				searchitemView3.setValue(industryTypeTitle);
+				
+				
+				searchitemView3.setValue(positionTypeTitle);
 				break;
 			}
 			}

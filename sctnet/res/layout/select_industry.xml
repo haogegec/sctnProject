@@ -44,7 +44,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/count"
                 android:padding="10dp"
-                android:text="编辑已选条件"
+                android:text="已选择："
                 android:textColor="@color/white"
                 android:textSize="16dp" />
         </RelativeLayout>

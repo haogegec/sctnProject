@@ -402,10 +402,11 @@ public class SalarySurveyActivity extends BaicActivity {
 				if (!StringUtil.isBlank(foreignLanguage) && !StringUtil.isBlank(languageLevel)) {
 					tv_foreignLanguage2.setText("已选择");
 					tv_foreignLanguage2.setTextColor(getResources().getColor(R.color.green));
+					Toast.makeText(getApplicationContext(), "设置成功", Toast.LENGTH_SHORT).show();
 				} else {
 					tv_foreignLanguage2.setText("");
 				}
-				Toast.makeText(getApplicationContext(), "设置成功", Toast.LENGTH_SHORT).show();
+				
 				break;
 
 			case Constant.JOBEXP_REQUEST_CODE:

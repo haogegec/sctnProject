@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:layout_margin="10dp"
-        android:textColor="@color/blue"
+        android:textColor="#f78514"
         android:background="#ffffff"
         android:text="@string/archivers_explain"
         android:textSize="10dp"

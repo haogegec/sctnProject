@@ -149,7 +149,7 @@ public class ArchivesListActivity extends BaicActivity{
 
 						Map<String, Object> item = new HashMap<String, Object>();
 					 
-						item.put("file_id", resultJsonArray.getJSONObject(j).get("fileId"));
+						item.put("file_id", resultJsonArray.getJSONObject(j).get("id"));
 						item.put("user_name", resultJsonArray.getJSONObject(j).get("username"));
 						item.put("birthday",resultJsonArray.getJSONObject(j).get("birthday"));
 						if((resultJsonArray.getJSONObject(j).get("sex")+"").equals("0")){

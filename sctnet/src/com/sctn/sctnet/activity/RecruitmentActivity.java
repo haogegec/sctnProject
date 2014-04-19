@@ -36,6 +36,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.TextView.OnEditorActionListener;
 
 import com.sctn.sctnet.R;
@@ -125,7 +126,14 @@ public class RecruitmentActivity extends BaicActivity{
 			public void onClick(View v) {
 				Intent intent = new Intent(RecruitmentActivity.this,RecruitmentSearchResultActivity.class);
 				Bundle bundle = new Bundle();
-				bundle.putString("searchStr", searchEdit.getText().toString());
+				String[] keys = searchEdit.getText().toString().split(" ");
+	         	   if(keys.length>3){
+	         		  bundle.putString("searchStr", keys[0]+" "+keys[1]+" "+keys[2]);
+	         		  Toast.makeText(RecruitmentActivity.this, "您输入的关键字超过了三个，系统默认取前三个进行搜索！", Toast.LENGTH_LONG).show();
+	         	   }else{
+	         		  bundle.putString("searchStr", searchEdit.getText().toString());
+	         	   }
+		//		bundle.putString("searchStr", searchEdit.getText().toString());
 				intent.putExtras(bundle);
 				startActivity(intent);
 				

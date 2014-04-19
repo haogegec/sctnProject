@@ -82,6 +82,11 @@ public class SelectForeignLanguageActivity extends BaicActivity {
 		language_level = (RelativeLayout) findViewById(R.id.language_level);
 		tv_language_level2 = (TextView) findViewById(R.id.tv_language_level2);
 		tv_language_level2.setText(languageLevel);
+		if("无".equals(languageLevel)){
+			language_level.setVisibility(View.INVISIBLE);	
+		} else {
+			language_level.setVisibility(View.VISIBLE);	
+		}
 
 		builder = new AlertDialog.Builder(SelectForeignLanguageActivity.this);
 	}
@@ -124,9 +129,17 @@ public class SelectForeignLanguageActivity extends BaicActivity {
 			public void onClick(View v) {
 				Intent intent = getIntent();
 				intent.putExtra("foreignLanguage", tv_first_language2.getText());
-				intent.putExtra("languageLevel", tv_language_level2.getText());
-				intent.putExtra("foreignLanguageId", languageId);
-				intent.putExtra("languageLevelId", languageLevelId);
+				if("无".equals(tv_first_language2.getText())){
+					intent.putExtra("foreignLanguageId", "");
+					intent.putExtra("languageLevel", "");
+					intent.putExtra("languageLevelId", "");
+				} else {
+					intent.putExtra("foreignLanguageId", languageId);
+					intent.putExtra("languageLevel", tv_language_level2.getText());
+					intent.putExtra("languageLevelId", languageLevelId);
+				}
+				
+				
 
 				setResult(RESULT_OK, intent);
 				finish();
@@ -297,6 +310,11 @@ public class SelectForeignLanguageActivity extends BaicActivity {
 				String language = data.getStringExtra("language");
 				String languageId = data.getStringExtra("languageId");
 				tv_first_language2.setText(language);
+				if("无".equals(language)){
+					language_level.setVisibility(View.INVISIBLE);
+				} else {
+					language_level.setVisibility(View.VISIBLE);
+				}
 				
 				break;
 				

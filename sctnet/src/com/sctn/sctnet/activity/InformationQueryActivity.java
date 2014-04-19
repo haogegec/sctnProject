@@ -27,20 +27,22 @@ import android.widget.Toast;
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.Utils.StringUtil;
 import com.sctn.sctnet.view.ItemView;
+
 /**
  * 信息咨询界面
+ * 
  * @author 姜勇男
- *
+ * 
  */
-public class InformationQueryActivity extends BaicActivity{
-	
-    private EditText searchEdit;
+public class InformationQueryActivity extends BaicActivity {
+
+	private EditText searchEdit;
 	private LinearLayout parentLayout;
 	private ImageView searchImg;
-	private int pageNo=0;
-//	private String bigTitleId;
-//	private String title;
-//	private String id;
+	private int pageNo = 0;
+	//	private String bigTitleId;
+	//	private String title;
+	//	private String id;
 	private String searchStr;
 	//服务端返回结果
 	private String result;
@@ -48,7 +50,7 @@ public class InformationQueryActivity extends BaicActivity{
 	private LinearLayout.LayoutParams bigTitlep;
 	private LinearLayout.LayoutParams littleTitlep;
 	private LinearLayout.LayoutParams buttonlep;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -59,66 +61,68 @@ public class InformationQueryActivity extends BaicActivity{
 		requestDataThread();
 	}
 
-	private void initUI(){
-		
+	private void initUI() {
+
 		JSONArray resultJsonArray;
 		try {
 			resultJsonArray = responseJsonObject.getJSONArray("result");
-			for(int i=0;i<resultJsonArray.length();i++) {
-				
-				JSONArray dataJsonArray = resultJsonArray.getJSONObject(i).getJSONArray("list");					
+			for (int i = 0; i < resultJsonArray.length(); i++) {
+
+				JSONArray dataJsonArray = resultJsonArray.getJSONObject(i).getJSONArray("list");
 				final String title = resultJsonArray.getJSONObject(i).getString("colname");
 				final String bigTitleId = resultJsonArray.getJSONObject(i).getString("id");
-				LinearLayout l = (LinearLayout)getLayoutInflater().inflate(R.layout.information_big_item, null);
+				LinearLayout l = (LinearLayout) getLayoutInflater().inflate(R.layout.information_big_item, null);
 				TextView titleText = (TextView) l.getChildAt(0);
-				if(i%2==0){
+				if (i % 2 == 0) {
 					titleText.setBackgroundResource(R.color.lightGreen);
 				}
 				titleText.setText(title);
 				parentLayout.addView(l, bigTitlep);
 				int count;
-				if(dataJsonArray.length()>=3){
+				if (dataJsonArray.length() >= 3) {
 					count = 3;
-				}else{
+				} else {
 					count = dataJsonArray.length();
 				}
-				
-				for(int j=0;j<3;j++) {
-					LinearLayout ll = (LinearLayout)getLayoutInflater().inflate(R.layout.itemview_layout, null);
-	
+
+				for (int j = 0; j < 3; j++) {
+					LinearLayout ll = (LinearLayout) getLayoutInflater().inflate(R.layout.itemview_layout, null);
+
 					final String id = dataJsonArray.getJSONObject(j).getString("id");
-					ItemView itemView = (ItemView)ll.getChildAt(0);
+					final String label = dataJsonArray.getJSONObject(j).getString("title");
+					ItemView itemView = (ItemView) ll.getChildAt(0);
 					itemView.setBackground(R.drawable.item_mid_bg);
 					itemView.setIconImageViewResource(R.drawable.home_btn_normal);
 					itemView.setLabel(dataJsonArray.getJSONObject(j).getString("title"));
 					itemView.setValue("");
 					itemView.setDetailImageViewResource(R.drawable.detail);
 					itemView.setIconImageVisibility(View.GONE);
-					itemView.getRelativeLayout().setOnClickListener(new OnClickListener(){
+					itemView.getRelativeLayout().setOnClickListener(new OnClickListener() {
 
 						@Override
 						public void onClick(View view) {
-							Intent intent = new Intent(InformationQueryActivity.this,InformationDetailActivity.class);
+							Intent intent = new Intent(InformationQueryActivity.this, InformationDetailActivity.class);
 							Bundle bundle = new Bundle();
 							bundle.putString("title", title);
 							bundle.putString("id", id);
+							bundle.putString("label", label);
 							intent.putExtras(bundle);
 							startActivity(intent);
 						}
-						
+
 					});
 					parentLayout.addView(ll, littleTitlep);
-							
+
 				}
-				if(count>=3){
-				
-					LinearLayout more = (LinearLayout)getLayoutInflater().inflate(R.layout.more_button, null);
+				if (count >= 3) {
+
+					LinearLayout more = (LinearLayout) getLayoutInflater().inflate(R.layout.more_button, null);
 					Button moreBtn = (Button) more.getChildAt(0);
 					moreBtn.setOnClickListener(new OnClickListener() {
 
 						@Override
 						public void onClick(View v) {
-							Intent intent = new Intent(InformationQueryActivity.this,InformationListMoreActivity.class);
+							Intent intent = new Intent(InformationQueryActivity.this, InformationListMoreActivity.class);
 							Bundle bundle = new Bundle();
 							bundle.putString("title", title);
 							bundle.putString("cid", bigTitleId);
@@ -127,77 +131,76 @@ public class InformationQueryActivity extends BaicActivity{
 							startActivity(intent);
 						}
 					});
-					
+
 					parentLayout.addView(more, buttonlep);
 				}
-				
-				
+
 			}
 		} catch (JSONException e) {
-			Toast.makeText(getApplicationContext(), "解析返回Json出错", Toast.LENGTH_SHORT).show();			
+			Toast.makeText(getApplicationContext(), "解析返回Json出错", Toast.LENGTH_SHORT).show();
 		}
-		
-		
+
 	}
-	
+
 	@Override
 	protected void initAllView() {
-		
-		parentLayout = (LinearLayout)findViewById(R.id.ll_information_query);
-		
-		bigTitlep = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.FILL_PARENT,
-				LinearLayout.LayoutParams.WRAP_CONTENT);
+
+		parentLayout = (LinearLayout) findViewById(R.id.ll_information_query);
+
+		bigTitlep = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 		bigTitlep.topMargin = 10;
-		littleTitlep = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.FILL_PARENT,
-				LinearLayout.LayoutParams.WRAP_CONTENT);
-		buttonlep = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.FILL_PARENT,
-				LinearLayout.LayoutParams.WRAP_CONTENT);
-		
+		littleTitlep = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+		buttonlep = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
 		searchEdit = (EditText) findViewById(R.id.et_search_searchtxt);
 		searchImg = (ImageView) findViewById(R.id.search_bar);
 	}
 
 	@Override
 	protected void reigesterAllEvent() {
-		
+
 		//searchStr = searchEdit.getText().toString();
-		searchImg.setOnClickListener(new OnClickListener(){
+		searchImg.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				
-				Intent intent = new Intent(InformationQueryActivity.this,InformationListMoreActivity.class);
+
+				Intent intent = new Intent(InformationQueryActivity.this, InformationListMoreActivity.class);
 				Bundle bundle = new Bundle();
 				bundle.putString("title", "搜索结果");
-				bundle.putString("search", searchEdit.getText().toString());
+				String[] keys = searchEdit.getText().toString().split(" ");
+				if (keys.length > 3) {
+					bundle.putString("search", keys[0] + " " + keys[1] + " " + keys[2]);
+					Toast.makeText(InformationQueryActivity.this, "您输入的关键字超过了三个，系统默认取前三个进行搜索！", Toast.LENGTH_LONG).show();
+				} else {
+					bundle.putString("search", searchEdit.getText().toString());
+				}
+
 				bundle.putString("url", "appInfo!search.app");
 				intent.putExtras(bundle);
 				startActivity(intent);
 			}
-			
+
 		});
-//		searchEdit.setOnEditorActionListener(new OnEditorActionListener() { 
-//            
-//           @Override
-//           public boolean onEditorAction(TextView v, int actionId, KeyEvent event) { 
-//               if (actionId == EditorInfo.IME_ACTION_DONE||actionId == KeyEvent.KEYCODE_ENTER||actionId == 0) { 
-//            	   Intent intent = new Intent(InformationQueryActivity.this,InformationListMoreActivity.class);
-//					Bundle bundle = new Bundle();
-//					bundle.putString("title", "搜索结果");
-//					bundle.putString("search", searchEdit.getText().toString());
-//					bundle.putString("url", "appInfo!search.app");
-//					intent.putExtras(bundle);
-//					startActivity(intent);
-//               } 
-//               return false; 
-//           } 
-//       }); 
-		
+		//		searchEdit.setOnEditorActionListener(new OnEditorActionListener() { 
+		//            
+		//           @Override
+		//           public boolean onEditorAction(TextView v, int actionId, KeyEvent event) { 
+		//               if (actionId == EditorInfo.IME_ACTION_DONE||actionId == KeyEvent.KEYCODE_ENTER||actionId == 0) { 
+		//            	   Intent intent = new Intent(InformationQueryActivity.this,InformationListMoreActivity.class);
+		//					Bundle bundle = new Bundle();
+		//					bundle.putString("title", "搜索结果");
+		//					bundle.putString("search", searchEdit.getText().toString());
+		//					bundle.putString("url", "appInfo!search.app");
+		//					intent.putExtras(bundle);
+		//					startActivity(intent);
+		//               } 
+		//               return false; 
+		//           } 
+		//       }); 
+
 	}
-	
+
 	/**
 	 * 请求数据线程
 	 * 
@@ -212,9 +215,9 @@ public class InformationQueryActivity extends BaicActivity{
 				});
 		mThread.start();
 	}
-	
-   private void requestData(){
-		
+
+	private void requestData() {
+
 		String url = "appInfo.app";
 
 		Message msg = new Message();
@@ -234,39 +237,36 @@ public class InformationQueryActivity extends BaicActivity{
 				return;
 			}
 			responseJsonObject = new JSONObject(result);
-			Message m=new Message();
-            if(responseJsonObject.get("resultCode").toString().equals("0")) {
-								
+			Message m = new Message();
+			if (responseJsonObject.get("resultCode").toString().equals("0")) {
+
 				m.what = 0;
 				handler.sendMessage(m);
-			}else {
+			} else {
 				String errorResult = (String) responseJsonObject.get("result");
 				String err = StringUtil.getAppException4MOS(errorResult);
 				InformationQueryActivity.this.sendExceptionMsg(err);
 				return;
 			}
-					
-			
-			
-	}catch (JSONException e) {
-		String err = StringUtil.getAppException4MOS("解析json出错！");
-		InformationQueryActivity.this.sendExceptionMsg(err);
+
+		} catch (JSONException e) {
+			String err = StringUtil.getAppException4MOS("解析json出错！");
+			InformationQueryActivity.this.sendExceptionMsg(err);
+		}
 	}
- }
-   
-// 处理线程发送的消息
-		private Handler handler = new Handler() {
 
-			public void handleMessage(Message msg) {
-				switch (msg.what) {
-				case 0:
-					initUI();
-					break;
+	// 处理线程发送的消息
+	private Handler handler = new Handler() {
 
-				}
-				closeProcessDialog();
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case 0:
+				initUI();
+				break;
+
 			}
-		};
+			closeProcessDialog();
+		}
+	};
 
-	
 }

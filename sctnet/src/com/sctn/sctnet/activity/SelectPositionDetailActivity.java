@@ -1,5 +1,6 @@
 package com.sctn.sctnet.activity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -57,6 +58,9 @@ public class SelectPositionDetailActivity extends BaicActivity{
 	private RelativeLayout rl_layout;
 	private TextView count;// 已选择的行业个数，最多同时能选5个行业
 	int i = 0;
+	Map<Integer, Boolean> checkBoxState = new HashMap<Integer, Boolean>();// 记录checkbox的状态
+	// 标记当前职位大类里选择的是哪几个小类
+	private boolean[] tmp;
 	
 	private String industryContent;
 	private String industryId;
@@ -64,7 +68,7 @@ public class SelectPositionDetailActivity extends BaicActivity{
 	private String result;
 	private com.alibaba.fastjson.JSONObject responseJsonObject = null;// 返回结果存放在该json对象中
 	
-	private List backList = new ArrayList();//回传给职位搜索页面的数据
+	private List backList = new ArrayList();//回传给职位搜索页面的数据，存的是：详细职业的 id和name
 
 	private int page = 1;
 	private int total;// 总条数
@@ -78,9 +82,17 @@ public class SelectPositionDetailActivity extends BaicActivity{
 		setContentView(R.layout.select_industry);
 		setTitleBar("选择详细职业", View.VISIBLE, View.VISIBLE);
 
+		initIntent();
 		initAllView();
 		reigesterAllEvent();
 		requestDataThread(0);
+	}
+	
+	private void initIntent(){
+		Intent intent = getIntent();
+		if(intent.getSerializableExtra("checkBoxState") != null){
+			checkBoxState = (HashMap<Integer,Boolean>)intent.getSerializableExtra("checkBoxState");
+		}
 	}
 	
 	/**
@@ -162,6 +174,7 @@ public class SelectPositionDetailActivity extends BaicActivity{
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case 0:
+					initCheckBox();
 					initUI();
 					closeProcessDialog();
 					break;
@@ -173,6 +186,33 @@ public class SelectPositionDetailActivity extends BaicActivity{
 				
 			}
 		};
+		
+		private void initCheckBox(){
+			tmp = new boolean[total];
+			for(Map.Entry<Integer, Boolean> entry: checkBoxState.entrySet()) {
+				tmp[entry.getKey()] = entry.getValue();
+			}
+
+			count.setText(checkBoxState.size() + "/5");
+			for(int j=0; j<tmp.length; j++){
+				if(tmp[j]){
+					TextView tv_already_selected = new TextView(SelectPositionDetailActivity.this);
+					LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+					params.setMargins(0, 5, 0, 0);
+					tv_already_selected.setLayoutParams(params);
+					tv_already_selected.setBackgroundColor(getResources().getColor(R.color.white));
+					tv_already_selected.setCompoundDrawablePadding(10);
+					tv_already_selected.setPadding(10, 10, 10, 10);
+					tv_already_selected.setText(data.get(j).getContent());
+					tv_already_selected.setTextSize(16);
+					tv_already_selected.setTextColor(getResources().getColor(R.color.lightBlack));
+					already_selected.addView(tv_already_selected, i);
+					i++;
+					rl_layout.setClickable(true);
+				}
+			}
+		
+		}
 
 		private void initUI(){
 			if (total > pageSize * page) {
@@ -233,6 +273,9 @@ public class SelectPositionDetailActivity extends BaicActivity{
 				ArrayList list = new ArrayList();
 				list.add(backList);
 				intent.putExtra("list", list);
+//				if(checkBoxState.size()==0) intent.putExtra("industryId", "");
+				intent.putExtra("industryId", industryId);
+				intent.putExtra("checkBoxState", (Serializable)checkBoxState);
 				setResult(RESULT_OK,intent);
 				finish();
 			}
@@ -288,7 +331,7 @@ public class SelectPositionDetailActivity extends BaicActivity{
 		private Context mContext;
 		private List<ItemEntity> mData;
 		private LayoutInflater mLayoutInflater;
-		Map<Integer, Boolean> checkBoxState = new HashMap<Integer, Boolean>();// 记录checkbox的状态
+		
 
 		public PinnedAdapter(Context pContext, List<ItemEntity> pData) {
 			mContext = pContext;
@@ -324,6 +367,18 @@ public class SelectPositionDetailActivity extends BaicActivity{
 			} else {
 				// 内容项隐藏标题
 				viewHolder.title.setVisibility(View.GONE);
+			}
+			
+			// 初始化从JobSearchActivity页面传过来已选择的checkbox
+			if(tmp.length != 0){
+				if (tmp[position]) {
+					list.add(position);
+					HashMap map = new HashMap();
+					map.put("id", data.get(position).getmContentId());
+					map.put("value", data.get(position).getContent());
+					backList.add(map);
+					tmp[position] = false;
+				}
 			}
 			
 
@@ -381,6 +436,13 @@ public class SelectPositionDetailActivity extends BaicActivity{
 						}
 					}else {
 						checkBoxState.remove(position);
+						
+						for(int i=0; i<backList.size(); i++){
+							Map<String,String> map = (Map<String,String>)backList.get(i);
+							if(map.get("id").equals(data.get(position).getmContentId())){
+								backList.remove(map);
+							}
+						}
 						
 						int index = -1;
 						// 循环结束后，index的值就是当前position在已选行业当中的第几个了

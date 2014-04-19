@@ -158,8 +158,7 @@ public class RecruitmentCompanyListActivity extends BaicActivity{
 		recruitmentCompanyListAdapter = new SimpleAdapter(
 				RecruitmentCompanyListActivity.this, items,
 				R.layout.recruitment_company_list_item,
-				key,new int[] { R.id.company_name_text,R.id.partitionlist_name_text,R.id.job_name_text,R.id.contact_name_text,
-						R.id.contact_way_text,R.id.company_address_text});
+				key,new int[] { R.id.company_name_text,R.id.partitionlist_name_text,R.id.job_name_text});
 		recruitmentCompanyListView.setAdapter(recruitmentCompanyListAdapter);
 		
 	}

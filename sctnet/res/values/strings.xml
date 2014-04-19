@@ -103,7 +103,7 @@
 
     <!-- 信息咨询 -->
     <string name="information_query">信息咨询</string>
-    <string name="search_hint">输入关键字搜索</string>
+    <string name="search_hint">最多输入三个关键字，用空格隔开</string>
     <string name="interview">面试</string>
     <string name="change_job">跳槽</string>
 
@@ -157,7 +157,7 @@
     <!-- 消息订阅 -->
     <string name="subscribe_name">订阅名称</string>
     <string name="subscribe_name_hint">点击输入</string>
-    <string name="key_words">关键词（多个关键词用中文逗号隔开）</string>
+    <string name="key_words">关键词（多个关键词用英文逗号隔开）</string>
     <string name="key_words_hint">如:职位名称、公司名称、工作地点等</string>
     <string name="subscribeActivityTitle">订阅</string>
 

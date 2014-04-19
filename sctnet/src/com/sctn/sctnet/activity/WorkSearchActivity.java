@@ -31,6 +31,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
 
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.contants.Constant;
@@ -224,7 +225,14 @@ public class WorkSearchActivity extends Activity {
 			   Intent intent = new Intent(WorkSearchActivity.this,JobListActivity.class);
          	   Bundle bundle = new Bundle();
          	   bundle.putString("type", type);
-         	   bundle.putString("key", search_edit.getText().toString());
+         	   String[] keys = search_edit.getText().toString().split(" ");
+         	   if(keys.length>3){
+         		  bundle.putString("key", keys[0]+" "+keys[1]+" "+keys[2]);
+         		  Toast.makeText(WorkSearchActivity.this, "您输入的关键字大于三个，系统默认取前三个进行搜索！", Toast.LENGTH_LONG).show();
+         	   }else{
+         		  bundle.putString("key", search_edit.getText().toString());
+         	   }
+         	   
          	   bundle.putString("whichActivity", "WorkSearchActivity");
          	   intent.putExtras(bundle);
 			   startActivity(intent);

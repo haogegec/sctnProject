@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.Html;
 import android.view.View;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.sctn.sctnet.R;
@@ -20,17 +21,23 @@ import com.sctn.sctnet.Utils.StringUtil;
 
 /**
  * 信息咨询详情页面
+ * 
  * @author xueweiwei
- *
+ * 
  */
-public class InformationDetailActivity extends BaicActivity{
+public class InformationDetailActivity extends BaicActivity {
 
 	private String title;
 	private String id;
+	private String label;
 	private String result;
 	private JSONObject responseJsonObject = null;// 返回结果存放在该json对象中
 	private String informationContent;
+
+	private ScrollView sv_scroll;
+	private TextView tv_title;
 	private TextView informationContentText;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -40,6 +47,7 @@ public class InformationDetailActivity extends BaicActivity{
 		reigesterAllEvent();
 		requestDataThread();
 	}
+
 	/**
 	 * 请求数据线程
 	 * 
@@ -54,8 +62,9 @@ public class InformationDetailActivity extends BaicActivity{
 				});
 		mThread.start();
 	}
-   private void requestData(){
-		
+
+	private void requestData() {
+
 		String url = "appInfo!find.app";
 
 		Message msg = new Message();
@@ -63,7 +72,7 @@ public class InformationDetailActivity extends BaicActivity{
 
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
 			params.add(new BasicNameValuePair("id", id));
-		//	params.add(new BasicNameValuePair("pageSize", pageSize + ""));
+			// params.add(new BasicNameValuePair("pageSize", pageSize + ""));
 			result = getPostHttpContent(url, params);
 
 			if (StringUtil.isExcetionInfo(result)) {
@@ -77,58 +86,67 @@ public class InformationDetailActivity extends BaicActivity{
 				return;
 			}
 			responseJsonObject = new JSONObject(result);
-			Message m=new Message();
-            if(responseJsonObject.get("resultCode").toString().equals("0")) {
-            	informationContent = (String) responseJsonObject.getJSONObject("result").get("content");				
+			Message m = new Message();
+			if (responseJsonObject.get("resultCode").toString().equals("0")) {
+				informationContent = (String) responseJsonObject.getJSONObject(
+						"result").get("content");
 				m.what = 0;
 				handler.sendMessage(m);
-			}else {
+			} else {
 				String errorResult = (String) responseJsonObject.get("result");
 				String err = StringUtil.getAppException4MOS(errorResult);
 				InformationDetailActivity.this.sendExceptionMsg(err);
 				return;
 			}
-					
-			
-			
-	}catch (JSONException e) {
-		String err = StringUtil.getAppException4MOS("解析json出错！");
-		InformationDetailActivity.this.sendExceptionMsg(err);
+
+		} catch (JSONException e) {
+			String err = StringUtil.getAppException4MOS("解析json出错！");
+			InformationDetailActivity.this.sendExceptionMsg(err);
+		}
 	}
- }
-   private void initUI(){
-	   informationContentText.setText(Html.fromHtml(informationContent));
-   }
-//处理线程发送的消息
-		private Handler handler = new Handler() {
 
-			public void handleMessage(Message msg) {
-				switch (msg.what) {
-				case 0:
-					initUI();
-					break;
+	private void initUI() {
+		informationContentText.setText(Html.fromHtml(informationContent));
+		sv_scroll.setVisibility(View.VISIBLE);
+	}
 
-				}
-				closeProcessDialog();
+	// 处理线程发送的消息
+	private Handler handler = new Handler() {
+
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case 0:
+				initUI();
+				break;
+
 			}
-		};
-	private void initBundle(){
+			closeProcessDialog();
+		}
+	};
+
+	private void initBundle() {
 		Intent intent = this.getIntent();
 		Bundle bundle = intent.getExtras();
 		title = bundle.getString("title");
 		id = bundle.getString("id");
+		label = bundle.getString("label");
 	}
+
 	@Override
 	protected void initAllView() {
-		
+
 		setTitleBar(title, View.VISIBLE, View.GONE);
+		tv_title = (TextView) findViewById(R.id.information_detail_title);
 		informationContentText = (TextView) findViewById(R.id.information_detail_text);
+		sv_scroll = (ScrollView) findViewById(R.id.sv_scroll);
+
+		tv_title.setText(label);
 	}
 
 	@Override
 	protected void reigesterAllEvent() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

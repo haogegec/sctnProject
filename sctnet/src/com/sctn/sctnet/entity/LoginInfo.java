@@ -24,11 +24,11 @@ public class LoginInfo {
 		//清空 请求头信息
 		long userId = 0;
 		SharePreferencesUtils.setSharedlongData("userId",userId);
-		SharePreferencesUtils.setSharedStringData("userName", "");
-		SharePreferencesUtils.setSharedStringData("password", "");
+//		SharePreferencesUtils.setSharedStringData("userName", "");
+//		SharePreferencesUtils.setSharedStringData("password", "");
 		SharePreferencesUtils.setSharedBooleanData(LOGIN_SUCCESS_FLAG, false);
-		SharePreferencesUtils.setSharedBooleanData("isRememberPassword",false);
-		SharePreferencesUtils.setSharedBooleanData("isAutoLogin", false);
+//		SharePreferencesUtils.setSharedBooleanData("isRememberPassword",false);
+//		SharePreferencesUtils.setSharedBooleanData("isAutoLogin", false);
 	}
 	/**
 	 * 用来判断用户是否有简历

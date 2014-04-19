@@ -10,19 +10,22 @@
              android:id="@+id/work_direction_search"
              android:layout_width="wrap_content"  
              android:layout_height="wrap_content"  
-             android:layout_margin="20dip"
+             android:layout_margin="10dip"
               >
 
-            <EditText 
+             <EditText 
              android:id="@+id/search_edit_bg"
-             android:layout_width="fill_parent"
-	         android:layout_height="wrap_content" 
-             android:background="@drawable/search_bg"
-             android:hint="@string/homeactivityhint"
-             android:gravity="center_vertical"
-              android:paddingLeft="20dip"
-              
-              android:singleLine="true"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/search_edittext_bg"
+            android:hint="@string/search_hint"
+            android:paddingTop="10dp"
+            android:paddingLeft="10dip"
+            android:paddingBottom="10dp"
+            android:singleLine="true"
+            android:textColor="#555"
+            android:textColorHint="#999"
+            android:textSize="15dp" 
                />  
                
               <ImageView 

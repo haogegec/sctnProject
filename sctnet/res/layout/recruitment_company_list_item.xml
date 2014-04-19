@@ -2,86 +2,99 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/order_query_list_item_bg"
-    android:paddingLeft="20dip"
-    android:paddingRight="20dip"
-    android:layout_marginTop="10dip"
-    android:layout_marginBottom="10dip"
-     >
- 
-        <TextView
-            android:id="@+id/company_name"
-            android:layout_width="wrap_content"
+    android:paddingBottom="10dp"
+    android:background="@color/background" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/search_edittext_bg" >
+
+        <RelativeLayout
+            android:id="@+id/layout1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:paddingLeft="15dip"
-            android:paddingTop="13dip"
-            android:paddingBottom="3dip"
-            android:textColor="#FF000000"
-            android:textStyle="bold" 
-              android:text="单位名称："
-           />
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginTop="1dp"
+            android:background="#ADD8E6" >
+
+            <TextView
+                android:id="@+id/company_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:paddingBottom="10dip"
+                android:paddingLeft="15dip"
+                android:paddingTop="10dip"
+                android:text="单位名称："
+                android:textColor="#FF000000"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/company_name_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/company_name"
+                android:layout_toRightOf="@+id/company_name"
+                android:ellipsize="end"
+                android:paddingBottom="10dip"
+                android:paddingRight="15dp"
+                android:paddingTop="10dp"
+                android:singleLine="true"
+                android:textColor="#FF000000"
+                android:textStyle="bold" />
+        </RelativeLayout>
 
         <TextView
-            android:id="@+id/company_name_text"
+            android:id="@+id/partitionlist_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/company_name"
-            android:layout_alignBottom="@+id/company_name"
-            android:maxEms="8"
-            android:singleLine="true"
-            android:ellipsize="end"
-            android:paddingBottom="3dip"
-            android:textColor="#FF000000"
-            android:textStyle="bold"
-              />
-        <TextView	
-            android:id="@+id/partitionlist_name"
-            android:layout_width="wrap_content"	
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/company_name"
+            android:layout_below="@+id/layout1"
             android:gravity="center"
+            android:paddingBottom="5dip"
             android:paddingLeft="15dip"
             android:paddingTop="10dip"
-            android:paddingBottom="5dip"
             android:text="展位号："
-            android:textColor="#FF666666"
-           />
-          <TextView
+            android:textColor="#FF666666" />
+
+        <TextView
             android:id="@+id/partitionlist_name_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/partitionlist_name"
             android:layout_alignTop="@+id/partitionlist_name"
-            android:paddingTop="10dip"
+            android:layout_toRightOf="@+id/partitionlist_name"
             android:paddingBottom="5dip"
-            android:textColor="#FF666666"
-              />
-          
-           <TextView	
+            android:paddingTop="10dip"
+            android:textColor="#FF666666" />
+
+        <TextView
             android:id="@+id/job_name"
-            android:layout_width="wrap_content"	
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/partitionlist_name"
             android:gravity="center"
+            android:paddingBottom="5dip"
             android:paddingLeft="15dip"
             android:paddingTop="5dip"
-            android:paddingBottom="5dip"
             android:text="提供的职位："
-            android:textColor="#FF666666"
-           />
-          <TextView
+            android:textColor="#FF666666" />
+
+        <TextView
             android:id="@+id/job_name_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/job_name"
             android:layout_alignTop="@+id/job_name"
-            android:paddingTop="5dip"
+            android:layout_toRightOf="@+id/job_name"
             android:paddingBottom="5dip"
-            android:textColor="#FF666666"
-              />
-		<!-- 第二行 -->
-		<!-- 联系人姓名 -->
+            android:paddingTop="5dip"
+            android:textColor="#FF666666" />
+    </RelativeLayout>
+
+    <!--
+		第二行
+		联系人姓名
         <TextView	
             android:id="@+id/contact_name"
             android:layout_width="wrap_content"	
@@ -107,8 +120,8 @@
           
           
           
-        <!-- 第三行 -->
-		<!-- 联系方式 -->
+        第三行
+		联系方式
         <TextView
             android:id="@+id/contact_way"
             android:layout_width="wrap_content"
@@ -136,8 +149,8 @@
            />
 
 		
-         <!-- 第六行 -->
-		<!--  地址 -->
+         第六行
+		 地址
           <TextView
             android:id="@+id/company_address"
             android:layout_width="wrap_content"
@@ -158,10 +171,8 @@
             android:layout_alignTop="@+id/company_address"
             android:paddingTop="5dip"
             android:textColor="#FF666666"
-            android:paddingBottom="5dip"
-           
+            android:paddingBottom="5dip"     
             />
-      		
-                
-      
+    -->
+
 </RelativeLayout>

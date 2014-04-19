@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -42,6 +43,7 @@ import com.sctn.sctnet.view.ItemView;
  */
 public class PersonalCenterActivity extends BaicActivity {
 
+	private final String TAG = "消息推送";
 	private ItemView itemView1, itemView2, itemView3, itemView4, itemView5;
 	private TextView postAppCount, postCollCount;// 职位申请记录，职位收藏记录
 	private CacheProcess cacheProcess;// 缓存数据
@@ -108,7 +110,7 @@ public class PersonalCenterActivity extends BaicActivity {
 
 		itemView2.setBackground(R.drawable.item_up_bg);
 		itemView2.setIconImageViewResource(R.drawable.personal_push);
-		itemView2.setLabel("职业信息自动推送");
+		itemView2.setLabel("中心自行定制信息内容推送");
 		itemView2.setLabelTextColor(getResources().getColor(R.color.blue));
 		if (jobInformationPushAuto) {
 			itemView2.setDetailImageViewResource(R.drawable.set_on);
@@ -119,7 +121,7 @@ public class PersonalCenterActivity extends BaicActivity {
 		
 		itemView3.setBackground(R.drawable.item_up_bg);
 		itemView3.setIconImageViewResource(R.drawable.subscribe);
-		itemView3.setLabel("中心自行定制信息内容推送");
+		itemView3.setLabel("职业信息自动推送");
 		itemView3.setLabelTextColor(getResources().getColor(R.color.blue));
 		if (subscribe) {
 			itemView3.setDetailImageViewResource(R.drawable.set_on);
@@ -500,10 +502,12 @@ public class PersonalCenterActivity extends BaicActivity {
 				break;
 				
 			case Constant.USER_DEFINED_PUSH_SUCCESS_MODIFY_WIDGET:
+				Log.i(TAG, logs);
 				setUserDefinedPush();
 				break;
 				
 			case Constant.USER_DEFINED_PUSH_ERROR:
+				Log.i(TAG, logs);
 				alert();
 				break;
 
