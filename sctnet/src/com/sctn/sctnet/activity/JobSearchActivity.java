@@ -373,14 +373,27 @@ public class JobSearchActivity extends BaicActivity {
 				positionTypeTitle = "";
 				for(Map.Entry<String, List<Map<String,String>>> entry: positionListMap.entrySet()) {
 					List<Map<String,String>> tempList = entry.getValue();
+					String tmpPositionTypeId = "";
+					String tmpPositionTypeTitle = "";
 					for(int i=0; i<tempList.size(); i++){
 						if (i == tempList.size() - 1) {
-							positionTypeId = positionTypeId + tempList.get(i).get("id");
-							positionTypeTitle = positionTypeTitle + tempList.get(i).get("value");
+							tmpPositionTypeId = tmpPositionTypeId + tempList.get(i).get("id");
+							tmpPositionTypeTitle = tmpPositionTypeTitle + tempList.get(i).get("value");
 						} else {
-							positionTypeId = positionTypeId + tempList.get(i).get("id") + ",";
-							positionTypeTitle = positionTypeTitle + tempList.get(i).get("value") +",";
+							tmpPositionTypeId = tmpPositionTypeId + tempList.get(i).get("id") + ",";
+							tmpPositionTypeTitle = tmpPositionTypeTitle + tempList.get(i).get("value") +",";
 						}
+					}
+					if("".equals(positionTypeId)){
+						positionTypeId += tmpPositionTypeId ;
+					} else {
+						positionTypeId = positionTypeId + "," + tmpPositionTypeId;
+					}
+					
+					if("".equals(positionTypeTitle)){
+						positionTypeTitle += tmpPositionTypeTitle;
+					} else {
+						positionTypeTitle = positionTypeTitle + "," + tmpPositionTypeTitle;
 					}
 				}
 				searchitemView3.setValue(positionTypeTitle);
