@@ -396,7 +396,7 @@ public class JobSearchActivity extends BaicActivity {
 						positionTypeTitle = positionTypeTitle + "," + tmpPositionTypeTitle;
 					}
 				}
-				searchitemView3.setValue(positionTypeTitle);
+				searchitemView3.setValue("".equals(positionTypeTitle)?"所有职能":positionTypeTitle);
 				break;
 			}
 			}

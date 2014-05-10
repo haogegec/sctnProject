@@ -58,6 +58,9 @@ public class SelectPositionDetailActivity extends BaicActivity{
 	private RelativeLayout rl_layout;
 	private TextView count;// 已选择的行业个数，最多同时能选5个行业
 	int i = 0;
+	
+	private int alreadySelected = 0;// 已选择的所有职能总数（小类）
+	
 	Map<Integer, Boolean> checkBoxState = new HashMap<Integer, Boolean>();// 记录checkbox的状态
 	// 标记当前职位大类里选择的是哪几个小类
 	private boolean[] tmp;
@@ -93,6 +96,7 @@ public class SelectPositionDetailActivity extends BaicActivity{
 		if(intent.getSerializableExtra("checkBoxState") != null){
 			checkBoxState = (HashMap<Integer,Boolean>)intent.getSerializableExtra("checkBoxState");
 		}
+		alreadySelected = intent.getIntExtra("alreadySelected", 0);
 	}
 	
 	/**
@@ -276,6 +280,7 @@ public class SelectPositionDetailActivity extends BaicActivity{
 //				if(checkBoxState.size()==0) intent.putExtra("industryId", "");
 				intent.putExtra("industryId", industryId);
 				intent.putExtra("checkBoxState", (Serializable)checkBoxState);
+				intent.putExtra("alreadySelected", alreadySelected);
 				setResult(RESULT_OK,intent);
 				finish();
 			}
@@ -390,6 +395,27 @@ public class SelectPositionDetailActivity extends BaicActivity{
 				@Override
 				public void onClick(View v) {
 					if(((CheckBox)v).isChecked()){
+						
+						if(alreadySelected >= 5){
+							final CustomDialog dialog = new CustomDialog(SelectPositionDetailActivity.this, R.style.CustomDialog);
+//							dialog.setCanceledOnTouchOutside(false);// 点击dialog外边，对话框不会消失，按返回键对话框消失
+						//	dialog.setCancelable(false);// 点击dialog外边、按返回键 对话框都不会消失
+							dialog.setTitle("友情提示");
+							dialog.setMessage("最多可以选择5个职业，您已跨职能选择了5个职业！");
+							dialog.setOnPositiveListener("确定", new OnClickListener(){
+
+								@Override
+								public void onClick(View v) {
+									dialog.dismiss();
+								}
+								
+							});
+							dialog.show();
+							((CheckBox)v).setChecked(false);
+						} else {
+							
+						
+						
 						if(checkBoxState.size() >= 5){
 					
 							final CustomDialog dialog = new CustomDialog(SelectPositionDetailActivity.this, R.style.CustomDialog);
@@ -433,7 +459,12 @@ public class SelectPositionDetailActivity extends BaicActivity{
 							already_selected.addView(tv_already_selected,i);
 							i++;
 							rl_layout.setClickable(true);
+							alreadySelected ++;
 						}
+						
+						
+						}
+						
 					}else {
 						checkBoxState.remove(position);
 						
@@ -460,6 +491,7 @@ public class SelectPositionDetailActivity extends BaicActivity{
 							triangle.setImageResource(R.drawable.triangle_down);
 							rl_layout.setClickable(false);
 						}
+						alreadySelected --;
 					}
 				}});
 

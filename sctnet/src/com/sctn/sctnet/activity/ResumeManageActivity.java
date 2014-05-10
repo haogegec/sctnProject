@@ -6,13 +6,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -103,7 +101,7 @@ public class ResumeManageActivity extends BaicActivity {
 	private float i = 0;
 
 	private SharedPreferences sharedPreferences;
-	
+
 	private String isOpen;
 
 	@Override
@@ -174,16 +172,16 @@ public class ResumeManageActivity extends BaicActivity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if(dataList.size()==0){
+				if (dataList.size() == 0) {
 					resumePreviewImg.setClickable(false);
-				}else{
+				} else {
 					Intent intent = new Intent(ResumeManageActivity.this, ResumePreviewActivity.class);
 					Bundle bundle = new Bundle();
 					bundle.putSerializable("resumeInfo", dataList);
 					intent.putExtras(bundle);
 					startActivity(intent);
 				}
-				
+
 			}
 
 		});
@@ -265,9 +263,9 @@ public class ResumeManageActivity extends BaicActivity {
 			@Override
 			public void onClick(View arg0) {
 
-				if(isOpen.equals("0")){
+				if (isOpen.equals("0")) {
 					isOpen = "1";
-				}else{
+				} else {
 					isOpen = "0";
 				}
 				displayOrNotTread();
@@ -284,9 +282,9 @@ public class ResumeManageActivity extends BaicActivity {
 
 				isPublicImg.setPressed(true);
 
-				if(isOpen.equals("0")){
+				if (isOpen.equals("0")) {
 					isOpen = "1";
-				}else{
+				} else {
 					isOpen = "0";
 				}
 				displayOrNotTread();
@@ -330,30 +328,30 @@ public class ResumeManageActivity extends BaicActivity {
 			@Override
 			public void onClick(View v) {
 
-//				new AlertDialog.Builder(ResumeManageActivity.this).setTitle("提示").setMessage("确定要注销吗？").setPositiveButton("确定", new android.content.DialogInterface.OnClickListener() {
-//					@Override
-//					public void onClick(DialogInterface dialog, int which) {
-//						// 将本地保存的登录信息清空
-//						LoginInfo.logOut();
-//						// ->直接跳转到 HomeActivity(设置成单例) 同时清空栈中 HomeActivity 之前的
-//						// Activity
-//						Toast.makeText(ResumeManageActivity.this, "注销成功", Toast.LENGTH_SHORT).show();
-//						Intent intent = new Intent(ResumeManageActivity.this, HomeActivity.class);
-//		//				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // 利用ClearTop标志
-//						startActivity(intent);
-//						finish();
-//					}
-//				}).setNegativeButton("取消", null).show();
-//
-//			}
-//		});
+				//				new AlertDialog.Builder(ResumeManageActivity.this).setTitle("提示").setMessage("确定要注销吗？").setPositiveButton("确定", new android.content.DialogInterface.OnClickListener() {
+				//					@Override
+				//					public void onClick(DialogInterface dialog, int which) {
+				//						// 将本地保存的登录信息清空
+				//						LoginInfo.logOut();
+				//						// ->直接跳转到 HomeActivity(设置成单例) 同时清空栈中 HomeActivity 之前的
+				//						// Activity
+				//						Toast.makeText(ResumeManageActivity.this, "注销成功", Toast.LENGTH_SHORT).show();
+				//						Intent intent = new Intent(ResumeManageActivity.this, HomeActivity.class);
+				//		//				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // 利用ClearTop标志
+				//						startActivity(intent);
+				//						finish();
+				//					}
+				//				}).setNegativeButton("取消", null).show();
+				//
+				//			}
+				//		});
 
 				final CustomDialog dialog = new CustomDialog(ResumeManageActivity.this, R.style.CustomDialog);
-//				dialog.setCanceledOnTouchOutside(false);// 点击dialog外边，对话框不会消失，按返回键对话框消失
+				//				dialog.setCanceledOnTouchOutside(false);// 点击dialog外边，对话框不会消失，按返回键对话框消失
 				dialog.setCancelable(false);// 点击dialog外边、按返回键 对话框都不会消失
 				dialog.setTitle("友情提示");
 				dialog.setMessage("确定要注销吗？");
-				dialog.setOnPositiveListener("确定",new OnClickListener(){
+				dialog.setOnPositiveListener("确定", new OnClickListener() {
 
 					@Override
 					public void onClick(View v) {
@@ -364,15 +362,15 @@ public class ResumeManageActivity extends BaicActivity {
 						startActivity(intent);
 						finish();
 					}
-					
+
 				});
-				dialog.setOnNegativeListener("取消", new OnClickListener(){
+				dialog.setOnNegativeListener("取消", new OnClickListener() {
 
 					@Override
 					public void onClick(View v) {
 						dialog.dismiss();
 					}
-					
+
 				});
 				dialog.show();
 
@@ -461,38 +459,64 @@ public class ResumeManageActivity extends BaicActivity {
 			params.add(new BasicNameValuePair("Userid", userId + ""));
 			// params.add(new BasicNameValuePair("Userid",100020+""));
 			result = getPostHttpContent(url, params);
-			
+
 			if (StringUtil.isExcetionInfo(result)) {
 				ResumeManageActivity.this.sendExceptionMsg(result);
 				return;
 			}
 
+			boolean isResumeNull = false;// 标识是否有简历，true表示有，false表示没有
 			// JSON的解析过程
 			JSONObject responseJsonObject = new JSONObject(result);
-			
-			if (StringUtil.isBlank(responseJsonObject.getString("result"))) {// 说明该用户没有创建简历
+			JSONArray responseJsonArray = responseJsonObject.getJSONArray("result");
 
-				msg.what = 1;
-				handler.sendMessage(msg);
-
-				return;
+			// 循环保存flagid（取出五个求职意向的id，存到本地，更改求职意向的时候用到）
+			for(int i = 0; i < responseJsonArray.length(); i++){
+				JSONObject jObject = (JSONObject) responseJsonArray.get(i);
+				String flagId = jObject.getString("flagid");
+				if (StringUtil.isBlank(jObject.getString("reccontent"))) {
+					if(!SharePreferencesUtils.getSharedBooleanData(flagId)){
+						SharePreferencesUtils.setSharedStringData(i+"", flagId);
+						SharePreferencesUtils.setSharedBooleanData(flagId, false);// false表示当前的求职意向是空。
+						
+//						HashMap<String, String> map = new HashMap<String, String>();// 求职意向
+//						map.put("flagId", flagId);
+//						jobIntentionList.add(map);
+					}
+					
+				}
 			}
+			
+//			for (int i = 0; i < responseJsonArray.length(); i++) {
+//				JSONObject jObject = (JSONObject) responseJsonArray.get(i);
+//				if (!StringUtil.isBlank(jObject.getString("reccontent"))) {
+//					isResumeNull = true;
+//					break;
+//				}
+//			}
+
+//			if (!isResumeNull) {// 说明该用户没有创建简历
+//				msg.what = 1;
+//				handler.sendMessage(msg);
+//				return;
+//			}
 
 			if (responseJsonObject.getInt("resultCode") == 0) {// 获得响应结果
+
+				JSONArray resultJsonArray = responseJsonObject.getJSONArray("result");
+
+				JSONObject resultJsonObject = resultJsonArray.getJSONObject(0);
 				
+//				if (resultJsonObject.getString("reccontent").equals("") && resultJsonObject.getString("housesubsidy").equals("")) {
+//					msg.what = 1;
+//					handler.sendMessage(msg);
+//					return;
+//				}
+				Editor editor = sharedPreferences.edit();
 
-				JSONObject resultJsonObject = responseJsonObject.getJSONObject("result");
-
-				if(resultJsonObject.getString("reccontent").equals("")&&resultJsonObject.getString("housesubsidy").equals("")){
-                	msg.what = 1;
-    				handler.sendMessage(msg);
-    				return;
-				}
-                Editor editor = sharedPreferences.edit();
-
-				editor.putBoolean(userId+"", true);
+				editor.putBoolean(userId + "", true);
 				editor.commit();
-				
+
 				String accountCity = resultJsonObject.getString("accountcityname");// 户口所在地，accountcity是编号
 				String address = resultJsonObject.getString("address");
 				String adminpost = resultJsonObject.getString("adminpostname");// 当前从事职位
@@ -514,8 +538,7 @@ public class ResumeManageActivity extends BaicActivity {
 				String graduatedcode = resultJsonObject.getString("graduatedcode");
 				String graduateddate = resultJsonObject.getString("graduateddate");// 需要格式化
 				String graduatedschool = resultJsonObject.getString("graduatedschool");
-				String healthstate = resultJsonObject.getString("healthstatename");// healthstate
-				// 是编号
+				String healthstate = resultJsonObject.getString("healthstatename");// healthstate是编号
 				String marriagestate = resultJsonObject.getString("marriagestatename");// 婚姻状况，marriagestate是编号
 				String oneenglish = resultJsonObject.getString("oneenglishname");// oneenglish是编号
 				String onelevel = resultJsonObject.getString("onelevelname");// onelevel是编号
@@ -537,6 +560,49 @@ public class ResumeManageActivity extends BaicActivity {
 				long workexperience = resultJsonObject.getLong("workexperience");
 				String workperformance = resultJsonObject.getString("workperformance");
 
+				
+				for(int i=0; i<resultJsonArray.length(); i++){
+					
+					JSONObject object = resultJsonArray.getJSONObject(i);
+					
+					String housesubsidy = object.getString("housesubsidy");
+					String jobsstate = object.getString("jobsstate");
+					String companytype = object.getString("companytype");
+					String wagename = object.getString("wagename");
+					String workmannername = object.getString("workmannername");
+					String workregionname = object.getString("workregionname");
+					String post = object.getString("postcodename");
+					String flagid = object.getString("flagid");
+					
+					HashMap<String, String> map = new HashMap<String, String>();
+					
+					if (!StringUtil.isBlank(housesubsidy)) {
+						map.put("住房要求", housesubsidy);
+					}
+					if (!StringUtil.isBlank(jobsstate)) {
+						map.put("工作性质", jobsstate);
+					}
+					if (!StringUtil.isBlank(companytype)) {
+						map.put("企业性质", companytype);
+					}
+					if (!StringUtil.isBlank(wagename)) {
+						map.put("月薪要求", wagename);
+					}
+					if (!StringUtil.isBlank(workmannername)) {
+						map.put("欲从事行业", workmannername);
+					}
+					if (!StringUtil.isBlank(post)) {
+						map.put("欲从事岗位", post);
+					}
+					if (!StringUtil.isBlank(workregionname)) {
+						map.put("工作地区", workregionname);
+					}
+					if (!StringUtil.isBlank(flagid)) {
+						map.put("flagId", flagid);
+					}
+					jobIntentionList.add(map);
+				}
+				
 				String housesubsidy = resultJsonObject.getString("housesubsidy");
 				String jobsstate = resultJsonObject.getString("jobsstate");
 				String companytype = resultJsonObject.getString("companytype");
@@ -562,11 +628,11 @@ public class ResumeManageActivity extends BaicActivity {
 					i++;
 				}
 				if (!StringUtil.isBlank(workmannername)) {
-					jobIntentionMap.put("预从事行业", workmannername);
+					jobIntentionMap.put("欲从事行业", workmannername);
 					i++;
 				}
 				if (!StringUtil.isBlank(post)) {
-					jobIntentionMap.put("预从事岗位", post);
+					jobIntentionMap.put("欲从事岗位", post);
 					i++;
 				}
 				if (!StringUtil.isBlank(workregionname)) {
@@ -740,7 +806,7 @@ public class ResumeManageActivity extends BaicActivity {
 					educationExperienceMap.put("第二外语水平", twolevel);
 					i++;
 				}
-				if (!StringUtil.isBlank(useheight)&&useheight!=0) {
+				if (!StringUtil.isBlank(useheight) && useheight != 0) {
 					basicInfoMap.put("身高", Long.toString(useheight));
 					i++;
 				}
@@ -748,7 +814,7 @@ public class ResumeManageActivity extends BaicActivity {
 					contactMap.put("本人手机号", usephone);
 					i++;
 				}
-				if (!StringUtil.isBlank(workexperience)&&workexperience!=0) {
+				if (!StringUtil.isBlank(workexperience) && workexperience != 0) {
 					workExperienceMap.put("工作年限", Long.toString(workexperience));
 					i++;
 				}
@@ -756,14 +822,21 @@ public class ResumeManageActivity extends BaicActivity {
 					workExperienceMap.put("工作业绩", workperformance);
 					i++;
 				}
-                
+
+				float temp = i * 100 % 48;
+				if(i <= 2 && temp <= 8){// 该用户还没有简历(刚创建账号时  i=2,temp = 8)
+					msg.what = 1;
+					handler.sendMessage(msg);
+					return;
+				}
+				
 				
 				basicInfoList.add(basicInfoMap);
 				personalExperienceList.add(personalExperienceMap);
 				workExperienceList.add(workExperienceMap);
 				educationExperienceList.add(educationExperienceMap);
 				contactList.add(contactMap);
-				jobIntentionList.add(jobIntentionMap);
+				
 
 				dataList.add(basicInfoList);
 				dataList.add(personalExperienceList);
@@ -878,6 +951,9 @@ public class ResumeManageActivity extends BaicActivity {
 				editor.putBoolean("hasResume", false);
 				editor.commit();
 				Intent intent = new Intent(ResumeManageActivity.this, ResumeCreateActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putSerializable("jobIntentionList", jobIntentionList);
+				intent.putExtras(bundle);
 				startActivity(intent);
 				finish();
 			}
@@ -888,7 +964,7 @@ public class ResumeManageActivity extends BaicActivity {
 			case 3: {
 				Editor editor = sharedPreferences.edit();
 
-				editor.putBoolean(userId+"", false);
+				editor.putBoolean(userId + "", false);
 				editor.commit();
 				Toast.makeText(getApplicationContext(), "删除成功", Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent(ResumeManageActivity.this, ResumeCreateActivity.class);
@@ -903,7 +979,7 @@ public class ResumeManageActivity extends BaicActivity {
 				if ("隐藏".equals(isPublicBtn.getText().toString())) {
 					isPublicImg.setImageResource(R.drawable.resume_is_public_bg);
 					isPublicBtn.setText("公开");
-	Toast.makeText(getApplicationContext(), "现在您的简历就只有您自己可以看到了~~", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getApplicationContext(), "现在您的简历就只有您自己可以看到了~~", Toast.LENGTH_SHORT).show();
 				} else {
 					isPublicImg.setImageResource(R.drawable.resume_is_secret_bg);
 					isPublicBtn.setText("隐藏");
@@ -932,10 +1008,10 @@ public class ResumeManageActivity extends BaicActivity {
 	private void updateUI() {
 
 		resumeNameValue.setText("我的简历");
-		if(resumeInfo!=null&&!StringUtil.isBlank(resumeInfo.getUpresumetime())){
+		if (resumeInfo != null && !StringUtil.isBlank(resumeInfo.getUpresumetime())) {
 			resumeUpdateValue.setText(resumeInfo.getUpresumetime().substring(0, 10));
 		}
-		
+
 		finishStatus = (int) Math.round(i * 100 / 48) + "%";
 		resumeFinishStatusValue.setText(finishStatus);
 		// resumePublicValue.setText(resumeInfo.getIshide() + "");
@@ -969,30 +1045,30 @@ public class ResumeManageActivity extends BaicActivity {
 
 	// 删除提示框
 	public void deleteDialog() {
-		
+
 		final CustomDialog dialog = new CustomDialog(this, R.style.CustomDialog);
-//		dialog.setCanceledOnTouchOutside(false);// 点击dialog外边，对话框不会消失，按返回键对话框消失
-	//	dialog.setCancelable(false);// 点击dialog外边、按返回键 对话框都不会消失
+		//		dialog.setCanceledOnTouchOutside(false);// 点击dialog外边，对话框不会消失，按返回键对话框消失
+		//	dialog.setCancelable(false);// 点击dialog外边、按返回键 对话框都不会消失
 		dialog.setTitle("友情提示");
 		dialog.setMessage("确定要删除吗?");
-		dialog.setOnPositiveListener("确定",new OnClickListener(){
+		dialog.setOnPositiveListener("确定", new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				
+
 				// 删除线程
 				dialog.dismiss();
 				deleteTread();
 			}
-			
+
 		});
-		dialog.setOnNegativeListener("取消", new OnClickListener(){
+		dialog.setOnNegativeListener("取消", new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				dialog.dismiss();
 			}
-			
+
 		});
 		dialog.show();
 	}

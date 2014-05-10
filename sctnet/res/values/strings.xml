@@ -51,6 +51,7 @@
     <string name="paperInfoNote">证件信息</string>
     <string name="BasicInfoEditActivityTitle">编辑基本信息</string>
     <string name="ProvincesActivityTitle">编辑个人简介</string>
+    <string name="JobIntentionListActivityTitle">求职意向</string>
     <string name="JobIntentionEditActivityTitle">编辑求职意向</string>
     <string name="ContactWayEditActivityTitle">编辑联系方式</string>
     <string name="EducationExperienceEditActivityTitle">编辑教育情况</string>

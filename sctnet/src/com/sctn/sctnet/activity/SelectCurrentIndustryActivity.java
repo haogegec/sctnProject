@@ -71,13 +71,13 @@ public class SelectCurrentIndustryActivity extends BaicActivity {
 		if(!StringUtil.isBlank(flag)&&flag.equals("education")){
 			super.setTitleBar("选择专业", View.VISIBLE, View.GONE);
 			requestDataThread(0);
-		}else if(!StringUtil.isBlank(flag)&&flag.equals("jobintent")){
+		} else if(!StringUtil.isBlank(flag)&&flag.equals("jobintent")){
 			super.setTitleBar("选择欲从事行业", View.VISIBLE, View.GONE);
 			initData();
-		}
-		else{
+		} else if(!StringUtil.isBlank(flag)&&flag.equals("currentIndustry")){
 			super.setTitleBar("选择目前就职的行业", View.VISIBLE, View.GONE);
-			requestDataThread(0);
+//			requestDataThread(0);
+			initData();
 		}
 	}
 

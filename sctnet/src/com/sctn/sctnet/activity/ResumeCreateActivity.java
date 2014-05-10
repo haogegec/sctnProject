@@ -1,5 +1,9 @@
 package com.sctn.sctnet.activity;
 
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -16,6 +20,7 @@ import com.sctn.sctnet.cache.CacheProcess;
  */
 public class ResumeCreateActivity extends BaicActivity{
 
+	private ArrayList<HashMap<String, String>> jobIntentionList = new ArrayList<HashMap<String, String>>();// 求职意向
 	private Button createBtn;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,9 +28,17 @@ public class ResumeCreateActivity extends BaicActivity{
 		setContentView(R.layout.resume_create_activity);
 		setTitleBar(getString(R.string.ResumeCreateActivityTitle),
 				View.VISIBLE, View.GONE);
+		
+		
+		initIntent();
 		initAllView();
 		reigesterAllEvent();
 
+	}
+	
+	private void initIntent(){
+		Bundle bundle = getIntent().getExtras();
+		jobIntentionList = (ArrayList<HashMap<String, String>>)bundle.getSerializable("jobIntentionList");
 	}
 	
 	@Override
@@ -43,6 +56,11 @@ public class ResumeCreateActivity extends BaicActivity{
 			public void onClick(View v) {
 				
 				Intent intent = new Intent(ResumeCreateActivity.this,ResumeEditActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putString("whichActivity", "ResumeCreate");
+				bundle.putString("flagId", jobIntentionList.get(0).get("flagId"));
+				bundle.putSerializable("jobIntentionList", jobIntentionList);
+				intent.putExtras(bundle);
 				startActivity(intent);
 				finish();
 			}

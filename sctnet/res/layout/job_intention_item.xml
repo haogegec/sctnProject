@@ -1,0 +1,66 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="10dp" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp" >
+
+        <!-- 工作地区 -->
+
+        <TextView
+            android:id="@+id/tv_workArea"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="北京"
+            android:textColor="@color/lightBlack" />
+
+        <!-- 工作性质 -->
+
+        <TextView
+            android:id="@+id/tv_workState"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="兼职"
+            android:textColor="@color/lightBlack" />
+
+        <!-- 月薪 -->
+
+        <TextView
+            android:id="@+id/tv_wage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="10000"
+            android:textColor="@color/lightBlack" />
+    </LinearLayout>
+
+    <!-- 欲从事行业 -->
+
+    <TextView
+        android:id="@+id/tv_industry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="欲从事行业"
+        android:textColor="@color/lightBlack" />
+
+    <!-- 欲从事岗位 -->
+
+    <TextView
+        android:id="@+id/tv_post"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="欲从事岗位"
+        android:textColor="@color/lightBlack" />
+
+</LinearLayout>

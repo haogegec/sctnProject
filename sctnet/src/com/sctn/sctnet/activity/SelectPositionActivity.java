@@ -18,23 +18,34 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONArray;
 import com.sctn.sctnet.R;
 import com.sctn.sctnet.Utils.StringUtil;
+import com.sctn.sctnet.activity.SelectPositionDetailActivity.MyClickListener;
 import com.sctn.sctnet.contants.Constant;
 
 public class SelectPositionActivity extends BaicActivity {
 
 	private ListView lv_area;
 	private List<Map<String, String>> listItems = new ArrayList<Map<String, String>>();
+	
+	// 已选择栏
+	private RelativeLayout layout;
+	private ImageView triangle;
+	private TextView count;
+	private LinearLayout already_selected;
+	
 	//服务端返回结果
 	private String result;
 	private com.alibaba.fastjson.JSONObject responseJsonObject = null;// 返回结果存放在该json对象中
@@ -50,7 +61,7 @@ public class SelectPositionActivity extends BaicActivity {
 	private String[] positionIds = { "80010000", "80020000", "80030000", "80040000", "80050000", "80060000", "80070000", "80080000", "80100000", "80110000", "80120000", "80130000", "80140000", "80150000", "80160000", "80170000", "80180000", "80190000", "80200000", "80210000", "80220000", "80230000", };
 	private String[] positions = { "经营·管理·策划类", "财务·金融·审计类", "销售·业务类", "市场·公关·广告类", "设计类", "行政·人事类", "文职类", "工业·生产·制造类", "计算机·网络类", "电子·电气·通讯类", "机械类", "房地产·建筑类", "教育·法律类", "文化·艺术·体育类", "化工·生物·环保类", "轻工·食品·纺织类", "卫生医疗·美容保健类", "能源·电力·水利类", "商业·贸易·物流类", "客服·后勤·服务业类", "技工类", "其他类", };
 	
-	
+	private int alreadySelected = 0 ;// 已选择的总职能（小类）数
 	
 	// 存储已选择的职能的大类ID
 	private List<String> industries = new ArrayList<String>();
@@ -69,7 +80,7 @@ public class SelectPositionActivity extends BaicActivity {
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.select_area_listview);
+		setContentView(R.layout.select_position_listview);
 		super.setTitleBar("选择职能", View.VISIBLE, View.VISIBLE);
 
 		initIntent();
@@ -103,6 +114,8 @@ public class SelectPositionActivity extends BaicActivity {
 		if(positionList == null){
 			positionList = new ArrayList<Map<String,String>>();
 		}
+		alreadySelected = positionList.size();
+		
 		positionListMap = (HashMap<String,List<Map<String,String>>>) intent.getSerializableExtra("positionListMap");
 		if(positionListMap == null){
 			positionListMap = new HashMap<String,List<Map<String,String>>>();
@@ -118,6 +131,30 @@ public class SelectPositionActivity extends BaicActivity {
 			map.put("value", value);
 			listItems.add(map);
 		}
+		
+		if(alreadySelected > 0){
+			already_selected.removeAllViews();
+			int i = 0;
+			for (Map<String, String> map : positionList) {
+				TextView tv_already_selected = new TextView(SelectPositionActivity.this);
+				LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+				params.setMargins(0, 5, 0, 0);
+				tv_already_selected.setLayoutParams(params);
+				tv_already_selected.setBackgroundColor(getResources().getColor(R.color.white));
+				tv_already_selected.setCompoundDrawablePadding(10);
+				tv_already_selected.setPadding(10, 10, 10, 10);
+				tv_already_selected.setText(map.get("value"));
+				tv_already_selected.setTextSize(16);
+				tv_already_selected.setTextColor(getResources().getColor(R.color.lightBlack));
+				already_selected.addView(tv_already_selected, i);
+				i++;
+			}
+			layout.setClickable(true);
+			count.setText(positionList.size() + "/5");
+			alreadySelected = positionList.size();
+		}
+		
+		
 		initUI();
 	}
 
@@ -218,6 +255,13 @@ public class SelectPositionActivity extends BaicActivity {
 	@Override
 	protected void initAllView() {
 		super.titleRightButton.setImageResource(R.drawable.queding);
+		layout = (RelativeLayout) findViewById(R.id.rl_layout);
+		layout.setOnClickListener(new MyClickListener());
+		already_selected = (LinearLayout) findViewById(R.id.already_selected);
+		if(already_selected.getChildCount() == 0)layout.setClickable(false);
+		triangle = (ImageView) findViewById(R.id.triangle);
+		count = (TextView) findViewById(R.id.count);
+		already_selected = (LinearLayout) findViewById(R.id.already_selected);
 		lv_area = (ListView) findViewById(R.id.lv_area);
 //		footViewBar = View.inflate(SelectPositionActivity.this, R.layout.foot_view_loading, null);
 		lv_area.setAdapter(new MyAdapter(this, listItems, R.layout.select_area_item));
@@ -235,6 +279,7 @@ public class SelectPositionActivity extends BaicActivity {
 				intent.putExtra("content", listItems.get(position).get("value"));
 				intent.putExtra("id", listItems.get(position).get("id"));
 				intent.putExtra("checkBoxState", (Serializable)positionMap.get(listItems.get(position).get("id")));
+				intent.putExtra("alreadySelected", alreadySelected);
 				startActivityForResult(intent, Constant.POSITION_TYPE);
 			}
 
@@ -253,7 +298,7 @@ public class SelectPositionActivity extends BaicActivity {
 				intent.putExtra("positionMap", (Serializable)positionMap);//
 //				intent.putExtra("backPositionType", (Serializable)backPositionType);//
 				intent.putExtra("positionList", (Serializable)positionList);
-//				intent.putExtra("positionListMap", (Serializable)positionListMap);
+				intent.putExtra("positionListMap", (Serializable)positionListMap);
 				
 				
 				setResult(RESULT_OK,intent);
@@ -261,6 +306,20 @@ public class SelectPositionActivity extends BaicActivity {
 			}
 		});
 
+	}
+	
+	public class MyClickListener implements OnClickListener{
+
+		@Override
+		public void onClick(View v) {
+			if (already_selected.getVisibility() == View.VISIBLE) {// 如果是可见状态，则把它隐藏掉，同时把图片换成下箭头
+				already_selected.setVisibility(View.GONE);
+				triangle.setImageResource(R.drawable.triangle_down);
+			} else {
+				already_selected.setVisibility(View.VISIBLE);
+				triangle.setImageResource(R.drawable.triangle_up);
+			}
+		}
 	}
 
 	//初始化城市列表
@@ -370,99 +429,134 @@ public class SelectPositionActivity extends BaicActivity {
 			switch (requestCode) {
 
 			case Constant.POSITION_TYPE: {
-				backPositionType = (List<Map<String,String>>) ((List) data.getSerializableExtra("list")).get(0);
+				backPositionType = (List<Map<String, String>>) ((List) data.getSerializableExtra("list")).get(0);
 				checkBoxState = (HashMap<Integer, Boolean>) data.getSerializableExtra("checkBoxState");
 				String industryId = data.getStringExtra("industryId");
-				
+
 				List<String> tmpIndustries = new ArrayList<String>();// 不能在对一个List进行遍历的时候将其中的元素删除或者增加掉，所以临时创建一个list
-				for(String s:industries){
+				for (String s : industries) {
 					tmpIndustries.add(s);
 				}
-				
-				int currentJobPosition = positionListMap.get(industryId)==null ? 0:positionListMap.get(industryId).size();
-				if(checkBoxState.size() > 0 && !"".equals(industryId) && backPositionType.size() >= currentJobPosition){// 或者用 backIndustryType.size() == 0 来判断,0表示没选
-					
-					if(industries.size() == 0){
+
+				int currentJobPosition = positionListMap.get(industryId) == null ? 0 : positionListMap.get(industryId).size();
+				if (checkBoxState.size() > 0 && !"".equals(industryId) && backPositionType.size() >= currentJobPosition) {// 或者用 backIndustryType.size() == 0 来判断,0表示没选
+
+					if (industries.size() == 0) {
 						industries.add(industryId);
 						state.put(industryId, true);
 						positionMap.put(industryId, checkBoxState);
-						for(Map<String,String> map:backPositionType){
+						for (Map<String, String> map : backPositionType) {
 							positionList.add(map);
-							
+
 						}
 					} else {
-						for (int i=0; i<tmpIndustries.size(); i++) {
+						for (int i = 0; i < tmpIndustries.size(); i++) {
 							String id = tmpIndustries.get(i);
 							if (!id.equals(industryId)) {
 								industries.add(industryId);
 								state.put(industryId, true);
 								positionMap.put(industryId, checkBoxState);
-								for(Map<String,String> map:backPositionType){
+								for (Map<String, String> map : backPositionType) {
 									positionList.add(map);
 								}
-								
+								break;
 							} else {
 								positionMap.put(industryId, checkBoxState);
 							}
 						}
 					}
 					positionListMap.put(industryId, backPositionType);
-					myAdapter.notifyDataSetChanged(); 
+					myAdapter.notifyDataSetChanged();
 				} else {//
-					List<Map<String,String>> tempList = new ArrayList<Map<String,String>>();
-					
-					for(Map map:positionListMap.get(industryId)){
-						tempList.add(map);
+					List<Map<String, String>> tempList = new ArrayList<Map<String, String>>();
+
+					List<Map<String, String>> list = positionListMap.get(industryId);
+					if (list != null && list.size() > 0) {
+						for (Map map : list) {
+							tempList.add(map);
+						}
 					}
-					if(backPositionType.size() == 0){
 						
+					if (backPositionType.size() == 0) {
+
 						List<String> tmp = new ArrayList<String>();
-						for(String s:industries){
+						for (String s : industries) {
 							tmp.add(s);
 						}
-						
-						for(String s:tmp){
-							if(industryId.equals(s)){
+
+						for (String s : tmp) {
+							if (industryId.equals(s)) {
 								industries.remove(s);
 							}
 						}
 						state.remove(industryId);
 					}
-					for(int i=0; i<tempList.size(); i++){
-						Map<String,String> tempMap = tempList.get(i);
+					for (int i = 0; i < tempList.size(); i++) {
+						Map<String, String> tempMap = tempList.get(i);
 						boolean flag = false;
-						List<Integer> deleteList = new ArrayList<Integer>();
-						for(Map map:backPositionType){
-							if(tempMap.get("id").equals(map.get("id"))){
+						List<String> deleteList = new ArrayList<String>();
+						for (Map map : backPositionType) {
+							if (tempMap.get("id").equals(map.get("id"))) {
 								flag = true;
 								break;
 							}
 						}
-						if(!flag){
-							deleteList.add(i);
-							for(int j=0; j<deleteList.size(); j++){
-								positionList.remove(j);
+						if (!flag) {
+							deleteList.add(tempList.get(i).get("id"));
+							int[] position = new int[deleteList.size()];// 标记当前要删的ID在positionList里的索引值
+							for (int j = 0; j < deleteList.size(); j++) {
+								String id = deleteList.get(j);
+								if(positionList.size() > 0){
+									for(int k=0; k<positionList.size(); k++){
+										if(id.equals(positionList.get(k).get("id"))){
+											position[j] = k;
+										}
+									}
+									
+								}
+							}
+							for(int l=0; l<position.length; l++){
+								positionList.remove(position[l]);
 							}
 							positionListMap.remove(industryId);
-							if(backPositionType.size() != 0){
+							if (backPositionType.size() != 0) {
 								positionListMap.put(industryId, backPositionType);
 							}
 						}
 					}
 					positionMap.remove(industryId);
 					positionMap.put(industryId, checkBoxState);
-					
+
 					myAdapter.notifyDataSetChanged();
 				}
-				
-				
-				
-//				Intent intent = getIntent();
-//				ArrayList list = new ArrayList();
-//				list.add(backIndustryType);
-//				intent.putExtra("list", list);
-				//				setResult(RESULT_OK,intent);
-				//				finish();
+
+				if (positionList.size() > 0) {
+					already_selected.removeAllViews();
+					int i = 0;
+					for (Map<String, String> map : positionList) {
+						TextView tv_already_selected = new TextView(SelectPositionActivity.this);
+						LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+						params.setMargins(0, 5, 0, 0);
+						tv_already_selected.setLayoutParams(params);
+						tv_already_selected.setBackgroundColor(getResources().getColor(R.color.white));
+						tv_already_selected.setCompoundDrawablePadding(10);
+						tv_already_selected.setPadding(10, 10, 10, 10);
+						tv_already_selected.setText(map.get("value"));
+						tv_already_selected.setTextSize(16);
+						tv_already_selected.setTextColor(getResources().getColor(R.color.lightBlack));
+						already_selected.addView(tv_already_selected, i);
+						i++;
+					}
+					layout.setClickable(true);
+					count.setText(positionList.size() + "/5");
+					alreadySelected = positionList.size();
+				} else {
+					already_selected.removeAllViews();
+					layout.setClickable(false);
+					count.setText("0/5");
+					triangle.setImageResource(R.drawable.triangle_down);
+					alreadySelected = 0;
+				}
 
 				break;
 			}

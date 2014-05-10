@@ -198,6 +198,10 @@ public class LoginActivity extends BaicActivity {
 //		autoLogin = (CheckBox) findViewById(R.id.login_auto_login);
 		registerBtn = (Button) findViewById(R.id.register);
 		forgetPasswordBtn = (Button) findViewById(R.id.forget_password);
+		
+		if("".equals(etUserName.getText())){
+			System.out.println(1);
+		}
 	}
 
 	@Override

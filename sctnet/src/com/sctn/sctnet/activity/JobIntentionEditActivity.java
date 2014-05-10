@@ -92,6 +92,9 @@ public class JobIntentionEditActivity extends BaicActivity {
 
 	private ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
 	private HashMap<String, String> newPersonalExperienceMap = new HashMap<String, String>();//基本信息
+	
+	private String flagId;// 求职意向的ID
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -108,9 +111,11 @@ public class JobIntentionEditActivity extends BaicActivity {
 		Intent intent = this.getIntent();
 		Bundle bundle = intent.getExtras();
 		userId = SharePreferencesUtils.getSharedlongData("userId");
-		if (bundle != null && bundle.getSerializable("jobIntentionList") != null) {
-			List<HashMap<String, String>> jobIntentionList = (List<HashMap<String, String>>) bundle.getSerializable("jobIntentionList");
-			jobIntentionMap = jobIntentionList.get(0);
+		if (bundle != null) {
+			if(bundle.getSerializable("map") != null){
+				jobIntentionMap = (HashMap<String, String>) bundle.getSerializable("map");
+			}
+			flagId = bundle.getString("flagId");
 		}
 	}
 
@@ -149,12 +154,12 @@ public class JobIntentionEditActivity extends BaicActivity {
 				workStateStr = jobIntentionMap.get("工作性质");
 				workStateValue.setText(workStateStr);
 			}
-			if (jobIntentionMap.containsKey("预从事行业")) {
-				industry = jobIntentionMap.get("预从事行业");
+			if (jobIntentionMap.containsKey("欲从事行业")) {
+				industry = jobIntentionMap.get("欲从事行业");
 				workmannerValue.setText(industry);
 			}
-			if (jobIntentionMap.containsKey("预从事岗位")) {
-				postStr = jobIntentionMap.get("预从事岗位");
+			if (jobIntentionMap.containsKey("欲从事岗位")) {
+				postStr = jobIntentionMap.get("欲从事岗位");
 				postValue.setText(postStr);
 			}
 			if (jobIntentionMap.containsKey("企业性质")) {
@@ -323,7 +328,7 @@ public class JobIntentionEditActivity extends BaicActivity {
 
 		List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
 		params.add(new BasicNameValuePair("Userid", userId + ""));
-		//		params.add(new BasicNameValuePair("Userid",100020+""));
+		params.add(new BasicNameValuePair("flagid", flagId));
 		if (!cityId.equals("")) {
 			params.add(new BasicNameValuePair("WorkRegion", cityId));
 		}
@@ -356,8 +361,8 @@ public class JobIntentionEditActivity extends BaicActivity {
 
 		newPersonalExperienceMap.put("工作地区", workAreaValue.getText().toString());
 		newPersonalExperienceMap.put("工作性质", workStateValue.getText().toString());
-		newPersonalExperienceMap.put("预从事行业", workmannerValue.getText().toString());
-		newPersonalExperienceMap.put("预从事岗位", workmannerValue.getText().toString());
+		newPersonalExperienceMap.put("欲从事行业", workmannerValue.getText().toString());
+		newPersonalExperienceMap.put("欲从事岗位", postValue.getText().toString());
 		newPersonalExperienceMap.put("企业性质", companyTypeValue.getText().toString());
 		newPersonalExperienceMap.put("月薪要求", wageValue.getText().toString());
 		newPersonalExperienceMap.put("住房要求", housewhereValue.getText().toString());
@@ -553,6 +558,7 @@ public class JobIntentionEditActivity extends BaicActivity {
 				break;
 			case 00:
 				Toast.makeText(getApplicationContext(), "保存成功", Toast.LENGTH_SHORT).show();
+				SharePreferencesUtils.setSharedBooleanData(flagId, true);
 				Intent intent = new Intent();
 				Bundle bundle = new Bundle();
 				bundle.putSerializable("list", list);
@@ -654,6 +660,7 @@ public class JobIntentionEditActivity extends BaicActivity {
 			case Constant.WAGE_RANGE:
 				wageValue.setText(data.getStringExtra("wage"));
 				wageId = data.getStringExtra("wageId");
+				System.out.println();
 				//wageStr = data.getStringExtra("wage");
 				break;
 			}

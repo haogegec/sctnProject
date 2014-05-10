@@ -154,6 +154,13 @@ public class JobListActivity extends BaicActivity {
 		ShareSDK.stopSDK(this);
 		super.onDestroy();
 	}
+	
+//	@Override
+//	protected void onResume() {
+//		ShareSDK.stopSDK(this);
+//		ShareSDK.initSDK(this);
+//		super.onResume();
+//	}
 
 	/**
 	 * 初始化分享的图片

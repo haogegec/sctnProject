@@ -266,6 +266,7 @@ public class SelectJobExpActivity extends BaicActivity {
 			@Override
 			public void onClick(View arg0) {
 				Intent intent = new Intent(SelectJobExpActivity.this, SelectCurrentIndustryActivity.class);
+				intent.putExtra("flag", "currentIndustry");
 				startActivityForResult(intent, Constant.CURRENT_INDUSTRY_REQUEST_CODE);
 			}
 
