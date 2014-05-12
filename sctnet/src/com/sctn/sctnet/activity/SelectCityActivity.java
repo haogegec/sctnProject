@@ -1,6 +1,7 @@
 package com.sctn.sctnet.activity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -27,6 +28,7 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sctn.sctnet.R;
+import com.sctn.sctnet.Utils.SortUtil;
 import com.sctn.sctnet.Utils.StringUtil;
 import com.sctn.sctnet.contants.Constant;
 
@@ -36,8 +38,6 @@ public class SelectCityActivity extends BaicActivity {
 
 	private String provinceId;
 	private String province;
-	private static String[] cities;
-	private static String[] cityIds;
 	private List<Map<String, String>> listItems = new ArrayList<Map<String, String>>();
 
 	private String result;// 服务端返回的结果
@@ -64,7 +64,6 @@ public class SelectCityActivity extends BaicActivity {
 	@Override
 	protected void initAllView() {
 		lv_city = (ListView) findViewById(R.id.lv_area);
-		lv_city.setAdapter(new CityAdapter(this, listItems, R.layout.select_area_item));
 	}
 
 	@Override
@@ -75,8 +74,8 @@ public class SelectCityActivity extends BaicActivity {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 				Intent intent = getIntent();
-				intent.putExtra("city", cities[position]);
-				intent.putExtra("cityId", cityIds[position]);
+				intent.putExtra("city", listItems.get(position).get("value"));
+				intent.putExtra("cityId", listItems.get(position).get("id"));
 				intent.putExtra("province", province);
 				intent.putExtra("provinceId", provinceId);
 				setResult(RESULT_OK, intent);
@@ -121,19 +120,19 @@ public class SelectCityActivity extends BaicActivity {
 			JSONObject json = responseJsonObject.getJSONObject("result");
 			Set<Entry<String, Object>> set = json.entrySet();
 			Iterator<Entry<String, Object>> iter = set.iterator();
-			cities = new String[set.size()];
-			cityIds = new String[set.size()];
 			int i = 0;
 			while (iter.hasNext()) {
 				Map<String, String> map = new HashMap<String, String>();
 				Entry obj = iter.next();
 				map.put("id", (String) obj.getKey());
 				map.put("value", (String) obj.getValue());
-				cities[i] = (String) obj.getValue();
-				cityIds[i] = (String) obj.getKey();
 				listItems.add(map);
 				i++;
 			}
+			
+			// 把list的元素（map）按key="id"升序排序（排序的关键是：SortUtil类里的compare（）方法）
+			Collections.sort(listItems, new SortUtil());
+			
 			msg.what = Constant.CITY_TYPE;
 		} else {
 			String errorResult = (String) responseJsonObject.get("result");

@@ -54,7 +54,7 @@ public class JobIntentionListActivity extends BaicActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.job_intention_listview);
 		setTitleBar(getString(R.string.JobIntentionListActivityTitle), View.VISIBLE, View.VISIBLE);
-		super.setTitleRightButtonImg(R.drawable.add);
+		super.setTitleRightButtonImg(R.drawable.add_bg);
 
 		cacheProcess = new CacheProcess();
 		userId = cacheProcess.getLongCacheValueInSharedPreferences(this, "userId");

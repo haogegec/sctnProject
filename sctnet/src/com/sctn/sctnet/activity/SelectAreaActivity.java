@@ -1,6 +1,7 @@
 package com.sctn.sctnet.activity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -26,6 +27,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.sctn.sctnet.R;
+import com.sctn.sctnet.Utils.SortUtil;
 import com.sctn.sctnet.Utils.StringUtil;
 import com.sctn.sctnet.contants.Constant;
 import com.sctn.sctnet.view.SideBar;
@@ -117,6 +119,7 @@ public class SelectAreaActivity extends BaicActivity {
 				listItems.add(map);
 				i++;
 			}
+			
 			m.what = Constant.AREA;
 		} else {
 			String errorResult = (String) responseJsonObject.get("result");
