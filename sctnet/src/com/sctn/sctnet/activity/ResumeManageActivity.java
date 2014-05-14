@@ -103,6 +103,8 @@ public class ResumeManageActivity extends BaicActivity {
 	private SharedPreferences sharedPreferences;
 
 	private String isOpen;
+	
+	private ArrayList<String> flagIdList = new ArrayList<String>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -470,22 +472,22 @@ public class ResumeManageActivity extends BaicActivity {
 			JSONObject responseJsonObject = new JSONObject(result);
 			JSONArray responseJsonArray = responseJsonObject.getJSONArray("result");
 
-			// 循环保存flagid（取出五个求职意向的id，存到本地，更改求职意向的时候用到）
-			for(int i = 0; i < responseJsonArray.length(); i++){
-				JSONObject jObject = (JSONObject) responseJsonArray.get(i);
-				String flagId = jObject.getString("flagid");
-				if (StringUtil.isBlank(jObject.getString("reccontent"))) {
-					if(!SharePreferencesUtils.getSharedBooleanData(flagId)){
-						SharePreferencesUtils.setSharedStringData(i+"", flagId);
-						SharePreferencesUtils.setSharedBooleanData(flagId, false);// false表示当前的求职意向是空。
-						
-//						HashMap<String, String> map = new HashMap<String, String>();// 求职意向
-//						map.put("flagId", flagId);
-//						jobIntentionList.add(map);
-					}
-					
-				}
-			}
+//			// 循环保存flagid（取出五个求职意向的id，存到本地，更改求职意向的时候用到）
+//			for(int i = 0; i < responseJsonArray.length(); i++){
+//				JSONObject jObject = (JSONObject) responseJsonArray.get(i);
+//				String flagId = jObject.getString("flagid");
+//				if (StringUtil.isBlank(jObject.getString("reccontent"))) {
+//					if(!SharePreferencesUtils.getSharedBooleanData(flagId)){
+//						SharePreferencesUtils.setSharedStringData(i+"", flagId);
+//						SharePreferencesUtils.setSharedBooleanData(flagId, false);// false表示当前的求职意向是空。
+//						
+////						HashMap<String, String> map = new HashMap<String, String>();// 求职意向
+////						map.put("flagId", flagId);
+////						jobIntentionList.add(map);
+//					}
+//					
+//				}
+//			}
 			
 //			for (int i = 0; i < responseJsonArray.length(); i++) {
 //				JSONObject jObject = (JSONObject) responseJsonArray.get(i);
@@ -512,6 +514,13 @@ public class ResumeManageActivity extends BaicActivity {
 //					handler.sendMessage(msg);
 //					return;
 //				}
+				
+				
+				for(int i=0; i<resultJsonArray.length(); i++){
+					JSONObject jObject = resultJsonArray.getJSONObject(i);
+					String flagId = jObject.getString("flagid");
+					flagIdList.add(flagId);
+				}
 				Editor editor = sharedPreferences.edit();
 
 				editor.putBoolean(userId + "", true);
@@ -559,7 +568,7 @@ public class ResumeManageActivity extends BaicActivity {
 				String usephone = resultJsonObject.getString("usephone");
 				long workexperience = resultJsonObject.getLong("workexperience");
 				String workperformance = resultJsonObject.getString("workperformance");
-
+				
 				
 				for(int i=0; i<resultJsonArray.length(); i++){
 					
@@ -1038,6 +1047,8 @@ public class ResumeManageActivity extends BaicActivity {
 		Intent intent = new Intent(ResumeManageActivity.this, ResumeEditActivity.class);
 		Bundle bundle = new Bundle();
 		bundle.putSerializable("resumeInfo", dataList);
+		bundle.putSerializable("flagIdList", flagIdList);
+		bundle.putSerializable("jobIntentionList", jobIntentionList);
 		intent.putExtras(bundle);
 		startActivity(intent);
 		finish();

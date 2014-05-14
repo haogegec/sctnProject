@@ -77,18 +77,50 @@
          android:layout_height="wrap_content"
          android:layout_below="@+id/itemview1"
          />
+     
+     
+     
      <com.sctn.sctnet.view.ItemView
          android:id="@+id/itemview3"
          android:layout_width="fill_parent"
          android:layout_height="wrap_content"
          android:layout_below="@+id/itemview2"
          />
-      <com.sctn.sctnet.view.ItemView
+     
+     <com.sctn.sctnet.view.ItemView
          android:id="@+id/itemview4"
          android:layout_width="fill_parent"
          android:layout_height="wrap_content"
          android:layout_below="@+id/itemview3"
          />
+     
+     <!-- <com.sctn.sctnet.view.ItemView
+         android:id="@+id/itemview6"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/itemview3"
+         />
+      <com.sctn.sctnet.view.ItemView
+         android:id="@+id/itemview7"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/itemview6"
+         />
+       <com.sctn.sctnet.view.ItemView
+         android:id="@+id/itemview8"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/itemview7"
+         />
+        <com.sctn.sctnet.view.ItemView
+         android:id="@+id/itemview9"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/itemview8"
+         /> -->
+     
+     
+      
           
     </RelativeLayout> 
     <RelativeLayout 

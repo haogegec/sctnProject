@@ -408,6 +408,12 @@
             android:screenOrientation="portrait">
         </activity>
         
+         <activity
+            android:name=".activity.JobIntentionListActivity2"
+            android:screenOrientation="portrait">
+        </activity>
+         
+        
         <!-- Required SDK核心功能 -->
         <activity
             android:name="cn.jpush.android.ui.PushActivity"

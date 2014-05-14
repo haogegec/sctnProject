@@ -2,7 +2,6 @@ package com.sctn.sctnet.activity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,9 +10,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.sctn.sctnet.R;
-import com.sctn.sctnet.Utils.StringUtil;
-import com.sctn.sctnet.contants.Constant;
-import com.sctn.sctnet.entity.ResumeInfo;
 import com.sctn.sctnet.view.ItemView;
 /**
  * 简历编辑界面
@@ -22,10 +18,11 @@ import com.sctn.sctnet.view.ItemView;
  */
 public class ResumeEditActivity extends BaicActivity{
 
-	private ItemView itemView1,itemView2,itemView3,itemView4,itemView5,itemView6;
+	private ItemView itemView1,itemView2,itemView3,itemView4,itemView5,itemView6;//itemView7,itemView8,itemView9,itemView10;
 	private Bundle bundle;
 //	private ResumeInfo resumeInfo;
 	private ArrayList<ArrayList<HashMap<String, String>>> dataList;
+	ArrayList<String> flagidList = null;
 	
 	private ArrayList<HashMap<String, String>> basicInfoList = new ArrayList<HashMap<String, String>>();// 基本信息
 	private ArrayList<HashMap<String, String>> personalExperienceList = new ArrayList<HashMap<String, String>>();// 个人简介
@@ -60,9 +57,15 @@ public class ResumeEditActivity extends BaicActivity{
 			}
 			
 		}
-		
+		initIntent();
 		initAllView();
 		reigesterAllEvent();
+	}
+	
+	protected void initIntent(){
+		Bundle bundle = getIntent().getExtras();
+		flagidList = (ArrayList<String>)bundle.getSerializable("flagIdList");
+		jobIntentionList = (ArrayList<HashMap<String, String>>)bundle.getSerializable("jobIntentionList");
 	}
 	
 	@Override
@@ -73,6 +76,14 @@ public class ResumeEditActivity extends BaicActivity{
 		itemView6 = (ItemView) findViewById(R.id.itemview4);
 		itemView4 = (ItemView) findViewById(R.id.itemview11);
 		itemView5 = (ItemView) findViewById(R.id.itemview12);
+		
+//		itemView7 = (ItemView) findViewById(R.id.itemview6);
+//		itemView8 = (ItemView) findViewById(R.id.itemview7);
+//		itemView9 = (ItemView) findViewById(R.id.itemview8);
+//		itemView10 = (ItemView) findViewById(R.id.itemview9);
+		
+		
+		
 		
 		itemView1.setBackground(R.drawable.item_mid_bg);
 		itemView1.setIconImageViewResource(R.drawable.home_btn_normal);
@@ -117,7 +128,33 @@ public class ResumeEditActivity extends BaicActivity{
 		itemView5.setDetailImageViewResource(R.drawable.detail);
 		itemView5.setIconImageVisibility(View.GONE);
 		
-		
+//		itemView7.setBackground(R.drawable.item_mid_bg);
+//		itemView7.setIconImageViewResource(R.drawable.home_btn_normal);
+//		itemView7.setLabel("求职意向2");
+//		itemView7.setValue("");
+//		itemView7.setDetailImageViewResource(R.drawable.detail);
+//		itemView7.setIconImageVisibility(View.GONE);
+//		
+//		itemView8.setBackground(R.drawable.item_mid_bg);
+//		itemView8.setIconImageViewResource(R.drawable.home_btn_normal);
+//		itemView8.setLabel("求职意向3");
+//		itemView8.setValue("");
+//		itemView8.setDetailImageViewResource(R.drawable.detail);
+//		itemView8.setIconImageVisibility(View.GONE);
+//		
+//		itemView9.setBackground(R.drawable.item_mid_bg);
+//		itemView9.setIconImageViewResource(R.drawable.home_btn_normal);
+//		itemView9.setLabel("求职意向4");
+//		itemView9.setValue("");
+//		itemView9.setDetailImageViewResource(R.drawable.detail);
+//		itemView9.setIconImageVisibility(View.GONE);
+//		
+//		itemView10.setBackground(R.drawable.item_mid_bg);
+//		itemView10.setIconImageViewResource(R.drawable.home_btn_normal);
+//		itemView10.setLabel("求职意向5");
+//		itemView10.setValue("");
+//		itemView10.setDetailImageViewResource(R.drawable.detail);
+//		itemView10.setIconImageVisibility(View.GONE);
 		
 	}
 
@@ -163,19 +200,27 @@ public class ResumeEditActivity extends BaicActivity{
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = null;
+//				Intent intent = null;
+//				Bundle bundle = new Bundle();
+//				if(flagIdList.size() == 5){
+//					intent = new Intent(ResumeEditActivity.this, JobIntentionEditActivity.class);
+////					Bundle bundle = new Bundle();
+//					bundle.putString("flagId", flagIdList.get(0).get("flagId"));
+//				} else {
+//					intent = new Intent(ResumeEditActivity.this, JobIntentionListActivity.class);
+////					Bundle bundle = new Bundle();
+//					bundle.putSerializable("jobIntentionList", jobIntentionList);
+//				}
+//				intent.putExtras(bundle);
+//				startActivityForResult(intent,3);		
+				
+				Intent intent = new Intent(ResumeEditActivity.this, JobIntentionListActivity2.class);
 				Bundle bundle = new Bundle();
-				if(flagIdList.size() == 5){
-					intent = new Intent(ResumeEditActivity.this, JobIntentionEditActivity.class);
-//					Bundle bundle = new Bundle();
-					bundle.putString("flagId", flagIdList.get(0).get("flagId"));
-				} else {
-					intent = new Intent(ResumeEditActivity.this, JobIntentionListActivity.class);
-//					Bundle bundle = new Bundle();
-					bundle.putSerializable("jobIntentionList", jobIntentionList);
-				}
+				bundle.putSerializable("flagIdList",flagidList);
+				bundle.putSerializable("jobIntentionList",jobIntentionList);
 				intent.putExtras(bundle);
-				startActivityForResult(intent,3);				
+				startActivityForResult(intent,3);	
+				
 			}
 			
 		});
