@@ -529,8 +529,9 @@ public class MyAppliedJobActivity extends BaicActivity {
 				return;
 			}
 
-			JSONObject responseJsonObject = new JSONObject(result);
-			if ("0".equals(responseJsonObject.getString("resultcode"))) {// 表示职位收藏成功
+			JSONArray responseJSONArray = new JSONArray(result);
+			JSONObject responseJsonObject = responseJSONArray.getJSONObject(0);
+			if (0 == responseJsonObject.getInt("resultcode")) {// 表示职位收藏成功
 				msg.what = 3;// 收藏成功
 				handler.sendMessage(msg);
 			}

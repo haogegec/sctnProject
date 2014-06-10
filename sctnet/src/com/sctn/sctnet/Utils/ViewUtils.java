@@ -17,7 +17,7 @@ public class ViewUtils {
 	 * @param listView 
 	 * @param height 额外的高度 即计算ListView高度然后在加上 Height
 	 */
-	public static void setListViewHeightBasedOnChildren(ListView listView,int height) {
+	public static void setListViewHeightBasedOnChildren(ListView listView) {
 		ListAdapter listAdapter = listView.getAdapter();
 		if (listAdapter == null) {
 			return;
@@ -31,7 +31,7 @@ public class ViewUtils {
 		}
 
 		ViewGroup.LayoutParams params = listView.getLayoutParams();
-		params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1))+height;
+		params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
 		listView.setLayoutParams(params);
 	}
 	

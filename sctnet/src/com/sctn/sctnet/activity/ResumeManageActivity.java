@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.text.Html;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -31,6 +32,7 @@ import com.sctn.sctnet.R;
 import com.sctn.sctnet.Utils.BitMapUtil;
 import com.sctn.sctnet.Utils.CameraCallBack;
 import com.sctn.sctnet.Utils.CameraUtil;
+import com.sctn.sctnet.Utils.DateUtil;
 import com.sctn.sctnet.Utils.SharePreferencesUtils;
 import com.sctn.sctnet.Utils.StringUtil;
 import com.sctn.sctnet.cache.CacheProcess;
@@ -51,11 +53,16 @@ public class ResumeManageActivity extends BaicActivity {
 	private RelativeLayout layout;
 	private RelativeLayout layout1;
 
-	private ImageView resumePreviewImg;
+//	private ImageView resumePreviewImg;
+	
 	private ImageView modifyImg;
 	private Button modifyBtn;
-	private ImageView deleteImg;
-	private Button deleteBtn;
+//	private ImageView deleteImg;
+//	private Button deleteBtn;
+	
+	private ImageView previewImg;
+	private Button previewBtn;
+	
 	private ImageView refreshImg;
 	private Button refreshBtn;
 	private ImageView isPublicImg;
@@ -79,6 +86,8 @@ public class ResumeManageActivity extends BaicActivity {
 	private ResumeInfo resumeInfo;// 简历表所对应的类
 
 	private String finishStatus;// 简历完成度
+	
+	private int isHide = -1;//简历是否公开， 1 表示公开， 0表示隐藏
 
 	private CameraUtil cameraUtil;
 	private Bitmap myPhotoBitmap;
@@ -105,6 +114,11 @@ public class ResumeManageActivity extends BaicActivity {
 	private String isOpen;
 	
 	private ArrayList<String> flagIdList = new ArrayList<String>();
+	private ArrayList<HashMap<String, String>> jobIntentionList2 = new ArrayList<HashMap<String, String>>();// 求职意向列表里用的，add by jiangyongnan
+	
+	// 工作性质
+	private String[] workMannerIds = { "10000100", "10000200", "10000300", "10000400", "10000500", "10000600", "10000700" };
+	private String[] workManners = { "全职", "兼职", "实习", "临时", "小时工", "不限", "其他" };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -129,13 +143,14 @@ public class ResumeManageActivity extends BaicActivity {
 		myPhoto = (ImageView) findViewById(R.id.myPhoto);
 		myHeadPhoto = (ImageView) findViewById(R.id.myPhoto1);
 
-		resumePreviewImg = (ImageView) findViewById(R.id.resumePreview);
+		previewImg = (ImageView) findViewById(R.id.resumePreviewImg);
+		previewBtn = (Button) findViewById(R.id.resumePreview);
 
 		modifyImg = (ImageView) findViewById(R.id.resumeModifyImg);
 		modifyBtn = (Button) findViewById(R.id.resumeModifyText);
 
-		deleteImg = (ImageView) findViewById(R.id.resumeDeleteImg);
-		deleteBtn = (Button) findViewById(R.id.resumeDeleteText);
+//		deleteImg = (ImageView) findViewById(R.id.resumeDeleteImg);
+//		deleteBtn = (Button) findViewById(R.id.resumeDeleteText);
 
 		refreshImg = (ImageView) findViewById(R.id.resumeRefreshImg);
 		refreshBtn = (Button) findViewById(R.id.resumeFefreshText);
@@ -169,13 +184,35 @@ public class ResumeManageActivity extends BaicActivity {
 	protected void reigesterAllEvent() {
 
 		// 简历预览
-		resumePreviewImg.setOnClickListener(new ImageView.OnClickListener() {
+		previewImg.setOnClickListener(new ImageView.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				if (dataList.size() == 0) {
-					resumePreviewImg.setClickable(false);
+					Toast.makeText(getApplicationContext(), "您还没有简历，请完善您的信息哦~~", Toast.LENGTH_SHORT).show();
+//					previewBtn.setClickable(false);
+				} else {
+					Intent intent = new Intent(ResumeManageActivity.this, ResumePreviewActivity.class);
+					Bundle bundle = new Bundle();
+					bundle.putSerializable("resumeInfo", dataList);
+					intent.putExtras(bundle);
+					startActivity(intent);
+				}
+
+			}
+
+		});
+		
+		// 简历预览
+		previewBtn.setOnClickListener(new ImageView.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if (dataList.size() == 0) {
+					Toast.makeText(getApplicationContext(), "您还没有简历，请完善您的信息哦~~", Toast.LENGTH_SHORT).show();
+//					previewBtn.setClickable(false);
 				} else {
 					Intent intent = new Intent(ResumeManageActivity.this, ResumePreviewActivity.class);
 					Bundle bundle = new Bundle();
@@ -210,28 +247,28 @@ public class ResumeManageActivity extends BaicActivity {
 
 		});
 
-		// 删除
-		deleteImg.setOnClickListener(new ImageView.OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-
-				deleteDialog();
-			}
-
-		});
-
-		// 删除
-		deleteBtn.setOnClickListener(new Button.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-
-				deleteImg.setPressed(true);
-				deleteDialog();
-			}
-
-		});
+//		// 删除
+//		deleteImg.setOnClickListener(new ImageView.OnClickListener() {
+//
+//			@Override
+//			public void onClick(View arg0) {
+//
+//				deleteDialog();
+//			}
+//
+//		});
+//
+//		// 删除
+//		deleteBtn.setOnClickListener(new Button.OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//
+//				deleteImg.setPressed(true);
+//				deleteDialog();
+//			}
+//
+//		});
 
 		// 刷新
 		refreshImg.setOnClickListener(new ImageView.OnClickListener() {
@@ -265,11 +302,11 @@ public class ResumeManageActivity extends BaicActivity {
 			@Override
 			public void onClick(View arg0) {
 
-				if (isOpen.equals("0")) {
-					isOpen = "1";
-				} else {
-					isOpen = "0";
-				}
+//				if (isOpen.equals("0")) {
+//					isOpen = "1";
+//				} else {
+//					isOpen = "0";
+//				}
 				displayOrNotTread();
 
 			}
@@ -284,11 +321,11 @@ public class ResumeManageActivity extends BaicActivity {
 
 				isPublicImg.setPressed(true);
 
-				if (isOpen.equals("0")) {
-					isOpen = "1";
-				} else {
-					isOpen = "0";
-				}
+//				if (isOpen.equals("0")) {
+//					isOpen = "1";
+//				} else {
+//					isOpen = "0";
+//				}
 				displayOrNotTread();
 
 			}
@@ -467,10 +504,10 @@ public class ResumeManageActivity extends BaicActivity {
 				return;
 			}
 
-			boolean isResumeNull = false;// 标识是否有简历，true表示有，false表示没有
+//			boolean isResumeNull = false;// 标识是否有简历，true表示有，false表示没有
 			// JSON的解析过程
 			JSONObject responseJsonObject = new JSONObject(result);
-			JSONArray responseJsonArray = responseJsonObject.getJSONArray("result");
+//			JSONArray responseJsonArray = responseJsonObject.getJSONArray("result");
 
 //			// 循环保存flagid（取出五个求职意向的id，存到本地，更改求职意向的时候用到）
 //			for(int i = 0; i < responseJsonArray.length(); i++){
@@ -505,9 +542,19 @@ public class ResumeManageActivity extends BaicActivity {
 
 			if (responseJsonObject.getInt("resultCode") == 0) {// 获得响应结果
 
+				int flag = responseJsonObject.getInt("flag");// 0表示没有简历，1表示有简历
+				if(0 == flag){// 该用户还没有简历
+					msg.what = 1;
+					handler.sendMessage(msg);
+					return;
+				}
+				
+				
 				JSONArray resultJsonArray = responseJsonObject.getJSONArray("result");
 
 				JSONObject resultJsonObject = resultJsonArray.getJSONObject(0);
+				
+				isHide = resultJsonObject.getInt("isresumehide");// 1 表示公开、   0 表示 隐藏
 				
 //				if (resultJsonObject.getString("reccontent").equals("") && resultJsonObject.getString("housesubsidy").equals("")) {
 //					msg.what = 1;
@@ -527,10 +574,13 @@ public class ResumeManageActivity extends BaicActivity {
 				editor.commit();
 
 				String accountCity = resultJsonObject.getString("accountcityname");// 户口所在地，accountcity是编号
-				String address = resultJsonObject.getString("address");
+				String address = resultJsonObject.getString("address");// 通讯地址
 				String adminpost = resultJsonObject.getString("adminpostname");// 当前从事职位
 				String aidprofession = resultJsonObject.getString("aidprofessionname");// 辅助专业,aidprofession是编号
 				String birthday = resultJsonObject.getString("birthday");
+				if(!StringUtil.isBlank(birthday)){
+					birthday = birthday.substring(0,10);
+				}
 				String birthplace = resultJsonObject.getString("birthplacename");// 籍贯
 				String cardid = resultJsonObject.getString("cardid");// 身份证号
 				String companyname = resultJsonObject.getString("companyname");
@@ -546,6 +596,10 @@ public class ResumeManageActivity extends BaicActivity {
 				String email = resultJsonObject.getString("email");
 				String graduatedcode = resultJsonObject.getString("graduatedcode");
 				String graduateddate = resultJsonObject.getString("graduateddate");// 需要格式化
+				if(!StringUtil.isBlank(graduateddate)){
+					graduateddate = graduateddate.substring(0, 10);
+				}
+				
 				String graduatedschool = resultJsonObject.getString("graduatedschool");
 				String healthstate = resultJsonObject.getString("healthstatename");// healthstate是编号
 				String marriagestate = resultJsonObject.getString("marriagestatename");// 婚姻状况，marriagestate是编号
@@ -575,10 +629,18 @@ public class ResumeManageActivity extends BaicActivity {
 					JSONObject object = resultJsonArray.getJSONObject(i);
 					
 					String housesubsidy = object.getString("housesubsidy");
-					String jobsstate = object.getString("jobsstate");
+					String businessname = object.getString("businessname");//欲从事行业
 					String companytype = object.getString("companytype");
 					String wagename = object.getString("wagename");
-					String workmannername = object.getString("workmannername");
+//					String workmannername = object.getString("workmannername");// 工作性质
+					String workmannerid = resultJsonObject.getString("workmanner");
+					String workmannername = "";// 工作性质：全职啊 兼职啊等等
+					for(int k=0; k<workMannerIds.length; k++){
+						if(workMannerIds[k].equals(workmannerid)){
+							workmannername = workManners[k];
+							break;
+						}
+					}
 					String workregionname = object.getString("workregionname");
 					String post = object.getString("postcodename");
 					String flagid = object.getString("flagid");
@@ -588,8 +650,8 @@ public class ResumeManageActivity extends BaicActivity {
 					if (!StringUtil.isBlank(housesubsidy)) {
 						map.put("住房要求", housesubsidy);
 					}
-					if (!StringUtil.isBlank(jobsstate)) {
-						map.put("工作性质", jobsstate);
+					if (!StringUtil.isBlank(workmannername)) {
+						map.put("工作性质", workmannername);
 					}
 					if (!StringUtil.isBlank(companytype)) {
 						map.put("企业性质", companytype);
@@ -597,8 +659,8 @@ public class ResumeManageActivity extends BaicActivity {
 					if (!StringUtil.isBlank(wagename)) {
 						map.put("月薪要求", wagename);
 					}
-					if (!StringUtil.isBlank(workmannername)) {
-						map.put("欲从事行业", workmannername);
+					if (!StringUtil.isBlank(businessname)) {
+						map.put("欲从事行业", businessname);
 					}
 					if (!StringUtil.isBlank(post)) {
 						map.put("欲从事岗位", post);
@@ -609,14 +671,21 @@ public class ResumeManageActivity extends BaicActivity {
 					if (!StringUtil.isBlank(flagid)) {
 						map.put("flagId", flagid);
 					}
-					jobIntentionList.add(map);
+					jobIntentionList2.add(map);
 				}
 				
 				String housesubsidy = resultJsonObject.getString("housesubsidy");
-				String jobsstate = resultJsonObject.getString("jobsstate");
+				String workmannerid = resultJsonObject.getString("workmanner");
+				String workmannername = "";// 工作性质：全职啊 兼职啊等等
+				for(int i=0; i<workMannerIds.length; i++){
+					if(workMannerIds[i].equals(workmannerid)){
+						workmannername = workManners[i];
+						break;
+					}
+				}
 				String companytype = resultJsonObject.getString("companytype");
 				String wagename = resultJsonObject.getString("wagename");
-				String workmannername = resultJsonObject.getString("workmannername");
+				String businessname = resultJsonObject.getString("businessname");//欲从事行业
 				String workregionname = resultJsonObject.getString("workregionname");
 				String post = resultJsonObject.getString("postcodename");
 
@@ -624,8 +693,8 @@ public class ResumeManageActivity extends BaicActivity {
 					jobIntentionMap.put("住房要求", housesubsidy);
 					i++;
 				}
-				if (!StringUtil.isBlank(jobsstate)) {
-					jobIntentionMap.put("工作性质", jobsstate);
+				if (!StringUtil.isBlank(workmannername)) {
+					jobIntentionMap.put("工作性质", workmannername);
 					i++;
 				}
 				if (!StringUtil.isBlank(companytype)) {
@@ -636,8 +705,8 @@ public class ResumeManageActivity extends BaicActivity {
 					jobIntentionMap.put("月薪要求", wagename);
 					i++;
 				}
-				if (!StringUtil.isBlank(workmannername)) {
-					jobIntentionMap.put("欲从事行业", workmannername);
+				if (!StringUtil.isBlank(businessname)) {
+					jobIntentionMap.put("欲从事行业", businessname);
 					i++;
 				}
 				if (!StringUtil.isBlank(post)) {
@@ -656,10 +725,10 @@ public class ResumeManageActivity extends BaicActivity {
 					basicInfoMap.put("户口所在地", accountCity);
 					i++;
 				}
-				if (!StringUtil.isBlank(address)) {
-					basicInfoMap.put("地址", address);
-					i++;
-				}
+//				if (!StringUtil.isBlank(address)) {
+//					basicInfoMap.put("地址", address);
+//					i++;
+//				}
 				if (!StringUtil.isBlank(birthday)) {
 					basicInfoMap.put("出生日期", birthday);
 					i++;
@@ -671,7 +740,7 @@ public class ResumeManageActivity extends BaicActivity {
 				}
 
 				if (!StringUtil.isBlank(adminpost)) {
-					workExperienceMap.put("当前从事职业", adminpost);
+					workExperienceMap.put("目前职务", adminpost);
 					i++;
 				}
 				if (!StringUtil.isBlank(aidprofession)) {
@@ -771,6 +840,10 @@ public class ResumeManageActivity extends BaicActivity {
 					contactMap.put("QQ", qqmsn);
 					i++;
 				}
+				if (!StringUtil.isBlank(address)) {
+					contactMap.put("通讯地址", address);
+					i++;
+				}
 				if (!StringUtil.isBlank(reccontent)) {
 					personalExperienceMap.put("推荐自己", reccontent);
 					basicInfoMap.put(" ", "");
@@ -785,12 +858,12 @@ public class ResumeManageActivity extends BaicActivity {
 				}
 
 				if (!StringUtil.isBlank(sex)) {
-					if (sex.equals("0")) {
-						basicInfoMap.put("性别", "女");
-					} else {
-						basicInfoMap.put("性别", "男");
-					}
-
+//					if (sex.equals("0")) {
+//						basicInfoMap.put("性别", "女");
+//					} else {
+//						basicInfoMap.put("性别", "男");
+//					}
+					basicInfoMap.put("性别", sex);
 					i++;
 				}
 				if (!StringUtil.isBlank(specialtycontent)) {
@@ -832,12 +905,13 @@ public class ResumeManageActivity extends BaicActivity {
 					i++;
 				}
 
-				float temp = i * 100 % 48;
-				if(i <= 2 && temp <= 8){// 该用户还没有简历(刚创建账号时  i=2,temp = 8)
-					msg.what = 1;
-					handler.sendMessage(msg);
-					return;
-				}
+//				// 下边这几行是 之前判断有无简历的，先不要删除，保留着
+//				float temp = i * 100 % 48;
+//				if(i <= 2 && temp <= 8){// 该用户还没有简历(刚创建账号时  i=2,temp = 8)
+//					msg.what = 1;
+//					handler.sendMessage(msg);
+//					return;
+//				}
 				
 				
 				basicInfoList.add(basicInfoMap);
@@ -845,7 +919,7 @@ public class ResumeManageActivity extends BaicActivity {
 				workExperienceList.add(workExperienceMap);
 				educationExperienceList.add(educationExperienceMap);
 				contactList.add(contactMap);
-				
+				jobIntentionList.add(jobIntentionMap);
 
 				dataList.add(basicInfoList);
 				dataList.add(personalExperienceList);
@@ -985,13 +1059,15 @@ public class ResumeManageActivity extends BaicActivity {
 				Toast.makeText(getApplicationContext(), "删除失败", Toast.LENGTH_SHORT).show();
 				break;
 			case 5: {
-				if ("隐藏".equals(isPublicBtn.getText().toString())) {
+				if (0 == isHide) { 
 					isPublicImg.setImageResource(R.drawable.resume_is_public_bg);
-					isPublicBtn.setText("公开");
+					isPublicBtn.setText(Html.fromHtml("<u>公开</u>"));
+					resumePublicValue.setText("隐藏");
 					Toast.makeText(getApplicationContext(), "现在您的简历就只有您自己可以看到了~~", Toast.LENGTH_SHORT).show();
 				} else {
 					isPublicImg.setImageResource(R.drawable.resume_is_secret_bg);
-					isPublicBtn.setText("隐藏");
+					isPublicBtn.setText(Html.fromHtml("<u>隐藏</u>"));
+					resumePublicValue.setText("公开");
 					Toast.makeText(getApplicationContext(), "您的简历已公开，所有的猎头都可以看到哟~~", Toast.LENGTH_SHORT).show();
 				}
 			}
@@ -1001,6 +1077,7 @@ public class ResumeManageActivity extends BaicActivity {
 				break;
 			case 7:
 				Toast.makeText(getApplicationContext(), "刷新成功，您的简历会更好的被猎头发现了！", Toast.LENGTH_SHORT).show();
+				resumeUpdateValue.setText(DateUtil.getCurrentYearMonthDay());
 				break;
 			case 8:
 				Toast.makeText(getApplicationContext(), "刷新失败，再试试吧", Toast.LENGTH_SHORT).show();
@@ -1018,23 +1095,27 @@ public class ResumeManageActivity extends BaicActivity {
 
 		resumeNameValue.setText("我的简历");
 		if (resumeInfo != null && !StringUtil.isBlank(resumeInfo.getUpresumetime())) {
-			resumeUpdateValue.setText(resumeInfo.getUpresumetime().substring(0, 10));
+			if("0".equals(resumeInfo.getUpresumetime())){// 简历刚被创建时，还没调用更新简历方法，所以返回的是0
+				resumeUpdateValue.setText("暂无更新");
+			} else {
+				resumeUpdateValue.setText(resumeInfo.getUpresumetime().substring(0, 10));
+			}
 		}
-
+		
 		finishStatus = (int) Math.round(i * 100 / 48) + "%";
 		resumeFinishStatusValue.setText(finishStatus);
 		// resumePublicValue.setText(resumeInfo.getIshide() + "");
 
-		if (resumeInfo.getIsresumehide() == 1) {
+		if (isHide == 1) {// 简历是公开状态
 			isPublicImg.setImageResource(R.drawable.resume_is_secret_bg);
 			resumePublicValue.setText("公开");
-			isPublicBtn.setText("隐藏");
-			isOpen = "1";
+			isPublicBtn.setText(Html.fromHtml("<u>隐藏</u>"));
+			isOpen = "0"; // isOpen：公开或隐藏简历时请求后台的参数。     现在是公开状态（isHide = 1），所以isOpen = 0 。 说明我现在要执行隐藏操作
 		} else {
 			isPublicImg.setImageResource(R.drawable.resume_is_public_bg);
 			resumePublicValue.setText("隐藏");
-			isPublicBtn.setText("公开");
-			isOpen = "0";
+			isPublicBtn.setText(Html.fromHtml("<u>公开</u>"));
+			isOpen = "1";
 
 		}
 
@@ -1048,7 +1129,8 @@ public class ResumeManageActivity extends BaicActivity {
 		Bundle bundle = new Bundle();
 		bundle.putSerializable("resumeInfo", dataList);
 		bundle.putSerializable("flagIdList", flagIdList);
-		bundle.putSerializable("jobIntentionList", jobIntentionList);
+		bundle.putSerializable("jobIntentionList", jobIntentionList2);
+		bundle.putString("whichActivity", "ResumeManage");
 		intent.putExtras(bundle);
 		startActivity(intent);
 		finish();
@@ -1240,6 +1322,7 @@ public class ResumeManageActivity extends BaicActivity {
 			// JSON的解析过程
 			responseJsonObject = new JSONObject(result);
 			if (responseJsonObject.getInt("resultcode") == 0) {// 获得响应结果
+				isHide = isHide == 1 ? 0:1;
 				msg.what = 5;
 				handler.sendMessage(msg);
 			} else {

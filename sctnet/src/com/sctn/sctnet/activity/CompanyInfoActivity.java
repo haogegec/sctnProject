@@ -82,7 +82,7 @@ public class CompanyInfoActivity extends BaicActivity {
 	private String companyAddress;// 公司地址
 	private String companyIntro;// 公司介绍
 	private String companyContacts;// 联系人
-	// private String companyPhone;// 联系电话
+	private String companyPhone;// 联系电话
 	private String companyEmail;// 电子邮箱
 	private String companyWebsite;// 网址
 	private String workingArea;// 工作地区
@@ -505,7 +505,7 @@ public class CompanyInfoActivity extends BaicActivity {
 				companyAddress = companyInfo.getString("companyaddress");
 				companyIntro = companyInfo.getString("companyinfo");
 				companyContacts = companyInfo.getString("contactsname");
-				// companyPhone = companyInfo.getString("");
+				companyPhone = companyInfo.getString("phone");
 				companyEmail = companyInfo.getString("companyemail");
 				companyWebsite = companyInfo.getString("companywebsite");
 				workingArea = companyInfo.getString("workregionname");
@@ -545,7 +545,7 @@ public class CompanyInfoActivity extends BaicActivity {
 		tv_companyScale.setText(companyScale);
 		tv_companyAddress.setText(companyAddress);
 		tv_companyIntro.setText(companyIntro);
-		tv_companyContacts.setText(companyContacts);
+		tv_companyContacts.setText(companyContacts+" "+companyPhone);
 		tv_companyEmail.setText(companyEmail);
 		tv_companyWebsite.setText(companyWebsite);
 
@@ -554,7 +554,7 @@ public class CompanyInfoActivity extends BaicActivity {
 		tv_companyType2.setText(companyType);
 		tv_companyScale2.setText(companyScale);
 		tv_companyAddress2.setText(companyAddress);
-		tv_companyContacts2.setText(companyContacts);
+		tv_companyContacts2.setText(companyContacts+" "+companyPhone);
 		tv_companyEmail2.setText(companyEmail);
 		tv_companyWebsite2.setText(companyWebsite);
 		tv_workingArea2.setText(workingArea);

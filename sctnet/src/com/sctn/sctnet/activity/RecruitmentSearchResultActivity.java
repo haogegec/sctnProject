@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
@@ -13,9 +15,13 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +59,7 @@ public class RecruitmentSearchResultActivity extends BaicActivity{
 	// 返回数据
 	private int total;// 总条数
 	private String result;// 服务端返回的json字符串
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -61,6 +68,7 @@ public class RecruitmentSearchResultActivity extends BaicActivity{
 		Intent intent = this.getIntent();
 		Bundle bundle = intent.getExtras();
 		searchStr = bundle.getString("searchStr");
+		
 		initAllView();
 		reigesterAllEvent();
 		requestDataThread(0);// 第一次请求数据
@@ -131,11 +139,43 @@ public class RecruitmentSearchResultActivity extends BaicActivity{
 				addressLayout = viewCache.addressLayout;
 			}
 
-			String id = list.get(position).get("recruitment_id").toString();
-			name.setText(list.get(position).get("recruitment_name").toString());
+			
+			// 多个关键字用空格隔开，需要拆分
+			String[] keys = searchStr.split(" ");
+			
+			// 招聘会名称：搜索关键字高亮显示
+			String str_recrimentName = list.get(position).get("recruitment_name").toString();
+			SpannableString s = new SpannableString(str_recrimentName);// 高亮显示之后的字符串
+			for(int i=0; i<keys.length; i++){
+				
+		        Pattern p = Pattern.compile(keys[i]);
+		        Matcher m = p.matcher(s);
+
+		        while (m.find()) {
+		            int start = m.start();
+		            int end = m.end();
+		            s.setSpan(new ForegroundColorSpan(Color.RED), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+		        }
+			}
+			name.setText(s);
+			
 			time.setText(list.get(position).get("recruitment_time").toString());
 			week.setText(list.get(position).get("recruitment_week").toString());
-			address.setText(list.get(position).get("recruitment_address").toString());
+			
+			// 招聘会地址：搜索关键字高亮显示
+			String str_companyAddress = list.get(position).get("recruitment_address").toString();
+	        SpannableString s2 = new SpannableString(str_companyAddress);
+	        for(int i=0; i<keys.length; i++){
+	        	Pattern p2 = Pattern.compile(keys[i]);
+		        Matcher m2 = p2.matcher(s2);
+
+		        while (m2.find()) {
+		            int start2 = m2.start();
+		            int end2 = m2.end();
+		            s2.setSpan(new ForegroundColorSpan(Color.RED), start2, end2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+		        }
+	        }
+			address.setText(s2);
 
 			addressLayout.setOnClickListener(new OnClickListener(){
 

@@ -3,12 +3,17 @@ package com.sctn.sctnet.activity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.http.message.BasicNameValuePair;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +30,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sctn.sctnet.R;
+import com.sctn.sctnet.Utils.StringUtil;
 import com.sctn.sctnet.contants.Constant;
 import com.sctn.sctnet.view.CustomDialog;
 import com.sctn.sctnet.view.PinnedHeaderListView;
@@ -72,6 +78,8 @@ public class SelectIndustryActivity extends BaicActivity {
 	
 	private boolean[] tmp = {false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false};
 	
+	private String whichActivity;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -82,10 +90,12 @@ public class SelectIndustryActivity extends BaicActivity {
 		initAllView();
 		reigesterAllEvent();
 		initData();
-		//		requestDataThread(0);
+		if(!"JobSearch".equals(whichActivity)){
+			requestDataThread(0);
+		}
 	}
 
-	/*
+	
 	private void requestDataThread(final int i) {
 		
 		if (i == 0) {
@@ -124,7 +134,7 @@ public class SelectIndustryActivity extends BaicActivity {
 				.parseObject(result);
 		if(responseJsonObject.get("resultcode").toString().equals("0")) {
 			
-			JSONArray json = responseJsonObject.getJSONArray("result");
+			com.alibaba.fastjson.JSONArray json = responseJsonObject.getJSONArray("result");
 			
 			
 			total = (Integer) responseJsonObject.get("resultCount");// 总数
@@ -156,10 +166,11 @@ public class SelectIndustryActivity extends BaicActivity {
 		}
 				
 		
-	}*/
+	}
 
 	private void initIntent(){
 		Intent intent = getIntent();
+		whichActivity = intent.getStringExtra("whichActivity");
 		industryTypeId = intent.getStringExtra("industryTypeId");
 		industryTypeTitle = intent.getStringExtra("industryTypeTitle");
 		if(intent.getSerializableExtra("checkBoxState") != null){
@@ -205,22 +216,22 @@ public class SelectIndustryActivity extends BaicActivity {
 		initUI();
 	}
 
-	/*	// 处理线程发送的消息
-		private Handler handler = new Handler() {
+	// 处理线程发送的消息
+	private Handler handler = new Handler() {
 
-			public void handleMessage(Message msg) {
-				switch (msg.what) {
-				case 0:
-					initUI();
-					closeProcessDialog();
-					break;
-				case 1:
-					updateUI();
-					break;
-				}
-
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case 0:
+				initUI();
+				closeProcessDialog();
+				break;
+			case 1:
+				updateUI();
+				break;
 			}
-		};*/
+
+		}
+	};
 
 	private void initUI() {
 
@@ -231,17 +242,17 @@ public class SelectIndustryActivity extends BaicActivity {
 		pinnedAdapter.notifyDataSetChanged();
 	}
 
-//	/**
-//	 * 滑动list请求数据更新页面
-//	 */
-//	private void updateUI() {
-//
-//		if (total <= pageSize * page) {
-//			listView.removeFooterView(footViewBar);// 添加list底部更多按钮
-//		}
-//		pinnedAdapter.notifyDataSetChanged();
-//
-//	}
+	/**
+	 * 滑动list请求数据更新页面
+	 */
+	private void updateUI() {
+
+		if (total <= pageSize * page) {
+			listView.removeFooterView(footViewBar);// 添加list底部更多按钮
+		}
+		pinnedAdapter.notifyDataSetChanged();
+
+	}
 
 	@Override
 	protected void initAllView() {

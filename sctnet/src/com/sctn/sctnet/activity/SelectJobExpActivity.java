@@ -47,7 +47,7 @@ public class SelectJobExpActivity extends BaicActivity {
 	private TextView tv_industryCategory2;// 行业类别
 
 	private RelativeLayout rl_currentIndustry;
-	private TextView tv_currentIndustry2;// 目前就职的行业
+	private TextView tv_currentIndustry2;// 目前就职的职位类别
 
 	private RelativeLayout rl_totalWorkingTime;
 	private TextView tv_totalWorkingTime2;// 该行业累计工作时间

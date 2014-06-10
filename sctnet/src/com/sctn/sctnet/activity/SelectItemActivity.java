@@ -44,6 +44,9 @@ public class SelectItemActivity extends BaicActivity {
 	private String id;// 从SelectJobActivity里传过来的大职位的key
 	private String value;// 从SelectJobActivity里传过来的大职位的value
 
+	private String profession;// 选择专业时候用到
+	private String professionId;// 选择专业时候用到
+	
 	// 分页
 	private int page = 1;
 	private int pageSize = Constant.PageSize;
@@ -60,9 +63,19 @@ public class SelectItemActivity extends BaicActivity {
 	private String[] languageLevels = { "国家专业八级", "国家专业六级", "国家专业四级", "大学英语六级", "大学英语四级", "精通", "熟练", "良好", "一般", "差" };
 
 	// 学历
-	private String[] degreeIds = { "14000900", "14000800", "14000700", "14000600", "14000500", "14000400", "14000300", "14000200", "14001100" };
-	private String[] degrees = { "博士", "研究生", "本科", "大专", "中专", "技工", "中学", "小学", "其他" };
+	private String[] educationIds = { "14000900", "14000800", "14000700", "14000600", "14000500", "14000400", "14000300", "14000200", "14001100" };
+	private String[] educations = { "博士", "研究生", "本科", "大专", "中专", "技工", "中学", "小学", "其他" };
 
+	// 学位
+	private String[] degreeIds = {"21000100","21000200","21000300","21000400"};
+	private String[] degrees = {"博士后","博士","硕士","学士"};
+	
+	// 专业
+//	private String[] professionIds = {"13010000","13020000","13030000","13040000","13050000","13060000","13070000","13080000","13090000","13100000","13110000","13140000","13120000","13130000"};
+//	private String[] professions = {"哲学","经济学","法学","教育学","文学","历史学","理学","工学","农学","医学","军事学","管理学","其他学科","无"};
+	private String[] professionIds = {"30010000","30020000","30020000","30040000","30050000","30060000","30070000","30080000","30090000","30100000","30110000","30120000","30990000","30000000"};
+	private String[] professions = {"哲学","经济学","法学","教育学","文学","历史学","理学","工学","农学","医学","军事学","管理学","其他学科","无"};
+	
 	// 工龄、该行业累计工作时间、担任现职务时间
 	private String[] workingYears = { "6个月以下", "6~12个月", "1年", "2年", "3年", "4年", "5年", "6~9年", "10~15年", "16年以上" };
 	private String[] workingYearIds = { "1", "6", "12", "24", "36", "48", "60", "72", "120", "192" };
@@ -107,6 +120,9 @@ public class SelectItemActivity extends BaicActivity {
 			"傈僳族","佤族","畲族","高山族","拉祜族","水族","东乡族","纳西族","景颇族","柯尔克孜族","土族","达斡尔族","仫佬族","羌族","布朗族","撒拉族","毛南族","仡佬族","锡伯族",
 			"阿昌族","普米族","塔吉克族","怒族","乌孜别克族","俄罗斯族","鄂温克族","德昂族","保安族","裕固族","京族","塔塔尔族","独龙族","鄂伦春族","赫哲族","门巴族","珞巴族","基诺族"};
 	
+	private String[] houseWhereIds = {"有","否"};
+	private String[] houseWheres = {"要提供","无所谓"};
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 
@@ -138,12 +154,12 @@ public class SelectItemActivity extends BaicActivity {
 				map.put("value", languageLevels[i]);
 				listItems.add(map);
 			}
-		} else if ("Degree".equals(which)) {
+		} else if ("Education".equals(which)) {
 			super.setTitleBar("选择学历", View.VISIBLE, View.GONE);
-			for (int i = 0; i < degreeIds.length; i++) {
+			for (int i = 0; i < educationIds.length; i++) {
 				Map<String, String> map = new HashMap<String, String>();
-				map.put("id", degreeIds[i]);
-				map.put("value", degrees[i]);
+				map.put("id", educationIds[i]);
+				map.put("value", educations[i]);
 				listItems.add(map);
 			}
 		} else if ("WorkingYears".equals(which)) {
@@ -248,6 +264,30 @@ public class SelectItemActivity extends BaicActivity {
 				map.put("value", peoples[i]);
 				listItems.add(map);
 			}
+		} else if ("HouseWhere".equals(which)) {
+			super.setTitleBar("选择住房要求", View.VISIBLE, View.GONE);
+			for (int i = 0; i < houseWhereIds.length; i++) {
+				Map<String, String> map = new HashMap<String, String>();
+				map.put("id", houseWhereIds[i]);
+				map.put("value", houseWheres[i]);
+				listItems.add(map);
+			}
+		} else if ("Degree".equals(which)) {
+			super.setTitleBar("选择学位", View.VISIBLE, View.GONE);
+			for (int i = 0; i < degreeIds.length; i++) {
+				Map<String, String> map = new HashMap<String, String>();
+				map.put("id", degreeIds[i]);
+				map.put("value", degrees[i]);
+				listItems.add(map);
+			}
+		} else if ("Profession".equals(which)) {
+			super.setTitleBar("选择专业", View.VISIBLE, View.GONE);
+			for (int i = 0; i < professionIds.length; i++) {
+				Map<String, String> map = new HashMap<String, String>();
+				map.put("id", professionIds[i]);
+				map.put("value", professions[i]);
+				listItems.add(map);
+			}
 		}
 		
 	}
@@ -294,10 +334,10 @@ public class SelectItemActivity extends BaicActivity {
 					intent.putExtra("languageLevelId", languageLevelIds[position]);
 					setResult(RESULT_OK, intent);
 					finish();
-				} else if ("Degree".equals(which)) {
+				} else if ("Education".equals(which)) {
 					Intent intent = getIntent();
-					intent.putExtra("degree", degrees[position]);
-					intent.putExtra("degreeId", degreeIds[position]);
+					intent.putExtra("education", educations[position]);
+					intent.putExtra("educationId", educationIds[position]);
 					setResult(RESULT_OK, intent);
 					finish();
 				} else if ("WorkingYears".equals(which)) {
@@ -378,6 +418,30 @@ public class SelectItemActivity extends BaicActivity {
 					intent.putExtra("peopleId", peopleIds[position]);
 					setResult(RESULT_OK, intent);
 					finish();
+				} else if ("HouseWhere".equals(which)) {
+					Intent intent = getIntent();
+					intent.putExtra("houseWhere", houseWheres[position]);
+					intent.putExtra("houseWhereId", houseWhereIds[position]);
+					setResult(RESULT_OK, intent);
+					finish();
+				} else if ("Degree".equals(which)) {
+					Intent intent = getIntent();
+					intent.putExtra("degree", degrees[position]);
+					intent.putExtra("degreeId", degreeIds[position]);
+					setResult(RESULT_OK, intent);
+					finish();
+				} else if ("Profession".equals(which)) {
+//					Intent intent = getIntent();
+//					intent.putExtra("profession", professions[position]);
+//					intent.putExtra("professionId", professionIds[position]);
+//					setResult(RESULT_OK, intent);
+//					finish();
+					
+					Intent intent = new Intent(SelectItemActivity.this,SelectProfessionActivity.class);
+					intent.putExtra("professionId", professionIds[position]);
+					startActivityForResult(intent, Constant.PROFESSION_TYPE);
+					
+					
 				}
 				
 			}
@@ -492,6 +556,26 @@ public class SelectItemActivity extends BaicActivity {
 		}
 	};
 
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			switch (requestCode) {
+			case Constant.PROFESSION_TYPE:
+				professionId = data.getStringExtra("professionId");
+				profession = data.getStringExtra("profession");
+
+				Intent intent = getIntent();
+				intent.putExtra("professionId", professionId);
+				intent.putExtra("profession", profession);
+				setResult(RESULT_OK, intent);
+				finish();
+				break;
+			}
+			
+		}
+		
+	}
+	
 	// 自定义适配器
 	class MyAdapter extends BaseAdapter {
 		private Context mContext;// 上下文对象

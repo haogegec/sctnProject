@@ -62,7 +62,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textColor="@color/lightBlack"
-                android:text="当前从事行业" />
+                android:text="当前从事专业" />
             <TextView
                 android:id="@+id/currentprofessional_value"
                 android:layout_width="wrap_content"
@@ -87,7 +87,41 @@
             </ImageView>
         </RelativeLayout>
         
-        <RelativeLayout
+        <LinearLayout
+            android:id="@+id/adminpost"
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/item_selector"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:focusable="true"  
+   			android:focusableInTouchMode="true" >
+
+            <TextView
+                android:id="@+id/adminpost_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
+                android:text="目前职务" />
+
+            <EditText
+                android:id="@+id/adminpost_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/my_edittext"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:inputType="text"
+                android:layout_marginRight="5dp"
+                android:text="" />
+        </LinearLayout>
+        
+        <!-- <RelativeLayout
             android:id="@+id/adminpost"
             android:layout_width="fill_parent"
             android:layout_height="55dp"
@@ -129,7 +163,7 @@
                 android:shadowRadius="1.0"
                 android:src="@drawable/arrow" >
             </ImageView>
-        </RelativeLayout>
+        </RelativeLayout> -->
        
         <LinearLayout
             android:id="@+id/workexperience"

@@ -37,8 +37,8 @@ public class ResumeCreateActivity extends BaicActivity{
 	}
 	
 	private void initIntent(){
-		Bundle bundle = getIntent().getExtras();
-		jobIntentionList = (ArrayList<HashMap<String, String>>)bundle.getSerializable("jobIntentionList");
+//		Bundle bundle = getIntent().getExtras();
+//		jobIntentionList = (ArrayList<HashMap<String, String>>)bundle.getSerializable("jobIntentionList");
 	}
 	
 	@Override
@@ -58,8 +58,8 @@ public class ResumeCreateActivity extends BaicActivity{
 				Intent intent = new Intent(ResumeCreateActivity.this,ResumeEditActivity.class);
 				Bundle bundle = new Bundle();
 				bundle.putString("whichActivity", "ResumeCreate");
-				bundle.putString("flagId", jobIntentionList.get(0).get("flagId"));
-				bundle.putSerializable("jobIntentionList", jobIntentionList);
+//				bundle.putString("flagId", jobIntentionList.get(0).get("flagId"));
+//				bundle.putSerializable("jobIntentionList", jobIntentionList);
 				intent.putExtras(bundle);
 				startActivity(intent);
 				finish();

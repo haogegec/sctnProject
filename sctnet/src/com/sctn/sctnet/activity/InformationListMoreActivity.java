@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
@@ -12,9 +14,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -47,6 +53,8 @@ public class InformationListMoreActivity extends BaicActivity {
 	private int pageSize = Constant.PageSize;
 	private String cid;// 大栏目id
 	private String url;
+	private String type;
+	
 	// 返回数据
 	private int total;// 总条数
 	private String result;// 服务端返回的json字符串
@@ -54,6 +62,7 @@ public class InformationListMoreActivity extends BaicActivity {
 
 	private int itemCount; // 当前窗口可见项总数   
 	private int visibleLastIndex = 0;//最后的可视项索引 
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -68,10 +77,12 @@ public class InformationListMoreActivity extends BaicActivity {
 		Intent intent = this.getIntent();
 		Bundle bundle = intent.getExtras();
 		title = bundle.getString("title");
-		if(bundle.getString("cid")!=null){
+		type = bundle.getString("type");
+		
+		if (bundle.getString("cid") != null) {
 			cid = bundle.getString("cid");
 		}
-		if(bundle.getString("search")!=null){
+		if (bundle.getString("search") != null) {
 			search = bundle.getString("search");
 		}
 		url = bundle.getString("url");
@@ -100,7 +111,7 @@ public class InformationListMoreActivity extends BaicActivity {
 
 	private void requestData(int i) {
 
-	//	String url = "appInfo!findByCid.app";
+		//	String url = "appInfo!findByCid.app";
 
 		Message msg = new Message();
 		try {
@@ -109,10 +120,11 @@ public class InformationListMoreActivity extends BaicActivity {
 
 			params.add(new BasicNameValuePair("page", pageNo + ""));
 			params.add(new BasicNameValuePair("pageSize", pageSize + ""));
-			if(!StringUtil.isBlank(cid)){
+			params.add(new BasicNameValuePair("type", type));
+			if (!StringUtil.isBlank(cid)) {
 				params.add(new BasicNameValuePair("cid", cid));
 			}
-			if(!StringUtil.isBlank(search)){
+			if (!StringUtil.isBlank(search)) {
 				params.add(new BasicNameValuePair("title", search));
 			}
 
@@ -135,9 +147,8 @@ public class InformationListMoreActivity extends BaicActivity {
 			responseJsonObject = new JSONObject(result);
 			if (responseJsonObject.getInt("resultCode") == 0) {// 获得响应结果
 
-				JSONArray resultJsonArray = responseJsonObject
-						.getJSONArray("result");
-				if(resultJsonArray==null||resultJsonArray.length()==0){
+				JSONArray resultJsonArray = responseJsonObject.getJSONArray("result");
+				if (resultJsonArray == null || resultJsonArray.length() == 0) {
 					String err = StringUtil.getAppException4MOS("没有您要搜索的结果");
 					InformationListMoreActivity.this.sendExceptionMsg(err);
 					return;
@@ -152,11 +163,33 @@ public class InformationListMoreActivity extends BaicActivity {
 
 					Map<String, Object> item = new HashMap<String, Object>();
 					item.put("id", resultJsonArray.getJSONObject(j).get("id"));// 小栏目的id
-					item.put("little_column_title", resultJsonArray
-							.getJSONObject(j).get("title"));// 小栏目的名称
-					item.put("content",
-							resultJsonArray.getJSONObject(j).get("content"));// 职位
+					item.put("little_column_title", resultJsonArray.getJSONObject(j).get("title"));// 小栏目的名称
+					
+					
+					if( null != search){
+						// 内容需要关键字高亮显示
+						String[] keys = search.split(" ");
+						// 招聘会名称：搜索关键字高亮显示
+						String str_content = resultJsonArray.getJSONObject(j).get("content").toString();
+						SpannableString s = new SpannableString(str_content);// 高亮显示之后的字符串
+						for(int k=0; k<keys.length; k++){
+							
+					        Pattern p = Pattern.compile(keys[k]);
+					        Matcher m = p.matcher(s);
 
+					        while (m.find()) {
+					            int start = m.start();
+					            int end = m.end();
+					            s.setSpan(new ForegroundColorSpan(Color.RED), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+					        }
+						}
+						
+//						item.put("content", resultJsonArray.getJSONObject(j).get("content").toString());// 职位
+						item.put("content", s);// 职位
+					} else {
+						item.put("content", resultJsonArray.getJSONObject(j).get("content").toString());// 职位
+					}
+					
 					items.add(item);
 				}
 				if (i == 0) {
@@ -203,13 +236,13 @@ public class InformationListMoreActivity extends BaicActivity {
 	 * 第一次请求数据初始化页面
 	 */
 	private void initUI() {
-		
+
 		if (total > pageSize * pageNo) {
 			informationList.addFooterView(footViewBar);// 添加list底部更多按钮
 		}
-		
+
 		informationList.setAdapter(informationListAdapter);
-		
+
 	}
 
 	/**
@@ -219,37 +252,36 @@ public class InformationListMoreActivity extends BaicActivity {
 
 		if (total <= pageSize * pageNo) {
 			informationList.removeFooterView(footViewBar);// 添加list底部更多按钮
-		}		
-	//	informationListAdapter.getDataList.addAll(items);    
+		}
+		//	informationListAdapter.getDataList.addAll(items);    
 		informationListAdapter.notifyDataSetChanged();
-//		informationList.setAdapter(informationListAdapter);
-//		informationList.setSelection(visibleLastIndex - itemCount + 1);
+		//		informationList.setAdapter(informationListAdapter);
+		//		informationList.setSelection(visibleLastIndex - itemCount + 1);
 	}
 
 	private AbsListView.OnScrollListener listener = new AbsListView.OnScrollListener() {
 
 		@Override
-		public void onScroll(AbsListView view, int firstVisibleItem,
-				int visibleItemCount, int totalItemCount) {
-			itemCount = visibleItemCount;  
-	        visibleLastIndex = firstVisibleItem + visibleItemCount - 1; 
+		public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+			itemCount = visibleItemCount;
+			visibleLastIndex = firstVisibleItem + visibleItemCount - 1;
 		}
 
 		@Override
 		public void onScrollStateChanged(AbsListView view, int scrollState) {
 
-			selected =  informationList.getLastVisiblePosition();  
-			if ((view.getLastVisiblePosition() == view.getCount() - 1)&&(total > pageSize * pageNo)) {
-				
-						pageNo++;
-						requestDataThread(1);// 滑动list请求数据
-				
+			selected = informationList.getLastVisiblePosition();
+			if ((view.getLastVisiblePosition() == view.getCount() - 1) && (total > pageSize * pageNo)) {
+
+				pageNo++;
+				requestDataThread(1);// 滑动list请求数据
+
 			}
-			
-//			if ((view.getLastVisiblePosition() == informationListAdapter.getCount())&&(total > pageSize * pageNo)) {
-//				pageNo++;
-//				requestDataThread(1);// 滑动list请求数据
-//			}		
+
+			//			if ((view.getLastVisiblePosition() == informationListAdapter.getCount())&&(total > pageSize * pageNo)) {
+			//				pageNo++;
+			//				requestDataThread(1);// 滑动list请求数据
+			//			}		
 
 		}
 	};
@@ -257,14 +289,10 @@ public class InformationListMoreActivity extends BaicActivity {
 	@Override
 	protected void initAllView() {
 		setTitleBar(title, View.VISIBLE, View.GONE);
-		
+
 		informationList = (ListView) findViewById(R.id.information_list);
 		footViewBar = View.inflate(InformationListMoreActivity.this, R.layout.foot_view_loading, null);
-		informationListAdapter = new SimpleAdapter(
-				InformationListMoreActivity.this, items,
-				R.layout.information_list_item,
-				new String[] { "little_column_title" },
-				new int[] { R.id.little_column_content });
+		informationListAdapter = new SimpleAdapter(InformationListMoreActivity.this, items, R.layout.information_list_item, new String[] { "little_column_title" }, new int[] { R.id.little_column_content });
 		informationList.setAdapter(informationListAdapter);
 		informationList.setOnScrollListener(listener);
 	}
@@ -272,21 +300,20 @@ public class InformationListMoreActivity extends BaicActivity {
 	@Override
 	protected void reigesterAllEvent() {
 
-		informationList.setOnItemClickListener(new OnItemClickListener(){
+		informationList.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
-					long arg3) {
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent();
 				Bundle bundle = new Bundle();
 				bundle.putString("title", title);
-				bundle.putString("id", items.get(position).get("id")+"");
+				bundle.putString("id", items.get(position).get("id") + "");
 				intent.setClass(InformationListMoreActivity.this, InformationDetailActivity.class);
 				intent.putExtras(bundle);
 				startActivity(intent);
 			}
-			
+
 		});
 
 	}

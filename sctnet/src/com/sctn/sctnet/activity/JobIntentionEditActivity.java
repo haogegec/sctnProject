@@ -77,8 +77,10 @@ public class JobIntentionEditActivity extends BaicActivity {
 	private String[] wages;
 	private String[] wageIds;
 
-	private EditText housewhereValue;
+	private RelativeLayout housewhere;
+	private TextView housewhereValue;
 	private String housewhereStr = "";// 住房要求
+	private String housewhereId = "";
 	
 
 	private Builder builder;
@@ -94,6 +96,8 @@ public class JobIntentionEditActivity extends BaicActivity {
 	private HashMap<String, String> newPersonalExperienceMap = new HashMap<String, String>();//基本信息
 	
 	private String flagId;// 求职意向的ID
+	
+	private String isFirstCreate = "1";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +116,9 @@ public class JobIntentionEditActivity extends BaicActivity {
 		Bundle bundle = intent.getExtras();
 		userId = SharePreferencesUtils.getSharedlongData("userId");
 		if (bundle != null) {
+			
+			isFirstCreate = bundle.getString("isFirstCreate");
+			
 			if(bundle.getSerializable("map") != null){
 				jobIntentionMap = (HashMap<String, String>) bundle.getSerializable("map");
 			}
@@ -140,7 +147,8 @@ public class JobIntentionEditActivity extends BaicActivity {
 		wage = (RelativeLayout) findViewById(R.id.wage);
 		wageValue = (TextView) findViewById(R.id.wage_value);
 
-		housewhereValue = (EditText) findViewById(R.id.housewhere_value);
+		housewhere = (RelativeLayout) findViewById(R.id.housewhere);
+		housewhereValue = (TextView) findViewById(R.id.housewhere_value);
 
 		builder = new AlertDialog.Builder(JobIntentionEditActivity.this);
 
@@ -172,7 +180,11 @@ public class JobIntentionEditActivity extends BaicActivity {
 			}
 			if (jobIntentionMap.containsKey("住房要求")) {
 				housewhereStr = jobIntentionMap.get("住房要求");
-				housewhereValue.setText(housewhereStr);
+				if("有".equals(housewhereStr)){
+					housewhereValue.setText("要提供");
+				} else if("否".equals(housewhereStr)){
+					housewhereValue.setText("无所谓");
+				}
 			}
 		}
 
@@ -286,6 +298,16 @@ public class JobIntentionEditActivity extends BaicActivity {
 			}
 
 		});
+		
+		housewhere.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(JobIntentionEditActivity.this, SelectItemActivity.class);
+				intent.putExtra("which", "HouseWhere");
+				startActivityForResult(intent, Constant.HOUSE_WHERE);
+			}
+		});
 
 		// 确定按钮
 		titleRightButton.setOnClickListener(new View.OnClickListener() {
@@ -329,31 +351,29 @@ public class JobIntentionEditActivity extends BaicActivity {
 		List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
 		params.add(new BasicNameValuePair("Userid", userId + ""));
 		params.add(new BasicNameValuePair("flagid", flagId));
+		params.add(new BasicNameValuePair("isFirstCreate", isFirstCreate));
 		if (!cityId.equals("")) {
 			params.add(new BasicNameValuePair("WorkRegion", cityId));
-		}
+		} 
 		if (!workStateId.equals("")) {
-			params.add(new BasicNameValuePair("JobsState", workStateId));
-		}
+			params.add(new BasicNameValuePair("WorkManner", workStateId));//工作性质，数据库字段是 WorkManner
+		} 
 		if (!industryId.equals("")) {
-			params.add(new BasicNameValuePair("WorkManner", industryId));
-		}
+			params.add(new BasicNameValuePair("Business", industryId));
+		} 
 		if (!postId.equals("")) {
 			params.add(new BasicNameValuePair("postCode", postId));
-		}
+		} 
 		if (!companyTypeId.equals("")) {
 			params.add(new BasicNameValuePair("CompanyType", companyTypeId));
-		}
+		} 
 		if (!wageId.equals("")) {
 			params.add(new BasicNameValuePair("Wage", wageId));
-		}
+		} 
 
-		if(StringUtil.isBlank(housewhereValue.getText().toString())){
-			params.add(new BasicNameValuePair("HouseSubsidy", " "));
-		}else{
-			params.add(new BasicNameValuePair("HouseSubsidy", housewhereValue.getText().toString()));
-		}
-		
+		if(!StringUtil.isBlank(housewhereValue.getText().toString())){
+			params.add(new BasicNameValuePair("HouseWhere", housewhereId));
+		}	
 
 		params.add(new BasicNameValuePair("modifytype", "1"));// 保存到求职意向表中
 
@@ -660,8 +680,13 @@ public class JobIntentionEditActivity extends BaicActivity {
 			case Constant.WAGE_RANGE:
 				wageValue.setText(data.getStringExtra("wage"));
 				wageId = data.getStringExtra("wageId");
-				System.out.println();
 				//wageStr = data.getStringExtra("wage");
+				break;
+				
+			case Constant.HOUSE_WHERE:
+				housewhereValue.setText(data.getStringExtra("houseWhere"));
+				housewhereId = data.getStringExtra("houseWhereId");
+				System.out.println();
 				break;
 			}
 		}

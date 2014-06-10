@@ -86,6 +86,7 @@ public class RegisterActivity extends BaicActivity {
 					if(!StringUtil.isEmailFormat(email)){
 						Toast.makeText(getApplicationContext(), "邮箱格式不正确，请重新输入", Toast.LENGTH_LONG).show();
 					} else {// 都校验没问题之后，提交注册
+//						Toast.makeText(getApplicationContext(), "邮箱格式正确", Toast.LENGTH_LONG).show();
 						userTxtPwd = Md5Builder.getMd5(password);
 						registerThread();
 					}

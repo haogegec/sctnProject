@@ -8,12 +8,14 @@ package com.sctn.sctnet.contants;
  */
 public class Constant {
 
-//	public static String ServerURL = "http://gz.scrc168.com/";// 环境
-//	public static String ServerImageURL = "http://gz.scrc168.com/uploadPath/";// 图片地址
+	public static String ServerURL = "http://gz.scrc168.com:9099/scgenuis/";// 环境
+	public static String ServerImageURL = "http://www.scrc168.com/Upload/Head/";// 图片地址
+//	public static String ServerImageURL = "http://gz.scrc168.com:9099/scgenuis/uploadsPath/";// 图片地址
 	
+//	public static String ServerURL = "http://60.172.228.219:9099/scgenuis/";// 测试环境
+//	public static String ServerImageURL = "http://www.scrc168.com/Upload/Head/";// 图片地址
+//	public static String ServerImageURL = "http://60.172.228.219:9099/scgenuis/uploadPath/";// 图片地址
 	
-	public static String ServerURL = "http://60.172.228.219:9099/scgenuis/";// 测试环境
-	public static String ServerImageURL = "http://60.172.228.219:9099/scgenuis/uploadPath/";// 图片地址
 	public static String DocUrl = "http://www.scrc168.com/";// 下载文档的地址
 
 	public static String packageName = "com.sctn.sctnet";// 工程的包名
@@ -53,8 +55,10 @@ public class Constant {
 	public static final int INDUSTRY_TYPE = 22;// 请求行业类型id
 	public static final int POSITION_TYPE = 4;// 请求职业类型id
 	public static final int POSITION_DETAIL_TYPE = 5;// 请求详细职位类型id
+	public static final int PROFESSION_REQUEST_CODE = 23;// 请求专业
 	
 	public static final int CURRENT_POSITION_REQUEST_CODE = 8;
+	public static final int PROFESSION_TYPE = 9;// 请求第二层专业
 
 	// 薪酬调查页面获取后台数据时候用到的常量
 	public static final int DEGREE = 11;// 学位
@@ -74,8 +78,9 @@ public class Constant {
 	public static final int TOTAL_WORKING_TIME = 46;
 	public static final int COMPANY_SCALE = 47;// 现单位规模
 	public static final int COMPANY_PROPERTY = 48;// 现单位规模
+	public static final int EDUCATION = 49;// 学历
+	public static final int PROFESSION = 50;// 专业
 	
-
 	// 消息推送用到的常量
 	public static final String MESSAGE_RECEIVED_ACTION = "com.sctn.sctnet.MESSAGE_RECEIVED_ACTION";
 	public static final String KEY_TITLE = "title";
@@ -89,6 +94,8 @@ public class Constant {
 	// 职位申请、收藏成功时的msg.what的值
 	public static final int APPLY_SUCCESS = 101;
 	public static final int COLLECT_SUCCESS = 102;
+	public static final int APPLY_FAILED = 103;
+	public static final int COLLECT_FAILED = 104;
 
 	// 简历管理模块。选择籍贯。选择城市。户口所在地。居住地请求码
 	public static final int SELECT_NATIVE_PLACE_REQUEST_CODE = 25;
@@ -115,6 +122,7 @@ public class Constant {
 	public static final int COMPUTER_LEVEL = 34;
 	public static final int WORK_STATE = 35;
 	public static final int WAGE_RANGE = 36;
+	public static final int HOUSE_WHERE = 37;
 	public static final int FIRST_LANGUAGE = 51;
 	public static final int FIRST_LANGUAGE_LEVEL = 52;
 	public static final int SECOND_LANGUAGE = 53;

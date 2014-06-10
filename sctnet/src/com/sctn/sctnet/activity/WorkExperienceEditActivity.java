@@ -31,14 +31,18 @@ import com.sctn.sctnet.contants.Constant;
  */
 public class WorkExperienceEditActivity extends BaicActivity{
 
-	private EditText companynameValue;
-	private String companynameStr = "";//当前公司
+//	private EditText companynameValue;
+//	private String companynameStr = "";//当前公司
 	
 	private RelativeLayout currentprofessional;
 	private TextView currentprofessionalValue;//当前从事行业
+	private String currentIndustryId = "";// 当前从事的行业的ID
+	private String currentIndustry = "";// 当前从事的行业名称
 	
-	private RelativeLayout adminpost;
-	private TextView adminpostValue;//当前从事职业
+//	private RelativeLayout adminpost;
+	private EditText adminpostValue;//目前职务
+	private String job = "";// 目前的职务名称
+//	private TextView adminpostValue;
 	
 	private EditText workexperienceValue;
 	private String workexperienceValueStr = "";//工作年限
@@ -47,10 +51,9 @@ public class WorkExperienceEditActivity extends BaicActivity{
 	private TextView workperformanceValue;
 	private String workperformanceStr = "";//工作经验
 	
-	private String currentIndustryId = "";// 目前就职的行业的ID
-	private String currentIndustry = "";// 目前就职的行业
-	private String jobId = "";// 目前的职位类别ID
-	private String job = "";// 目前的职位类别
+
+//	private String jobId = "";// 目前的职位类别ID
+//	private String job = "";// 目前的职位类别
 	
 	private String result;// 服务端返回的结果
     private long userId;
@@ -59,6 +62,9 @@ public class WorkExperienceEditActivity extends BaicActivity{
 
 	private ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
 	private HashMap<String, String> newWorkExperienceMap = new HashMap<String, String>();//基本信息
+	
+	private int isFirstCreate = 1;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -75,9 +81,13 @@ public class WorkExperienceEditActivity extends BaicActivity{
 		Intent intent = this.getIntent();
 		Bundle bundle = intent.getExtras();
 		userId = SharePreferencesUtils.getSharedlongData("userId");
-		if(bundle!=null&&bundle.getSerializable("workExperienceList")!=null){
-			List<HashMap<String, String>> basicInfoList = (List<HashMap<String, String>>) bundle.getSerializable("workExperienceList");
-			workExperienceMap = basicInfoList.get(0);
+		
+		if(bundle != null){
+			isFirstCreate = bundle.getInt("isFirstCreate");
+			if(bundle.getSerializable("workExperienceList")!=null){
+				List<HashMap<String, String>> basicInfoList = (List<HashMap<String, String>>) bundle.getSerializable("workExperienceList");
+				workExperienceMap = basicInfoList.get(0);
+			}
 		}
 	}
 	@Override
@@ -88,8 +98,8 @@ public class WorkExperienceEditActivity extends BaicActivity{
 		currentprofessional = (RelativeLayout) findViewById(R.id.currentprofessional);
 		currentprofessionalValue = (TextView) findViewById(R.id.currentprofessional_value);
 		
-		adminpost = (RelativeLayout) findViewById(R.id.adminpost);
-		adminpostValue = (TextView) findViewById(R.id.adminpost_value);
+//		adminpost = (RelativeLayout) findViewById(R.id.adminpost);
+		adminpostValue = (EditText) findViewById(R.id.adminpost_value);
 		
 		workexperienceValue = (EditText) findViewById(R.id.workexperience_value);
 		
@@ -98,8 +108,8 @@ public class WorkExperienceEditActivity extends BaicActivity{
 		
         if(workExperienceMap!=null&&workExperienceMap.size()!=0){
 			
-			if(workExperienceMap.containsKey("当前从事职业")){
-				job = workExperienceMap.get("当前从事职业");
+			if(workExperienceMap.containsKey("目前职务")){
+				job = workExperienceMap.get("目前职务");
 				adminpostValue.setText(job);
 			}
 //			if(workExperienceMap.containsKey("当前公司")){
@@ -131,26 +141,28 @@ public class WorkExperienceEditActivity extends BaicActivity{
 			public void onClick(View v) {
 				
 				Intent intent = new Intent(WorkExperienceEditActivity.this, SelectCurrentIndustryActivity.class);
-				intent.putExtra("flag", "WorkExperienceEditActivity");
+				intent.putExtra("flag", "currentIndustry");
 				startActivityForResult(intent, Constant.CURRENT_INDUSTRY_REQUEST_CODE);
 				
 			}
 			
 		});
 		
-		// 当前从事的职业
-		adminpost.setOnClickListener(new OnClickListener(){
-
-			@Override
-			public void onClick(View v) {
-				
-				Intent intent = new Intent(WorkExperienceEditActivity.this, SelectJobActivity.class);
-				intent.putExtra("flag", "WorkExperienceEditActivity");
-				startActivityForResult(intent, Constant.JOB_REQUEST_CODE);
-				
-			}
-			
-		});
+//		// 当前从事的职业
+//		adminpost.setOnClickListener(new OnClickListener(){
+//
+//			@Override
+//			public void onClick(View v) {
+//				
+////				Intent intent = new Intent(WorkExperienceEditActivity.this, SelectJobActivity.class);
+////				intent.putExtra("flag", "WorkExperienceEditActivity");
+////				startActivityForResult(intent, Constant.JOB_REQUEST_CODE);
+//				
+//				
+//				
+//			}
+//			
+//		});
 
 		workperformance.setOnClickListener(new OnClickListener(){
 
@@ -207,14 +219,19 @@ public class WorkExperienceEditActivity extends BaicActivity{
 	//	params.add(new BasicNameValuePair("Userid",100020+""));
 		params.add(new BasicNameValuePair("WorkExperience",workexperienceValue.getText().toString()));
 		params.add(new BasicNameValuePair("WorkPerformance",workperformanceValue.getText().toString()));
-		
+		params.add(new BasicNameValuePair("isFirstCreate",isFirstCreate+""));
 		if(workExperienceMap==null||!workExperienceMap.containsKey(" ")){
 			params.add(new BasicNameValuePair("RecContent", " "));
 		}
 		
-		if(!jobId.equals("")){
-			params.add(new BasicNameValuePair("AdminPost", jobId));
+//		if(!jobId.equals("")){
+//			params.add(new BasicNameValuePair("AdminPost", jobId));
+//		}
+		
+		if(!adminpostValue.getText().toString().equals("")){
+			params.add(new BasicNameValuePair("AdminPost", adminpostValue.getText().toString()));
 		}
+		
 		if(!currentIndustryId.equals("")){
 
 			params.add(new BasicNameValuePair("CurrentProfessional",currentIndustryId));
@@ -224,7 +241,7 @@ public class WorkExperienceEditActivity extends BaicActivity{
 		
 		result = getPostHttpContent(url, params);
 
-		newWorkExperienceMap.put("当前从事职业", adminpostValue.getText().toString());
+		newWorkExperienceMap.put("目前职务", adminpostValue.getText().toString());
 	//	newWorkExperienceMap.put("当前公司", companynameValue.getText().toString());
 		newWorkExperienceMap.put("当前从事行业", currentprofessionalValue.getText().toString());
 		newWorkExperienceMap.put("工作年限", workexperienceValue.getText().toString());
@@ -290,7 +307,7 @@ public class WorkExperienceEditActivity extends BaicActivity{
 					currentprofessionalValue.setText(data.getStringExtra("currentIndustry"));
 				break;
 				case Constant.JOB_REQUEST_CODE: 
-					jobId = data.getStringExtra("jobId");
+//					jobId = data.getStringExtra("jobId");
 					//job = data.getStringExtra("job");
 					adminpostValue.setText(data.getStringExtra("job"));
 					break;

@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.DatePicker;
@@ -109,7 +110,10 @@ public class BasicInfoEditActivity extends BaicActivity {
 	private String accountCityStr = "";
 
 	private EditText currentCityValue;
-	private String currentCityStr = "";// 居住地
+	private String currentCityStr = "";// 目前所在地
+	
+	private EditText drivingLicenseValue;
+	private String drivingLicenseStr = "";// 目前所在地
 
 	// private EditText cardIdValue;
 	// private String cardIdStr = "";// 身份证号
@@ -147,6 +151,8 @@ public class BasicInfoEditActivity extends BaicActivity {
 
 	private ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
 	private HashMap<String, String> newBasicInfoMap = new HashMap<String, String>();// 基本信息
+	
+	private int isFirstCreate = 1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -164,9 +170,14 @@ public class BasicInfoEditActivity extends BaicActivity {
 		Intent intent = this.getIntent();
 		Bundle bundle = intent.getExtras();
 		userId = SharePreferencesUtils.getSharedlongData("userId");
-		if (bundle != null && bundle.getSerializable("basicInfoList") != null) {
-			List<HashMap<String, String>> basicInfoList = (List<HashMap<String, String>>) bundle.getSerializable("basicInfoList");
-			basicInfoMap = basicInfoList.get(0);
+		
+		if(bundle != null){
+			isFirstCreate = bundle.getInt("isFirstCreate");
+			if(bundle.getSerializable("basicInfoList") != null){
+				@SuppressWarnings("unchecked")
+				List<HashMap<String, String>> basicInfoList = (List<HashMap<String, String>>) bundle.getSerializable("basicInfoList");
+				basicInfoMap = basicInfoList.get(0);
+			}
 		}
 	}
 
@@ -203,6 +214,8 @@ public class BasicInfoEditActivity extends BaicActivity {
 
 		// currentCity = (RelativeLayout) findViewById(R.id.current_city);
 		currentCityValue = (EditText) findViewById(R.id.current_city_value);
+		
+		drivingLicenseValue = (EditText) findViewById(R.id.drivingLicense_value);
 
 		// cardIdValue = (EditText) findViewById(R.id.cardid_value);
 		//
@@ -241,10 +254,10 @@ public class BasicInfoEditActivity extends BaicActivity {
 				currentCityStr = basicInfoMap.get("当前城市");
 				currentCityValue.setText(currentCityStr);
 			}
-			// if(basicInfoMap.containsKey("驾驶证号")){
-			// driveCodeStr = basicInfoMap.get("驾驶证号");
-			// driveCodeValue.setText(driveCodeStr);
-			// }
+			if (basicInfoMap.containsKey("驾驶证号")) {
+				drivingLicenseStr = basicInfoMap.get("驾驶证号");
+				drivingLicenseValue.setText(drivingLicenseStr);
+			}
 			if (basicInfoMap.containsKey("健康状况")) {
 				healthStatusStr = basicInfoMap.get("健康状况");
 				healthStatusValue.setText(healthStatusStr);
@@ -264,10 +277,10 @@ public class BasicInfoEditActivity extends BaicActivity {
 			if (basicInfoMap.containsKey("性别")) {
 				if (basicInfoMap.get("性别").equals("女")) {
 					female.setChecked(true);
-					sex = "0";
+					sex = "女";
 				} else {
 					mail.setChecked(true);
-					sex = "1";
+					sex = "男";
 				}
 
 			}
@@ -289,12 +302,12 @@ public class BasicInfoEditActivity extends BaicActivity {
 
 				String newSex = "";
 				if (female.isChecked()) {
-					newSex = "0";
+					newSex = "女";
 				} else {
-					newSex = "1";
+					newSex = "男";
 				}
 				if (nameStr.equals(nameValue.getText().toString()) && orginStr.equals(orginValue.getText().toString()) && accountCityStr.equals(accountCityValue.getText().toString()) && birthdayStr.equals(birthdayValue.getText().toString())
-						&& currentCityStr.equals(currentCityValue.getText().toString()) && healthStatusStr.equals(healthStatusValue.getText().toString()) && maritalStatusStr.equals(maritalStatusValue.getText().toString()) && peopleStr.equals(peopleValue.getText().toString())
+						&& currentCityStr.equals(currentCityValue.getText().toString()) && drivingLicenseStr.equals(drivingLicenseValue.getText().toString()) && healthStatusStr.equals(healthStatusValue.getText().toString()) && maritalStatusStr.equals(maritalStatusValue.getText().toString()) && peopleStr.equals(peopleValue.getText().toString())
 						&& politicalStr.equals(politicalValue.getText().toString()) && heighStr.equals(heighValue.getText().toString()) && newSex.equals(sex)) {
 
 					Toast.makeText(getApplicationContext(), "请编辑之后再保存吧~~", Toast.LENGTH_SHORT).show();
@@ -330,18 +343,20 @@ public class BasicInfoEditActivity extends BaicActivity {
 				// /* 显示出日期设置对话框 */
 				// datePickerDialog.show();
 
-				DatePickerView datePickerView = new DatePickerView(BasicInfoEditActivity.this, new DatePickerView.OnDateSetListener() {
-					@Override
-					public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-						/* 把设置修改后的日期赋值给我的年、月、日变量 */
-						mYear = year;
-						mMonth = monthOfYear;
-						mDay = dayOfMonth;
-						/* 显示设置后的日期 */
-						loadDate();
-					}
-				}, currYear, currMonth, currDay);
-				datePickerView.myShow();
+//				DatePickerView datePickerView = new DatePickerView(BasicInfoEditActivity.this, new DatePickerView.OnDateSetListener() {
+//					@Override
+//					public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+//						/* 把设置修改后的日期赋值给我的年、月、日变量 */
+//						mYear = year;
+//						mMonth = monthOfYear;
+//						mDay = dayOfMonth;
+//						/* 显示设置后的日期 */
+//						loadDate();
+//					}
+//				}, currYear, currMonth, currDay);
+//				datePickerView.myShow();
+				
+				startActivityForResult(new Intent(BasicInfoEditActivity.this,WheelViewDateActivity.class), 1);
 
 			}
 
@@ -498,6 +513,10 @@ public class BasicInfoEditActivity extends BaicActivity {
 				peopleValue.setText(data.getStringExtra("people"));
 				peopleId = data.getStringExtra("peopleId");
 				break;
+				
+			case 1:// 选择完日期
+				birthdayValue.setText(data.getStringExtra("birthday"));
+				break;
 			}
 		}
 	}
@@ -533,8 +552,8 @@ public class BasicInfoEditActivity extends BaicActivity {
 		// params.add(new BasicNameValuePair("CardId",
 		// cardIdValue.getText().toString()));
 		params.add(new BasicNameValuePair("CurrentCity", currentCityValue.getText().toString()));
-		// params.add(new BasicNameValuePair("DriveCode",
-		// driveCodeValue.getText().toString()));
+		params.add(new BasicNameValuePair("DriveCode", drivingLicenseValue.getText().toString()));
+		params.add(new BasicNameValuePair("isFirstCreate", isFirstCreate+""));
 		if (basicInfoMap == null || !basicInfoMap.containsKey(" ")) {
 			params.add(new BasicNameValuePair("RecContent", " "));
 		}
@@ -553,9 +572,9 @@ public class BasicInfoEditActivity extends BaicActivity {
 		}
 
 		if (female.isChecked()) {
-			params.add(new BasicNameValuePair("Sex", "0"));
+			params.add(new BasicNameValuePair("Sex", "女"));
 		} else {
-			params.add(new BasicNameValuePair("Sex", "1"));
+			params.add(new BasicNameValuePair("Sex", "男"));
 		}
 		if (!StringUtil.isBlank(origin_cityId)) {
 			params.add(new BasicNameValuePair("Birthplace", origin_cityId));
@@ -575,7 +594,7 @@ public class BasicInfoEditActivity extends BaicActivity {
 		newBasicInfoMap.put("出生日期", birthdayValue.getText().toString());
 		// newBasicInfoMap.put("身份证号", cardIdValue.getText().toString());
 		newBasicInfoMap.put("当前城市", currentCityValue.getText().toString());
-		// newBasicInfoMap.put("驾驶证号", driveCodeValue.getText().toString());
+		newBasicInfoMap.put("驾驶证号", drivingLicenseValue.getText().toString());
 		newBasicInfoMap.put("健康状况", healthStatusValue.getText().toString());
 		newBasicInfoMap.put("婚姻状况", maritalStatusValue.getText().toString());
 		newBasicInfoMap.put("民族", peopleValue.getText().toString());

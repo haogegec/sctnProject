@@ -38,14 +38,14 @@ import com.sctn.sctnet.activity.JobListActivity.MyAdapter;
  * @author xueweiwei
  * 
  */
-public class RecruitmentCompanyListActivity extends BaicActivity {
+public class RecruitmentCompanyListActivity2 extends BaicActivity {
 
 	private ListView recruitmentCompanyListView;
 	private CompanyAdapter recruitmentCompanyListAdapter;
 //	private List<Map<String, Object>> items = new ArrayList<Map<String, Object>>();
 //	private String[] key = { "company_name_text", "partitionlist_name_text", "job_name_text", "contact_name_text", "contact_way_text", "company_address_text" };
 
-	private ListView recruiment_list;// 提供的职位
+//	private ListView recruiment_list;// 提供的职位
 	private List<Map<String,Object>> listlist = new ArrayList<Map<String,Object>>();
 	
 	//请求数据
@@ -94,17 +94,16 @@ public class RecruitmentCompanyListActivity extends BaicActivity {
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
 
 			params.add(new BasicNameValuePair("RecruitmentID", recruitmentId));
-			//			params.add(new BasicNameValuePair("RecruitmentID", 801+""));
 			result = getPostHttpContent(url, params);
 
 			if (StringUtil.isExcetionInfo(result)) {
-				RecruitmentCompanyListActivity.this.sendExceptionMsg(result);
+				sendExceptionMsg(result);
 				return;
 			}
 
 			if (StringUtil.isBlank(result)) {
 				result = StringUtil.getAppException4MOS("未获得服务器响应结果！");
-				RecruitmentCompanyListActivity.this.sendExceptionMsg(result);
+				sendExceptionMsg(result);
 				return;
 			}
 
@@ -171,12 +170,12 @@ public class RecruitmentCompanyListActivity extends BaicActivity {
 			} else {
 				String errorResult = (String) responseJsonObject.get("result");
 				String err = StringUtil.getAppException4MOS(errorResult);
-				RecruitmentCompanyListActivity.this.sendExceptionMsg(err);
+				sendExceptionMsg(err);
 			}
 
 		} catch (JSONException e) {
 			String err = StringUtil.getAppException4MOS("解析json出错！");
-			RecruitmentCompanyListActivity.this.sendExceptionMsg(err);
+			sendExceptionMsg(err);
 		}
 	}
 
@@ -186,7 +185,7 @@ public class RecruitmentCompanyListActivity extends BaicActivity {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case 0:
-				recruitmentCompanyListAdapter = new CompanyAdapter(RecruitmentCompanyListActivity.this, listlist, R.layout.recruitment_company_list);
+				recruitmentCompanyListAdapter = new CompanyAdapter(RecruitmentCompanyListActivity2.this, listlist, R.layout.recruitment_company_list2);
 				recruitmentCompanyListView.setAdapter(recruitmentCompanyListAdapter);
 				closeProcessDialog();
 
@@ -199,7 +198,7 @@ public class RecruitmentCompanyListActivity extends BaicActivity {
 	@Override
 	protected void initAllView() {
 
-		recruiment_list = (ListView) findViewById(R.id.recruiment_list);
+//		recruiment_list = (ListView) findViewById(R.id.recruiment_list);
 		
 		recruitmentCompanyListView = (ListView) findViewById(R.id.information_list);
 
@@ -264,34 +263,41 @@ public class RecruitmentCompanyListActivity extends BaicActivity {
 			
 			TextView companyName;
 			TextView zhanweihao;
-			ListView jobList;
+			TextView jobs;
 			
 			if(convertView == null){
 				convertView = inflater.inflate(resource, null);
 				companyName = (TextView)convertView.findViewById(R.id.company_name_text);
 				zhanweihao = (TextView)convertView.findViewById(R.id.partitionlist_name_text);
-				jobList = (ListView)convertView.findViewById(R.id.recruiment_list);
+				jobs = (TextView)convertView.findViewById(R.id.jobs);
 				
 				ViewCache viewCache = new ViewCache();
 				viewCache.companyName = companyName;
 				viewCache.zhanweihao = zhanweihao;
-				viewCache.jobList = jobList;
+				viewCache.jobs = jobs;
 				
 				convertView.setTag(viewCache);
 			} else {
 				ViewCache viewCache = (ViewCache)convertView.getTag();
 				companyName = viewCache.companyName;
 				zhanweihao = viewCache.zhanweihao;
-				jobList = viewCache.jobList;
+				jobs = viewCache.jobs;
 			}
 			
 			companyName.setText(listlist.get(position).get("companyName").toString());
 			zhanweihao.setText(listlist.get(position).get("number").toString());
 			
 			List<Map<String, Object>> jobsNameList = (List<Map<String, Object>>)listlist.get(position).get("jobNameList");
+			String jobNames = "";
+			for(Map<String,Object> map : jobsNameList){
+				jobNames += map.get("jobsname").toString()+"\t，";
+			}
+			jobs.setText(jobNames.substring(0,jobNames.lastIndexOf('，')));
+			
+			
 //			recruitmentCompanyListAdapter = new SimpleAdapter(RecruitmentCompanyListActivity.this, items, R.layout.recruitment_company_list_item, key, new int[] { R.id.company_name_text, R.id.partitionlist_name_text, R.id.job_name_text });
-			jobList.setAdapter(new SimpleAdapter(getApplicationContext(), jobsNameList, R.layout.select_area_item, new String[] {"jobsname"}, new int[] {R.id.area}));
-			ViewUtils.setListViewHeightBasedOnChildren(jobList);
+//			jobList.setAdapter(new SimpleAdapter(getApplicationContext(), jobsNameList, R.layout.select_area_item, new String[] {"jobsname"}, new int[] {R.id.area}));
+//			ViewUtils.setListViewHeightBasedOnChildren(jobList);
 			
 			return convertView;
 		}
@@ -301,7 +307,8 @@ public class RecruitmentCompanyListActivity extends BaicActivity {
 	private final class ViewCache {
 		public TextView companyName;// 单位名称
 		public TextView zhanweihao;// 展位号
-		public ListView jobList;
+//		public ListView jobList;
+		public TextView jobs;// 职位
 	}
 
 	

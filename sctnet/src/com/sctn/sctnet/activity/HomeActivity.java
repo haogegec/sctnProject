@@ -185,7 +185,7 @@ public class HomeActivity extends BaicActivity {
 		});
 
 		infomation_query_click.setOnClickListener(new OnClickListener() {
-			// 信息咨询
+			// 信息资讯
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(HomeActivity.this, InformationQueryActivity.class);

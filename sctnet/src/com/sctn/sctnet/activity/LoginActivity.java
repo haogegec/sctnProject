@@ -72,8 +72,8 @@ public class LoginActivity extends BaicActivity {
 		String response="";
 		sctnApp.setReLogin(false);
 		JSONObject responseJsonObject = null;
-		userName = etUserName.getText().toString();
-		password = etPassword.getText().toString();
+		userName = etUserName.getText().toString().trim();
+		password = etPassword.getText().toString().trim();
 		
 		if(StringUtil.isBlank(userName)&&StringUtil.isBlank(password)) {
 			
@@ -159,6 +159,17 @@ public class LoginActivity extends BaicActivity {
 		// 把用户名写到用户名输入框里
 		etUserName.setText(userName);
 		
+		// 如果没有用户名，则登录名框聚焦，否则密码框聚焦
+		if(StringUtil.isBlank(etUserName.getText().toString())){
+			etUserName.setFocusable(true);
+			etUserName.setFocusableInTouchMode(true);
+			etUserName.requestFocus();
+		} else {
+			etPassword.setFocusable(true);
+			etPassword.setFocusableInTouchMode(true);
+			etPassword.requestFocus();
+		}
+		
 //		if(isRememberPassword) {
 //			etUserName.setText(userName);
 //			if(!StringUtil.isBlank(password)) {
@@ -199,9 +210,7 @@ public class LoginActivity extends BaicActivity {
 		registerBtn = (Button) findViewById(R.id.register);
 		forgetPasswordBtn = (Button) findViewById(R.id.forget_password);
 		
-		if("".equals(etUserName.getText())){
-			System.out.println(1);
-		}
+		
 	}
 
 	@Override
@@ -276,7 +285,9 @@ public class LoginActivity extends BaicActivity {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_DOWN) { 
+					etUserName.setFocusable(true);
 					etUserName.setFocusableInTouchMode(true);
+					etUserName.requestFocus();
 	                return false; 
 	                // onTouch事件里包括：click,long click,down,up,(还有个move) ; true 表示当前事件被消耗，不再传递给其他事件了；false 表示当前事件没被消耗，还会传递给其他事件；
 	                // 比如，在这里return false，说明当前down事件还没被消耗，执行完down事件后会触发click事件。

@@ -45,6 +45,9 @@ public class PersonalProfileEditActivity extends BaicActivity{
 	
 	private ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
 	private HashMap<String, String> newPersonalExperienceMap = new HashMap<String, String>();//基本信息
+	
+	private int isFirstCreate =1;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -59,9 +62,14 @@ public class PersonalProfileEditActivity extends BaicActivity{
 		Intent intent = this.getIntent();
 		Bundle bundle = intent.getExtras();
 		userId = SharePreferencesUtils.getSharedlongData("userId");
-		if(bundle!=null&&bundle.getSerializable("personalExperienceList")!=null){
-			List<HashMap<String, String>> personalExperienceList = (List<HashMap<String, String>>) bundle.getSerializable("personalExperienceList");
-			personalExperienceMap = personalExperienceList.get(0);
+		
+		if(bundle != null){
+			isFirstCreate = bundle.getInt("isFirstCreate");
+			if(bundle.getSerializable("personalExperienceList")!=null){
+				@SuppressWarnings("unchecked")
+				List<HashMap<String, String>> personalExperienceList = (List<HashMap<String, String>>) bundle.getSerializable("personalExperienceList");
+				personalExperienceMap = personalExperienceList.get(0);
+			}
 		}
 	}
 	@Override
@@ -87,14 +95,14 @@ public class PersonalProfileEditActivity extends BaicActivity{
 				personalResumeEdit.setText(personalResumeStr);
 			}
         }
-		reccontentEdit.setFilters(new InputFilter[]{new InputFilter.LengthFilter(255)});
-		specialtyContentEdit.setFilters(new InputFilter[]{new InputFilter.LengthFilter(255)});
+		reccontentEdit.setFilters(new InputFilter[]{new InputFilter.LengthFilter(100)});
+		specialtyContentEdit.setFilters(new InputFilter[]{new InputFilter.LengthFilter(100)});
 		personalResumeEdit.setFilters(new InputFilter[]{new InputFilter.LengthFilter(3500)});
 	}
 
 	@Override
 	protected void reigesterAllEvent() {
-		// TODO Auto-generated method stub
+		// 保存
 		super.getTitleRightButton().setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -104,9 +112,16 @@ public class PersonalProfileEditActivity extends BaicActivity{
 					
 					Toast.makeText(getApplicationContext(), "请编辑之后再保存吧~~", Toast.LENGTH_SHORT).show();
 				}else{
-					requestDataThread();
+					String tuijianziji = reccontentEdit.getText().toString();
+					String techang = specialtyContentEdit.getText().toString();
+					String gerenjingli = personalResumeEdit.getText().toString();
+					if(StringUtil.hasSpecialCharacters(tuijianziji) || StringUtil.hasSpecialCharacters(techang) || StringUtil.hasSpecialCharacters(gerenjingli)){// true 表示有特殊字符
+						Toast.makeText(getApplicationContext(), "请不要输入特殊字符", Toast.LENGTH_SHORT).show();
+					} else {
+						requestDataThread();
+					}
+					
 				}
-				//保存thread
 			}
 			
 		});
@@ -146,7 +161,7 @@ public class PersonalProfileEditActivity extends BaicActivity{
 		params.add(new BasicNameValuePair("Resume",personalResumeEdit.getText().toString()));
 		
 		params.add(new BasicNameValuePair("modifytype", "0"));//保存到简历表中
-		
+		params.add(new BasicNameValuePair("isFirstCreate", isFirstCreate+""));//保存到简历表中
 		result = getPostHttpContent(url, params);
 
 		newPersonalExperienceMap.put("推荐自己", reccontentEdit.getText().toString());

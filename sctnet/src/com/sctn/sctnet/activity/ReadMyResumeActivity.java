@@ -87,17 +87,26 @@ public class ReadMyResumeActivity extends BaicActivity {
 					Intent intent = new Intent(ReadMyResumeActivity.this,CompanyInfoActivity.class);
 					Bundle bundle = new Bundle();
 					bundle.putString("flag", "ReadMyResumeActivity");
+					bundle.putString("jobId", listItems.get(position).get("jobsid").toString());
+					bundle.putString("companyId", listItems.get(position).get("companyid").toString());
 					intent.putExtras(bundle);
 					startActivity(intent);
 				} else if("interviewInvitation".equals(flag)){
 					Intent intent = new Intent(ReadMyResumeActivity.this,InterviewNoticeDetailActivity.class);
 					Bundle bundle = new Bundle();
+					bundle.putString("jobsname", listItems.get(position).get("jobsname").toString());
+					bundle.putString("interviewTime", listItems.get(position).get("facetimeplay").toString() + " ~ " +listItems.get(position).get("facetimeend").toString());
+					bundle.putString("address", listItems.get(position).get("faceaddress").toString());
+					bundle.putString("contact", listItems.get(position).get("contactsname").toString());
+					bundle.putString("phone", listItems.get(position).get("phone").toString());
 					intent.putExtras(bundle);
 					startActivity(intent);
 				} else if("jobIntentions".equals(flag)){
 					Intent intent = new Intent(ReadMyResumeActivity.this,CompanyInfoActivity.class);
 					Bundle bundle = new Bundle();
 					bundle.putString("flag", "ReadMyResumeActivity");
+					bundle.putString("jobId", listItems.get(position).get("jobsid").toString());
+					bundle.putString("companyId", listItems.get(position).get("companyId").toString());
 					intent.putExtras(bundle);
 					startActivity(intent);
 				}
@@ -137,32 +146,23 @@ public class ReadMyResumeActivity extends BaicActivity {
 				return;
 			}
 			
-			
-			
-			JSONArray responseJsonArray = new JSONArray(result);
-			if(responseJsonArray != null && responseJsonArray.length() > 0){
-				JSONObject jObject = responseJsonArray.optJSONObject(0);
-				if("0".equals(jObject.getString("resultcode"))){
-					JSONArray resultList = jObject.getJSONArray("result");
-					for(int i=0; i<resultList.length(); i++){
-						JSONObject object = resultList.optJSONObject(0);
-						Map<String, Object> item = new HashMap<String, Object>();
-						item.put("companyName", object.getString("companyname"));// 公司名称
-						item.put("companyType", object.getString("jobsclass"));// 公司类型
-//						item.put("", object.getString(""));// 公司行业
-						item.put("readTime", object.getString("viewtime").substring(0,10));// 查看简历时间
-						listItems.add(item);
-					}
-					msg.what = 0;
-					handler.sendMessage(msg);
-					
-				} else {
-					String errorResult = (String) jObject.get("result");
-					String err = StringUtil.getAppException4MOS(errorResult);
-					ReadMyResumeActivity.this.sendExceptionMsg(err);
+			JSONObject responseObject = new JSONObject(result);
+			if(responseObject.getInt("resultcode")==0){
+				JSONArray responseJsonArray = responseObject.getJSONArray("result");
+				for(int i=0; i<responseJsonArray.length(); i++){
+					JSONObject object = responseJsonArray.optJSONObject(i);
+					Map<String, Object> item = new HashMap<String, Object>();
+					item.put("companyName", object.getString("companyname"));// 公司名称
+					item.put("companyType", object.getString("companytype"));// 公司类型
+					item.put("companyIndustry", object.getString("companyindustry"));// 公司行业
+					item.put("readTime", object.getString("viewtime").substring(0,10));// 查看简历时间
+					item.put("jobsid", object.getString("jobsid"));// 公司行业
+					item.put("companyid", object.getString("companyid"));// 公司行业
+					listItems.add(item);
 				}
+				msg.what = 0;
+				handler.sendMessage(msg);
 			}
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -183,7 +183,7 @@ public class ReadMyResumeActivity extends BaicActivity {
     //初始化数据
     protected void initInterviewInvitation(){
     	
-    	String url = "appPersonCenter!resumeDetailInfo.app";
+    	String url = "appPersonCenter!faceInviteDetailInfo.app";
 		Message msg = new Message();
 		
 		try {
@@ -195,30 +195,28 @@ public class ReadMyResumeActivity extends BaicActivity {
 				ReadMyResumeActivity.this.sendExceptionMsg(result);
 				return;
 			}
-
-			JSONArray responseJsonArray = new JSONArray(result);
-			if(responseJsonArray != null && responseJsonArray.length() > 0){
-				JSONObject jObject = responseJsonArray.optJSONObject(0);
-				if("0".equals(jObject.getString("resultcode"))){
-					JSONArray resultList = jObject.getJSONArray("result");
-					for(int i=0; i<resultList.length(); i++){
-						JSONObject object = resultList.optJSONObject(0);
-						Map<String, Object> item = new HashMap<String, Object>();
-						item.put("companyName", object.getString("companyname"));
-						item.put("content", object.getString(""));
-						item.put("readTime", object.getString(""));
-						listItems.add(item);
-					}
-					msg.what = 1;
-					handler.sendMessage(msg);
-					
-				} else {
-					String errorResult = (String) jObject.get("result");
-					String err = StringUtil.getAppException4MOS(errorResult);
-					ReadMyResumeActivity.this.sendExceptionMsg(err);
-				}
-			}
 			
+			JSONObject responseJsonObject = new JSONObject(result);
+			if(responseJsonObject.getInt("resultcode")==0){
+				JSONArray responseJsonArray = responseJsonObject.getJSONArray("result");
+				for(int i=0; i<responseJsonArray.length(); i++){
+					JSONObject object = responseJsonArray.optJSONObject(i);
+					Map<String, Object> item = new HashMap<String, Object>();
+					item.put("companyName", object.getString("companyname"));
+					item.put("companyType", object.getString("companytype"));// 公司类型
+					item.put("companyIndustry", object.getString("companyindustry"));// 公司行业
+					item.put("readTime", object.getString("addtime").substring(0,10));// 查看简历时间
+					item.put("faceaddress", object.getString("faceaddress"));// 面试地址
+					item.put("facetimeplay", object.getString("facetimeplay"));// 面试起始时间
+					item.put("facetimeend", object.getString("facetimeend"));// 面试结束时间
+					item.put("contactsname", object.getString("contactsname"));// 联系人
+					item.put("phone", object.getString("phone"));// 联系电话
+					item.put("jobsname", object.getString("jobsname"));// 面试岗位
+					listItems.add(item);
+				}
+				msg.what = 1;
+				handler.sendMessage(msg);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -314,7 +312,10 @@ public class ReadMyResumeActivity extends BaicActivity {
   				readTime = viewCache.readTime;
   			}
   			 
-  			companyName.setText(((Map)listItems.get(position)).get("companyName").toString());
+  			companyName.setText(((Map)list.get(position)).get("companyName").toString());
+  			companyType.setText(((Map)list.get(position)).get("companyType").toString());
+  			companyIndustry.setText(((Map)list.get(position)).get("companyIndustry").toString());
+  			readTime.setText(((Map)list.get(position)).get("readTime").toString());
   			
   			return convertView;
   		}
@@ -352,32 +353,39 @@ public class ReadMyResumeActivity extends BaicActivity {
 
    		@Override
    		public View getView(int position, View convertView, ViewGroup parent) {
+   			TextView postName = null;
    			TextView companyName = null;
-   			TextView content = null;
+   			TextView companyType = null;
    			TextView readTime = null;
    			
    			if(convertView == null){// 目前显示的是第一页，为这些条目数据new一个view出来，如果不是第一页，则继续用缓存的view
    				convertView = inflater.inflate(resource, null);
    				
    				// 初始化控件
+   				postName = (TextView) convertView.findViewById(R.id.post_name);
    				companyName = (TextView) convertView.findViewById(R.id.company_name); 				
-   				content = (TextView) convertView.findViewById(R.id.content);
+   				companyType = (TextView) convertView.findViewById(R.id.company_type);
    				readTime = (TextView) convertView.findViewById(R.id.read_time);
    				
    				ViewCache viewCache = new ViewCache();
+   				viewCache.postName = postName;
    				viewCache.companyName = companyName;
-   				viewCache.content = content;
+   				viewCache.companyType = companyType;
    				viewCache.readTime = readTime;
    				convertView.setTag(viewCache);
    			} else {
    				// 初始化控件
    				ViewCache viewCache = (ViewCache)convertView.getTag();
+   				postName = viewCache.postName;
    				companyName = viewCache.companyName;
-   				content = viewCache.content;
+   				companyType = viewCache.companyType;
    				readTime = viewCache.readTime;
    			}
    			 
-   			companyName.setText(((Map)listItems.get(position)).get("companyName").toString());
+   			postName.setText(((Map)list.get(position)).get("jobsname").toString());
+   			companyName.setText(((Map)list.get(position)).get("companyName").toString());
+   			companyType.setText(((Map)list.get(position)).get("companyType").toString());
+   			readTime.setText(((Map)list.get(position)).get("readTime").toString());
    			
    			return convertView;
    		}
@@ -385,11 +393,11 @@ public class ReadMyResumeActivity extends BaicActivity {
    	}
   	
   	private final class ViewCache {
+  		public TextView postName;//面试岗位名称
   		public TextView companyName;// 公司名称
   		public TextView companyType;// 公司类型
   		public TextView companyIndustry;// 公司行业
   		public TextView readTime;// 查看简历的时间
-  		public TextView content;// 面试通知内容
   	}
     
 }

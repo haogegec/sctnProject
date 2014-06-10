@@ -74,7 +74,8 @@ public class WorkDirectionActivity extends BaicActivity {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(WorkDirectionActivity.this, InformationListMoreActivity.class);
 				Bundle bundle = new Bundle();
-				bundle.putString("cid", "71");
+				bundle.putString("cid", "59");
+				bundle.putString("type", "1");
 				bundle.putString("title", "人事代理指南");
 				bundle.putString("url", "workGuid!findByCid.app");
 				intent.putExtras(bundle);
@@ -96,8 +97,9 @@ public class WorkDirectionActivity extends BaicActivity {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(WorkDirectionActivity.this, InformationListMoreActivity.class);
 				Bundle bundle = new Bundle();
-				bundle.putString("cid", "71");
+				bundle.putString("cid", "59");
 				bundle.putString("title", "学生入户指南");
+				bundle.putString("type", "2");
 				bundle.putString("url", "workGuid!findByCid.app");
 				intent.putExtras(bundle);
 				startActivity(intent);
@@ -118,8 +120,9 @@ public class WorkDirectionActivity extends BaicActivity {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(WorkDirectionActivity.this, InformationListMoreActivity.class);
 				Bundle bundle = new Bundle();
-				bundle.putString("cid", "71");
+				bundle.putString("cid", "59");
 				bundle.putString("title", "人才工作证办事指南");
+				bundle.putString("type", "3");
 				bundle.putString("url", "workGuid!findByCid.app");
 				intent.putExtras(bundle);
 				startActivity(intent);
@@ -174,7 +177,7 @@ public class WorkDirectionActivity extends BaicActivity {
 				Intent intent = new Intent(WorkDirectionActivity.this, InformationListMoreActivity.class);
 				Bundle bundle = new Bundle();
 				bundle.putString("search", searchEdit.getText().toString());
-				bundle.putString("cid", "71");
+				bundle.putString("cid", "59");
 				bundle.putString("title", "搜索结果");
 				bundle.putString("url", "workGuid!search.app");
 				intent.putExtras(bundle);

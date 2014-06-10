@@ -50,11 +50,16 @@ public class EducationExperienceEditActivity extends BaicActivity {
 
 	private RelativeLayout education;
 	private TextView educationValue;
-	private String degree = "";// 学历
-	private String degreeId = "";// 学历ID
+	private String educationStr = "";// 学历
+	private String educationId = "";// 学历ID
 
-	private EditText degreeValue;
+	private RelativeLayout degree;
+	private TextView degreeValue;
 	private String degreeStr = "";// 学位
+	private String degreeId = "";// 学位ID
+	
+//	private EditText degreeValue;
+//	private String degreeStr = "";// 学位
 
 	private EditText degreecertValue;
 	private String degreecertStr = "";// 学位证号
@@ -65,7 +70,7 @@ public class EducationExperienceEditActivity extends BaicActivity {
 	private String professionId = "";
 
 	private EditText technologyValue;
-	private String technologyStr = "";// 专业职称
+	private String technologyStr = "";// 技术职称
 
 	private RelativeLayout aidprofession;
 	private TextView aidprofessionValue;
@@ -137,6 +142,8 @@ public class EducationExperienceEditActivity extends BaicActivity {
 
 	private ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
 	private HashMap<String, String> newEducationExperienceMap = new HashMap<String, String>();// 基本信息
+	
+	private int isFirstCreate = 1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -155,9 +162,13 @@ public class EducationExperienceEditActivity extends BaicActivity {
 		Intent intent = this.getIntent();
 		Bundle bundle = intent.getExtras();
 		userId = SharePreferencesUtils.getSharedlongData("userId");
-		if (bundle != null && bundle.getSerializable("educationExperienceList") != null) {
-			List<HashMap<String, String>> basicInfoList = (List<HashMap<String, String>>) bundle.getSerializable("educationExperienceList");
-			educationExperienceMap = basicInfoList.get(0);
+		
+		if(bundle != null ){
+			isFirstCreate = bundle.getInt("isFirstCreate");
+			if(bundle.getSerializable("educationExperienceList") != null){
+				List<HashMap<String, String>> basicInfoList = (List<HashMap<String, String>>) bundle.getSerializable("educationExperienceList");
+				educationExperienceMap = basicInfoList.get(0);
+			}
 		}
 	}
 
@@ -174,7 +185,8 @@ public class EducationExperienceEditActivity extends BaicActivity {
 		education = (RelativeLayout) findViewById(R.id.education);
 		educationValue = (TextView) findViewById(R.id.education_value);
 
-		degreeValue = (EditText) findViewById(R.id.degree_value);
+		degree = (RelativeLayout) findViewById(R.id.degree);
+		degreeValue = (TextView) findViewById(R.id.degree_value);
 
 		degreecertValue = (EditText) findViewById(R.id.degreecert_value);
 
@@ -222,8 +234,8 @@ public class EducationExperienceEditActivity extends BaicActivity {
 				degreecertValue.setText(degreecertStr);
 			}
 			if (educationExperienceMap.containsKey("学历")) {
-				degree = educationExperienceMap.get("学历");
-				educationValue.setText(degree);
+				educationStr = educationExperienceMap.get("学历");
+				educationValue.setText(educationStr);
 			}
 			if (educationExperienceMap.containsKey("毕业证号")) {
 				graduatedcodeStr = educationExperienceMap.get("毕业证号");
@@ -275,7 +287,7 @@ public class EducationExperienceEditActivity extends BaicActivity {
 			public void onClick(View v) {
 
 				if (aidprofessionStr.equals(aidprofessionValue.getText().toString()) && computerlevelStr.equals(computerlevelValue.getText().toString()) && degreeStr.equals(degreeValue.getText().toString()) && degreecertStr.equals(degreecertValue.getText().toString())
-						&& degree.equals(educationValue.getText().toString()) && graduatedcodeStr.equals(graduatedcodeValue.getText().toString()) && graduateddateStr.equals(graduateddateValue.getText().toString()) && graduatedschoolStr.equals(graduatedschoolValue.getText().toString())
+						&& educationStr.equals(educationValue.getText().toString()) && graduatedcodeStr.equals(graduatedcodeValue.getText().toString()) && graduateddateStr.equals(graduateddateValue.getText().toString()) && graduatedschoolStr.equals(graduatedschoolValue.getText().toString())
 						&& firstLanguage.equals(oneenglishValue.getText().toString()) && firstLanguageLevel.equals(oneenglishlevelValue.getText().toString()) && secondLanguage.equals(twoenglishValue.getText().toString()) && secondLanguageLevel.equals(twoenglishlevelValue.getText().toString())
 						&& professionStr.equals(professionValue.getText().toString()) && technologyStr.equals(technologyValue.getText().toString())) {
 
@@ -293,18 +305,20 @@ public class EducationExperienceEditActivity extends BaicActivity {
 			@Override
 			public void onClick(View v) {
 
-				DatePickerView datePickerView = new DatePickerView(EducationExperienceEditActivity.this, new DatePickerView.OnDateSetListener() {
-					@Override
-					public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-						/* 把设置修改后的日期赋值给我的年、月、日变量 */
-						mYear = year;
-						mMonth = monthOfYear;
-						mDay = dayOfMonth;
-						/* 显示设置后的日期 */
-						loadDate();
-					}
-				}, currYear, currMonth, currDay);
-				datePickerView.myShow();
+//				DatePickerView datePickerView = new DatePickerView(EducationExperienceEditActivity.this, new DatePickerView.OnDateSetListener() {
+//					@Override
+//					public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+//						/* 把设置修改后的日期赋值给我的年、月、日变量 */
+//						mYear = year;
+//						mMonth = monthOfYear;
+//						mDay = dayOfMonth;
+//						/* 显示设置后的日期 */
+//						loadDate();
+//					}
+//				}, currYear, currMonth, currDay);
+//				datePickerView.myShow();
+				
+				startActivityForResult(new Intent(EducationExperienceEditActivity.this,WheelViewDateActivity.class), 1);
 
 			}
 
@@ -326,6 +340,20 @@ public class EducationExperienceEditActivity extends BaicActivity {
 				// mThread.start();
 
 				Intent intent = new Intent(EducationExperienceEditActivity.this, SelectItemActivity.class);
+				intent.putExtra("which", "Education");
+				startActivityForResult(intent, Constant.EDUCATION);
+
+			}
+
+		});
+		
+		// 学位
+		degree.setOnClickListener(new ImageView.OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+
+				Intent intent = new Intent(EducationExperienceEditActivity.this, SelectItemActivity.class);
 				intent.putExtra("which", "Degree");
 				startActivityForResult(intent, Constant.DEGREE);
 
@@ -339,10 +367,14 @@ public class EducationExperienceEditActivity extends BaicActivity {
 			@Override
 			public void onClick(View arg0) {
 
-				Intent intent = new Intent(EducationExperienceEditActivity.this, SelectCurrentIndustryActivity.class);
-				intent.putExtra("flag", "education");
-				startActivityForResult(intent, 1);
+//				Intent intent = new Intent(EducationExperienceEditActivity.this, SelectCurrentIndustryActivity.class);
+//				intent.putExtra("flag", "education");
+//				startActivityForResult(intent, 1);
 
+				Intent intent = new Intent(EducationExperienceEditActivity.this, SelectItemActivity.class);
+				intent.putExtra("which", "Profession");
+				startActivityForResult(intent, Constant.PROFESSION);
+				
 			}
 
 		});
@@ -353,8 +385,8 @@ public class EducationExperienceEditActivity extends BaicActivity {
 			@Override
 			public void onClick(View arg0) {
 
-				Intent intent = new Intent(EducationExperienceEditActivity.this, SelectCurrentIndustryActivity.class);
-				intent.putExtra("flag", "education");
+				Intent intent = new Intent(EducationExperienceEditActivity.this, SelectItemActivity.class);
+				intent.putExtra("which", "Profession");
 				startActivityForResult(intent, 2);
 
 			}
@@ -806,8 +838,7 @@ public class EducationExperienceEditActivity extends BaicActivity {
 		params.add(new BasicNameValuePair("Technology", technologyValue.getText().toString()));
 		params.add(new BasicNameValuePair("GraduatedDate", graduateddateValue.getText().toString()));
 		params.add(new BasicNameValuePair("DegreeCert", degreecertValue.getText().toString()));
-		params.add(new BasicNameValuePair("Degree", degreeValue.getText().toString()));
-
+		params.add(new BasicNameValuePair("isFirstCreate", isFirstCreate+""));
 		if (educationExperienceMap == null || !educationExperienceMap.containsKey(" ")) {
 			params.add(new BasicNameValuePair("RecContent", " "));
 		}
@@ -827,8 +858,11 @@ public class EducationExperienceEditActivity extends BaicActivity {
 		if (!computerlevelId.equals("")) {
 			params.add(new BasicNameValuePair("ComputerLevel", computerlevelId));
 		}
+		if (!educationId.equals("")) {
+			params.add(new BasicNameValuePair("Education", educationId));
+		}
 		if (!degreeId.equals("")) {
-			params.add(new BasicNameValuePair("Education", degreeId));
+			params.add(new BasicNameValuePair("Degree", degreeId));
 		}
 		if (!professionId.equals("")) {
 			params.add(new BasicNameValuePair("profession", professionId));
@@ -887,54 +921,66 @@ public class EducationExperienceEditActivity extends BaicActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
 			switch (requestCode) {
-			case 1:
-				// professionStr = data.getStringExtra("currentIndustry");
-				professionId = data.getStringExtra("currentIndustryId");
-				professionValue.setText(data.getStringExtra("currentIndustry"));
+			case 1:// 选择完日期
+				graduateddateValue.setText(data.getStringExtra("birthday"));
 				break;
 
 			case 2:
 				// aidprofessionStr = data.getStringExtra("currentIndustry");
-				aidprofessionId = data.getStringExtra("currentIndustryId");
-				aidprofessionValue.setText(data.getStringExtra("currentIndustry"));
+				aidprofessionId = data.getStringExtra("professionId");
+				aidprofessionValue.setText(data.getStringExtra("profession"));
 
 				break;
 
+			case Constant.EDUCATION:
+				educationValue.setText(data.getStringExtra("education"));
+//				educationStr = data.getStringExtra("education");
+				educationId = data.getStringExtra("educationId");
+
+				break;
+				
 			case Constant.DEGREE:
-				educationValue.setText(data.getStringExtra("degree"));
-				degree = data.getStringExtra("degree");
+				degreeValue.setText(data.getStringExtra("degree"));
+//				degreeStr = data.getStringExtra("degree");
 				degreeId = data.getStringExtra("degreeId");
+
+				break;
+				
+			case Constant.PROFESSION:
+				professionValue.setText(data.getStringExtra("profession"));
+//				professionStr = data.getStringExtra("profession");
+				professionId = data.getStringExtra("professionId");
 
 				break;
 
 			case Constant.COMPUTER_LEVEL:
 				computerlevelValue.setText(data.getStringExtra("computerLevel"));
 				computerlevelId = data.getStringExtra("computerLevelId");
-				computerlevelStr = data.getStringExtra("computerLevel");
+//				computerlevelStr = data.getStringExtra("computerLevel");
 				break;
 
 			case Constant.FIRST_LANGUAGE:
 				oneenglishValue.setText(data.getStringExtra("language"));
 				firstLanguageId = data.getStringExtra("languageId");
-				firstLanguage = data.getStringExtra("language");
+//				firstLanguage = data.getStringExtra("language");
 				break;
 
 			case Constant.FIRST_LANGUAGE_LEVEL:
 				oneenglishlevelValue.setText(data.getStringExtra("languageLevel"));
 				firstLanguageLevelId = data.getStringExtra("languageLevelId");
-				firstLanguageLevel = data.getStringExtra("languageLevel");
+//				firstLanguageLevel = data.getStringExtra("languageLevel");
 				break;
 
 			case Constant.SECOND_LANGUAGE:
 				twoenglishValue.setText(data.getStringExtra("language"));
 				secondLanguageId = data.getStringExtra("languageId");
-				secondLanguage = data.getStringExtra("language");
+//				secondLanguage = data.getStringExtra("language");
 				break;
 
 			case Constant.SECOND_LANGUAGE_LEVEL:
 				twoenglishlevelValue.setText(data.getStringExtra("languageLevel"));
 				secondLanguageLevelId = data.getStringExtra("languageLevelId");
-				secondLanguageLevel = data.getStringExtra("languageLevel");
+//				secondLanguageLevel = data.getStringExtra("languageLevel");
 				break;
 			}
 		}

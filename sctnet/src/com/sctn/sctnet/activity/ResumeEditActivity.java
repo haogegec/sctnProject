@@ -22,14 +22,15 @@ public class ResumeEditActivity extends BaicActivity{
 	private Bundle bundle;
 //	private ResumeInfo resumeInfo;
 	private ArrayList<ArrayList<HashMap<String, String>>> dataList;
-	ArrayList<String> flagidList = null;
+	
 	
 	private ArrayList<HashMap<String, String>> basicInfoList = new ArrayList<HashMap<String, String>>();// 基本信息
 	private ArrayList<HashMap<String, String>> personalExperienceList = new ArrayList<HashMap<String, String>>();// 个人简介
 	private ArrayList<HashMap<String, String>> educationExperienceList = new ArrayList<HashMap<String, String>>();// 教育情况
 	private ArrayList<HashMap<String, String>> workExperienceList = new ArrayList<HashMap<String, String>>();// 职业生涯
 	private ArrayList<HashMap<String, String>> jobIntentionList = new ArrayList<HashMap<String, String>>();// 求职意向
-	private ArrayList<HashMap<String, String>> flagIdList = new ArrayList<HashMap<String, String>>();// 求职意向
+//	private ArrayList<HashMap<String, String>> flagIdList = new ArrayList<HashMap<String, String>>();// 求职意向
+	ArrayList<String> flagidList = null;
 	private ArrayList<HashMap<String, String>> contactList = new ArrayList<HashMap<String, String>>();// 联系方式
 	
 	private String whichActivity;
@@ -45,8 +46,8 @@ public class ResumeEditActivity extends BaicActivity{
 		if(bundle!=null){
 			whichActivity = bundle.getString("whichActivity");
 			if("ResumeCreate".equals(whichActivity)){
-				flagIdList =  (ArrayList<HashMap<String, String>>) bundle.getSerializable("jobIntentionList");
-			} else if("JobIntentionList".equals(whichActivity)){
+//				flagIdList =  (ArrayList<HashMap<String, String>>) bundle.getSerializable("jobIntentionList");
+			} else {//if("ResumeManage".equals(whichActivity))
 				dataList = (ArrayList<ArrayList<HashMap<String, String>>>) bundle.getSerializable("resumeInfo");
 				basicInfoList = dataList.get(0);
 				personalExperienceList = dataList.get(1);
@@ -167,12 +168,16 @@ public class ResumeEditActivity extends BaicActivity{
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(ResumeEditActivity.this,BasicInfoEditActivity.class);
-				if(basicInfoList!=null&&basicInfoList.size()!=0){
-					Bundle bundle = new Bundle();
-					bundle.putSerializable("basicInfoList",basicInfoList);
-					intent.putExtras(bundle);
+				Bundle bundle = new Bundle();
+				if("ResumeCreate".equals(whichActivity)){
+					bundle.putString("isFirstCreate", "1");
+				}else {
+					bundle.putString("isFirstCreate", "0");
 				}
-				
+				if(basicInfoList!=null&&basicInfoList.size()!=0){
+					bundle.putSerializable("basicInfoList",basicInfoList);
+				}
+				intent.putExtras(bundle);
 				startActivityForResult(intent,1);				
 			}
 			
@@ -184,12 +189,16 @@ public class ResumeEditActivity extends BaicActivity{
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(ResumeEditActivity.this,PersonalProfileEditActivity.class);
-				if(personalExperienceList!=null&&personalExperienceList.size()!=0){
-					Bundle bundle = new Bundle();
-					bundle.putSerializable("personalExperienceList", personalExperienceList);
-					intent.putExtras(bundle);
+				Bundle bundle = new Bundle();
+				if("ResumeCreate".equals(whichActivity)){
+					bundle.putString("isFirstCreate", "1");
+				}else {
+					bundle.putString("isFirstCreate", "0");
 				}
-				
+				if(personalExperienceList!=null&&personalExperienceList.size()!=0){
+					bundle.putSerializable("personalExperienceList", personalExperienceList);
+				}
+				intent.putExtras(bundle);
 				startActivityForResult(intent,2);		
 			}
 			
@@ -214,10 +223,16 @@ public class ResumeEditActivity extends BaicActivity{
 //				intent.putExtras(bundle);
 //				startActivityForResult(intent,3);		
 				
-				Intent intent = new Intent(ResumeEditActivity.this, JobIntentionListActivity2.class);
+				Intent intent = new Intent(ResumeEditActivity.this, JobIntentionListActivity.class);
 				Bundle bundle = new Bundle();
+				if("ResumeCreate".equals(whichActivity)){
+					bundle.putString("isFirstCreate", "1");
+				}else {
+					bundle.putString("isFirstCreate", "0");
+				}
 				bundle.putSerializable("flagIdList",flagidList);
 				bundle.putSerializable("jobIntentionList",jobIntentionList);
+				bundle.putString("whichActivity", whichActivity);
 				intent.putExtras(bundle);
 				startActivityForResult(intent,3);	
 				
@@ -231,12 +246,16 @@ public class ResumeEditActivity extends BaicActivity{
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(ResumeEditActivity.this,ContactWayEditActivity.class);
-				if(contactList!=null&&contactList.size()!=0){
-					Bundle bundle = new Bundle();
-					bundle.putSerializable("contactWayList", contactList);
-					intent.putExtras(bundle);
+				Bundle bundle = new Bundle();
+				if("ResumeCreate".equals(whichActivity)){
+					bundle.putString("isFirstCreate", "1");
+				}else {
+					bundle.putString("isFirstCreate", "0");
 				}
-				
+				if(contactList!=null&&contactList.size()!=0){
+					bundle.putSerializable("contactWayList", contactList);
+				}
+				intent.putExtras(bundle);
 				startActivityForResult(intent,6);				
 			}
 			
@@ -248,11 +267,16 @@ public class ResumeEditActivity extends BaicActivity{
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(ResumeEditActivity.this,EducationExperienceEditActivity.class);
-				if(educationExperienceList!=null&&educationExperienceList.size()!=0){
-					Bundle bundle = new Bundle();
-					bundle.putSerializable("educationExperienceList", educationExperienceList);
-					intent.putExtras(bundle);
+				Bundle bundle = new Bundle();
+				if("ResumeCreate".equals(whichActivity)){
+					bundle.putString("isFirstCreate", "1");
+				}else {
+					bundle.putString("isFirstCreate", "0");
 				}
+				if(educationExperienceList!=null&&educationExperienceList.size()!=0){
+					bundle.putSerializable("educationExperienceList", educationExperienceList);
+				}
+				intent.putExtras(bundle);
 				startActivityForResult(intent,4);			
 			}
 			
@@ -264,11 +288,16 @@ public class ResumeEditActivity extends BaicActivity{
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(ResumeEditActivity.this,WorkExperienceEditActivity.class);
-				if(workExperienceList!=null&&workExperienceList.size()!=0){
-					Bundle bundle = new Bundle();
-					bundle.putSerializable("workExperienceList", workExperienceList);
-					intent.putExtras(bundle);
+				Bundle bundle = new Bundle();
+				if("ResumeCreate".equals(whichActivity)){
+					bundle.putString("isFirstCreate", "1");
+				}else {
+					bundle.putString("isFirstCreate", "0");
 				}
+				if(workExperienceList!=null&&workExperienceList.size()!=0){
+					bundle.putSerializable("workExperienceList", workExperienceList);
+				}
+				intent.putExtras(bundle);
 				startActivityForResult(intent,5);			
 			}
 			
@@ -308,9 +337,10 @@ public class ResumeEditActivity extends BaicActivity{
 				personalExperienceList = (ArrayList<HashMap<String, String>>) bundle2.getSerializable("list");
 				break;
             case 3:
-            	Bundle bundle3 = data.getExtras();
-            	jobIntentionList = (ArrayList<HashMap<String, String>>) bundle3.getSerializable("list");
-            	flagIdList.remove(0);
+//            	Bundle bundle3 = data.getExtras();
+//            	jobIntentionList = (ArrayList<HashMap<String, String>>) bundle3.getSerializable("list");
+//            	flagIdList.remove(0);
+            	whichActivity = null;
 				break;
             case 4:
             	Bundle bundle4 = data.getExtras();

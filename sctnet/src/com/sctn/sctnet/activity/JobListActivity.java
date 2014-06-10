@@ -3,30 +3,36 @@ package com.sctn.sctnet.activity;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,8 +54,11 @@ import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import com.sctn.sctnet.R;
+import com.sctn.sctnet.Utils.DateUtil;
 import com.sctn.sctnet.Utils.SharePreferencesUtils;
+import com.sctn.sctnet.Utils.SortUtil;
 import com.sctn.sctnet.Utils.StringUtil;
+import com.sctn.sctnet.cache.CacheProcess;
 import com.sctn.sctnet.contants.Constant;
 import com.sctn.sctnet.entity.LoginInfo;
 import com.sctn.sctnet.sqlite.DBHelper;
@@ -70,14 +79,21 @@ public class JobListActivity extends BaicActivity {
 	private List<Map<String, String>> items = new ArrayList<Map<String, String>>();
 
 	Map<Integer, Object> jobIdAndCompanyIdMaps = new HashMap<Integer, Object>();// 记录选中的checkbox的jobId和companyId，申请职位时用到
-	Map<Integer, Object> jobIdMaps = new HashMap<Integer, Object>();// 记录选中的checkbox的jobId,收藏职位时用到
+	Map<Integer, Object> jobNameAndCompanyNameMaps = new HashMap<Integer, Object>();// 记录选中的checkbox的jobName和companyName，申请职位时用到
+
+	//	Map<Integer, Object> jobIdMaps = new HashMap<Integer, Object>();// 记录选中的checkbox的jobId,收藏职位时用到
+	
+	Map<Integer, Object> jobIdAndCompanyIdMaps2 = new HashMap<Integer, Object>();// 记录选中的checkbox的jobId和companyId，收藏职位时用到
+	Map<Integer, Object> jobNameAndCompanyNameMaps2 = new HashMap<Integer, Object>();// 记录选中的checkbox的jobName和companyName，收藏职位时用到
+	
 	Map<Integer, Object> jobShareMaps = new HashMap<Integer, Object>();// 记录选中的checkbox的jobId,分享职位时用到
 	Map<Integer, Boolean> checkBoxState = new HashMap<Integer, Boolean>();// 记录checkbox的状态
 
 	private Button btn_apply;// 申请
 	private Button btn_collect;// 收藏
 	private Button btn_share;// 分享
-
+	private long userId;// 用户唯一标识
+	private CacheProcess cacheProcess;// 缓存数据
 	private View footViewBar;// 下滑加载条
 	private int count;// 一次可以显示的条数（=pageSize或者小于）
 	// 请求数据
@@ -95,6 +111,11 @@ public class JobListActivity extends BaicActivity {
 	private String result;// 服务端返回的json字符串
 
 	private String jobIdAndCompanyId;// 职位搜索结果中，可以同时选择多个职位进行申请（格式：jobId1-companyId1|jobId2-companyId2|jobId3-companyId3|......）
+	private String jobNameAndCompanyName;
+	
+	private String jobIdAndCompanyId2;// 职位搜索结果中，可以同时选择多个职位进行收藏（格式：jobId1-companyId1|jobId2-companyId2|jobId3-companyId3|......）
+	private String jobNameAndCompanyName2;
+	
 	private String jobId;// 职位搜索结果中，可以同时选择多个职位进行收藏（格式：jobId1|jobId2|jobId3|......）
 	private String jobShare;// 职位分享，可以同时选择多个职位进行分享（格式：company开始招聘job|company开始招聘job|company开始招聘job|......）
 	private String whichUrl = "";
@@ -104,6 +125,9 @@ public class JobListActivity extends BaicActivity {
 	private int itemCount; // 当前窗口可见项总数
 	private int visibleLastIndex = 0;// 最后的可视项索引
 	private SQLiteDatabase database;
+	
+	private String appliedJobsName = "";// 已申请过的职位名（多个用逗号隔开）
+	private String collectedJobsName = "";// 已收藏过的职位名（多个用逗号隔开）
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -215,6 +239,8 @@ public class JobListActivity extends BaicActivity {
 
 	@Override
 	protected void initAllView() {
+		cacheProcess = new CacheProcess();
+		userId = cacheProcess.getLongCacheValueInSharedPreferences(this, "userId");
 		jobList = (ListView) findViewById(R.id.lv_jobList);
 		btn_apply = (Button) findViewById(R.id.btn_apply);
 		btn_collect = (Button) findViewById(R.id.btn_collect);
@@ -241,6 +267,9 @@ public class JobListActivity extends BaicActivity {
 						if (jobIdAndCompanyIdMaps.size() == 0) {
 							Toast.makeText(getApplicationContext(), "请选择职位", Toast.LENGTH_LONG).show();
 						} else {
+							jobIdAndCompanyId = null;
+							jobNameAndCompanyName = null;
+							
 							for (Map.Entry<Integer, Object> entry : jobIdAndCompanyIdMaps.entrySet()) {
 								if (StringUtil.isBlank(jobIdAndCompanyId)) {
 									jobIdAndCompanyId = entry.getValue().toString();
@@ -248,6 +277,16 @@ public class JobListActivity extends BaicActivity {
 									jobIdAndCompanyId += "|" + entry.getValue().toString();
 								}
 							}
+							
+							for (Map.Entry<Integer, Object> entry : jobNameAndCompanyNameMaps.entrySet()) {
+								if (StringUtil.isBlank(jobNameAndCompanyName)) {
+									jobNameAndCompanyName = entry.getValue().toString();
+								} else {
+									jobNameAndCompanyName += "|" + entry.getValue().toString();
+								}
+							}
+							
+							
 							applyThread();
 						}
 					} else {// 如果当前用户还没有创建简历，就跳到创建简历页面
@@ -294,19 +333,29 @@ public class JobListActivity extends BaicActivity {
 			public void onClick(View v) {
 
 				if (LoginInfo.isLogin()) {
-					if (jobIdMaps.size() == 0) {
+					if (jobIdAndCompanyIdMaps.size() == 0) {
 						Toast.makeText(getApplicationContext(), "请选择职位", Toast.LENGTH_LONG).show();
 					} else {
-						for (Map.Entry<Integer, Object> entry : jobIdMaps.entrySet()) {
-							// Toast.makeText(getApplicationContext(),
-							// "申请的 JOB_ID：" + entry.getValue(),
-							// Toast.LENGTH_LONG).show();
-							if (StringUtil.isBlank(jobId)) {
-								jobId = entry.getValue().toString();
+						
+						jobIdAndCompanyId2 = null;
+						jobNameAndCompanyName2 = null;
+						
+						for (Map.Entry<Integer, Object> entry : jobIdAndCompanyIdMaps2.entrySet()) {
+							if (StringUtil.isBlank(jobIdAndCompanyId2)) {
+								jobIdAndCompanyId2 = entry.getValue().toString();
 							} else {
-								jobId += "|" + entry.getValue().toString();
+								jobIdAndCompanyId2 += "|" + entry.getValue().toString();
 							}
 						}
+						
+						for (Map.Entry<Integer, Object> entry : jobNameAndCompanyNameMaps2.entrySet()) {
+							if (StringUtil.isBlank(jobNameAndCompanyName2)) {
+								jobNameAndCompanyName2 = entry.getValue().toString();
+							} else {
+								jobNameAndCompanyName2 += "|" + entry.getValue().toString();
+							}
+						}
+						
 						collectThread();
 					}
 				} else {
@@ -456,13 +505,30 @@ public class JobListActivity extends BaicActivity {
 			if (-1 == jobIdAndCompanyId.indexOf("|")) {
 
 				String[] temp = jobIdAndCompanyId.split("-");
-
+				String[] temp2 = jobNameAndCompanyName.split("-");
 				url = "appPersonCenter!userSendRusume.app";
 				params.add(new BasicNameValuePair("Companyid", temp[1]));
 				params.add(new BasicNameValuePair("jobsid", temp[0]));
+				params.add(new BasicNameValuePair("CompanyName", temp2[1]));
+				params.add(new BasicNameValuePair("jobsName", temp2[0]));
+				params.add(new BasicNameValuePair("SendTime", DateUtil.getFormatCurrentTime("yyyy:MM:dd")));
+				
 			} else {
+				String[] temp = jobIdAndCompanyId.split("\\|");
+				String[] temp2 = jobNameAndCompanyName.split("\\|");
+				
+				String args = "";
+				
+				for(int i=0; i<temp.length; i++){
+					if(StringUtil.isBlank(args)){
+						args += temp[i] + "-" + temp2[i] + "-" + DateUtil.getFormatCurrentTime("yyyy:MM:dd");
+					} else {
+						args += "|" + temp[i] + "-" + temp2[i] + "-" + DateUtil.getFormatCurrentTime("yyyy:MM:dd");
+					}
+				}
+				
 				url = "appPersonCenter!batSendRusume.app";
-				params.add(new BasicNameValuePair("batRusumes", jobIdAndCompanyId));
+				params.add(new BasicNameValuePair("batRusumes", args));
 			}
 			result = getPostHttpContent(url, params);
 
@@ -471,18 +537,36 @@ public class JobListActivity extends BaicActivity {
 				return;
 			}
 
-			JSONObject responseJsonObject = new JSONObject(result);
-			if ("0".equals(responseJsonObject.getString("resultcode"))) {// 表示职位申请成功
-
-				msg.what = Constant.APPLY_SUCCESS;
-				handler.sendMessage(msg);
-			} else {
-				String errorResult = responseJsonObject.getString("result");
-				String err = StringUtil.getAppException4MOS(errorResult);
-				sendExceptionMsg(err);
-
+			JSONArray responseJsonArray = new JSONArray(result);
+			JSONObject responseJsonObject = responseJsonArray.getJSONObject(responseJsonArray.length()-1);
+			
+			if(0 == responseJsonObject.getInt("resultcode")){// 表示申请成功
+					if ("0".equals(responseJsonObject.getString("resultcode"))) {// 表示职位申请成功
+						msg.what = Constant.APPLY_SUCCESS;
+						handler.sendMessage(msg);
+					} 
+			} else if(1 == responseJsonObject.getInt("resultcode")){// 表示申请失败
+				if(1 == responseJsonObject.getInt("flag")){ //flag==1 代表已经申请过了
+					
+					int count = responseJsonObject.getInt("count");//申请过的职位个数
+					appliedJobsName = "";
+					for(int i=0; i<count; i++){
+						JSONArray jarray =  responseJsonArray.getJSONArray(i);
+						JSONObject jobject = jarray.getJSONObject(0);
+						
+						appliedJobsName += StringUtil.isBlank(appliedJobsName)? jobject.getString("jobsname"):","+jobject.getString("jobsname");
+					}
+					
+					msg.what = Constant.APPLY_FAILED;
+					handler.sendMessage(msg);
+				} else {// 系统出错
+					String errorResult = responseJsonObject.getString("result");
+					String err = StringUtil.getAppException4MOS(errorResult);
+					sendExceptionMsg(err);
+				}
 			}
-
+			
+			 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -514,12 +598,38 @@ public class JobListActivity extends BaicActivity {
 			List<BasicNameValuePair> params = new LinkedList<BasicNameValuePair>();
 			long userId = SharePreferencesUtils.getSharedlongData("userId");
 			params.add(new BasicNameValuePair("Userid", userId + ""));
-			if (-1 == jobId.indexOf("|")) {
+			if (-1 == jobIdAndCompanyId2.indexOf("|")) {
+				
+				String[] temp = jobIdAndCompanyId2.split("-");
+				String[] temp2 = jobNameAndCompanyName2.split("-");
+				
 				url = "appPersonCenter!insertUserJobInfo.app";
-				params.add(new BasicNameValuePair("jobsid", jobId));
+				params.add(new BasicNameValuePair("Companyid", temp[1]));
+				params.add(new BasicNameValuePair("jobsid", temp[0]));
+				params.add(new BasicNameValuePair("CompanyName", temp2[1]));
+				params.add(new BasicNameValuePair("jobsName", temp2[0]));
+				params.add(new BasicNameValuePair("SendTime", DateUtil.getFormatCurrentTime("yyyy:MM:dd")));
+				
+//				params.add(new BasicNameValuePair("jobsid", jobId));
 			} else {
+				
+				String[] temp = jobIdAndCompanyId2.split("\\|");
+				String[] temp2 = jobNameAndCompanyName2.split("\\|");
+				
+				String args = "";
+				
+				for(int i=0; i<temp.length; i++){
+					if(StringUtil.isBlank(args)){
+						args += temp[i] + "-" + temp2[i] + "-" + DateUtil.getFormatCurrentTime("yyyy:MM:dd");
+					} else {
+						args += "|" + temp[i] + "-" + temp2[i] + "-" + DateUtil.getFormatCurrentTime("yyyy:MM:dd");
+					}
+				}
+				
 				url = "appPersonCenter!batUserJobInfo.app";
-				params.add(new BasicNameValuePair("batJobs", jobId));
+				params.add(new BasicNameValuePair("batJobs", args));
+				
+//				params.add(new BasicNameValuePair("batJobs", jobId));
 			}
 
 			result = getPostHttpContent(url, params);
@@ -528,17 +638,50 @@ public class JobListActivity extends BaicActivity {
 				JobListActivity.this.sendExceptionMsg(result);
 				return;
 			}
-
-			JSONObject responseJsonObject = new JSONObject(result);
-			if ("0".equals(responseJsonObject.getString("resultcode"))) {// 表示职位收藏成功
-				msg.what = Constant.COLLECT_SUCCESS;
-				handler.sendMessage(msg);
-			} else {
-				String errorResult = responseJsonObject.getString("result");
-				String err = StringUtil.getAppException4MOS(errorResult);
-				sendExceptionMsg(err);
+			
+			JSONArray responseJsonArray = new JSONArray(result);
+			JSONObject responseJsonObject = responseJsonArray.getJSONObject(responseJsonArray.length()-1);
+			
+			if(0 == responseJsonObject.getInt("resultcode")){// 表示申请成功
+					if ("0".equals(responseJsonObject.getString("resultcode"))) {// 表示职位申请成功
+						msg.what = Constant.COLLECT_SUCCESS;
+						handler.sendMessage(msg);
+					} 
+			} else if(1 == responseJsonObject.getInt("resultcode")){// 表示申请失败
+				if(1 == responseJsonObject.getInt("flag")){ //flag==1 代表已经申请过了
+					
+					int count = responseJsonObject.getInt("count");//申请过的职位个数
+					collectedJobsName = "";
+					for(int i=0; i<count; i++){
+						JSONArray jarray =  responseJsonArray.getJSONArray(i);
+						JSONObject jobject = jarray.getJSONObject(0);
+						
+						collectedJobsName += StringUtil.isBlank(collectedJobsName)? jobject.getString("jobsname"):","+jobject.getString("jobsname");
+					}
+					
+					msg.what = Constant.COLLECT_FAILED;
+					handler.sendMessage(msg);
+				} else {// 系统出错
+					String errorResult = responseJsonObject.getString("result");
+					String err = StringUtil.getAppException4MOS(errorResult);
+					sendExceptionMsg(err);
+				}
 			}
 
+//			JSONObject responseJsonObject = new JSONObject(result);
+//			if(1 == responseJsonObject.getInt("flag")){
+//				msg.what = Constant.COLLECT_FAILED;
+//				handler.sendMessage(msg);
+//			} else {
+//				if ("0".equals(responseJsonObject.getString("resultcode"))) {// 表示职位收藏成功
+//					msg.what = Constant.COLLECT_SUCCESS;
+//					handler.sendMessage(msg);
+//				} else {
+//					String errorResult = responseJsonObject.getString("result");
+//					String err = StringUtil.getAppException4MOS(errorResult);
+//					sendExceptionMsg(err);
+//				}
+//			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -579,6 +722,7 @@ public class JobListActivity extends BaicActivity {
 				params.add(new BasicNameValuePair("pageSize", pageSize + ""));
 				params.add(new BasicNameValuePair("type", type));
 				params.add(new BasicNameValuePair("key", key));
+				params.add(new BasicNameValuePair("Userid", userId + ""));
 			} else {
 				url = "appPostSearch.app";
 				params.add(new BasicNameValuePair("page", pageNo + ""));
@@ -587,10 +731,11 @@ public class JobListActivity extends BaicActivity {
 				params.add(new BasicNameValuePair("JobsClass", jobsClass));
 				params.add(new BasicNameValuePair("NeedProfession", needProfession));
 				params.add(new BasicNameValuePair("key", ""));
+				params.add(new BasicNameValuePair("Userid", userId + ""));
 			}
 
 			result = getPostHttpContent(url, params);
-
+			System.out.println("-----"+result);
 			if (StringUtil.isExcetionInfo(result)) {
 				JobListActivity.this.sendExceptionMsg(result);
 				return;
@@ -675,7 +820,12 @@ public class JobListActivity extends BaicActivity {
 					item.put("needProfession", resultJsonArray.getJSONObject(j).getString("needprofession"));// 专业
 					item.put("needWorkExperience", resultJsonArray.getJSONObject(j).getString("needworkexperience"));// 职位状态
 					item.put("political", resultJsonArray.getJSONObject(j).getString("political"));// 政治面貌
-					item.put("postTime", resultJsonArray.getJSONObject(j).getString("posttime"));// 发布时间
+					if(StringUtil.isBlank(resultJsonArray.getJSONObject(j).getString("posttime"))){
+						item.put("postTime", resultJsonArray.getJSONObject(j).getString("posttime"));
+					} else {
+						item.put("postTime", resultJsonArray.getJSONObject(j).getString("posttime").substring(0,10));// 发布时间
+					}
+					
 					item.put("rid", resultJsonArray.getJSONObject(j).getString("rid"));
 					item.put("sex", resultJsonArray.getJSONObject(j).getString("sex"));// 性别
 					item.put("titles", resultJsonArray.getJSONObject(j).getString("titles"));// 技术
@@ -695,6 +845,9 @@ public class JobListActivity extends BaicActivity {
 					item.put("contract", resultJsonArray.getJSONObject(j).getString("phone"));
 					items.add(item);
 				}
+				
+//				Collections.sort(items, new Sort());
+				
 				if (i == 0) {
 					msg.what = 0;
 
@@ -730,8 +883,17 @@ public class JobListActivity extends BaicActivity {
 			case Constant.APPLY_SUCCESS:
 				Toast.makeText(getApplicationContext(), "申请成功", Toast.LENGTH_SHORT).show();
 				break;
+				
+			case Constant.APPLY_FAILED:
+				Toast.makeText(getApplicationContext(), "您已申请过"+appliedJobsName+"职位", Toast.LENGTH_SHORT).show();
+				break;
+				
 			case Constant.COLLECT_SUCCESS:
 				Toast.makeText(getApplicationContext(), "收藏成功", Toast.LENGTH_SHORT).show();
+				break;
+				
+			case Constant.COLLECT_FAILED:
+				Toast.makeText(getApplicationContext(), "您已收藏过"+collectedJobsName+"职位", Toast.LENGTH_SHORT).show();
 				break;
 				
 			case Constant.SHARE_COMPLETE:
@@ -857,12 +1019,72 @@ public class JobListActivity extends BaicActivity {
 			// final int sequenceId =
 			// (Integer)list.get(position).get("sequenceId");
 			final String jobsid = list.get(position).get("jobsid").toString();
-			jobName.setText(list.get(position).get("jobsName").toString());
-			company.setText(list.get(position).get("companyname").toString());
+			final String jobsName = list.get(position).get("jobsName").toString();
+			
+			if(StringUtil.isBlank(key)){
+				jobName.setText(list.get(position).get("jobsName").toString());
+				company.setText(list.get(position).get("companyname").toString());
+				workplace.setText(list.get(position).get("workRegion").toString());
+			} else {
+				// 多个关键字用空格隔开，需要拆分
+				String[] keys = key.split(" ");
+				
+				// 职位名称：搜索关键字高亮显示
+				String str_jobName = list.get(position).get("jobsName").toString();
+				SpannableString s = new SpannableString(str_jobName);// 高亮显示之后的字符串
+				for(int i=0; i<keys.length; i++){
+					
+//			        s = new SpannableString(str_jobName);
+			        Pattern p = Pattern.compile(keys[i]);
+			        Matcher m = p.matcher(s);
+
+			        while (m.find()) {
+			            int start = m.start();
+			            int end = m.end();
+			            s.setSpan(new ForegroundColorSpan(Color.RED), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+			        }
+				}
+				jobName.setText(s);
+				
+				
+				// 公司名称：搜索关键字高亮显示
+		        String str_companyName = list.get(position).get("companyname").toString();
+		        SpannableString s2 = new SpannableString(str_companyName);
+		        for(int i=0; i<keys.length; i++){
+		        	Pattern p2 = Pattern.compile(keys[i]);
+			        Matcher m2 = p2.matcher(s2);
+
+			        while (m2.find()) {
+			            int start2 = m2.start();
+			            int end2 = m2.end();
+			            s2.setSpan(new ForegroundColorSpan(Color.RED), start2, end2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+			        }
+		        }
+		        company.setText(s2);
+		        
+		        // 工作地区：搜索关键字高亮显示
+		        String str_workplace = list.get(position).get("workRegion").toString();
+		        SpannableString s3 = new SpannableString(str_workplace);
+		        for(int i=0; i<keys.length; i++){
+		        	Pattern p3 = Pattern.compile(keys[i]);
+			        Matcher m3 = p3.matcher(s3);
+
+			        while (m3.find()) {
+			            int start3 = m3.start();
+			            int end3 = m3.end();
+			            s3.setSpan(new ForegroundColorSpan(Color.RED), start3, end3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+			        }
+		        }
+		        workplace.setText(s3);
+			}
+			
+			
+			//jobName.setText(list.get(position).get("jobsName").toString());
+//			company.setText(list.get(position).get("companyname").toString());
 			degree.setText(list.get(position).get("needEducation").toString());
 			// workingYears.setText(list.get(position).get("workingYears").toString());
-			workplace.setText(list.get(position).get("workRegion").toString());
-			releaseTime.setText(list.get(position).get("validityTime"));
+//			workplace.setText(list.get(position).get("workRegion").toString());
+			releaseTime.setText(list.get(position).get("postTime"));
 
 			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
@@ -871,14 +1093,22 @@ public class JobListActivity extends BaicActivity {
 					if (isChecked) {
 						checkBoxState.put(position, isChecked);
 						jobIdAndCompanyIdMaps.put(position, jobsid + "-" + list.get(position).get("companyid"));
-						jobIdMaps.put(position, jobsid);
+						jobNameAndCompanyNameMaps.put(position, jobsName + "-" + list.get(position).get("companyname"));
+						jobIdAndCompanyIdMaps2.put(position, jobsid + "-" + list.get(position).get("companyid"));
+						jobNameAndCompanyNameMaps2.put(position, jobsName + "-" + list.get(position).get("companyname"));
+						
+//						jobIdMaps.put(position, jobsid);
 //						jobShareMaps.put(position, list.get(position).get("companyname") + "正在招聘" + list.get(position).get("jobsName"));
 					
 						jobShareMaps.put(position, "公司名称：" + list.get(position).get("companyname") + "\n职位名称：" + list.get(position).get("jobsName") + "\n联系电话：" + list.get(position).get("contract") );
 					} else {
 						checkBoxState.remove(position);
 						jobIdAndCompanyIdMaps.remove(position);
-						jobIdMaps.remove(position);
+						jobNameAndCompanyNameMaps.remove(position);
+						jobIdAndCompanyIdMaps2.remove(position);
+						jobNameAndCompanyNameMaps2.remove(position);
+						
+//						jobIdMaps.remove(position);
 						jobShareMaps.remove(position);
 					}
 				}
@@ -936,5 +1166,5 @@ public class JobListActivity extends BaicActivity {
 			}
 		}
 	}
-
+	
 }

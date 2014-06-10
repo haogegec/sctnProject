@@ -27,14 +27,14 @@ import com.sctn.sctnet.Utils.StringUtil;
  */
 public class ContactWayEditActivity extends BaicActivity{
 	
+	private EditText userphoneValue;
+	private String userphoneStr = "";//本人电话
+	
 	private EditText contactsnameValue;
 	private String contactsnameStr = "";//第二联系人
 	
 	private EditText contactsphoneValue;
 	private String contactsphoneStr = "";//第二联系人电话
-	
-	private EditText userphoneValue;
-	private String userphoneStr = "";//第二联系人电话
 	
 	private EditText emailValue;
 	private String emailStr = "";//email
@@ -45,6 +45,9 @@ public class ContactWayEditActivity extends BaicActivity{
 	private EditText qqmsnValue;
 	private String qqmsnStr = "";//QQ号
 	
+	private EditText addressValue;
+	private String addressStr = "";// 通讯地址
+	
 	private String result;// 服务端返回的结果
 	private long userId;
 	
@@ -52,6 +55,9 @@ public class ContactWayEditActivity extends BaicActivity{
 	
 	private ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
 	private HashMap<String, String> newContactWayMap = new HashMap<String, String>();//基本信息
+	
+	private int isFirstCreate = 1;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -68,19 +74,23 @@ public class ContactWayEditActivity extends BaicActivity{
 		Intent intent = this.getIntent();
 		Bundle bundle = intent.getExtras();
 		userId = SharePreferencesUtils.getSharedlongData("userId");
-		if(bundle!=null&&bundle.getSerializable("contactWayList")!=null){
-			List<HashMap<String, String>> contactWayList = (List<HashMap<String, String>>) bundle.getSerializable("contactWayList");
-			contactWayMap = contactWayList.get(0);
+		
+		if(bundle != null){
+			isFirstCreate = bundle.getInt("isFirstCreate");
+			if(bundle.getSerializable("contactWayList")!=null){
+				List<HashMap<String, String>> contactWayList = (List<HashMap<String, String>>) bundle.getSerializable("contactWayList");
+				contactWayMap = contactWayList.get(0);
+			}
 		}
 	}
 	@Override
 	protected void initAllView() {
 		
+		userphoneValue = (EditText) findViewById(R.id.userphone_value);
+		
 		contactsnameValue = (EditText) findViewById(R.id.contactsname_value);
 		
 		contactsphoneValue = (EditText) findViewById(R.id.contactsphone_value);
-		
-		userphoneValue = (EditText) findViewById(R.id.userphone_value);
 		
 		emailValue = (EditText) findViewById(R.id.email_value);
 		
@@ -88,6 +98,7 @@ public class ContactWayEditActivity extends BaicActivity{
 		
 		qqmsnValue = (EditText) findViewById(R.id.qqmsn_value);
 		
+		addressValue = (EditText) findViewById(R.id.address_value);
 		
 		if(contactWayMap!=null&&contactWayMap.size()!=0){
 			if(contactWayMap.containsKey("联系人")){
@@ -115,7 +126,10 @@ public class ContactWayEditActivity extends BaicActivity{
 				userphoneStr = contactWayMap.get("本人手机号");
 				userphoneValue.setText(userphoneStr);				
 			}
-			
+			if(contactWayMap.containsKey("通讯地址")){
+				addressStr = contactWayMap.get("通讯地址");
+				addressValue.setText(addressStr);				
+			}
 		}
 	}
 
@@ -127,19 +141,17 @@ public class ContactWayEditActivity extends BaicActivity{
 			@Override
 			public void onClick(View v) {
 
-	           if(contactsnameStr.equals(contactsnameValue.getText().toString())&&contactsphoneStr.equals(contactsphoneValue.getText().toString())&&emailStr.equals(emailValue.getText().toString())
-	        		   &&qqmsnStr.equals(qqmsnValue.getText().toString())&&userphoneStr.equals(userphoneValue.getText().toString())
-	        		   ){
-	        	   
-	        	   Toast.makeText(getApplicationContext(), "请编辑之后再保存吧~~", Toast.LENGTH_SHORT).show();
-	        	   
-	           }else if(StringUtil.isBlank(userphoneValue.getText().toString())){
-	        	   Toast.makeText(getApplicationContext(), "本人电话不能为空哟~~", Toast.LENGTH_SHORT).show();
-	           }
-	           else {
-	        	   requestDataThread();
-	           }
-				
+				if (contactsnameStr.equals(contactsnameValue.getText().toString()) && contactsphoneStr.equals(contactsphoneValue.getText().toString()) && emailStr.equals(emailValue.getText().toString()) && qqmsnStr.equals(qqmsnValue.getText().toString()) && userphoneStr.equals(userphoneValue.getText().toString()) && addressStr.equals(addressValue.getText().toString())) {
+					Toast.makeText(getApplicationContext(), "请编辑之后再保存吧~~", Toast.LENGTH_SHORT).show();
+				} else if (StringUtil.isBlank(userphoneValue.getText().toString())) {
+					Toast.makeText(getApplicationContext(), "本人电话不能为空哟~~", Toast.LENGTH_SHORT).show();
+				} else if( !StringUtil.isMobilePhone(userphoneValue.getText().toString()) && !StringUtil.isTelephone(userphoneValue.getText().toString())){
+					Toast.makeText(getApplicationContext(), "格式有误！", Toast.LENGTH_SHORT).show();
+				} else {
+//					Toast.makeText(getApplicationContext(), "输入正确！", Toast.LENGTH_SHORT).show();
+					requestDataThread();
+				}
+
 			}
 		});
 		
@@ -173,7 +185,8 @@ public class ContactWayEditActivity extends BaicActivity{
 	//	params.add(new BasicNameValuePair("PostalCode", postalcodeValue.getText().toString()));
 		params.add(new BasicNameValuePair("QQMsn", qqmsnValue.getText().toString()));
 		params.add(new BasicNameValuePair("UsePhone", userphoneValue.getText().toString()));
-		
+		params.add(new BasicNameValuePair("address", addressValue.getText().toString()));
+		params.add(new BasicNameValuePair("isFirstCreate",isFirstCreate+""));
 		if(contactWayMap==null||!contactWayMap.containsKey(" ")){
 			params.add(new BasicNameValuePair("RecContent", " "));
 		}
@@ -188,6 +201,7 @@ public class ContactWayEditActivity extends BaicActivity{
 	//	newContactWayMap.put("邮政编码", postalcodeValue.getText().toString());
 		newContactWayMap.put("QQ", qqmsnValue.getText().toString());
 		newContactWayMap.put("本人手机号", userphoneValue.getText().toString());
+		newContactWayMap.put("通讯地址", addressValue.getText().toString());
 		list.add(newContactWayMap);
 		
 		if (StringUtil.isExcetionInfo(result)) {

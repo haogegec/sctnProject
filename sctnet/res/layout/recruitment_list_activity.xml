@@ -5,60 +5,55 @@
     android:background="@color/background"
     android:orientation="vertical" >
 
-     <RelativeLayout
-             android:id="@+id/recruitment_search"
-             android:layout_width="wrap_content"  
-             android:layout_height="wrap_content"  
-             android:layout_margin="10dip"
-              >
+    <RelativeLayout
+        android:id="@+id/recruitment_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip" >
 
-           <EditText 
-             android:id="@+id/et_search_searchtxt"
+        <EditText
+            android:id="@+id/et_search_searchtxt"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/search_edittext_bg"
             android:hint="@string/search_hint"
-            android:paddingTop="10dp"
-            android:paddingLeft="10dip"
             android:paddingBottom="10dp"
+            android:paddingLeft="10dip"
+            android:paddingTop="10dp"
             android:singleLine="true"
             android:textColor="#555"
             android:textColorHint="#999"
-            android:textSize="15dp" 
-               />  
-               
-              <ImageView 
-	        android:id="@+id/search_bar"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content" 
-	        android:layout_marginRight="10dip"
-	        android:paddingLeft="15dp"
-	        android:paddingRight="15dp"
-	        android:layout_centerVertical="true"
-	        android:layout_alignRight="@+id/et_search_searchtxt"  
-	        android:background="@drawable/search_bar"
-        /> 
-         </RelativeLayout>
-         <TextView 
+            android:textSize="15dp" />
+
+        <ImageView
+            android:id="@+id/search_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/et_search_searchtxt"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dip"
+            android:background="@drawable/search_bar"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp" />
+    </RelativeLayout>
+
+    <TextView
         android:id="@+id/explain_text"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:textColor="@color/blue"
-        android:background="#ffffff"
-        android:textSize="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        />
-         <ListView
-        android:id="@+id/recrumitment_list"   
+        android:background="#ffffff"
+        android:padding="5dp"
+        android:textColor="@color/blue"
+        android:textSize="10dp" />
+
+    <ListView
+        android:id="@+id/recrumitment_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:cacheColorHint="#00000000"
         android:divider="@color/background"
-        android:dividerHeight="1dp" 
-        /> 
-    
-       
+        android:dividerHeight="1dp" />
 
 </LinearLayout>

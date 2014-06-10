@@ -84,7 +84,7 @@ public class RecruitmentActivity extends BaicActivity{
 		
 		explainText = (TextView) findViewById(R.id.explain_text);
 		recruitmentListView = (ListView) findViewById(R.id.recrumitment_list);
-		searchEdit = (EditText) findViewById(R.id.search_edit_bg);
+		searchEdit = (EditText) findViewById(R.id.et_search_searchtxt);
 		searchImg = (ImageView) findViewById(R.id.search_bar);
 		
 		explainText.setText(Html.fromHtml(explain));
@@ -110,10 +110,10 @@ public class RecruitmentActivity extends BaicActivity{
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
-				Intent intent = new Intent(RecruitmentActivity.this,RecruitmentCompanyListActivity.class);
+				Intent intent = new Intent(RecruitmentActivity.this,RecruitmentCompanyListActivity2.class);
 				Bundle bundle = new Bundle();
 				bundle.putString("recruitmentId", items.get(position).get("recruitment_id").toString());
-				bundle.putString("partitionlist", items.get(position).get("recruitment_partition_list").toString());
+//				bundle.putString("partitionlist", items.get(position).get("number").toString());// 展位号用number字段表示
 				intent.putExtras(bundle);
 				startActivity(intent);
 				
@@ -334,8 +334,7 @@ public class RecruitmentActivity extends BaicActivity{
 						item.put("recruitment_time",resultJsonArray.getJSONObject(j).get("holddate").toString().substring(0,10));
 						item.put("recruitment_id", resultJsonArray.getJSONObject(j).get("recruitmentid"));
 						item.put("recruitment_address", "四川省成都市小南街99号(人民公园斜对面·长城园旁)");
-						item.put("recruitment_partition_list",resultJsonArray.getJSONObject(j).get("partitionlist"));
-						
+//						item.put("recruitment_partition_list",resultJsonArray.getJSONObject(j).get("partitionlist"));
 						items.add(item);
 					}
 					if (i == 0) {

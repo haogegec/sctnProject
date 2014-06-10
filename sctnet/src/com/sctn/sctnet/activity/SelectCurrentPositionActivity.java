@@ -1,5 +1,6 @@
 package com.sctn.sctnet.activity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -54,7 +55,7 @@ public class SelectCurrentPositionActivity extends BaicActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.select_area_listview);
         
-		super.setTitleBar("选择预从事岗位", View.VISIBLE, View.GONE);
+		super.setTitleBar("选择欲从事岗位", View.VISIBLE, View.GONE);
     	
     	initAllView();
     	reigesterAllEvent();
@@ -192,11 +193,18 @@ public class SelectCurrentPositionActivity extends BaicActivity{
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				
-				Intent intent = getIntent();
-				intent.putExtra("postStr", listItems.get(position).get("value"));
-				intent.putExtra("postId", listItems.get(position).get("id"));
-				setResult(RESULT_OK, intent);
-				finish();
+//				Intent intent = getIntent();
+//				intent.putExtra("postStr", listItems.get(position).get("value"));
+//				intent.putExtra("postId", listItems.get(position).get("id"));
+//				setResult(RESULT_OK, intent);
+//				finish();
+				
+				Intent intent = new Intent(SelectCurrentPositionActivity.this,SelectItemActivity.class);
+				intent.putExtra("list", (Serializable)listItems);
+				intent.putExtra("which", "SelectJob");
+				intent.putExtra("id", listItems.get(position).get("id"));
+				intent.putExtra("value", listItems.get(position).get("value"));
+				startActivityForResult(intent,Constant.DETAIL_JOB);
 			}
 
 		});
@@ -222,6 +230,29 @@ public class SelectCurrentPositionActivity extends BaicActivity{
 		myAdapter.notifyDataSetChanged();
 
 	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			switch (requestCode) {
+			case Constant.DETAIL_JOB:
+				String currentJob = data.getStringExtra("currentJob");
+				String currentJobId = data.getStringExtra("currentJobId");
+				
+				Intent intent = getIntent();
+				intent.putExtra("postStr", currentJob);
+				intent.putExtra("postId", currentJobId);
+				setResult(RESULT_OK, intent);
+				finish();
+				break;
+
+			
+
+			}
+		}
+	}
+	
     // 自定义适配器
  	class MyAdapter extends BaseAdapter{
  		private Context mContext;// 上下文对象

@@ -379,13 +379,52 @@ public class StringUtil {
 
 	public static boolean isEmailFormat(String email) {
 		boolean tag = true;
-		final String pattern1 = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+//		final String pattern1 = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+		final String pattern1 = "^([a-zA-Z0-9_\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$";
 		final Pattern pattern = Pattern.compile(pattern1);
 		final Matcher mat = pattern.matcher(email);
 		if (!mat.find()) {
 			tag = false;
 		}
 		return tag;
+	}
+	
+	// 文字里是否有特殊字符，有返回true,没有返回false
+	public static boolean hasSpecialCharacters(String text) {
+		String regEx = "[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
+		Pattern p = Pattern.compile(regEx);
+		Matcher m = p.matcher(text);
+		return m.find();
+	}
+	
+	/**
+	 * 验证是否是固定电话(规则：xxxx(区号，3或4位)-(连接线 ，必备)xxxxxx(电话，6到8位),如028-83035137) 匹配则返回true 不匹配则返回false
+	 * true表示格式正确，false表示格式有误
+	 * @param str
+	 * @return author 
+	 */
+	public static boolean isTelephone(String telephone) {
+		String regEx = "^(\\d{3,4}-)?\\d{6,8}$";
+		Pattern p = Pattern.compile(regEx);
+		Matcher m = p.matcher(telephone);
+		return m.find();
+	}
+
+	/**
+	 *  验证是否是手机号(规则：以1开头，接任意数字，11位) 
+	 *  true表示格式正确，false表示格式有误
+	 * @param value
+	 * @return author 
+	 */
+	public static boolean isMobilePhone(String mobilePhone) {
+		// String regex = "^[1]+[3,5]+\\d{9}$";
+		if(StringUtil.isBlank(mobilePhone)){
+			return false;
+		}
+		String regEx="^((13[0-9])|(15[^4,\\D])|(18[0,2,3,5-9]))\\d{8}$";
+		Pattern p = Pattern.compile(regEx);
+		Matcher m = p.matcher(mobilePhone);
+		return m.find();
 	}
 
 	public static void main(String[] args) {

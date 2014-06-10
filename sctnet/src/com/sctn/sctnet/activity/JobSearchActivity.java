@@ -262,6 +262,7 @@ public class JobSearchActivity extends BaicActivity {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(JobSearchActivity.this, SelectIndustryActivity.class);
+				intent.putExtra("whichActivity", "JobSearch");
 				intent.putExtra("industryTypeId", industryTypeId);
 				intent.putExtra("industryTypeTitle", industryTypeTitle);
 				intent.putExtra("checkBoxState", (Serializable) checkBoxState);

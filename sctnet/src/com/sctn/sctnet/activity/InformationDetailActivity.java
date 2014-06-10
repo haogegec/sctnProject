@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -106,7 +107,13 @@ public class InformationDetailActivity extends BaicActivity {
 	}
 
 	private void initUI() {
-		informationContentText.setText(Html.fromHtml(informationContent));
+		
+		System.out.println(TextUtils.htmlEncode(informationContent));
+		
+		
+		
+		
+		informationContentText.setText(Html.fromHtml(Html.fromHtml(informationContent).toString()));
 		sv_scroll.setVisibility(View.VISIBLE);
 	}
 

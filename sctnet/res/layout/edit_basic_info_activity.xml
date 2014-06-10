@@ -396,6 +396,39 @@
             </ImageView>
         </RelativeLayout>
         
+        <LinearLayout
+            android:id="@+id/drivingLicense_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="1dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:background="@drawable/item_selector"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:focusable="true"  
+   			android:focusableInTouchMode="true" >
+
+            <TextView
+                android:id="@+id/drivingLicense_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="10dp"
+                android:textColor="@color/lightBlack"
+                android:text="驾驶执照" />
+
+            <EditText
+                android:id="@+id/drivingLicense_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/my_edittext"
+                android:paddingLeft="10dp"
+                android:inputType="textNoSuggestions"
+                android:text="" />
+        </LinearLayout>
+        
         <RelativeLayout
             android:id="@+id/account_city"
             android:layout_width="fill_parent"
@@ -463,7 +496,7 @@
                 android:layout_height="wrap_content"
                 android:paddingRight="10dp"
                 android:textColor="@color/lightBlack"
-                android:text="居住地" />
+                android:text="目前所在地" />
 
             <EditText
                 android:id="@+id/current_city_value"

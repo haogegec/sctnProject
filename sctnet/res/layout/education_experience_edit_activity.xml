@@ -167,7 +167,7 @@
             </ImageView>
         </RelativeLayout>
 
-        <LinearLayout
+        <!-- <LinearLayout
             android:id="@+id/degree"
             android:layout_width="fill_parent"
             android:layout_height="55dp"
@@ -198,7 +198,52 @@
                 android:paddingRight="10dp"
                 android:layout_marginRight="5dp"
                 android:text="" />
-        </LinearLayout>
+        </LinearLayout> -->
+        
+        <RelativeLayout
+            android:id="@+id/degree"
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/item_selector"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/degree_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="学位"
+                android:textColor="@color/lightBlack" />
+
+            <TextView
+                android:id="@+id/degree_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/arrow1"
+                android:gravity="right"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="" />
+
+            <ImageView
+                android:id="@+id/arrow1"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:contentDescription="@null"
+                android:shadowColor="#ffffffff"
+                android:shadowDx="0.0"
+                android:shadowDy="1.0"
+                android:shadowRadius="1.0"
+                android:src="@drawable/arrow" >
+            </ImageView>
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/degreecert"
@@ -297,7 +342,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:text="专业职称"
+                android:text="技术职称"
                 android:textColor="@color/lightBlack" />
 
             <EditText

@@ -285,6 +285,7 @@ public class WorkSearchActivity extends Activity {
 
 			switch (index) {
 			case 0:
+				search_edit.setHint("");
 				if (currIndex == 1) {
 					// 从2到1
 					cursor.setPadding(cursor.getPaddingLeft() - perSpacing,
@@ -300,6 +301,7 @@ public class WorkSearchActivity extends Activity {
 				type = Constant.TYPE_JOB_NAME;
 				break;
 			case 1:
+				search_edit.setHint("");
 				// 从1 到 2 页面
 				if (currIndex == 0) {
 					cursor.setPadding(cursor.getPaddingLeft() + perSpacing,
@@ -314,6 +316,7 @@ public class WorkSearchActivity extends Activity {
 				type = Constant.TYPE_COMPANY_NAME;
 				break;
 			case 2:
+				search_edit.setHint("最多输入三个关键字，用空格隔开");
 				// 从1到3
 				if (currIndex == 0) {
 					cursor.setPadding(cursor.getPaddingLeft() + perSpacing*2,

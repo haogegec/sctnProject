@@ -39,15 +39,15 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/myPhoto"
             android:layout_alignRight="@+id/myPhoto"
-            android:src="@drawable/take_photo"
             android:paddingBottom="25dp"
             android:paddingRight="10dp"
-            />
+            android:src="@drawable/take_photo" />
+
         <TextView
             android:id="@+id/resumeName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="35dp"
             android:layout_toRightOf="@+id/myPhoto"
             android:paddingBottom="8dp"
             android:paddingLeft="8dp"
@@ -67,7 +67,7 @@
 
         <TextView
             android:id="@+id/resumeUpdateValue"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/resumeUpdate"
             android:layout_alignTop="@+id/resumeUpdate"
@@ -89,7 +89,7 @@
 
         <TextView
             android:id="@+id/resumeFinishStatusValue"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/resumeFinishStatus"
             android:layout_alignTop="@+id/resumeFinishStatus"
@@ -107,11 +107,11 @@
             android:layout_toRightOf="@+id/myPhoto"
             android:paddingBottom="8dp"
             android:paddingLeft="8dp"
-            android:text="@string/is_public" />
+            android:text="简历状态" />
 
         <TextView
             android:id="@+id/resumePublicValue"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/resumePublic"
             android:layout_alignTop="@+id/resumePublic"
@@ -120,15 +120,18 @@
             android:paddingLeft="5dp"
             android:textColor="@color/blue" />
 
-        <ImageView
-            android:id="@+id/resumePreview"
+        <!-- <ImageView
+            android:id="@+id/resumePreviewasdfasf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/resumePublicValue"
             android:layout_marginRight="5dp"
             android:paddingBottom="10dp"
-            android:src="@drawable/resume_preview_bg" />
+            android:src="@drawable/resume_preview_bg"
+            android:visibility="invisible"
+            android:clickable="false"
+             /> -->
     </RelativeLayout>
 
     <RelativeLayout
@@ -176,7 +179,8 @@
             android:textColor="@drawable/btn_text_color"
             android:textSize="18dp" />
 
-        <Button
+        <!--
+             <Button
             android:id="@+id/resumeDeleteText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -189,16 +193,31 @@
             android:text="@string/delete"
             android:textColor="@drawable/btn_text_color"
             android:textSize="18dp" />
+        -->
+
+        <Button
+            android:id="@+id/resumePreview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/editResumeText"
+            android:layout_marginRight="35dp"
+            android:layout_marginTop="17dp"
+            android:background="#00000000"
+            android:paddingTop="6dp"
+            android:text="@string/preview"
+            android:textColor="@drawable/btn_text_color"
+            android:textSize="18dp" />
 
         <ImageView
-            android:id="@+id/resumeDeleteImg"
+            android:id="@+id/resumePreviewImg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/editResumeText"
             android:layout_marginTop="20dp"
-            android:layout_toLeftOf="@+id/resumeDeleteText"
+            android:layout_toLeftOf="@+id/resumePreview"
             android:paddingRight="8dp"
-            android:src="@drawable/resume_delete_bg" />
+            android:src="@drawable/resume_preview2_bg" />
 
         <ImageView
             android:id="@+id/resumeRefreshImg"
@@ -229,8 +248,8 @@
             android:id="@+id/resumeIsPublicImg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/resumeDeleteImg"
-            android:layout_below="@+id/resumeDeleteImg"
+            android:layout_alignLeft="@+id/resumePreviewImg"
+            android:layout_below="@+id/resumePreviewImg"
             android:layout_marginTop="35dp"
             android:paddingBottom="25dp"
             android:src="@drawable/resume_is_public_bg" />
@@ -239,7 +258,7 @@
             android:id="@+id/resumeIsPublicText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/resumeDeleteText"
+            android:layout_below="@+id/resumePreview"
             android:layout_marginTop="33dp"
             android:layout_toRightOf="@+id/resumeIsPublicImg"
             android:background="#00000000"

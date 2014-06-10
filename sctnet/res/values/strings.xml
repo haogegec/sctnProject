@@ -35,15 +35,16 @@
     <string name="editResume">编辑简历</string>
     <string name="modify"><u>修改</u></string>
     <string name="delete"><u>删除</u></string>
+    <string name="preview"><u>预览</u></string>
     <string name="refresh"><u>刷新</u></string>
     <string name="set_public"><u>公开</u></string>
     <string name="is_public">是否公开</string>
     <string name="resumeManageActivityTitle">简历管理</string>
     <string name="resumeName">简历名称</string>
     <string name="resumeRequired">必填项</string>
-    <string name="resumeNote1">(完成一下项即可申请职位)</string>
+    <string name="resumeNote1">(完成以下项即可申请职位)</string>
     <string name="resumeOptional">选填项</string>
-    <string name="resumeNote2">(补充一下内容，更全面的展示自己)</string>
+    <string name="resumeNote2">(补充以下内容，更全面的展示自己)</string>
     <string name="resumeEditActivityTitle">简历修改</string>
     <string name="resumePreviewActivityTitle">简历预览</string>
     <string name="personalInfoActivityTitle">个人信息</string>
@@ -61,8 +62,8 @@
     <string name="reccontent">推荐自己：</string>
     <string name="specialtyContent">特长：</string>
     <string name="personalResume">个人经历：</string>
-    <string name="reccontent_hint">请输入推荐的内容（不超过255个字）</string>
-    <string name="specialtyContent_hint">请输入您的特长（不超过255个字）</string>
+    <string name="reccontent_hint">请输入推荐的内容（不超过100个字）</string>
+    <string name="specialtyContent_hint">请输入您的特长（不超过100个字）</string>
     <string name="personalResume_hint">请输入您的个人经历（不超过3500个字）</string>
     <string name="work_performance_hint">请输入您的工作经验（不超过5000个字）</string>
 
@@ -103,7 +104,7 @@
     <string name="about">四川省人才交流中心\n网站手机版软件系统</string>
 
     <!-- 信息咨询 -->
-    <string name="information_query">信息咨询</string>
+    <string name="information_query">信息资讯</string>
     <string name="search_hint">最多输入三个关键字，用空格隔开</string>
     <string name="interview">面试</string>
     <string name="change_job">跳槽</string>

@@ -48,7 +48,9 @@ public class WorkPerformanceEditActivity extends BaicActivity{
 				if(StringUtil.isBlank(workPerformanceEdit.getText().toString())||workPerformanceEditStr.equals(workPerformanceEdit.getText().toString())){
 					
 					Toast.makeText(getApplicationContext(), "请编辑之后再保存吧~~", Toast.LENGTH_SHORT).show();
-				}else{
+				} else if(StringUtil.hasSpecialCharacters(workPerformanceEdit.getText().toString())){// 校验有无恶意字符
+					Toast.makeText(getApplicationContext(), "请不要输入特殊字符", Toast.LENGTH_SHORT).show();
+				} else{
 					Intent intent = new Intent();
 					intent.putExtra("workperformanceStr", workPerformanceEdit.getText().toString());
 					setResult(RESULT_OK,intent);

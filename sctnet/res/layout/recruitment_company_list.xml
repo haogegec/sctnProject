@@ -80,7 +80,7 @@
             android:paddingTop="5dip"
             android:text="提供的职位："
             android:textColor="#FF666666" />
-        
+
         <ListView
             android:id="@+id/recruiment_list"
             android:layout_width="fill_parent"
@@ -95,15 +95,6 @@
             android:listSelector="@color/background" >
         </ListView>
 
-        <!-- <TextView
-            android:id="@+id/job_name_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/job_name"
-            android:layout_toRightOf="@+id/job_name"
-            android:paddingBottom="5dip"
-            android:paddingTop="5dip"
-            android:textColor="#FF666666" /> -->
     </RelativeLayout>
 
     <!--

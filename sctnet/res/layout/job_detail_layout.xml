@@ -9,8 +9,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:padding="10dp" >
 
         <TextView
             android:id="@+id/company_name"
@@ -20,7 +20,7 @@
             android:text="XXXXXX股份有限公司"
             android:textColor="@color/black"
             android:textSize="16dp" />
-        
+
         <TextView
             android:id="@+id/company_industry"
             android:layout_width="match_parent"
@@ -29,8 +29,6 @@
             android:text="IT/互联网"
             android:textColor="@color/lightBlack"
             android:textSize="13dp" />
-
-        
 
         <com.sctn.sctnet.view.DashedLineView
             android:layout_width="wrap_content"
@@ -96,8 +94,7 @@
             android:layout_width="wrap_content"
             android:layout_height="13dp" />
 
-        
-		<LinearLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
@@ -152,39 +149,52 @@
                     android:textSize="16dp" />
             </LinearLayout>
         </LinearLayout>
-            
-		<com.sctn.sctnet.view.DashedLineView
+
+        <com.sctn.sctnet.view.DashedLineView
             android:layout_width="wrap_content"
             android:layout_height="13dp" />
-		
-		<RelativeLayout
-		    android:id="@+id/company_address_layout"
+
+        <RelativeLayout
+            android:id="@+id/company_address_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" 
             android:background="@drawable/item_selector"
-            >
+            android:orientation="horizontal" >
 
             <ImageView
                 android:id="@+id/dingwei"
                 android:layout_width="40dp"
                 android:layout_height="20dp"
-               	android:layout_centerVertical="true"
+                android:layout_centerVertical="true"
                 android:src="@drawable/dingwei" />
 
-            <TextView
-                android:id="@+id/company_address"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/dingwei"
-                android:padding="2dp"
-                android:text="北京市朝阳区北苑路乙108号北美国际商务中心"
-                
-                android:textColor="@color/black"
-                android:textSize="16dp" />
+                android:background="@drawable/item_selector"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:text="单位地址"
+                    android:textColor="#3B3B3B"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/company_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:text="北京市朝阳区北苑路乙108号北美国际商务中心"
+                    android:textColor="@color/black"
+                    android:textSize="16dp" />
+            </LinearLayout>
         </RelativeLayout>
-        
-		<com.sctn.sctnet.view.DashedLineView
+
+        <com.sctn.sctnet.view.DashedLineView
             android:layout_width="wrap_content"
             android:layout_height="13dp" />
 
@@ -196,30 +206,29 @@
             android:textColor="@color/blue"
             android:textSize="16dp" />
 
-        <LinearLayout 
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
-        
-        <TextView
-            android:id="@+id/job_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:lineSpacingExtra="3dp"
-            android:text="Java高级软件工程师"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="14dp" />
-        
-        <TextView
-            android:id="@+id/job_detail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:lineSpacingExtra="3dp"
-            android:text="• 职责责任描述：
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/job_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:lineSpacingExtra="3dp"
+                android:text="Java高级软件工程师"
+                android:textColor="@color/black"
+                android:textSize="14dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/job_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:lineSpacingExtra="3dp"
+                android:text="• 职责责任描述：
 1.	参与业务分析、产品功能设计、产品数据库设计、UI设计和核心代码开发
 2.	参与系统架构的技术选型与关键技术验证等
 3.	带领研发小组完成专题研发，进行任务分配、进度跟踪与质量把控
@@ -238,12 +247,10 @@
 1.	3年以上J2EE开发经验
 2.	有Web开发经验，熟悉Web开发相关技术与框架（Javascript、ajax、JQuery、Ext等）
 3.	具有数据库开发经验，熟练使用相关技术与工具"
-            android:textColor="#3B3B3B"
-            android:textSize="14dp" />
-
+                android:textColor="#3B3B3B"
+                android:textSize="14dp" />
         </LinearLayout>
-        
-        
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -276,7 +283,8 @@
                 android:textSize="13dp" />
         </LinearLayout>
 
-       <!--  <LinearLayout
+        <!--
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="5"
@@ -298,7 +306,8 @@
                 android:text="13987654321"
                 android:textColor="#3B3B3B"
                 android:textSize="13dp" />
-        </LinearLayout> -->
+        </LinearLayout>
+        -->
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -347,7 +356,6 @@
                 android:textColor="#3B3B3B"
                 android:textSize="13dp" />
         </LinearLayout>
-
     </LinearLayout>
 
 </ScrollView>

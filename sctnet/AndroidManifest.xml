@@ -357,6 +357,10 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name=".activity.RecruitmentCompanyListActivity2"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name=".activity.RecruitmentCompanyDetailActivity"
             android:screenOrientation="portrait" >
         </activity>
@@ -412,7 +416,16 @@
             android:name=".activity.JobIntentionListActivity2"
             android:screenOrientation="portrait">
         </activity>
-         
+        <activity
+            android:name=".activity.SelectProfessionActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".activity.WheelViewDateActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Dialog"
+            >
+        </activity>
         
         <!-- Required SDK核心功能 -->
         <activity
